@@ -95,10 +95,14 @@ class CustomerController {
         ],
       });
 
-      res.status(200).send({
-        status: "success",
-        data: handleFormatCustomer(foundCustomer, "isObject"),
-      });
+      res
+        .status(STATUS_CODE.STATUS_CODE_200)
+        .send(
+          RestFullAPI.onSuccess(
+            STATUS_MESSAGE.SUCCESS,
+            handleFormatCustomer(foundCustomer, "isObject")
+          )
+        );
     } catch (err) {
       next(err);
     }
@@ -169,16 +173,13 @@ class CustomerController {
         await UserAddress.bulkCreate(userAddressRowArray);
         await CustomerTag.bulkCreate(customerTagRowArray);
 
-        res.status(201).send({
-          status: "Success",
-          message: "Created successfully!",
-        });
+        res
+          .status(STATUS_CODE.STATUS_CODE_201)
+          .send(RestFullAPI.onSuccess(STATUS_MESSAGE.SUCCESS));
       } else {
-        res.status(409).send({
-          status: "Conflict",
-          message:
-            "Create new customer fail - Please check request and try again!",
-        });
+        res
+          .status(STATUS_CODE.STATUS_CODE_409)
+          .send(RestFullAPI.onSuccess(STATUS_MESSAGE.CONFLICT));
       }
     } catch (err) {
       next(err);
@@ -194,10 +195,9 @@ class CustomerController {
       const foundUser = await User.findByPk(id);
       foundUser.isDelete = true;
       foundUser.save();
-      res.status(200).send({
-        status: "success",
-        message: "Delete customer successfully!",
-      });
+      res
+        .status(STATUS_CODE.STATUS_CODE_200)
+        .send(RestFullAPI.onSuccess(STATUS_MESSAGE.SUCCESS));
     } catch (err) {
       next(err);
     }
@@ -281,10 +281,9 @@ class CustomerController {
           },
         });
       }
-      res.status(202).send({
-        status: "success",
-        message: "Update successfully!",
-      });
+      res
+        .status(STATUS_CODE.STATUS_CODE_200)
+        .send(RestFullAPI.onSuccess(STATUS_MESSAGE.SUCCESS));
     } catch (err) {
       next(err);
     }

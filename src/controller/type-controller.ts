@@ -1,5 +1,7 @@
 import { NextFunction, Request, Response } from "express";
 import db from "../models";
+import { STATUS_CODE, STATUS_MESSAGE } from "../ts/enums/api_enums";
+import RestFullAPI from "../utils/response/apiResponse";
 const { Type } = db;
 
 class TypeController {
@@ -7,10 +9,9 @@ class TypeController {
     try {
       const typeList = await Type.findAll();
 
-      res.status(200).send({
-        status: "success",
-        data: typeList,
-      });
+      res
+        .status(STATUS_CODE.STATUS_CODE_200)
+        .send(RestFullAPI.onSuccess(STATUS_MESSAGE.SUCCESS, typeList));
     } catch (err) {
       next(err);
     }

@@ -2,6 +2,8 @@ import { IncomingHttpHeaders } from "http2";
 import { Response, NextFunction } from "express";
 import { MyRequest } from "@/src/ts/interfaces/global_interfaces";
 import jwt from "jsonwebtoken";
+import { STATUS_CODE, STATUS_MESSAGE } from "../../ts/enums/api_enums";
+import RestFullAPI from "../../utils/response/apiResponse";
 
 require("dotenv").config();
 
@@ -27,16 +29,17 @@ const authenticate = async (
       req.currentUserID = isAuth.id;
       return next();
     } else {
-      res.status(401).send({
-        status: "Unauthorised",
-        message: "Client-Error && In-Valid Token",
-      });
+      res
+        .status(STATUS_CODE.STATUS_CODE_401)
+        .send(
+          RestFullAPI.onSuccess(
+            STATUS_MESSAGE.UN_AUTHORIZE,
+            "Client-Error && In-Valid Token"
+          )
+        );
     }
   } catch (err) {
-    res.status(500).send({
-      status: "Fail",
-      message: "You are not logged in!",
-    });
+    next(err);
   }
 };
 export default authenticate;

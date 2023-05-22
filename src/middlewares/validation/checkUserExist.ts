@@ -1,6 +1,8 @@
 import { Request, Response, NextFunction } from "express";
 import db from "../../models";
-import { UserAttributes } from "@/src/ts/interfaces/app_interfaces";
+import { UserAttributes } from "../../ts/interfaces/app_interfaces";
+import { STATUS_CODE, STATUS_MESSAGE } from "../../ts/enums/api_enums";
+import RestFullAPI from "../../utils/response/apiResponse";
 const { User } = db;
 const checkUserExist =
   () => async (req: Request, res: Response, next: NextFunction) => {
@@ -60,18 +62,16 @@ const checkUserExist =
         });
 
       if (errorMessage.length > 0) {
-        res.status(406).send({
-          status: "fail",
-          message: errorMessage,
-        });
+        res
+          .status(STATUS_CODE.STATUS_CODE_406)
+          .send(
+            RestFullAPI.onSuccess(STATUS_MESSAGE.NOT_ACCEPTABLE, errorMessage)
+          );
       } else {
         return next();
       }
     } catch (err) {
-      res.status(500).send({
-        status: "err",
-        message: "Check exist middleware is working wrong!",
-      });
+      next(err);
     }
   };
 

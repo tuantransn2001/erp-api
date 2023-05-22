@@ -1,3 +1,5 @@
+import { STATUS_CODE, STATUS_MESSAGE } from "../../ts/enums/api_enums";
+import RestFullAPI from "../../utils/response/apiResponse";
 import { Request, Response, NextFunction } from "express";
 
 const checkExist =
@@ -14,14 +16,16 @@ const checkExist =
         next();
       } else {
         res
-          .status(404)
-          .send({ status: "Not found", message: "Check By Middleware" });
+          .status(STATUS_CODE.STATUS_CODE_404)
+          .send(
+            RestFullAPI.onSuccess(
+              STATUS_MESSAGE.NOT_FOUND,
+              "Check By Middleware"
+            )
+          );
       }
     } catch (err) {
-      res.status(500).send({
-        status: "err",
-        message: "Check exist middleware is working wrong!",
-      });
+      next(err);
     }
   };
 

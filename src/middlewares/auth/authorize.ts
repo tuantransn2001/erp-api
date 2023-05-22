@@ -1,6 +1,8 @@
 import { Response, NextFunction } from "express";
 import { MyRequest } from "@/src/ts/interfaces/global_interfaces";
 import db from "../../models";
+import { STATUS_CODE, STATUS_MESSAGE } from "../../ts/enums/api_enums";
+import RestFullAPI from "../../utils/response/apiResponse";
 
 const authorize = async (req: MyRequest, res: Response, next: NextFunction) => {
   try {
@@ -12,11 +14,16 @@ const authorize = async (req: MyRequest, res: Response, next: NextFunction) => {
       return next();
     } else {
       res
-        .status(406)
-        .send({ status: "Not Acceptable", message: "You are not Admin!!" });
+        .status(STATUS_CODE.STATUS_CODE_406)
+        .send(
+          RestFullAPI.onSuccess(
+            STATUS_MESSAGE.NOT_ACCEPTABLE,
+            "You are not Admin!!"
+          )
+        );
     }
   } catch (err) {
-    res.status(500).send(err);
+    next(err);
   }
 };
 
