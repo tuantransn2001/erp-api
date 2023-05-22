@@ -11,13 +11,16 @@ export default (sequelize: any, DataTypes: any) => {
     role_id!: string;
     staff_id!: string;
 
-    static associate({ Staff, Role, StaffAgencyBranchInCharge }: any) {
-      StaffRole.hasOne(Role, { foreignKey: "role_id" });
+    static associate({ Staff, StaffAgencyBranchInCharge, Role }: any) {
       StaffRole.belongsTo(Staff, {
         foreignKey: "staff_id",
       });
+      StaffRole.belongsTo(Role, {
+        foreignKey: "role_id",
+      });
       StaffRole.hasMany(StaffAgencyBranchInCharge, {
         foreignKey: "staff_role_id",
+        as: "Staff_Agency_Branch_InCharge",
       });
     }
   }

@@ -12,6 +12,8 @@ import {
   ProductVariantPriceAttributes,
   ProductVariantPropertyAttributes,
 } from "../ts/interfaces/app_interfaces";
+import { STATUS_CODE, STATUS_MESSAGE } from "../ts/enums/api_enums";
+import RestFullAPI from "../utils/response/apiResponse";
 const {
   Products,
   ProductVariantDetail,
@@ -69,10 +71,14 @@ class ProductController {
         ],
       });
 
-      res.status(201).send({
-        status: "Success",
-        data: handleFormatProduct(productList, "isArray"),
-      });
+      res
+        .status(STATUS_CODE.STATUS_CODE_200)
+        .send(
+          RestFullAPI.onSuccess(
+            STATUS_MESSAGE.SUCCESS,
+            handleFormatProduct(productList, "isArray")
+          )
+        );
     } catch (err) {
       next(err);
     }
@@ -248,15 +254,16 @@ class ProductController {
           );
         }
 
-        res.status(202).send({
-          status: "Success",
-          message: "Create Product Success",
-        });
+        res.status(STATUS_CODE.STATUS_CODE_201).send(STATUS_MESSAGE.SUCCESS);
       } else {
-        res.status(409).send({
-          status: "Conflict",
-          message: `${argMissArr} is require!`,
-        });
+        res
+          .status(STATUS_CODE.STATUS_CODE_409)
+          .send(
+            RestFullAPI.onSuccess(
+              STATUS_MESSAGE.CONFLICT,
+              `${argMissArr} is require!`
+            )
+          );
       }
     } catch (err) {
       next(err);

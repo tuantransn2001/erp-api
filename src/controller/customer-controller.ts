@@ -2,11 +2,8 @@ import { NextFunction, Request, Response } from "express";
 const { v4: uuidv4 } = require("uuid");
 import db from "../models";
 const { Customer, User, UserAddress, CustomerTag, Tag, Staff } = db;
-import {
-  handleFormatCustomer,
-  handleFormatUpdateDataByValidValue,
-  isEmpty,
-} from "../../src/common";
+import { handleFormatUpdateDataByValidValue, isEmpty } from "../../src/common";
+import { handleFormatCustomer } from "../utils/format/customer.format";
 import {
   UserAddressAttributes,
   CustomerAttributes,
@@ -14,6 +11,8 @@ import {
   TagAttributes,
   CustomerTagAttributes,
 } from "@/src/ts/interfaces/app_interfaces";
+import { STATUS_CODE, STATUS_MESSAGE } from "../ts/enums/api_enums";
+import RestFullAPI from "../utils/response/apiResponse";
 class CustomerController {
   public static async getAll(_: Request, res: Response, next: NextFunction) {
     try {
@@ -22,31 +21,23 @@ class CustomerController {
           isDelete: null,
           user_type: "customer",
         },
+        attributes: ["id", "user_name", "user_code", "user_phone"],
         include: [
           {
             model: Customer,
-            include: [
-              {
-                model: CustomerTag,
-                separate: true,
-                include: [
-                  {
-                    model: Tag,
-                  },
-                ],
-              },
-            ],
-          },
-          {
-            model: UserAddress,
+            attributes: ["id", "customer_status", "createdAt"],
           },
         ],
       });
 
-      res.status(200).send({
-        status: "success",
-        data: handleFormatCustomer(userCustomerList, "isArray"),
-      });
+      res
+        .status(STATUS_CODE.STATUS_CODE_200)
+        .send(
+          RestFullAPI.onSuccess(
+            STATUS_MESSAGE.SUCCESS,
+            handleFormatCustomer(userCustomerList, "isArray")
+          )
+        );
     } catch (err) {
       next(err);
     }
@@ -56,26 +47,43 @@ class CustomerController {
       const { id } = req.params; // ? This id is belongs to User
 
       const foundCustomer = await User.findOne({
+        where: {
+          isDelete: null,
+          user_type: "customer",
+          id,
+        },
+        attributes: [
+          "id",
+          "user_name",
+          "user_phone",
+          "user_email",
+          "user_code",
+          "createdAt",
+          "updatedAt",
+        ],
         include: [
           {
             model: Customer,
-            where: {
-              user_id: id,
-            },
+            attributes: ["staff_in_charge_note", "customer_status"],
             include: [
               {
-                model: CustomerTag,
+                model: Staff,
+                attributes: ["id"],
                 include: [
                   {
-                    model: Tag,
+                    model: User,
+                    attributes: ["id", "user_name"],
                   },
                 ],
               },
               {
-                model: Staff,
+                model: CustomerTag,
+                attributes: ["id"],
                 include: [
                   {
-                    model: User,
+                    model: Tag,
+
+                    attributes: ["id", "tag_title"],
                   },
                 ],
               },
@@ -83,15 +91,8 @@ class CustomerController {
           },
           {
             model: UserAddress,
-            where: {
-              user_id: id,
-            },
           },
         ],
-        where: {
-          isDelete: null,
-          user_type: "customer",
-        },
       });
 
       res.status(200).send({
@@ -151,7 +152,7 @@ class CustomerController {
       const customerTagRowArray: Array<CustomerTagAttributes> = tags.map(
         (tagID: TagAttributes) => {
           return {
-            customer_id: customerID,
+            owner_id: customerID,
             tag_id: tagID,
           };
         }

@@ -22,9 +22,9 @@ rootRouter
   .use("/tag", tagRouter)
   .use("/role", roleRouter)
   .use("/price", priceRouter)
-  .use("/product", productRouter)
   .use("/supplier", supplierRouter)
   .use("/brand", brandRouter)
-  .use("/type", typeRouter);
+  .use("/type", typeRouter)
+  .use("/product", productRouter);
 
 export default rootRouter;

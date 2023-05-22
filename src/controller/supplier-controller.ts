@@ -1,7 +1,9 @@
 import { Request, Response, NextFunction } from "express";
 import db from "../models";
-const { User, Customer, CustomerTag, Tag, UserAddress } = db;
-import { handleFormatCustomer } from "../common";
+import { STATUS_CODE, STATUS_MESSAGE } from "../ts/enums/api_enums";
+const { User, Customer } = db;
+import { handleFormatCustomer } from "../utils/format/customer.format";
+import RestFullAPI from "../utils/response/apiResponse";
 class SupplierController {
   public static async getAll(_: Request, res: Response, next: NextFunction) {
     try {
@@ -10,31 +12,23 @@ class SupplierController {
           isDelete: null,
           user_type: "supplier",
         },
+        attributes: ["id", "user_name", "user_code", "user_phone", "user_type"],
         include: [
           {
             model: Customer,
-            include: [
-              {
-                model: CustomerTag,
-                separate: true,
-                include: [
-                  {
-                    model: Tag,
-                  },
-                ],
-              },
-            ],
-          },
-          {
-            model: UserAddress,
+            attributes: ["id", "customer_status", "createdAt"],
           },
         ],
       });
 
-      res.status(200).send({
-        status: "success",
-        data: handleFormatCustomer(supplierList, "isArray"),
-      });
+      res
+        .status(STATUS_CODE.STATUS_CODE_200)
+        .send(
+          RestFullAPI.onSuccess(
+            STATUS_MESSAGE.SUCCESS,
+            handleFormatCustomer(supplierList, "isArray")
+          )
+        );
     } catch (err) {
       next(err);
     }

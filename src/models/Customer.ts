@@ -21,7 +21,7 @@ export default (sequelize: any, DataTypes: any) => {
         foreignKey: "customer_id",
       });
       Customer.hasMany(CustomerTag, {
-        foreignKey: "owner_id",
+        foreignKey: "customer_id",
       });
     }
   }

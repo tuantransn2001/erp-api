@@ -1,5 +1,7 @@
 import { NextFunction, Request, Response } from "express";
 import db from "../models";
+import { STATUS_CODE, STATUS_MESSAGE } from "../ts/enums/api_enums";
+import RestFullAPI from "../utils/response/apiResponse";
 const { Type } = db;
 
 class BrandController {
@@ -7,10 +9,9 @@ class BrandController {
     try {
       const brandList = await Type.findAll();
 
-      res.status(200).send({
-        status: "success",
-        data: brandList,
-      });
+      res
+        .status(STATUS_CODE.STATUS_CODE_200)
+        .send(RestFullAPI.onSuccess(STATUS_MESSAGE.SUCCESS, brandList));
     } catch (err) {
       next(err);
     }

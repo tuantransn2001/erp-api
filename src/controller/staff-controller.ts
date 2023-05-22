@@ -14,10 +14,10 @@ const {
   AgencyBranch,
 } = db;
 import {
-  handleFormatStaff,
   handleFormatUpdateDataByValidValue,
   randomStringByCharsetAndLength,
 } from "../../src/common/";
+import { handleFormatStaff } from "../utils/format/staff.format";
 import {
   StaffAttributes,
   UserAddressAttributes,
@@ -26,6 +26,8 @@ import {
   UserAttributes,
   CustomerAttributes,
 } from "@/src/ts/interfaces/app_interfaces";
+import { STATUS_CODE, STATUS_MESSAGE } from "../ts/enums/api_enums";
+import RestFullAPI from "../utils/response/apiResponse";
 class StaffController {
   public static async getAll(_: Request, res: Response, next: NextFunction) {
     try {
@@ -34,15 +36,73 @@ class StaffController {
           isDelete: null,
           user_type: "staff",
         },
+        attributes: ["id", "user_name", "user_phone", "createdAt"],
         include: [
           {
             model: Staff,
+            attributes: ["id", "staff_status"],
+          },
+        ],
+      });
+
+      res
+        .status(STATUS_CODE.STATUS_CODE_202)
+        .send(
+          RestFullAPI.onSuccess(
+            STATUS_MESSAGE.SUCCESS,
+            handleFormatStaff(userStaffList, "isArray")
+          )
+        );
+    } catch (err) {
+      next(err);
+    }
+  }
+  public static async getByID(req: Request, res: Response, next: NextFunction) {
+    try {
+      const { id } = req.params;
+      const userStaffList = await User.findOne({
+        where: {
+          isDelete: null,
+          id,
+          user_type: "staff",
+        },
+        attributes: [
+          "id",
+          "user_phone",
+          "user_name",
+          "user_email",
+          "createdAt",
+        ],
+        include: [
+          {
+            model: Staff,
+            attributes: [
+              "id",
+              "staff_status",
+              "staff_birthday",
+              "note_about_staff",
+              "staff_gender",
+              "isAllowViewImportNWholesalePrice",
+              "isAllowViewShippingPrice",
+            ],
             include: [
               {
                 model: StaffRole,
+                separate: true,
+                attributes: ["id"],
                 include: [
+                  { model: Role, attributes: ["id", "role_title"] },
                   {
                     model: StaffAgencyBranchInCharge,
+                    separate: true,
+                    as: "Staff_Agency_Branch_InCharge",
+                    attributes: ["id"],
+                    include: [
+                      {
+                        model: AgencyBranch,
+                        attributes: ["id", "agency_branch_name"],
+                      },
+                    ],
                   },
                 ],
               },
@@ -50,21 +110,24 @@ class StaffController {
           },
           {
             model: UserAddress,
+            attributes: [
+              "id",
+              "user_province",
+              "user_district",
+              "user_specific_address",
+            ],
           },
         ],
       });
 
-      const roleList = await Role.findAll();
-      const agencyBranchList = await AgencyBranch.findAll();
-      res.status(200).send({
-        status: "success",
-        data: handleFormatStaff(
-          userStaffList,
-          roleList,
-          agencyBranchList,
-          "isArray"
-        ),
-      });
+      res
+        .status(STATUS_CODE.STATUS_CODE_200)
+        .send(
+          RestFullAPI.onSuccess(
+            STATUS_MESSAGE.SUCCESS,
+            handleFormatStaff(userStaffList, "isObject")
+          )
+        );
     } catch (err) {
       next(err);
     }
@@ -182,17 +245,13 @@ class StaffController {
           staffAgencyBranchesInChargeRowArr
         );
         await UserAddress.bulkCreate(staffAddressRowArr);
-        res.status(201).send({
-          status: "Success",
-          newUserRow,
-          message: "Create new staff successfully",
-        });
+        res
+          .status(STATUS_CODE.STATUS_CODE_201)
+          .send(RestFullAPI.onSuccess(STATUS_MESSAGE.SUCCESS));
       } else {
-        res.status(409).send({
-          status: "Conflict",
-          message:
-            "Create new staff fail - Please check request and try again!",
-        });
+        res
+          .status(STATUS_CODE.STATUS_CODE_409)
+          .send(RestFullAPI.onSuccess(STATUS_MESSAGE.CONFLICT));
       }
     } catch (err) {
       next(err);
@@ -295,10 +354,9 @@ class StaffController {
         await UserAddress.bulkCreate(updateUserAddressRow);
       }
 
-      res.status(201).send({
-        status: "Success",
-        message: "Update staff success!",
-      });
+      res
+        .status(STATUS_CODE.STATUS_CODE_200)
+        .send(RestFullAPI.onSuccess(STATUS_MESSAGE.SUCCESS));
     } catch (err) {
       next(err);
     }
@@ -332,10 +390,9 @@ class StaffController {
           { where: { id: customer.id } }
         );
       });
-      res.status(200).send({
-        status: "success",
-        message: "Delete customer successfully!",
-      });
+      res
+        .status(STATUS_CODE.STATUS_CODE_202)
+        .send(RestFullAPI.onSuccess(STATUS_MESSAGE.SUCCESS));
     } catch (err) {
       next(err);
     }
@@ -480,53 +537,9 @@ class StaffController {
       await StaffAgencyBranchInCharge.bulkCreate(
         newStaffAgencyBranchInChargeRowArr
       );
-      res.status(201).send({
-        status: "Success",
-        message: "Update staff role success!",
-      });
-    } catch (err) {
-      next(err);
-    }
-  }
-  public static async getByID(req: Request, res: Response, next: NextFunction) {
-    try {
-      const { id } = req.params;
-      const userStaffList = await User.findOne({
-        where: {
-          isDelete: null,
-          id,
-          user_type: "staff",
-        },
-        include: [
-          {
-            model: Staff,
-            include: [
-              {
-                model: StaffRole,
-                include: [
-                  {
-                    model: StaffAgencyBranchInCharge,
-                  },
-                ],
-              },
-            ],
-          },
-          {
-            model: UserAddress,
-          },
-        ],
-      });
-      const roleList = await Role.findAll();
-      const agencyBranchList = await AgencyBranch.findAll();
-      res.status(200).send({
-        status: "success",
-        data: handleFormatStaff(
-          userStaffList,
-          roleList,
-          agencyBranchList,
-          "isObject"
-        ),
-      });
+      res
+        .status(STATUS_CODE.STATUS_CODE_200)
+        .send(RestFullAPI.onSuccess(STATUS_MESSAGE.SUCCESS));
     } catch (err) {
       next(err);
     }

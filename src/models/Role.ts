@@ -12,11 +12,8 @@ export default (sequelize: any, DataTypes: any) => {
      * This method is not a part of Sequelize lifecycle.
      * The `models/index` file will call this method automatically.
      */
-    static associate({ RolePermission, StaffRole }: any) {
-      Role.hasMany(RolePermission, {
-        foreignKey: "role_id",
-      });
-      Role.belongsTo(StaffRole, {
+    static associate({ StaffRole }: any) {
+      Role.hasMany(StaffRole, {
         foreignKey: "role_id",
       });
     }

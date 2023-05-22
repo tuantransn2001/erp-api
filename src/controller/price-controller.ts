@@ -3,6 +3,8 @@ const { v4: uuidv4 } = require("uuid");
 import { PriceAttributes } from "@/src/ts/interfaces/app_interfaces";
 import db from "../models";
 import { handleFormatUpdateDataByValidValue } from "../../src/common";
+import { STATUS_CODE, STATUS_MESSAGE } from "../ts/enums/api_enums";
+import RestFullAPI from "../utils/response/apiResponse";
 const { Price } = db;
 
 type PriceTypeOnlyIsImportIsSell =
@@ -20,10 +22,9 @@ class PriceController {
     try {
       const priceList = await Price.findAll();
 
-      res.status(200).send({
-        status: "Success",
-        data: priceList,
-      });
+      res
+        .status(STATUS_CODE.STATUS_CODE_200)
+        .send(RestFullAPI.onSuccess(STATUS_MESSAGE.SUCCESS, priceList));
     } catch (err) {
       next(err);
     }
@@ -40,11 +41,14 @@ class PriceController {
       });
 
       if (foundPrice) {
-        res.status(409).send({
-          status: "Conflict",
-          message:
-            "Create new customer fail - Please check request and try again!",
-        });
+        res
+          .status(STATUS_CODE.STATUS_CODE_409)
+          .send(
+            RestFullAPI.onSuccess(
+              STATUS_MESSAGE.CONFLICT,
+              "Price has already been exists!"
+            )
+          );
       } else {
         if (isImportDefault | isSellDefault) {
           const whereConditionArray: Array<PriceTypeOnlyIsImportIsSell> = [
@@ -79,10 +83,9 @@ class PriceController {
           isSellDefault,
         };
         await Price.create(newPriceRow);
-        res.status(201).send({
-          status: "Success",
-          message: "Create new price success",
-        });
+        res
+          .status(STATUS_CODE.STATUS_CODE_201)
+          .send(RestFullAPI.onSuccess(STATUS_MESSAGE.SUCCESS));
       }
     } catch (err) {
       next(err);
@@ -114,7 +117,7 @@ class PriceController {
       if (!isPriceDefault) {
         next();
       } else {
-        const NOTIFICATION = new Array();
+        const NOTIFICATION: Array<string> = new Array();
         Object.keys(IsPriceDefaultObj).map((key, index) => {
           if (Object.values(IsPriceDefaultObj)[index]) {
             NOTIFICATION.push(
@@ -123,10 +126,11 @@ class PriceController {
           }
         });
 
-        res.status(406).send({
-          status: "Not Acceptable",
-          message: NOTIFICATION,
-        });
+        res
+          .status(STATUS_CODE.STATUS_CODE_406)
+          .send(
+            RestFullAPI.onSuccess(STATUS_MESSAGE.NOT_ACCEPTABLE, NOTIFICATION)
+          );
       }
     } catch (err) {
       next(err);
@@ -142,10 +146,9 @@ class PriceController {
         },
       });
 
-      res.status(200).send({
-        status: "Success",
-        message: "Delete Price Successfully",
-      });
+      res
+        .status(STATUS_CODE.STATUS_CODE_200)
+        .send(RestFullAPI.onSuccess(STATUS_MESSAGE.SUCCESS));
     } catch (err) {
       next(err);
     }
@@ -173,10 +176,9 @@ class PriceController {
         },
       });
 
-      res.status(202).send({
-        status: "success",
-        message: "Update successfully!",
-      });
+      res
+        .status(STATUS_CODE.STATUS_CODE_200)
+        .send(RestFullAPI.onSuccess(STATUS_MESSAGE.SUCCESS));
     } catch (err) {
       next(err);
     }

@@ -17,14 +17,14 @@ export default (sequelize: any, DataTypes: any) => {
      * This method is not a part of Sequelize lifecycle.
      * The `models/index` file will call this method automatically.
      */
-    static associate({ User, StaffRole, Customer }: any) {
-      Staff.hasMany(StaffRole, {
-        foreignKey: "staff_id",
-      });
+    static associate({ User, Customer, StaffRole }: any) {
       Staff.belongsTo(User, {
         foreignKey: "user_id",
       });
       Staff.hasMany(Customer, {
+        foreignKey: "staff_id",
+      });
+      Staff.hasMany(StaffRole, {
         foreignKey: "staff_id",
       });
     }

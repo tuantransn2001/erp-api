@@ -5,7 +5,6 @@ const productRouter = Router();
 
 productRouter
   .get("/get-all", authenticate, ProductController.getAll, errorHandler)
-
   .post("/create", authenticate, ProductController.create, errorHandler);
 
 export default productRouter;

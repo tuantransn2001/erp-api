@@ -1,5 +1,7 @@
 import { NextFunction, Request, Response } from "express";
 import db from "../models";
+import { STATUS_CODE, STATUS_MESSAGE } from "../ts/enums/api_enums";
+import RestFullAPI from "../utils/response/apiResponse";
 const { AgencyBranch } = db;
 import { handleFormatUpdateDataByValidValue } from "../../src/common";
 import { AgencyBranchAttributes } from "@/src/ts/interfaces/app_interfaces";
@@ -8,10 +10,9 @@ class AgencyController {
     try {
       const agencyBranchList: Array<AgencyBranchAttributes> =
         await AgencyBranch.findAll();
-      res.status(200).send({
-        status: "success",
-        data: agencyBranchList,
-      });
+      res
+        .status(STATUS_CODE.STATUS_CODE_200)
+        .send(RestFullAPI.onSuccess(STATUS_MESSAGE.SUCCESS, agencyBranchList));
     } catch (err) {
       next(err);
     }
@@ -62,15 +63,11 @@ class AgencyController {
         isDefaultCN,
       };
 
-      const newAgencyBrach: AgencyBranchAttributes = await AgencyBranch.create(
-        newAgencyBranchRow
-      );
+      await AgencyBranch.create(newAgencyBranchRow);
 
-      res.status(201).send({
-        status: "Success",
-        message: "Create successfully",
-        newAgencyBrach,
-      });
+      res
+        .status(STATUS_CODE.STATUS_CODE_201)
+        .send(RestFullAPI.onSuccess(STATUS_MESSAGE.SUCCESS));
     } catch (err) {
       next(err);
     }
@@ -137,10 +134,9 @@ class AgencyController {
         },
       });
 
-      res.status(202).send({
-        status: "success",
-        message: "Update successfully!",
-      });
+      res
+        .status(STATUS_CODE.STATUS_CODE_202)
+        .send(RestFullAPI.onSuccess(STATUS_MESSAGE.SUCCESS));
     } catch (err) {
       next(err);
     }
@@ -161,11 +157,14 @@ class AgencyController {
       });
 
       if (foundAgencyBranch) {
-        res.status(409).send({
-          status: "Conflict",
-          message:
-            "Agency Branches has been already exists! Please check CN_code and try again!",
-        });
+        res
+          .status(STATUS_CODE.STATUS_CODE_409)
+          .send(
+            RestFullAPI.onSuccess(
+              STATUS_MESSAGE.CONFLICT,
+              "Agency Branches has been already exists! Please check CN_code and try again!"
+            )
+          );
       } else {
         next();
       }

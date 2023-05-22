@@ -4,14 +4,15 @@ import db from "../models";
 import { TagAttributes } from "@/src/ts/interfaces/app_interfaces";
 const { Tag, CustomerTag } = db;
 import { handleFormatUpdateDataByValidValue } from "../../src/common";
+import { STATUS_CODE, STATUS_MESSAGE } from "../ts/enums/api_enums";
+import RestFullAPI from "../utils/response/apiResponse";
 class TagController {
   public static async getAll(_: Request, res: Response, next: NextFunction) {
     try {
       const tagList = await Tag.findAll();
-      res.status(200).send({
-        status: "Success",
-        data: tagList,
-      });
+      res
+        .status(STATUS_CODE.STATUS_CODE_200)
+        .send(RestFullAPI.onSuccess(STATUS_MESSAGE.SUCCESS, tagList));
     } catch (err) {
       next(err);
     }
@@ -27,10 +28,14 @@ class TagController {
       });
 
       if (foundTag) {
-        res.status(409).send({
-          status: "Conflict",
-          message: "Tag is already exist!",
-        });
+        res
+          .status(STATUS_CODE.STATUS_CODE_409)
+          .send(
+            RestFullAPI.onSuccess(
+              STATUS_MESSAGE.CONFLICT,
+              "Tag is already exist!"
+            )
+          );
       } else {
         const tagID: string = uuidv4();
         const newTagRow: TagAttributes = {
@@ -40,10 +45,9 @@ class TagController {
         };
 
         await Tag.create(newTagRow);
-        res.status(201).send({
-          status: "Success",
-          message: "Create tag successfully!",
-        });
+        res
+          .status(STATUS_CODE.STATUS_CODE_200)
+          .send(RestFullAPI.onSuccess(STATUS_MESSAGE.SUCCESS));
       }
     } catch (err) {
       next(err);
@@ -78,10 +82,9 @@ class TagController {
         },
       });
 
-      res.status(202).send({
-        status: "Success",
-        message: "Update tag success",
-      });
+      res
+        .status(STATUS_CODE.STATUS_CODE_200)
+        .send(RestFullAPI.onSuccess(STATUS_MESSAGE.SUCCESS));
     } catch (err) {
       next(err);
     }
@@ -105,10 +108,9 @@ class TagController {
         },
       });
 
-      res.status(201).send({
-        status: "Success",
-        message: "Delete tag successfully!",
-      });
+      res
+        .status(STATUS_CODE.STATUS_CODE_202)
+        .send(RestFullAPI.onSuccess(STATUS_MESSAGE.SUCCESS));
     } catch (err) {
       next(err);
     }

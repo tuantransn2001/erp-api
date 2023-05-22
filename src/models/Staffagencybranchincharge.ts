@@ -9,11 +9,12 @@ export default (sequelize: any, DataTypes: any) => {
     id!: string;
     staff_role_id!: string;
     agency_branch_id!: string;
-    static associate(models: any) {
-      StaffAgencyBranchInCharge.belongsTo(models.StaffRole, {
+    static associate({ StaffRole, AgencyBranch }: any) {
+      StaffAgencyBranchInCharge.belongsTo(StaffRole, {
         foreignKey: "staff_role_id",
+        as: "Staff_Agency_Branch_InCharge",
       });
-      StaffAgencyBranchInCharge.belongsTo(models.AgencyBranch, {
+      StaffAgencyBranchInCharge.belongsTo(AgencyBranch, {
         foreignKey: "agency_branch_id",
       });
     }

@@ -25,7 +25,7 @@ export default (sequelize: any, DataTypes: any) => {
       StaffAgencyBranchInCharge,
       AgencyBranchProductList,
     }: any) {
-      AgencyBranch.hasOne(StaffAgencyBranchInCharge, {
+      AgencyBranch.hasMany(StaffAgencyBranchInCharge, {
         foreignKey: "agency_branch_id",
       });
       AgencyBranch.hasOne(AgencyBranchProductList, {

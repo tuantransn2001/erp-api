@@ -4,6 +4,8 @@ const { UserAddress } = db;
 
 import { handleFormatUpdateDataByValidValue } from "../../src/common";
 import { UserAddressAttributes } from "@/src/ts/interfaces/app_interfaces";
+import { STATUS_CODE, STATUS_MESSAGE } from "../ts/enums/api_enums";
+import RestFullAPI from "../utils/response/apiResponse";
 interface NewAddressAttributes {
   user_province: string;
   user_district: string;
@@ -28,10 +30,9 @@ class UserAddressController {
       };
 
       await UserAddress.create(newAddressRow);
-      res.status(201).send({
-        status: "success",
-        message: "Add new address successfully!",
-      });
+      res
+        .status(STATUS_CODE.STATUS_CODE_201)
+        .send(RestFullAPI.onSuccess(STATUS_MESSAGE.SUCCESS));
     } catch (err) {
       next(err);
     }
@@ -62,10 +63,9 @@ class UserAddressController {
         },
       });
 
-      res.status(202).send({
-        status: "Success",
-        message: "Update Success",
-      });
+      res
+        .status(STATUS_CODE.STATUS_CODE_202)
+        .send(RestFullAPI.onSuccess(STATUS_MESSAGE.SUCCESS));
     } catch (err) {
       next(err);
     }
@@ -83,10 +83,9 @@ class UserAddressController {
         },
       });
 
-      res.status(200).send({
-        status: "success",
-        message: "Delete successfully address",
-      });
+      res
+        .status(STATUS_CODE.STATUS_CODE_202)
+        .send(RestFullAPI.onSuccess(STATUS_MESSAGE.SUCCESS));
     } catch (err) {
       next(err);
     }

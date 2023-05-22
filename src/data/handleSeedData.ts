@@ -49,6 +49,10 @@ const {
 export const handleSeedData = () => {
   [
     {
+      Model: AgencyBranch,
+      data: AGENCY_BRANCH_ARRAY,
+    },
+    {
       Model: Payment,
       data: PAYMENT_ARRAY,
     },
@@ -61,12 +65,12 @@ export const handleSeedData = () => {
       data: USER_ARRAY,
     },
     {
-      Model: Staff,
-      data: STAFF_ARRAY,
-    },
-    {
       Model: UserAddress,
       data: USER_ADDRESS_LIST_ARRAY,
+    },
+    {
+      Model: Staff,
+      data: STAFF_ARRAY,
     },
     {
       Model: Brand,
@@ -88,19 +92,15 @@ export const handleSeedData = () => {
       Model: Role,
       data: ROLE_ARRAY,
     },
-
     {
-      Model: AgencyBranch,
-      data: AGENCY_BRANCH_ARRAY,
+      Model: StaffRole,
+      data: STAFF_ROLE_ARRAY,
     },
     {
       Model: Customer,
       data: CUSTOMER_ARRAY,
     },
-    {
-      Model: StaffRole,
-      data: STAFF_ROLE_ARRAY,
-    },
+
     {
       Model: CustomerTag,
       data: CUSTOMER_TAG_LIST_ARRAY,

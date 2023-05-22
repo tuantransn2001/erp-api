@@ -1,6 +1,8 @@
 require("dotenv").config();
 import { NextFunction, Request, Response } from "express";
-import { UserAttributes } from "@/src/ts/interfaces/app_interfaces";
+import { UserAttributes } from "../ts/interfaces/app_interfaces";
+import { STATUS_CODE, STATUS_MESSAGE } from "../ts/enums/api_enums";
+import RestFullAPI from "../utils/response/apiResponse";
 import HashStringHandler from "../utils/hashString/string.hash";
 import jwt from "jsonwebtoken";
 import db from "../models";
@@ -49,26 +51,28 @@ class AuthController {
               expiresIn: "3d",
             });
 
-            res.status(201).send({
-              status: "Login Success",
-              token,
-            });
+            res
+              .status(STATUS_CODE.STATUS_CODE_200)
+              .send(RestFullAPI.onSuccess(STATUS_MESSAGE.SUCCESS, token));
             break;
           }
           case false: {
-            res.status(403).send({
-              status: "Fail",
-              message: `Password is in-correct ! Please check it and try again!`,
-            });
+            res
+              .status(STATUS_CODE.STATUS_CODE_401)
+              .send(RestFullAPI.onSuccess(STATUS_MESSAGE.UN_AUTHORIZE));
             break;
           }
         }
       } else {
         // * Case does not exist
-        res.status(404).send({
-          status: "Not found",
-          message: `User with phone: ${phone} doesn't exist ! Please check it and try again!`,
-        });
+        res
+          .status(STATUS_CODE.STATUS_CODE_404)
+          .send(
+            RestFullAPI.onSuccess(
+              STATUS_MESSAGE.NOT_FOUND,
+              `User with phone: ${phone} doesn't exist ! Please check it and try again!`
+            )
+          );
       }
     } catch (err) {
       next(err);

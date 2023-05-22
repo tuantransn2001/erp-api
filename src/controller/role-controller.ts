@@ -8,14 +8,15 @@ import {
 const { Role, StaffRole, StaffAgencyBranchInCharge } = db;
 const { v4: uuidv4 } = require("uuid");
 import { handleFormatUpdateDataByValidValue } from "../../src/common";
+import { STATUS_CODE, STATUS_MESSAGE } from "../ts/enums/api_enums";
+import RestFullAPI from "../utils/response/apiResponse";
 class RoleController {
   public static async getAll(_: Request, res: Response, next: NextFunction) {
     try {
       const roleList = await Role.findAll();
-      res.status(200).send({
-        status: "Success",
-        data: roleList,
-      });
+      res
+        .status(STATUS_CODE.STATUS_CODE_200)
+        .send(RestFullAPI.onSuccess(STATUS_MESSAGE.SUCCESS, roleList));
     } catch (err) {
       next(err);
     }
@@ -31,10 +32,14 @@ class RoleController {
       });
 
       if (foundRole) {
-        res.status(409).send({
-          status: "Conflict",
-          message: "Role is already exist!",
-        });
+        res
+          .status(STATUS_CODE.STATUS_CODE_409)
+          .send(
+            RestFullAPI.onSuccess(
+              STATUS_MESSAGE.CONFLICT,
+              "Role is already exist!"
+            )
+          );
       } else {
         const roleID: string = uuidv4();
         const newRoleRow: RoleAttributes = {
@@ -44,10 +49,9 @@ class RoleController {
         };
 
         await Role.create(newRoleRow);
-        res.status(201).send({
-          status: "Success",
-          message: "Create role successfully!",
-        });
+        res
+          .status(STATUS_CODE.STATUS_CODE_200)
+          .send(RestFullAPI.onSuccess(STATUS_MESSAGE.SUCCESS));
       }
     } catch (err) {
       next(err);
@@ -82,10 +86,9 @@ class RoleController {
         },
       });
 
-      res.status(202).send({
-        status: "Success",
-        message: "Update role success",
-      });
+      res
+        .status(STATUS_CODE.STATUS_CODE_200)
+        .send(RestFullAPI.onSuccess(STATUS_MESSAGE.SUCCESS));
     } catch (err) {
       next(err);
     }
@@ -158,10 +161,9 @@ class RoleController {
       await StaffAgencyBranchInCharge.destroy({
         where: { id: staffAgencyBrachInChargeRowArr },
       });
-      res.status(200).send({
-        status: "Success",
-        message: "Delete role successfully!",
-      });
+      res
+        .status(STATUS_CODE.STATUS_CODE_202)
+        .send(RestFullAPI.onSuccess(STATUS_MESSAGE.SUCCESS));
     } catch (err) {
       next(err);
     }
