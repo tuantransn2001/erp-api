@@ -25,6 +25,7 @@ const authenticate = async (
       id: string;
     }
     const isAuth = jwt.verify(token, JWT_TOKEN_SECRET_KEY) as JwtPayload;
+
     if (isAuth) {
       req.currentUserID = isAuth.id;
       return next();
@@ -39,7 +40,30 @@ const authenticate = async (
         );
     }
   } catch (err) {
-    next(err);
+    if (err instanceof jwt.TokenExpiredError) {
+      res
+        .status(STATUS_CODE.STATUS_CODE_401)
+        .send(
+          RestFullAPI.onSuccess(
+            STATUS_MESSAGE.UN_AUTHORIZE,
+            "Access Token was expired!"
+          )
+        );
+    }
+    if (err instanceof jwt.NotBeforeError) {
+      res
+        .status(STATUS_CODE.STATUS_CODE_401)
+        .send(
+          RestFullAPI.onSuccess(STATUS_MESSAGE.UN_AUTHORIZE, "jwt not active")
+        );
+    }
+    if (err instanceof jwt.JsonWebTokenError) {
+      res
+        .status(STATUS_CODE.STATUS_CODE_401)
+        .send(
+          RestFullAPI.onSuccess(STATUS_MESSAGE.UN_AUTHORIZE, "jwt malformed")
+        );
+    }
   }
 };
 export default authenticate;

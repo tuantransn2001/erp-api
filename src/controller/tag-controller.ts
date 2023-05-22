@@ -1,11 +1,11 @@
 const { v4: uuidv4 } = require("uuid");
 import { Request, Response, NextFunction } from "express";
-import db from "../models";
 import { TagAttributes } from "@/src/ts/interfaces/app_interfaces";
-const { Tag, CustomerTag } = db;
 import { handleFormatUpdateDataByValidValue } from "../../src/common";
 import { STATUS_CODE, STATUS_MESSAGE } from "../ts/enums/api_enums";
 import RestFullAPI from "../utils/response/apiResponse";
+import db from "../models";
+const { Tag, CustomerTag } = db;
 class TagController {
   public static async getAll(_: Request, res: Response, next: NextFunction) {
     try {

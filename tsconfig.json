@@ -1,7 +1,6 @@
 {
   "compilerOptions": {
     /* Basic Options */
-    "experimentalDecorators": true,
     "baseUrl": "./",
     "paths": {
       "@/*": ["*"]
