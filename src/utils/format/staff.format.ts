@@ -4,6 +4,7 @@ import {
   StaffAgencyBranchInChargeAttributes,
   StaffAttributes,
   StaffRoleAttributes,
+  UserAddressAttributes,
   UserAttributes,
 } from "@/src/ts/interfaces/app_interfaces";
 
@@ -59,6 +60,7 @@ interface UserQueryAttributes extends UserAttributesExclude {
   Staff: {
     dataValues: StaffQueryAttributes;
   };
+  UserAddresses: Array<{ dataValues: UserAddressAttributes }>;
 }
 
 interface UserStaffQueryAttributes {
@@ -88,6 +90,7 @@ interface StaffDetailResultAttributes {
       agency_branch_name: string;
     }>;
   }>;
+  staff_address: Array<{ dataValues: UserAddressAttributes }>;
 }
 
 interface StaffItemResultAttributes {
@@ -132,6 +135,7 @@ export const handleFormatStaff = (
       user_phone: staff_phone,
       user_name: staff_name,
       user_email: staff_email,
+      UserAddresses: staff_address,
     } = userStaffs.dataValues;
     const {
       id: staff_id,
@@ -195,6 +199,7 @@ export const handleFormatStaff = (
       isAllowViewShippingPrice,
       createdAt: userStaffs.dataValues.createdAt as Date,
       staff_role,
+      staff_address,
     };
   }
 
