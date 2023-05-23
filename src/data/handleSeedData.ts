@@ -49,10 +49,6 @@ const {
 export const handleSeedData = () => {
   [
     {
-      Model: AgencyBranch,
-      data: AGENCY_BRANCH_ARRAY,
-    },
-    {
       Model: Payment,
       data: PAYMENT_ARRAY,
     },
@@ -67,10 +63,6 @@ export const handleSeedData = () => {
     {
       Model: UserAddress,
       data: USER_ADDRESS_LIST_ARRAY,
-    },
-    {
-      Model: Staff,
-      data: STAFF_ARRAY,
     },
     {
       Model: Brand,
@@ -89,6 +81,10 @@ export const handleSeedData = () => {
       data: TAG_ARRAY,
     },
     {
+      Model: Staff,
+      data: STAFF_ARRAY,
+    },
+    {
       Model: Role,
       data: ROLE_ARRAY,
     },
@@ -97,29 +93,25 @@ export const handleSeedData = () => {
       data: STAFF_ROLE_ARRAY,
     },
     {
+      Model: AgencyBranch,
+      data: AGENCY_BRANCH_ARRAY,
+    },
+    {
       Model: Customer,
       data: CUSTOMER_ARRAY,
-    },
-
-    {
-      Model: CustomerTag,
-      data: CUSTOMER_TAG_LIST_ARRAY,
     },
     {
       Model: StaffAgencyBranchInCharge,
       data: STAFF_AGENCY_INCHARGE_ARRAY,
     },
     {
+      Model: CustomerTag,
+      data: CUSTOMER_TAG_LIST_ARRAY,
+    },
+
+    {
       Model: Products,
       data: PRODUCT_ARRAY,
-    },
-    {
-      Model: AdditionProductInformation,
-      data: ADDITIONAL_PRODUCT_INFORMATION,
-    },
-    {
-      Model: ProductTagList,
-      data: PRODUCT_TAG_LIST_ARRAY,
     },
     {
       Model: ProductVariantDetail,
@@ -132,6 +124,14 @@ export const handleSeedData = () => {
     {
       Model: ProductVariantProperty,
       data: PRODUCT_VARIANT_PROPERTY_ARRAY,
+    },
+    {
+      Model: AdditionProductInformation,
+      data: ADDITIONAL_PRODUCT_INFORMATION,
+    },
+    {
+      Model: ProductTagList,
+      data: PRODUCT_TAG_LIST_ARRAY,
     },
   ].forEach(async ({ Model, data }) => {
     await Model.bulkCreate(data);
