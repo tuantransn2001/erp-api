@@ -30,7 +30,10 @@ interface OrderProductListAttributes {
   id: string;
   order_id: string;
   product_variant_id: string;
+  product_price: number;
   product_amount: number;
+  product_discount: number;
+  product_unit: string;
   createdAt?: Date;
   updatedAt?: Date;
 }
@@ -210,8 +213,9 @@ interface PriceAttributes {
 interface DebtAttributes {
   id: string;
   user_id: string;
-  change_debt: string;
-  debt_amount: string;
+  change_debt: number;
+  debt_amount: number;
+  debt_note: string;
   action: string;
   createdAt?: Date;
   updatedAt?: Date;

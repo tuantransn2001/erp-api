@@ -1,11 +1,11 @@
 enum STATUS_MESSAGE {
-  SUCCESS = "SUCCESS",
-  CONFLICT = "CONFLICT",
-  NOT_FOUND = "NOT_FOUND",
-  SERVER_ERROR = "SERVER_ERROR",
-  NO_CONTENT = "NO_CONTENT",
-  UN_AUTHORIZE = "UN_AUTHORIZE",
-  NOT_ACCEPTABLE = "NOT_ACCEPTABLE",
+  SUCCESS = "Success",
+  CONFLICT = "Conflict",
+  NOT_FOUND = "Not Found",
+  SERVER_ERROR = "Server Error",
+  NO_CONTENT = "No Content",
+  UN_AUTHORIZE = "Unauthorize",
+  NOT_ACCEPTABLE = "Not Acceptable",
 }
 
 enum STATUS_CODE {

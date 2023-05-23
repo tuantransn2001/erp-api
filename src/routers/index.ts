@@ -11,6 +11,7 @@ import productRouter from "./product-router";
 import supplierRouter from "./supplier-router";
 import brandRouter from "./brand-router";
 import typeRouter from "./type-router";
+import orderRouter from "./order-router";
 const rootRouter = Router();
 
 rootRouter
@@ -25,6 +26,7 @@ rootRouter
   .use("/supplier", supplierRouter)
   .use("/brand", brandRouter)
   .use("/type", typeRouter)
-  .use("/product", productRouter);
+  .use("/product", productRouter)
+  .use("/order", orderRouter);
 
 export default rootRouter;

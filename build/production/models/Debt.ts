@@ -6,8 +6,9 @@ export default (sequelize: any, DataTypes: any) => {
   class Debt extends Model<DebtAttributes> implements DebtAttributes {
     id!: string;
     user_id!: string;
-    change_debt!: string;
-    debt_amount!: string;
+    debt_note!: string;
+    change_debt!: number;
+    debt_amount!: number;
     action!: string;
     /**
      * Helper method for defining associations.
@@ -32,9 +33,12 @@ export default (sequelize: any, DataTypes: any) => {
         type: DataTypes.UUID,
       },
       change_debt: {
-        type: DataTypes.STRING,
+        type: DataTypes.INTEGER,
       },
       debt_amount: {
+        type: DataTypes.INTEGER,
+      },
+      debt_note: {
         type: DataTypes.STRING,
       },
       action: {

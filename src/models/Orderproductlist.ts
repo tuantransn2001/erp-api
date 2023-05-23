@@ -11,6 +11,9 @@ export default (sequelize: any, DataTypes: any) => {
     order_id!: string;
     product_variant_id!: string;
     product_amount!: number;
+    product_discount!: number;
+    product_price!: number;
+    product_unit!: string;
     /**
      * Helper method for defining associations.
      * This method is not a part of Sequelize lifecycle.
@@ -40,6 +43,15 @@ export default (sequelize: any, DataTypes: any) => {
         type: DataTypes.UUID,
       },
       product_amount: {
+        type: DataTypes.INTEGER,
+      },
+      product_discount: {
+        type: DataTypes.INTEGER,
+      },
+      product_unit: {
+        type: DataTypes.STRING,
+      },
+      product_price: {
         type: DataTypes.INTEGER,
       },
     },
