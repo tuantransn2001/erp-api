@@ -12,6 +12,7 @@ import supplierRouter from "./supplier-router";
 import brandRouter from "./brand-router";
 import typeRouter from "./type-router";
 import orderRouter from "./order-router";
+import swaggerRouter from "./swagger-router";
 const rootRouter = Router();
 
 rootRouter
@@ -27,6 +28,7 @@ rootRouter
   .use("/brand", brandRouter)
   .use("/type", typeRouter)
   .use("/product", productRouter)
-  .use("/order", orderRouter);
+  .use("/order", orderRouter)
+  .use("/swagger", swaggerRouter);
 
 export default rootRouter;

@@ -1,4 +1,5 @@
 import randomstring from "randomstring";
+import { ObjectDynamicKeyWithValueIsString } from "../ts/interfaces/global_interfaces";
 import { Falsy } from "../ts/types/app_type";
 
 export const isEmpty = (target: Object): boolean => {
@@ -73,12 +74,8 @@ export const handleGenerateVariantBaseOnProperties = (
   return { keys, productVariants: cartesian(...combineValues) };
 };
 
-interface ErrorContainer {
-  [props: string]: string;
-}
-
 export const checkMissPropertyInObjectBaseOnValueCondition = (
-  baseObject: ErrorContainer,
+  baseObject: ObjectDynamicKeyWithValueIsString,
   valueCondition: Falsy
 ): Array<string> => {
   const arrMissArray: Array<string> = Object.keys(baseObject).reduce(

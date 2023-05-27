@@ -9,7 +9,7 @@ export default (sequelize: any, DataTypes: any) => {
     shipper_id!: string;
     payment_id!: string;
     staff_id!: string;
-    owner_id!: string;
+    supplier_id!: string;
     order_type!: string;
     order_code!: string;
     order_delivery_date!: Date;
@@ -26,6 +26,8 @@ export default (sequelize: any, DataTypes: any) => {
       OrderTag,
       Customer,
       OrderProductList,
+      AgencyBranch,
+      Staff,
     }: any) {
       Order.belongsTo(Shipper, {
         foreignKey: "shipper_id",
@@ -37,10 +39,16 @@ export default (sequelize: any, DataTypes: any) => {
         foreignKey: "order_id",
       });
       Order.belongsTo(Customer, {
-        foreignKey: "owner_id",
+        foreignKey: "supplier_id",
       });
       Order.hasMany(OrderProductList, {
         foreignKey: "order_id",
+      });
+      Order.belongsTo(AgencyBranch, {
+        foreignKey: "agency_branch_id",
+      });
+      Order.belongsTo(Staff, {
+        foreignKey: "staff_id",
       });
     }
   }
@@ -56,7 +64,7 @@ export default (sequelize: any, DataTypes: any) => {
       shipper_id: { type: DataTypes.UUID },
       payment_id: { type: DataTypes.UUID },
       staff_id: { type: DataTypes.UUID },
-      owner_id: { type: DataTypes.UUID },
+      supplier_id: { type: DataTypes.UUID },
       order_type: { type: DataTypes.STRING },
       order_code: { type: DataTypes.STRING },
       order_status: { type: DataTypes.STRING },

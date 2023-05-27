@@ -83,6 +83,66 @@ class ProductController {
       next(err);
     }
   }
+  public static async getByID(req: Request, res: Response, next: NextFunction) {
+    try {
+      const { id } = req.params;
+      const productDetail = await Products.findOne({
+        where: {
+          id,
+        },
+        include: [
+          {
+            model: ProductVariantDetail,
+            as: "Variants",
+            include: [
+              {
+                model: ProductVariantProperty,
+                as: "Properties",
+              },
+              {
+                model: ProductVariantPrice,
+                include: [{ model: Price }],
+                as: "Variant_Prices",
+                separate: true,
+              },
+            ],
+          },
+          {
+            model: AdditionProductInformation,
+            include: [
+              {
+                model: ProductTagList,
+                as: "Product_Tag_List",
+                separate: true,
+                include: [
+                  {
+                    model: Tag,
+                  },
+                ],
+              },
+              {
+                model: Type,
+              },
+              {
+                model: Brand,
+              },
+            ],
+          },
+        ],
+      });
+
+      res
+        .status(STATUS_CODE.STATUS_CODE_200)
+        .send(
+          RestFullAPI.onSuccess(
+            STATUS_MESSAGE.SUCCESS,
+            handleFormatProduct(productDetail, "isObject")
+          )
+        );
+    } catch (err) {
+      next(err);
+    }
+  }
   public static async create(req: Request, res: Response, next: NextFunction) {
     try {
       const {

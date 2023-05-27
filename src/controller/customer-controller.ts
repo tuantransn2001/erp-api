@@ -156,7 +156,7 @@ class CustomerController {
       const customerTagRowArray: Array<CustomerTagAttributes> = tags.map(
         (tagID: TagAttributes) => {
           return {
-            owner_id: customerID,
+            customer_id: customerID,
             tag_id: tagID,
           };
         }

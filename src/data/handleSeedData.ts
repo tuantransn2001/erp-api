@@ -20,9 +20,17 @@ import {
   PRODUCT_VARIANT_PROPERTY_ARRAY,
   SHIPPER_ARRAY,
   PAYMENT_ARRAY,
+  ORDER_ARRAY,
+  ORDER_TAG_LIST_ARRAY,
+  ORDER_PRODUCT_LIST_ARRAY,
+  DEBT_ARRAY,
 } from "./seeders";
 import db from "../models";
 const {
+  Order,
+  OrderTag,
+  OrderProductList,
+  Debt,
   User,
   Customer,
   UserAddress,
@@ -68,6 +76,7 @@ export const handleSeedData = () => {
       Model: Brand,
       data: BRAND_ARRAY,
     },
+
     {
       Model: Type,
       data: TYPE_ARRAY,
@@ -80,18 +89,16 @@ export const handleSeedData = () => {
       Model: Tag,
       data: TAG_ARRAY,
     },
-    {
-      Model: Staff,
-      data: STAFF_ARRAY,
-    },
+
     {
       Model: Role,
       data: ROLE_ARRAY,
     },
     {
-      Model: StaffRole,
-      data: STAFF_ROLE_ARRAY,
+      Model: Staff,
+      data: STAFF_ARRAY,
     },
+
     {
       Model: AgencyBranch,
       data: AGENCY_BRANCH_ARRAY,
@@ -100,15 +107,11 @@ export const handleSeedData = () => {
       Model: Customer,
       data: CUSTOMER_ARRAY,
     },
-    {
-      Model: StaffAgencyBranchInCharge,
-      data: STAFF_AGENCY_INCHARGE_ARRAY,
-    },
-    {
-      Model: CustomerTag,
-      data: CUSTOMER_TAG_LIST_ARRAY,
-    },
 
+    {
+      Model: StaffRole,
+      data: STAFF_ROLE_ARRAY,
+    },
     {
       Model: Products,
       data: PRODUCT_ARRAY,
@@ -132,6 +135,31 @@ export const handleSeedData = () => {
     {
       Model: ProductTagList,
       data: PRODUCT_TAG_LIST_ARRAY,
+    },
+    {
+      Model: CustomerTag,
+      data: CUSTOMER_TAG_LIST_ARRAY,
+    },
+    {
+      Model: StaffAgencyBranchInCharge,
+      data: STAFF_AGENCY_INCHARGE_ARRAY,
+    },
+
+    {
+      Model: Order,
+      data: ORDER_ARRAY,
+    },
+    {
+      Model: Debt,
+      data: DEBT_ARRAY,
+    },
+    {
+      Model: OrderProductList,
+      data: ORDER_PRODUCT_LIST_ARRAY,
+    },
+    {
+      Model: OrderTag,
+      data: ORDER_TAG_LIST_ARRAY,
     },
   ].forEach(async ({ Model, data }) => {
     await Model.bulkCreate(data);

@@ -24,11 +24,18 @@ export default (sequelize: any, DataTypes: any) => {
     static associate({
       StaffAgencyBranchInCharge,
       AgencyBranchProductList,
+      Order,
     }: any) {
       AgencyBranch.hasMany(StaffAgencyBranchInCharge, {
         foreignKey: "agency_branch_id",
       });
       AgencyBranch.hasOne(AgencyBranchProductList, {
+        foreignKey: "agency_branch_id",
+      });
+      AgencyBranch.hasOne(AgencyBranchProductList, {
+        foreignKey: "agency_branch_id",
+      });
+      AgencyBranch.hasOne(Order, {
         foreignKey: "agency_branch_id",
       });
     }

@@ -18,7 +18,7 @@ export default (sequelize: any, DataTypes: any) => {
       });
       Customer.belongsTo(Staff, { foreignKey: "staff_id" });
       Customer.hasMany(Order, {
-        foreignKey: "customer_id",
+        foreignKey: "supplier_id",
       });
       Customer.hasMany(CustomerTag, {
         foreignKey: "customer_id",

@@ -17,7 +17,7 @@ interface OrderAttributes {
   shipper_id: string;
   payment_id: string;
   staff_id: string;
-  owner_id: string;
+  supplier_id: string;
   order_type: string;
   order_code: string;
   order_delivery_date: Date;

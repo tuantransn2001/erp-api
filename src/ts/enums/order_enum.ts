@@ -9,8 +9,8 @@ enum ORDER_PURCHASE_STATUS {
   DONE = "Hoàn thành",
 }
 enum ORDER_IMPORT_STATUS {
-  GENERATE = "Tạo đơn hàng",
   CANCEL = "Hủy",
+  GENERATE = "Tạo đơn hàng",
   TRADING = "Đang giao dịch",
   DONE = "Hoàn thành",
 }

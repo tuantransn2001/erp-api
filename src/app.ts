@@ -2,8 +2,8 @@ require("dotenv").config();
 import express, { Express } from "express";
 import cors from "cors";
 import db from "./models";
-import rootRouter from "./routers";
 import { handleSeedData } from "./data/handleSeedData";
+import rootRouter from "./routers";
 // ? ============================== INITIATE SERVER ====================================
 const app: Express = express();
 // ? ============================== VARIABLES ====================================
@@ -17,13 +17,20 @@ app.use(express.json()); // * Converted Data into JSON type - !Important
 app.use(ROOT_URL, rootRouter); // * Router Set up
 // ? ========================== CONNECT DATABASE - RUN SERVER ====================
 (async () => {
-  await db.sequelize.sync({ force: true }).then(() => {
-    app.listen(PORT, async () => {
-      handleSeedData();
-      console.log("Connected - Synchronous Database Success");
-      console.log(
-        `🚀 Server is running on ${ENVIRONMENT}  🚀 - http://${HOST}:${PORT}`
-      );
+  await db.sequelize
+    .sync({ force: true })
+    .then(() => {
+      app.listen(PORT, async () => {
+        handleSeedData();
+        console.log("Connected - Synchronous Database Success");
+        console.log(
+          `🚀 Server is running on ${ENVIRONMENT}  🚀 - http://${HOST}:${PORT}${ROOT_URL}`
+        );
+      });
+    })
+    .catch((err: any) => {
+      console.error(`Can't connect to database`);
+      console.error(`Error: ${err}`);
+      process.exit();
     });
-  });
 })();

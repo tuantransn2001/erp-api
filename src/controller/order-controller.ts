@@ -15,7 +15,17 @@ import {
   OrderTagAttributes,
 } from "../ts/interfaces/app_interfaces";
 import db from "../models";
-const { Customer, User, Order, OrderProductList, OrderTag, Debt } = db;
+import { handleFormatOrder } from "../utils/format/order.format";
+const {
+  Customer,
+  User,
+  Order,
+  OrderProductList,
+  OrderTag,
+  Debt,
+  Staff,
+  AgencyBranch,
+} = db;
 
 class OrderController {
   public static async checkValidOrderDataInputBeforeModify(
@@ -64,6 +74,62 @@ class OrderController {
 
   public static Import() {
     return class OrderImportController {
+      public static async getAll(
+        _: Request,
+        res: Response,
+        next: NextFunction
+      ) {
+        try {
+          const orderImportList = await Order.findAll({
+            attributes: ["id", "order_status", "order_note", "createdAt"],
+            include: [
+              {
+                model: Customer,
+                attributes: ["id"],
+                include: [
+                  {
+                    model: User,
+                    attributes: ["user_name", "user_phone"],
+                  },
+                ],
+              },
+              {
+                model: Staff,
+                attributes: ["id"],
+                include: [
+                  {
+                    model: User,
+                    attributes: ["user_name"],
+                  },
+                ],
+              },
+              {
+                model: AgencyBranch,
+                attributes: ["agency_branch_name"],
+              },
+              {
+                model: OrderProductList,
+                attributes: [
+                  "product_amount",
+                  "product_discount",
+                  "product_price",
+                ],
+              },
+            ],
+          });
+          console.log(orderImportList);
+          res
+            .status(STATUS_CODE.STATUS_CODE_200)
+            .send(
+              RestFullAPI.onSuccess(
+                STATUS_MESSAGE.SUCCESS,
+                handleFormatOrder(orderImportList)
+              )
+            );
+        } catch (err) {
+          next(err);
+        }
+      }
       public static async create(
         req: Request,
         res: Response,
@@ -71,7 +137,7 @@ class OrderController {
       ) {
         try {
           const {
-            owner_id,
+            supplier_id,
             agency_branch_id,
             shipper_id,
             payment_id,
@@ -88,7 +154,7 @@ class OrderController {
             shipper_id,
             payment_id,
             staff_id,
-            owner_id,
+            supplier_id,
             order_code: randomStringByCharsetAndLength(
               "alphabet",
               5,
@@ -141,7 +207,7 @@ class OrderController {
 
           const foundOrderOwner = await Customer.findOne({
             where: {
-              id: owner_id,
+              id: supplier_id,
             },
             attributes: [],
             include: [
@@ -173,6 +239,94 @@ class OrderController {
           res
             .status(STATUS_CODE.STATUS_CODE_201)
             .send(RestFullAPI.onSuccess(STATUS_MESSAGE.SUCCESS));
+        } catch (err) {
+          next(err);
+        }
+      }
+      public static async updateByID(
+        req: Request,
+        res: Response,
+        next: NextFunction
+      ) {
+        try {
+          const order_id: string = req.params.id as string;
+          const { order_status } = req.body;
+
+          // ? Check status => ...
+          // * [ GENERATE , TRADING , DONE ]
+          switch (order_status) {
+            // ? DONE => Do not Allow => DONE
+            case ORDER_IMPORT_STATUS.DONE: {
+              res
+                .status(STATUS_CODE.STATUS_CODE_406)
+                .send(
+                  RestFullAPI.onSuccess(
+                    STATUS_MESSAGE.NOT_ACCEPTABLE,
+                    `You cann't modify because order_status: ${ORDER_IMPORT_STATUS.DONE}`
+                  )
+                );
+              break;
+            } // ? TRADING => Allow modify [ tag , note ] => DONE
+            case ORDER_IMPORT_STATUS.TRADING: {
+              const { order_note, tags } = req.body;
+
+              // * Check user has entered attributes require or not [ tags , order_note ]
+
+              if (order_note || tags) {
+                // ? Delete old tags
+                await OrderTag.destroy({
+                  where: { order_id },
+                });
+                // ? Generate & Update new one [ tags , order ]
+                const updateTagRowArr: OrderTagAttributes[] = tags.map(
+                  (tagID: string) => ({
+                    tag_id: tagID,
+                    order_id: order_id,
+                  })
+                );
+                await Order.update(
+                  { order_note },
+                  {
+                    where: {
+                      id: order_id,
+                      order_type: ORDER_TYPE.IMPORT,
+                    },
+                  }
+                );
+                await OrderTag.bulkCreate(updateTagRowArr);
+
+                res
+                  .status(STATUS_CODE.STATUS_CODE_201)
+                  .send(RestFullAPI.onSuccess(STATUS_MESSAGE.SUCCESS));
+              } else {
+                const attrMissArray =
+                  checkMissPropertyInObjectBaseOnValueCondition(
+                    { order_note, tags },
+                    undefined
+                  );
+                const errMess: string =
+                  attrMissArray.join(" || ") + " " + "is required!";
+
+                res
+                  .status(STATUS_CODE.STATUS_CODE_406)
+                  .send(
+                    RestFullAPI.onSuccess(
+                      STATUS_MESSAGE.NOT_ACCEPTABLE,
+                      errMess
+                    )
+                  );
+              }
+
+              break;
+            }
+            // * GENERATE => Allow change almost
+            case ORDER_IMPORT_STATUS.GENERATE: {
+              res
+                .status(STATUS_CODE.STATUS_CODE_201)
+                .send(RestFullAPI.onSuccess(STATUS_MESSAGE.SUCCESS));
+              break;
+            }
+          }
         } catch (err) {
           next(err);
         }
