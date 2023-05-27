@@ -78,11 +78,10 @@ class CustomerController {
               },
               {
                 model: CustomerTag,
-                attributes: ["id"],
+                attributes: ["id", "tag_id"],
                 include: [
                   {
                     model: Tag,
-
                     attributes: ["id", "tag_title"],
                   },
                 ],
