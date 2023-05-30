@@ -177,6 +177,7 @@ class ProductController {
         // * ==========================================
         //   Product Variants Detail
         // * ==========================================
+
         let productVariantDetailRowArr: Array<ProductVariantDetailAttributes> =
           [];
         let productVariantPriceRowArr: Array<ProductVariantPriceAttributes> =
@@ -184,98 +185,112 @@ class ProductController {
         let productVariantPropertyRowArr: Array<ProductVariantPropertyAttributes> =
           [];
         const isPropertiesEmpty: boolean = properties.length === 0;
-        if (isPropertiesEmpty) {
-          const product_special_variant_name: string = productRow.product_name;
-          const product_variant_code: string =
-            productRow.product_SKU +
-            randomStringByCharsetAndLength("alphabetic", 1, "uppercase");
+        // * ==========================================
+        // ? Product Property Empty
+        // * ==========================================
+        switch (isPropertiesEmpty) {
+          case true: {
+            const product_special_variant_name: string =
+              productRow.product_name;
+            const product_variant_code: string =
+              productRow.product_SKU +
+              randomStringByCharsetAndLength("alphabetic", 1, "uppercase");
+            // * ==========================================
+            //   Product Variants Detail Row Arr
+            // * ==========================================
+            const newProductVariantDetailRow = {
+              id: uuidv4(),
+              product_id: productRow.id,
+              product_variant_name: product_special_variant_name,
+              product_variant_SKU: product_variant_code,
+              product_variant_barcode: product_variant_code,
+              product_weight,
+              product_weight_calculator_unit,
+            };
+            productVariantDetailRowArr.push(newProductVariantDetailRow);
+            // * ==========================================
+            //   Product Variants Price Row Arr
+            // * ==========================================
+            const newProductPriceRow = product_variant_prices.map(
+              ({ price_id, price_value }: any) => ({
+                product_variant_id: newProductVariantDetailRow.id,
+                price_id,
+                price_value,
+              })
+            );
+            productVariantPriceRowArr.push(newProductPriceRow);
+            break;
+          }
           // * ==========================================
-          //   Product Variants Detail Row Arr
+          // ? Product Property Not Empty
           // * ==========================================
-          const newProductVariantDetailRow = {
-            id: uuidv4(),
-            product_id: productRow.id,
-            product_variant_name: product_special_variant_name,
-            product_variant_SKU: product_variant_code,
-            product_variant_barcode: product_variant_code,
-            product_weight,
-            product_weight_calculator_unit,
-          };
-          productVariantDetailRowArr.push(newProductVariantDetailRow);
-          // * ==========================================
-          //   Product Variants Price Row Arr
-          // * ==========================================
-          const newProductPriceRow = product_variant_prices.map(
-            ({ price_id, price_value }: any) => ({
-              product_variant_id: newProductVariantDetailRow.id,
-              price_id,
-              price_value,
-            })
-          );
-          productVariantPriceRowArr.push(newProductPriceRow);
-        } else {
-          const { keys, productVariants } =
-            handleGenerateVariantBaseOnProperties(properties);
-          productVariants.forEach(
-            (p_variant_properties: Array<any> | string) => {
-              let product_variant_code: string = productRow.product_SKU;
-              let product_special_variant_name: string =
-                productRow.product_name;
-              if (Array.isArray(p_variant_properties)) {
-                product_variant_code =
-                  product_variant_code +
-                  p_variant_properties
-                    .map((p_variant_property: string) => p_variant_property[0])
-                    .join("");
-                product_special_variant_name =
-                  product_special_variant_name +
-                  " " +
-                  p_variant_properties
-                    .map((p_variant_property: string) => p_variant_property)
-                    .join("-");
-              } else {
-                product_variant_code =
-                  product_variant_code + p_variant_properties[0];
-                product_special_variant_name =
-                  product_special_variant_name + " " + p_variant_properties;
+          case false: {
+            const { keys, productVariants } =
+              handleGenerateVariantBaseOnProperties(properties);
+            productVariants.forEach(
+              (p_variant_properties: Array<any> | string) => {
+                let product_variant_code: string = productRow.product_SKU;
+                let product_special_variant_name: string =
+                  productRow.product_name;
+                if (Array.isArray(p_variant_properties)) {
+                  product_variant_code =
+                    product_variant_code +
+                    p_variant_properties
+                      .map(
+                        (p_variant_property: string) => p_variant_property[0]
+                      )
+                      .join("");
+                  product_special_variant_name =
+                    product_special_variant_name +
+                    " " +
+                    p_variant_properties
+                      .map((p_variant_property: string) => p_variant_property)
+                      .join("-");
+                } else {
+                  product_variant_code =
+                    product_variant_code + p_variant_properties[0];
+                  product_special_variant_name =
+                    product_special_variant_name + " " + p_variant_properties;
+                }
+                // * ==========================================
+                //   Product Variants Detail Row Arr
+                // * ==========================================
+                const newProductVariantDetailRow = {
+                  id: uuidv4(),
+                  product_id: productRow.id,
+                  product_variant_name: product_special_variant_name,
+                  product_variant_SKU: product_variant_code,
+                  product_variant_barcode: product_variant_code,
+                  product_weight,
+                  product_weight_calculator_unit,
+                };
+                productVariantDetailRowArr.push(newProductVariantDetailRow);
+                // * ==========================================
+                //   Product Variants Price Row Arr
+                // * ==========================================
+                const newProductPriceRow = product_variant_prices.map(
+                  ({ price_id, price_value }: any) => ({
+                    product_variant_id: newProductVariantDetailRow.id,
+                    price_id,
+                    price_value,
+                  })
+                );
+                productVariantPriceRowArr.push(newProductPriceRow);
+                // * ==========================================
+                //   Product Variants Property Row Arr
+                // * ==========================================
+                const newProductVariantProperty = keys.map(
+                  (key: string, index: number) => ({
+                    product_variant_id: newProductVariantDetailRow.id,
+                    product_variant_property_key: key,
+                    product_variant_property_value: p_variant_properties[index],
+                  })
+                );
+                productVariantPropertyRowArr.push(newProductVariantProperty);
               }
-              // * ==========================================
-              //   Product Variants Detail Row Arr
-              // * ==========================================
-              const newProductVariantDetailRow = {
-                id: uuidv4(),
-                product_id: productRow.id,
-                product_variant_name: product_special_variant_name,
-                product_variant_SKU: product_variant_code,
-                product_variant_barcode: product_variant_code,
-                product_weight,
-                product_weight_calculator_unit,
-              };
-              productVariantDetailRowArr.push(newProductVariantDetailRow);
-              // * ==========================================
-              //   Product Variants Price Row Arr
-              // * ==========================================
-              const newProductPriceRow = product_variant_prices.map(
-                ({ price_id, price_value }: any) => ({
-                  product_variant_id: newProductVariantDetailRow.id,
-                  price_id,
-                  price_value,
-                })
-              );
-              productVariantPriceRowArr.push(newProductPriceRow);
-              // * ==========================================
-              //   Product Variants Property Row Arr
-              // * ==========================================
-              const newProductVariantProperty = keys.map(
-                (key: string, index: number) => ({
-                  product_variant_id: newProductVariantDetailRow.id,
-                  product_variant_property_key: key,
-                  product_variant_property_value: p_variant_properties[index],
-                })
-              );
-              productVariantPropertyRowArr.push(newProductVariantProperty);
-            }
-          );
+            );
+            break;
+          }
         }
 
         await Products.create(productRow);
@@ -292,7 +307,9 @@ class ProductController {
           );
         }
 
-        res.status(STATUS_CODE.STATUS_CODE_201).send(STATUS_MESSAGE.SUCCESS);
+        res
+          .status(STATUS_CODE.STATUS_CODE_201)
+          .send(RestFullAPI.onSuccess(STATUS_MESSAGE.SUCCESS));
       } else {
         res
           .status(STATUS_CODE.STATUS_CODE_409)

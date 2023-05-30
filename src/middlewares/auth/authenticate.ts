@@ -1,11 +1,10 @@
+require("dotenv").config();
 import { IncomingHttpHeaders } from "http2";
 import { Response, NextFunction } from "express";
 import { MyRequest } from "@/src/ts/interfaces/global_interfaces";
 import jwt from "jsonwebtoken";
 import { STATUS_CODE, STATUS_MESSAGE } from "../../ts/enums/api_enums";
 import RestFullAPI from "../../utils/response/apiResponse";
-
-require("dotenv").config();
 
 interface MyCustomsHeaders {
   token: string;
@@ -40,30 +39,14 @@ const authenticate = async (
         );
     }
   } catch (err) {
-    if (err instanceof jwt.TokenExpiredError) {
-      res
-        .status(STATUS_CODE.STATUS_CODE_401)
-        .send(
-          RestFullAPI.onSuccess(
-            STATUS_MESSAGE.UN_AUTHORIZE,
-            "Access Token was expired!"
-          )
-        );
-    }
-    if (err instanceof jwt.NotBeforeError) {
-      res
-        .status(STATUS_CODE.STATUS_CODE_401)
-        .send(
-          RestFullAPI.onSuccess(STATUS_MESSAGE.UN_AUTHORIZE, "jwt not active")
-        );
-    }
-    if (err instanceof jwt.JsonWebTokenError) {
-      res
-        .status(STATUS_CODE.STATUS_CODE_401)
-        .send(
-          RestFullAPI.onSuccess(STATUS_MESSAGE.UN_AUTHORIZE, "jwt malformed")
-        );
-    }
+    res
+      .status(STATUS_CODE.STATUS_CODE_401)
+      .send(
+        RestFullAPI.onSuccess(
+          STATUS_MESSAGE.UN_AUTHORIZE,
+          "Client-Error && In-Valid Token"
+        )
+      );
   }
 };
 export default authenticate;
