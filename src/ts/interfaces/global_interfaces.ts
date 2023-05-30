@@ -3,8 +3,16 @@ interface MyRequest extends Request {
   currentUserID?: string;
 }
 
+interface ObjectDynamicKeyWithValue {
+  [props: string]: any;
+}
+
 interface ObjectDynamicKeyWithValueIsString {
   [props: string]: string;
 }
 
-export { MyRequest, ObjectDynamicKeyWithValueIsString };
+export {
+  MyRequest,
+  ObjectDynamicKeyWithValueIsString,
+  ObjectDynamicKeyWithValue,
+};

@@ -5,7 +5,7 @@ import db from "../models";
 import { handleFormatUpdateDataByValidValue } from "../../src/common";
 import { STATUS_CODE, STATUS_MESSAGE } from "../ts/enums/api_enums";
 import RestFullAPI from "../utils/response/apiResponse";
-const { Price } = db;
+const { Price, ProductVariantPrice } = db;
 
 type PriceTypeOnlyIsImportIsSell =
   | Omit<
@@ -140,6 +140,11 @@ class PriceController {
     try {
       const { id } = req.params;
 
+      await ProductVariantPrice.destroy({
+        where: {
+          price_id: id,
+        },
+      });
       await Price.destroy({
         where: {
           id,

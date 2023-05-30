@@ -10,6 +10,7 @@ import {
   ProductTagItemAttributes,
   TagAttributes,
 } from "@/src/ts/interfaces/app_interfaces";
+import { ObjectDynamicKeyWithValue } from "@/src/ts/interfaces/global_interfaces";
 
 interface ProductVariantPriceQueryAttributes
   extends ProductVariantPriceAttributes {
@@ -50,10 +51,13 @@ interface ProductItemQueryAttributes {
   dataValues: ProductQueryAttributes;
 }
 
+type ProductSourceAttributes = ProductItemQueryAttributes[] &
+  ProductItemQueryAttributes;
+
 export const handleFormatProduct = (
-  productSource: ProductItemQueryAttributes,
+  productSource: ProductSourceAttributes,
   formatType: string
-): any => {
+): ObjectDynamicKeyWithValue[] | ObjectDynamicKeyWithValue => {
   if (formatType === "isObject") {
     const {
       id,
@@ -185,4 +189,29 @@ export const handleFormatProduct = (
       productAdditionInformation: generateAdditionInformation(),
     };
   }
+
+  const productListResult = productSource.map((product) => {
+    const {
+      id,
+      product_name,
+      product_SKU,
+      createdAt,
+      AdditionProductInformation,
+    } = product.dataValues;
+
+    const { type_title } =
+      AdditionProductInformation.dataValues.Type.dataValues;
+    const { brand_title } =
+      AdditionProductInformation.dataValues.Brand.dataValues;
+    return {
+      id,
+      product_name,
+      product_SKU,
+      createdAt,
+      type_title,
+      brand_title,
+    };
+  });
+
+  return productListResult;
 };

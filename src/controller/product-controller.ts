@@ -30,41 +30,19 @@ class ProductController {
   public static async getAll(_: Request, res: Response, next: NextFunction) {
     try {
       const productList = await Products.findAll({
+        attributes: ["id", "product_name", "product_SKU", "createdAt"],
         include: [
           {
-            model: ProductVariantDetail,
-            as: "Variants",
-            include: [
-              {
-                model: ProductVariantProperty,
-                as: "Properties",
-              },
-              {
-                model: ProductVariantPrice,
-                include: [{ model: Price }],
-                as: "Variant_Prices",
-                separate: true,
-              },
-            ],
-          },
-          {
             model: AdditionProductInformation,
+            attributes: ["id"],
             include: [
-              {
-                model: ProductTagList,
-                as: "Product_Tag_List",
-                separate: true,
-                include: [
-                  {
-                    model: Tag,
-                  },
-                ],
-              },
               {
                 model: Type,
+                attributes: ["type_title"],
               },
               {
                 model: Brand,
+                attributes: ["brand_title"],
               },
             ],
           },
