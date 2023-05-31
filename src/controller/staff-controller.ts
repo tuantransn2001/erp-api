@@ -47,7 +47,7 @@ class StaffController {
       });
 
       res
-        .status(STATUS_CODE.STATUS_CODE_202)
+        .status(STATUS_CODE.STATUS_CODE_200)
         .send(
           RestFullAPI.onSuccess(
             STATUS_MESSAGE.SUCCESS,
