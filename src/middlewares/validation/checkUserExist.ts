@@ -3,6 +3,7 @@ import db from "../../models";
 import { UserAttributes } from "../../ts/interfaces/app_interfaces";
 import { STATUS_CODE, STATUS_MESSAGE } from "../../ts/enums/api_enums";
 import RestFullAPI from "../../utils/response/apiResponse";
+import { isEmpty } from "../../common";
 const { User } = db;
 const checkUserExist =
   () => async (req: Request, res: Response, next: NextFunction) => {
@@ -61,7 +62,7 @@ const checkUserExist =
             );
         });
 
-      if (errorMessage.length > 0) {
+      if (!isEmpty(errorMessage)) {
         res
           .status(STATUS_CODE.STATUS_CODE_406)
           .send(

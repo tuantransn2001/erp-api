@@ -18,6 +18,51 @@ type PriceTypeOnlyIsImportIsSell =
     >;
 
 class PriceController {
+  static async checkDefaultPrice(
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ) {
+    try {
+      const { id } = req.params;
+
+      const foundPrice = await Price.findOne({
+        where: {
+          id,
+        },
+      });
+
+      const IsPriceDefaultObj: PriceTypeOnlyIsImportIsSell = {
+        isSellDefault: foundPrice.dataValues.isSellDefault,
+        isImportDefault: foundPrice.dataValues.isImportDefault,
+      };
+
+      const isPriceDefault = Object.values(IsPriceDefaultObj).some(
+        (isDefault) => isDefault
+      );
+
+      if (!isPriceDefault) {
+        next();
+      } else {
+        const NOTIFICATION: Array<string> = new Array();
+        Object.keys(IsPriceDefaultObj).map((key, index) => {
+          if (Object.values(IsPriceDefaultObj)[index]) {
+            NOTIFICATION.push(
+              `Cann't modified price with id: ${id} while ${key} is default`
+            );
+          }
+        });
+
+        res
+          .status(STATUS_CODE.STATUS_CODE_406)
+          .send(
+            RestFullAPI.onSuccess(STATUS_MESSAGE.NOT_ACCEPTABLE, NOTIFICATION)
+          );
+      }
+    } catch (err) {
+      next(err);
+    }
+  }
   static async getAll(_: Request, res: Response, next: NextFunction) {
     try {
       const priceList = await Price.findAll();
@@ -86,51 +131,6 @@ class PriceController {
         res
           .status(STATUS_CODE.STATUS_CODE_201)
           .send(RestFullAPI.onSuccess(STATUS_MESSAGE.SUCCESS));
-      }
-    } catch (err) {
-      next(err);
-    }
-  }
-  static async checkDefaultPrice(
-    req: Request,
-    res: Response,
-    next: NextFunction
-  ) {
-    try {
-      const { id } = req.params;
-
-      const foundPrice = await Price.findOne({
-        where: {
-          id,
-        },
-      });
-
-      const IsPriceDefaultObj: PriceTypeOnlyIsImportIsSell = {
-        isSellDefault: foundPrice.dataValues.isSellDefault,
-        isImportDefault: foundPrice.dataValues.isImportDefault,
-      };
-
-      const isPriceDefault = Object.values(IsPriceDefaultObj).some(
-        (isDefault) => isDefault
-      );
-
-      if (!isPriceDefault) {
-        next();
-      } else {
-        const NOTIFICATION: Array<string> = new Array();
-        Object.keys(IsPriceDefaultObj).map((key, index) => {
-          if (Object.values(IsPriceDefaultObj)[index]) {
-            NOTIFICATION.push(
-              `Cann't modified price with id: ${id} while ${key} is default`
-            );
-          }
-        });
-
-        res
-          .status(STATUS_CODE.STATUS_CODE_406)
-          .send(
-            RestFullAPI.onSuccess(STATUS_MESSAGE.NOT_ACCEPTABLE, NOTIFICATION)
-          );
       }
     } catch (err) {
       next(err);

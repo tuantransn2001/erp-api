@@ -102,7 +102,7 @@ class RoleController {
       const { id } = req.params;
 
       interface QueryStaffRoleAttributes extends StaffRoleAttributes {
-        StaffAgencyBranchInCharges: Array<{
+        Staff_Agency_Branch_InCharge: Array<{
           dataValues: StaffAgencyBranchInChargeAttributes;
         }>;
       }
@@ -118,9 +118,11 @@ class RoleController {
           include: [
             {
               model: StaffAgencyBranchInCharge,
+              as: "Staff_Agency_Branch_InCharge",
             },
           ],
         });
+      console.log(staffRoleList);
 
       interface DeleteDataRowAttributes {
         staffRoleDeleteRowArr: Array<string>;
@@ -134,10 +136,10 @@ class RoleController {
           result: DeleteDataRowAttributes,
           StaffRoleIncludeStaffAgencyInCharge: StaffRoleItemAttributes
         ) => {
-          const { id, StaffAgencyBranchInCharges } =
+          const { id, Staff_Agency_Branch_InCharge } =
             StaffRoleIncludeStaffAgencyInCharge.dataValues;
 
-          StaffAgencyBranchInCharges.forEach((StaffAgencyBranchInCharge) => {
+          Staff_Agency_Branch_InCharge.forEach((StaffAgencyBranchInCharge) => {
             const { id } = StaffAgencyBranchInCharge.dataValues;
             result.staffAgencyBrachInChargeRowArr.push(id);
           });

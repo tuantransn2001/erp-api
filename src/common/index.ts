@@ -1,9 +1,10 @@
 import randomstring from "randomstring";
-import { ObjectDynamicKeyWithValueIsString } from "../ts/interfaces/global_interfaces";
 import { Falsy } from "../ts/types/app_type";
-
-export const isEmpty = (target: Object): boolean => {
-  return target === undefined || target === null
+import { ObjectDynamicKeyWithValueIsString } from "../ts/interfaces/global_interfaces";
+export const isEmpty = (target: Object | Array<any>): boolean => {
+  return target instanceof Array
+    ? target.length === 0
+    : target === undefined || target === null
     ? true
     : Object.keys(target).length === 0;
 };

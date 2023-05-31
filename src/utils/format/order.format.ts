@@ -3,17 +3,25 @@ import {
   CustomerAttributes,
   OrderAttributes,
   OrderProductListAttributes,
+  OrderTagAttributes,
+  ProductVariantDetailAttributes,
   StaffAttributes,
+  UserAddressAttributes,
   UserAttributes,
 } from "@/src/ts/interfaces/app_interfaces";
 import { ORDER_IMPORT_STATUS } from "../../ts/enums/order_enum";
 type UserQueryExclude = Omit<
   UserAttributes,
-  "id" | "user_code" | "user_email" | "user_password" | "user_type" | "isDelete"
+  "user_code" | "user_email" | "user_password" | "user_type" | "isDelete"
 >;
+
+interface UserQueryIncludeAddressList extends UserQueryExclude {
+  UserAddresses: Array<{ dataValues: UserAddressAttributes }>;
+}
+
 interface CustomerQueryAttributes extends CustomerAttributes {
   User: {
-    dataValues: UserQueryExclude;
+    dataValues: UserQueryIncludeAddressList;
   };
 }
 
@@ -23,11 +31,15 @@ interface StaffQueryAttributes extends StaffAttributes {
   };
 }
 
+interface OrderProductListQueyIncludeProductVariantDetailAttributes
+  extends Omit<OrderProductListAttributes, "order_id" | "product_variant_id"> {
+  ProductVariantDetail: {
+    dataValues: ProductVariantDetailAttributes;
+  };
+}
+
 type OrderProductItemQueryExcludeAttributes = {
-  dataValues: Omit<
-    OrderProductListAttributes,
-    "id" | "order_id" | "product_variant_id" | "product_unit"
-  >;
+  dataValues: OrderProductListQueyIncludeProductVariantDetailAttributes;
 };
 
 interface OrderItemQueryAttributes extends OrderAttributes {
@@ -36,7 +48,6 @@ interface OrderItemQueryAttributes extends OrderAttributes {
   AgencyBranch: {
     dataValues: Omit<
       AgencyBranchAttributes,
-      | "id"
       | "agency_branch_phone"
       | "agency_branch_code"
       | "agency_branch_address"
@@ -47,31 +58,104 @@ interface OrderItemQueryAttributes extends OrderAttributes {
     >;
   };
   OrderProductLists: Array<OrderProductItemQueryExcludeAttributes>;
+  OrderTags: Array<OrderTagAttributes>;
 }
 interface OrderSourceAttributes {
   dataValues: OrderItemQueryAttributes;
 }
 
-type OrderItemResult = {
+interface OrderItemResult {
   id: string;
   order_status: string;
   order_note: string;
-  createdAt: string;
+  createdAt: Date;
   supplier_name: string;
   supplier_phone: string;
   staff_name: string;
   agency_branch_name: string;
   order_debt: number;
   isPaymentSuccess: boolean;
-};
+}
+
+interface OrderDetailResult {
+  [prop: string]: any;
+}
 
 export const handleFormatOrder = (
-  OrderSource: Array<OrderSourceAttributes>
-  //   formatType: string
-): Array<OrderItemResult> => {
-  const orderResultList: Array<any> = OrderSource.map(
+  OrderSource: Array<OrderSourceAttributes> & OrderSourceAttributes,
+  formatType: string
+): Array<OrderItemResult> | OrderDetailResult => {
+  if (formatType === "isObject") {
+    const { id, order_note } = OrderSource.dataValues;
+
+    const { id: supplier_id } = OrderSource.dataValues.Customer.dataValues;
+    const {
+      id: user_id,
+      user_name: supplier_name,
+      user_phone: supplier_phone,
+    } = OrderSource.dataValues.Customer.dataValues.User.dataValues;
+
+    const supplier_address_list =
+      OrderSource.dataValues.Customer.dataValues.User.dataValues.UserAddresses;
+
+    const { id: staff_id } = OrderSource.dataValues.Staff.dataValues;
+    const { user_name: staff_name } =
+      OrderSource.dataValues.Staff.dataValues.User.dataValues;
+
+    const { id: agency_branch_id, agency_branch_name } =
+      OrderSource.dataValues.AgencyBranch.dataValues;
+
+    const order_tags = OrderSource.dataValues.OrderTags;
+
+    const order_product_list = OrderSource.dataValues.OrderProductLists.map(
+      (order_product_item) => {
+        const {
+          id: order_product_item_id,
+          product_amount,
+          product_discount,
+          product_price,
+          product_unit,
+        } = order_product_item.dataValues;
+        const {
+          id: product_variant_detail_id,
+          product_variant_name: product_variant_detail_name,
+          product_variant_SKU: product_variant_detail_SKU,
+        } = order_product_item.dataValues.ProductVariantDetail.dataValues;
+
+        return {
+          order_product_item_id,
+          product_variant_detail_id,
+          product_variant_detail_name,
+          product_variant_detail_SKU,
+          product_amount,
+          product_discount,
+          product_price,
+          product_unit,
+        };
+      }
+    );
+    return {
+      id,
+      order_note,
+      supplier: {
+        user_id,
+        id: supplier_id,
+        name: supplier_name,
+        phone: supplier_phone,
+        addresses: supplier_address_list,
+      },
+      staff: { id: staff_id, name: staff_name },
+      agency_branch: {
+        id: agency_branch_id,
+        name: agency_branch_name,
+      },
+      order_tags,
+      order_product_list,
+    };
+  }
+  const orderResultList: Array<OrderItemResult> = OrderSource.map(
     (orderItem: OrderSourceAttributes) => {
-      const { id, order_status, order_note, createdAt } = orderItem.dataValues;
+      const { id, order_status, order_note } = orderItem.dataValues;
       const { user_name: supplier_name, user_phone: supplier_phone } =
         orderItem.dataValues.Customer.dataValues.User.dataValues;
       const { user_name: staff_name } =
@@ -108,7 +192,7 @@ export const handleFormatOrder = (
         order_debt: +user_debt.toFixed(3),
         isPaymentSuccess,
         order_note,
-        createdAt,
+        createdAt: orderItem.dataValues.createdAt as Date,
       };
     }
   );

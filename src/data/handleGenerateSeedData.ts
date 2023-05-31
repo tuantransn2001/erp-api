@@ -11,7 +11,7 @@ import {
   PAYMENT_ARRAY,
   CUSTOMER_ARRAY,
   STAFF_ARRAY,
-  USER_ARRAY,
+  // USER_ARRAY,
   TAG_ARRAY,
   PRODUCT_VARIANT_DETAIL_ARRAY,
 } from "../data/seeders";
@@ -24,12 +24,12 @@ const ORDER_ARRAY: Array<any> = [];
 const ORDER_TAG_LIST_ARRAY: Array<any> = [];
 let ORDER_PRODUCT_LIST_ARRAY: Array<any> = [];
 const DEBT_ARRAY: Array<any> = [];
-const _CUSTOMER_ARRAY = USER_ARRAY.reduce((res: any, u: any) => {
-  if (u.user_type === "supplier") {
-    res.push(CUSTOMER_ARRAY.find((c: any) => c.user_id === u.id));
-  }
-  return res;
-}, []);
+// const _CUSTOMER_ARRAY = USER_ARRAY.reduce((res: any, u: any) => {
+//   if (u.user_type === "supplier") {
+//     res.push(CUSTOMER_ARRAY.find((c: any) => c.user_id === u.id));
+//   }
+//   return res;
+// }, []);
 for (let index = 0; index < 50; index++) {
   const owner_id = randomRangeIDBaseOnArray(CUSTOMER_ARRAY);
   const newOrderRow = {
@@ -88,9 +88,15 @@ for (let index = 0; index < 50; index++) {
     0
   );
 
+  const handleGetUserID = () => {
+    const customerIndex = CUSTOMER_ARRAY.findIndex((c) => c.id === owner_id);
+
+    return CUSTOMER_ARRAY[customerIndex].user_id;
+  };
+
   const newDebt = {
     id: uuiv4(),
-    user_id: _CUSTOMER_ARRAY.id,
+    user_id: handleGetUserID(),
     debt_amount: totalDebt,
     change_debt: totalDebt,
     debt_note: "Những lưu ý về công nợ sẽ được lưu ở đây!",

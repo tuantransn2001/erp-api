@@ -4,6 +4,7 @@ import {
   handleGenerateVariantBaseOnProperties,
   randomStringByCharsetAndLength,
   checkMissPropertyInObjectBaseOnValueCondition,
+  isEmpty,
 } from "../common";
 import { handleFormatProduct } from "../utils/format/product.format";
 import db from "../models";
@@ -144,9 +145,8 @@ class ProductController {
           },
           undefined
         );
-      const isAllowToCreate: boolean = argMissArr.length === 0;
 
-      if (isAllowToCreate) {
+      if (isEmpty(argMissArr)) {
         // * ==========================================
         //   Product
         // * ==========================================
@@ -184,11 +184,11 @@ class ProductController {
           [];
         let productVariantPropertyRowArr: Array<ProductVariantPropertyAttributes> =
           [];
-        const isPropertiesEmpty: boolean = properties.length === 0;
+
         // * ==========================================
         // ? Product Property Empty
         // * ==========================================
-        switch (isPropertiesEmpty) {
+        switch (isEmpty(properties)) {
           case true: {
             const product_special_variant_name: string =
               productRow.product_name;
@@ -301,7 +301,7 @@ class ProductController {
         );
         await ProductVariantPrice.bulkCreate(productVariantPriceRowArr.flat(1));
 
-        if (!isPropertiesEmpty) {
+        if (!isEmpty(properties)) {
           await ProductVariantProperty.bulkCreate(
             productVariantPropertyRowArr.flat(1)
           );

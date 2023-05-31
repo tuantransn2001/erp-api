@@ -266,7 +266,7 @@ class CustomerController {
         await foundCustomer.set(customerRowUpdated);
         await foundCustomer.save();
       }
-      if (tags.length > 0) {
+      if (!isEmpty(tags)) {
         await CustomerTag.destroy({
           where: {
             customer_id: customerID,

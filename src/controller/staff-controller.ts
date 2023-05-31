@@ -15,6 +15,7 @@ const {
 } = db;
 import {
   handleFormatUpdateDataByValidValue,
+  isEmpty,
   randomStringByCharsetAndLength,
 } from "../../src/common/";
 import { handleFormatStaff } from "../utils/format/staff.format";
@@ -325,7 +326,7 @@ class StaffController {
         },
       });
 
-      if (staff_address_list.length === 0) {
+      if (isEmpty(staff_address_list)) {
         await UserAddress.destroy({
           where: {
             user_id: foundUserStaff.dataValues.id,
@@ -419,6 +420,7 @@ class StaffController {
                 include: [
                   {
                     model: StaffAgencyBranchInCharge,
+                    as: "Staff_Agency_Branch_InCharge",
                   },
                 ],
               },
@@ -449,7 +451,7 @@ class StaffController {
                 staff_id: string;
                 createdAt: Date;
                 updatedAt: Date;
-                StaffAgencyBranchInCharges: Array<StaffAgencyBranchInChargeItemAttributes>;
+                Staff_Agency_Branch_InCharge: Array<StaffAgencyBranchInChargeItemAttributes>;
               };
             }
           ) => {
@@ -457,7 +459,7 @@ class StaffController {
             const id: string = staffRoleData.dataValues.id;
 
             const staffAgencyInChargeListArr: Array<StaffAgencyBranchInChargeItemAttributes> =
-              staffRoleData.dataValues.StaffAgencyBranchInCharges;
+              staffRoleData.dataValues.Staff_Agency_Branch_InCharge;
 
             result.staffRoleIDArray.push(id);
 

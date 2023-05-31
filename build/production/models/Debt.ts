@@ -7,8 +7,8 @@ export default (sequelize: any, DataTypes: any) => {
     id!: string;
     user_id!: string;
     debt_note!: string;
-    change_debt!: number;
-    debt_amount!: number;
+    change_debt!: string;
+    debt_amount!: string;
     action!: string;
     /**
      * Helper method for defining associations.
@@ -33,10 +33,10 @@ export default (sequelize: any, DataTypes: any) => {
         type: DataTypes.UUID,
       },
       change_debt: {
-        type: DataTypes.INTEGER,
+        type: DataTypes.STRING,
       },
       debt_amount: {
-        type: DataTypes.INTEGER,
+        type: DataTypes.STRING,
       },
       debt_note: {
         type: DataTypes.STRING,

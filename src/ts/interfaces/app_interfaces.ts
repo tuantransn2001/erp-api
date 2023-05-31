@@ -213,8 +213,8 @@ interface PriceAttributes {
 interface DebtAttributes {
   id: string;
   user_id: string;
-  change_debt: number;
-  debt_amount: number;
+  change_debt: string;
+  debt_amount: string;
   debt_note: string;
   action: string;
   createdAt?: Date;
