@@ -1,6 +1,6 @@
 enum CUSTOMER_ACTION {
+  IMPORT = "Nhập hàng",
   BILL_ADD = "Thêm phiếu chi",
-  ORDER_PAYMENT = "Thanh toán đơn hàng",
 }
 
 export { CUSTOMER_ACTION };

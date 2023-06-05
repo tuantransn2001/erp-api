@@ -15,6 +15,7 @@ export default (sequelize: any, DataTypes: any) => {
     order_delivery_date!: Date;
     order_status!: string;
     order_note!: string;
+    order_total!: number;
     /**
      * Helper method for defining associations.
      * This method is not a part of Sequelize lifecycle.
@@ -69,6 +70,7 @@ export default (sequelize: any, DataTypes: any) => {
       order_code: { type: DataTypes.STRING },
       order_status: { type: DataTypes.STRING },
       order_note: { type: DataTypes.STRING },
+      order_total: { type: DataTypes.DOUBLE },
       order_delivery_date: { type: DataTypes.DATE },
     },
     {

@@ -12,7 +12,9 @@ import supplierRouter from "./supplier-router";
 import brandRouter from "./brand-router";
 import typeRouter from "./type-router";
 import orderRouter from "./order-router";
+import debtRouter from "./debt-router";
 import swaggerRouter from "./swagger-router";
+
 const rootRouter = Router();
 
 rootRouter
@@ -29,6 +31,7 @@ rootRouter
   .use("/type", typeRouter)
   .use("/product", productRouter)
   .use("/order", orderRouter)
-  .use("/swagger", swaggerRouter);
+  .use("/swagger", swaggerRouter)
+  .use("/debt", debtRouter);
 
 export default rootRouter;

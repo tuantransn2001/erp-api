@@ -73,7 +73,7 @@ type UserCustomerParameterType = UserCustomerAttributes &
   Array<UserCustomerAttributes>;
 
 export const handleFormatCustomer = (
-  UserCustomerArray: UserCustomerParameterType, // ? isObject if format type === object
+  UserCustomerArray: UserCustomerParameterType,
   formatType: string
 ): Array<CustomerListResult> | CustomerDetailResult => {
   // ? Handle Case Format Object options
@@ -87,6 +87,7 @@ export const handleFormatCustomer = (
       createdAt,
       updatedAt,
     } = UserCustomerArray.dataValues;
+    console.log(UserCustomerArray.dataValues);
     const { customer_status, staff_in_charge_note } =
       UserCustomerArray.dataValues.Customer.dataValues;
     const tagList: Array<TagAttributes> =

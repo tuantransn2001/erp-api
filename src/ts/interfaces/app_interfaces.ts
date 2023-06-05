@@ -23,6 +23,7 @@ interface OrderAttributes {
   order_delivery_date: Date;
   order_status: string;
   order_note: string;
+  order_total: number;
   createdAt?: Date;
   updatedAt?: Date;
 }
@@ -213,6 +214,7 @@ interface PriceAttributes {
 interface DebtAttributes {
   id: string;
   user_id: string;
+  source_id: string;
   change_debt: string;
   debt_amount: string;
   debt_note: string;
@@ -252,6 +254,8 @@ interface AgencyBranchProductListAttributes {
   available_quantity: number;
   trading_quantity: number;
   available_to_sell_quantity: number;
+  product_price: number;
+  product_discount: number;
   createdAt?: Date;
   updatedAt?: Date;
 }

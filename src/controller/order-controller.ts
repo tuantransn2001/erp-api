@@ -15,6 +15,7 @@ import {
 import { CUSTOMER_ACTION } from "../ts/enums/app_enums";
 import RestFullAPI from "../utils/response/apiResponse";
 import {
+  AgencyBranchProductListAttributes,
   DebtAttributes,
   OrderAttributes,
   OrderProductListAttributes,
@@ -23,6 +24,7 @@ import {
 import db from "../models";
 import { handleFormatOrder } from "../utils/format/order.format";
 import { ObjectDynamicKeyWithValue } from "../ts/interfaces/global_interfaces";
+
 const {
   Customer,
   UserAddress,
@@ -35,6 +37,7 @@ const {
   AgencyBranch,
   Tag,
   ProductVariantDetail,
+  AgencyBranchProductList,
 } = db;
 
 class OrderController {
@@ -45,7 +48,7 @@ class OrderController {
   ) {
     try {
       const {
-        owner_id,
+        supplier_id,
         staff_id,
         agency_branch_id,
         products,
@@ -55,7 +58,7 @@ class OrderController {
 
       const arrMissArray = checkMissPropertyInObjectBaseOnValueCondition(
         {
-          owner_id,
+          supplier_id,
           staff_id,
           agency_branch_id,
           products,
@@ -81,7 +84,6 @@ class OrderController {
       next(err);
     }
   }
-
   public static Import() {
     return class OrderImportController {
       public static async getAll(
@@ -91,7 +93,13 @@ class OrderController {
       ) {
         try {
           const orderImportList = await Order.findAll({
-            attributes: ["id", "order_status", "order_note", "createdAt"],
+            attributes: [
+              "id",
+              "order_status",
+              "order_note",
+              "order_total",
+              "createdAt",
+            ],
             include: [
               {
                 model: Customer,
@@ -150,7 +158,7 @@ class OrderController {
 
           const foundOrder = await Order.findOne({
             where: { id, order_type: ORDER_TYPE.IMPORT },
-            attributes: ["id", "order_note"],
+            attributes: ["id", "order_note", "order_status", "order_total"],
             include: [
               {
                 model: Customer,
@@ -250,6 +258,19 @@ class OrderController {
             tags,
             products,
           } = req.body;
+
+          // ? ===== Generate debt
+          const totalDebt: number = products.reduce(
+            (total: number, product: any) => {
+              total +=
+                (product.amount * product.price * (100 - product.discount)) /
+                100;
+
+              return total;
+            },
+            0
+          );
+
           // ? ===== Generate order
           const orderRow: OrderAttributes = {
             id: uuiv4(),
@@ -267,7 +288,9 @@ class OrderController {
             order_note,
             order_type: ORDER_TYPE.IMPORT,
             order_status: ORDER_IMPORT_STATUS.GENERATE,
+            order_total: totalDebt,
           };
+
           // ? ===== Generate order tag
           const orderTagRowArr: Array<OrderTagAttributes> = tags.map(
             (tagID: string) => ({ order_id: orderRow.id, tag_id: tagID })
@@ -277,7 +300,7 @@ class OrderController {
           const orderProductRowArr: Array<OrderProductListAttributes> =
             products.map(
               ({
-                product_variant_id,
+                p_variant_id: product_variant_id,
                 amount: product_amount,
                 price: product_price,
                 discount: product_discount,
@@ -291,20 +314,6 @@ class OrderController {
                 product_unit,
               })
             );
-
-          // ? ===== Generate debt
-          const totalDebt: number = orderProductRowArr.reduce(
-            (total: number, product: any) => {
-              total +=
-                (product.product_amount *
-                  product.product_price *
-                  (100 - product.product_discount)) /
-                100;
-
-              return total;
-            },
-            0
-          );
 
           const foundOrderOwner = await Customer.findOne({
             where: {
@@ -324,11 +333,12 @@ class OrderController {
           const userID: string = foundOrderOwner.dataValues.User.dataValues.id;
           const userDebtRow: DebtAttributes = {
             id: uuiv4(),
+            source_id: orderRow.id,
             user_id: userID,
             debt_amount: `-${totalDebt}`,
             change_debt: `-${totalDebt}`,
             debt_note: `${ORDER_PURCHASE_STATUS.GENERATE} ${ORDER_TYPE.IMPORT}`,
-            action: CUSTOMER_ACTION.ORDER_PAYMENT,
+            action: CUSTOMER_ACTION.IMPORT,
           };
 
           // ? INSERT
@@ -364,8 +374,9 @@ class OrderController {
             // ? Check status => ...
             // * [ GENERATE , TRADING , DONE ]
             switch (order_status) {
-              // ? DONE => Do not Allow => DONE
-              case ORDER_IMPORT_STATUS.DONE: {
+              // ? DONE || RETURN => Do not Allow => DONE
+              case ORDER_IMPORT_STATUS.DONE:
+              case ORDER_IMPORT_STATUS.RETURN: {
                 res
                   .status(STATUS_CODE.STATUS_CODE_406)
                   .send(
@@ -534,7 +545,11 @@ class OrderController {
               .send(
                 RestFullAPI.onSuccess(
                   STATUS_MESSAGE.NOT_ACCEPTABLE,
-                  `${argMissArr.join("")} is required!`
+                  `${argMissArr.join("")} is required! - Example: ${
+                    ORDER_IMPORT_STATUS.DONE
+                  } | ${ORDER_IMPORT_STATUS.GENERATE} | ${
+                    ORDER_IMPORT_STATUS.TRADING
+                  } `
                 )
               );
           }
@@ -549,10 +564,228 @@ class OrderController {
       ) {
         try {
           const { id } = req.params;
+          const { order_status } = req.body;
 
-          res
-            .send(STATUS_CODE.STATUS_CODE_201)
-            .send(RestFullAPI.onSuccess(STATUS_MESSAGE.SUCCESS, id));
+          const argMissArr = checkMissPropertyInObjectBaseOnValueCondition(
+            { order_status },
+            undefined
+          );
+
+          switch (isEmpty(argMissArr)) {
+            case true: {
+              // ? check order_status - order_status must be [ cancel , trading , return ]
+              switch (order_status) {
+                // ? Accept update
+                case ORDER_IMPORT_STATUS.CANCEL:
+                case ORDER_IMPORT_STATUS.TRADING: {
+                  await Order.update(
+                    { order_status },
+                    {
+                      where: { id },
+                    }
+                  );
+                  res
+                    .status(STATUS_CODE.STATUS_CODE_201)
+                    .send(RestFullAPI.onSuccess(STATUS_MESSAGE.SUCCESS));
+                  break;
+                }
+                // ? Case return
+                case ORDER_IMPORT_STATUS.RETURN: {
+                  res
+                    .status(STATUS_CODE.STATUS_CODE_503)
+                    .send(
+                      RestFullAPI.onSuccess(
+                        STATUS_MESSAGE.SERVICES_UNAVAILABLE,
+                        "In development state... Will complete later"
+                      )
+                    );
+
+                  break;
+                }
+
+                // ? Case Done
+                case ORDER_IMPORT_STATUS.DONE: {
+                  const foundOrder = await Order.findOne({
+                    where: { id },
+                    attributes: ["id"],
+                    include: [
+                      { model: AgencyBranch, attributes: ["id"] },
+                      {
+                        model: OrderProductList,
+                        attributes: [
+                          "product_variant_id",
+                          "product_amount",
+                          "product_discount",
+                          "product_price",
+                        ],
+                      },
+                    ],
+                  });
+
+                  type AgencyBranchProductListQueryAttributes = {
+                    dataValues: AgencyBranchProductListAttributes;
+                  };
+
+                  const foundAgencyBranchProductList: Array<AgencyBranchProductListQueryAttributes> =
+                    await AgencyBranchProductList.findAll({
+                      where: {
+                        agency_branch_id:
+                          foundOrder.dataValues.AgencyBranch.dataValues.id,
+                      },
+                    });
+
+                  // ? Check if the product is still in stock
+                  const productExistInStockIndex = (
+                    product_variant_id: string
+                  ): number => {
+                    return foundAgencyBranchProductList.findIndex(
+                      (
+                        agency_product_item: AgencyBranchProductListQueryAttributes
+                      ) => {
+                        return (
+                          agency_product_item.dataValues.product_variant_id ===
+                          product_variant_id
+                        );
+                      }
+                    );
+                  };
+
+                  type OrderProductListQueryAttributes = {
+                    dataValues: OrderProductListAttributes;
+                  };
+
+                  const {
+                    newProductInStockRowArr,
+                    updateProductInStockRowArr,
+                  }: ObjectDynamicKeyWithValue =
+                    foundOrder.dataValues.OrderProductLists.reduce(
+                      (
+                        result: ObjectDynamicKeyWithValue,
+                        order_product_item: OrderProductListQueryAttributes
+                      ) => {
+                        const {
+                          product_variant_id,
+                          product_amount,
+                          product_discount,
+                          product_price,
+                        } = order_product_item.dataValues;
+                        if (
+                          productExistInStockIndex(product_variant_id) !== -1
+                        ) {
+                          result.updateProductInStockRowArr.push({
+                            agency_branch_id:
+                              foundOrder.dataValues.AgencyBranch.dataValues.id,
+                            product_variant_id,
+                            product_amount,
+                            product_price,
+                            product_amount_inStock:
+                              foundAgencyBranchProductList[
+                                productExistInStockIndex(product_variant_id)
+                              ].dataValues.available_to_sell_quantity,
+                            product_price_inStock:
+                              foundAgencyBranchProductList[
+                                productExistInStockIndex(product_variant_id)
+                              ].dataValues.product_price,
+                          });
+                        } else {
+                          result.newProductInStockRowArr.push({
+                            agency_branch_id:
+                              foundOrder.dataValues.AgencyBranch.dataValues.id,
+                            product_variant_id,
+                            available_quantity: product_amount,
+                            trading_quantity: 0,
+                            available_to_sell_quantity: product_amount,
+                            product_price,
+                            product_discount,
+                          });
+                        }
+
+                        return result;
+                      },
+                      {
+                        newProductInStockRowArr: [],
+                        updateProductInStockRowArr: [],
+                      }
+                    );
+                  // ? => true -> update amount
+                  if (!isEmpty(updateProductInStockRowArr)) {
+                    updateProductInStockRowArr.forEach(
+                      async ({
+                        agency_branch_id,
+                        product_variant_id,
+                        product_amount,
+                        product_price,
+                        product_amount_inStock,
+                        product_price_inStock,
+                      }) => {
+                        const updateProductInStock = {
+                          product_price:
+                            (product_amount_inStock * product_price_inStock +
+                              product_amount * product_price) /
+                            (product_amount_inStock + product_amount),
+                          available_quantity:
+                            foundAgencyBranchProductList[
+                              productExistInStockIndex(product_variant_id)
+                            ].dataValues.available_quantity + product_amount,
+                          available_to_sell_quantity:
+                            foundAgencyBranchProductList[
+                              productExistInStockIndex(product_variant_id)
+                            ].dataValues.available_to_sell_quantity +
+                            product_amount,
+                          updatedAt: new Date(),
+                        };
+
+                        await AgencyBranchProductList.update(
+                          updateProductInStock,
+                          { where: { agency_branch_id, product_variant_id } }
+                        );
+                      }
+                    );
+                  }
+                  // ? => false -> create new
+                  if (!isEmpty(newProductInStockRowArr)) {
+                    await AgencyBranchProductList.bulkCreate(
+                      newProductInStockRowArr
+                    );
+                  }
+                  res
+                    .status(STATUS_CODE.STATUS_CODE_201)
+                    .send(RestFullAPI.onSuccess(STATUS_MESSAGE.SUCCESS));
+                }
+
+                // ! Deny update
+                default: {
+                  res
+                    .status(STATUS_CODE.STATUS_CODE_406)
+                    .send(
+                      RestFullAPI.onSuccess(
+                        STATUS_MESSAGE.NOT_ACCEPTABLE,
+                        `order_status: '${order_status}' in-valid! - Example: ${ORDER_IMPORT_STATUS.CANCEL} | ${ORDER_IMPORT_STATUS.GENERATE} | ${ORDER_IMPORT_STATUS.TRADING} | ${ORDER_IMPORT_STATUS.DONE} | ${ORDER_IMPORT_STATUS.RETURN}`
+                      )
+                    );
+                  break;
+                }
+              }
+              break;
+            }
+            case false: {
+              res
+                .status(STATUS_CODE.STATUS_CODE_406)
+                .send(
+                  RestFullAPI.onSuccess(
+                    STATUS_MESSAGE.NOT_ACCEPTABLE,
+                    `${argMissArr.join("")} is required! - Example: ${
+                      ORDER_IMPORT_STATUS.CANCEL
+                    } | ${ORDER_IMPORT_STATUS.GENERATE} | ${
+                      ORDER_IMPORT_STATUS.TRADING
+                    } | ${ORDER_IMPORT_STATUS.DONE} | ${
+                      ORDER_IMPORT_STATUS.RETURN
+                    }`
+                  )
+                );
+              break;
+            }
+          }
         } catch (err) {
           next(err);
         }

@@ -13,6 +13,8 @@ export default (sequelize: any, DataTypes: any) => {
     available_quantity!: number;
     trading_quantity!: number;
     available_to_sell_quantity!: number;
+    product_price!: number;
+    product_discount!: number;
     /**
      * Helper method for defining associations.
      * This method is not a part of Sequelize lifecycle.
@@ -20,10 +22,10 @@ export default (sequelize: any, DataTypes: any) => {
      */
     static associate({ ProductVariantDetail, AgencyBranch }: any) {
       AgencyBranchProductList.belongsTo(AgencyBranch, {
-        foreignKey: "product_variant_id",
+        foreignKey: "agency_branch_id",
       });
       AgencyBranchProductList.belongsTo(ProductVariantDetail, {
-        foreignKey: "agency_branch_id",
+        foreignKey: "product_variant_id",
       });
     }
   }
@@ -48,6 +50,12 @@ export default (sequelize: any, DataTypes: any) => {
         type: DataTypes.INTEGER,
       },
       available_to_sell_quantity: {
+        type: DataTypes.INTEGER,
+      },
+      product_price: {
+        type: DataTypes.FLOAT,
+      },
+      product_discount: {
         type: DataTypes.INTEGER,
       },
     },

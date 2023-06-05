@@ -3,8 +3,8 @@ enum ORDER_TYPE {
   PURCHASE = "Đơn bán",
 }
 enum ORDER_PURCHASE_STATUS {
-  GENERATE = "Tạo đơn hàng",
   CANCEL = "Hủy",
+  GENERATE = "Tạo đơn hàng",
   TRADING = "Đang giao dịch",
   DONE = "Hoàn thành",
 }
@@ -13,6 +13,7 @@ enum ORDER_IMPORT_STATUS {
   GENERATE = "Tạo đơn hàng",
   TRADING = "Đang giao dịch",
   DONE = "Hoàn thành",
+  RETURN = "Hoàn trả",
 }
 enum ORDER_RESULT_STATUS {
   SUCCESS = "Đã nhập",

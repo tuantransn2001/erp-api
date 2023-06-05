@@ -53,8 +53,8 @@ export const randomStringByCharsetAndLength = (
   });
 };
 
-export const cartesian = (...a) =>
-  a.reduce((a, b) => a.flatMap((d) => b.map((e) => [d, e].flat())));
+export const cartesian = (...a: Array<any>) =>
+  a.reduce((a, b) => a.flatMap((d: any) => b.map((e: any) => [d, e].flat())));
 
 export const handleGenerateVariantBaseOnProperties = (
   properties: Array<any>

@@ -24,6 +24,7 @@ import {
   ORDER_TAG_LIST_ARRAY,
   ORDER_PRODUCT_LIST_ARRAY,
   DEBT_ARRAY,
+  AGENCY_BRANCH_PRODUCT_ARRAY,
 } from "./seeders";
 import db from "../models";
 const {
@@ -44,6 +45,7 @@ const {
   Price,
   Brand,
   Type,
+  AgencyBranchProductList,
   Products,
   ProductTagList,
   AdditionProductInformation,
@@ -144,7 +146,6 @@ export const handleSeedData = () => {
       Model: StaffAgencyBranchInCharge,
       data: STAFF_AGENCY_INCHARGE_ARRAY,
     },
-
     {
       Model: Order,
       data: ORDER_ARRAY,
@@ -156,6 +157,10 @@ export const handleSeedData = () => {
     {
       Model: OrderProductList,
       data: ORDER_PRODUCT_LIST_ARRAY,
+    },
+    {
+      Model: AgencyBranchProductList,
+      data: AGENCY_BRANCH_PRODUCT_ARRAY,
     },
     {
       Model: OrderTag,

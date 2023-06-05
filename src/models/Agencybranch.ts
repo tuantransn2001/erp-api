@@ -29,10 +29,7 @@ export default (sequelize: any, DataTypes: any) => {
       AgencyBranch.hasMany(StaffAgencyBranchInCharge, {
         foreignKey: "agency_branch_id",
       });
-      AgencyBranch.hasOne(AgencyBranchProductList, {
-        foreignKey: "agency_branch_id",
-      });
-      AgencyBranch.hasOne(AgencyBranchProductList, {
+      AgencyBranch.hasMany(AgencyBranchProductList, {
         foreignKey: "agency_branch_id",
       });
       AgencyBranch.hasOne(Order, {

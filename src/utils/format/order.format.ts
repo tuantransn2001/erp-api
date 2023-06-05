@@ -73,7 +73,7 @@ interface OrderItemResult {
   supplier_phone: string;
   staff_name: string;
   agency_branch_name: string;
-  order_debt: number;
+  order_total: number;
   isPaymentSuccess: boolean;
 }
 
@@ -86,7 +86,9 @@ export const handleFormatOrder = (
   formatType: string
 ): Array<OrderItemResult> | OrderDetailResult => {
   if (formatType === "isObject") {
-    const { id, order_note } = OrderSource.dataValues;
+    console.log(OrderSource);
+    const { id, order_note, order_status, order_total } =
+      OrderSource.dataValues;
 
     const { id: supplier_id } = OrderSource.dataValues.Customer.dataValues;
     const {
@@ -137,6 +139,8 @@ export const handleFormatOrder = (
     return {
       id,
       order_note,
+      order_status,
+      order_total,
       supplier: {
         user_id,
         id: supplier_id,
@@ -155,29 +159,14 @@ export const handleFormatOrder = (
   }
   const orderResultList: Array<OrderItemResult> = OrderSource.map(
     (orderItem: OrderSourceAttributes) => {
-      const { id, order_status, order_note } = orderItem.dataValues;
+      const { id, order_status, order_note, order_total } =
+        orderItem.dataValues;
       const { user_name: supplier_name, user_phone: supplier_phone } =
         orderItem.dataValues.Customer.dataValues.User.dataValues;
       const { user_name: staff_name } =
         orderItem.dataValues.Staff.dataValues.User.dataValues;
       const { agency_branch_name } =
         orderItem.dataValues.AgencyBranch.dataValues;
-
-      const user_debt: number = orderItem.dataValues.OrderProductLists.reduce(
-        (
-          totalDebt: number,
-          orderProductItem: OrderProductItemQueryExcludeAttributes
-        ): number => {
-          const { product_amount, product_discount, product_price } =
-            orderProductItem.dataValues;
-
-          return (
-            totalDebt +
-            (product_price * product_amount * (100 - product_discount)) / 100
-          );
-        },
-        0
-      );
 
       const isPaymentSuccess: boolean =
         order_status === ORDER_IMPORT_STATUS.DONE ? true : false;
@@ -189,7 +178,7 @@ export const handleFormatOrder = (
         supplier_phone,
         agency_branch_name,
         order_status,
-        order_debt: +user_debt.toFixed(3),
+        order_total,
         isPaymentSuccess,
         order_note,
         createdAt: orderItem.dataValues.createdAt as Date,

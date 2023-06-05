@@ -6,6 +6,7 @@ export default (sequelize: any, DataTypes: any) => {
   class Debt extends Model<DebtAttributes> implements DebtAttributes {
     id!: string;
     user_id!: string;
+    source_id!: string;
     debt_note!: string;
     change_debt!: string;
     debt_amount!: string;
@@ -30,6 +31,10 @@ export default (sequelize: any, DataTypes: any) => {
         defaultValue: DataTypes.UUIDV4,
       },
       user_id: {
+        type: DataTypes.UUID,
+      },
+      source_id: {
+        // ? THIS IS SOURCE WHICH DEBT PAID FOR [ ORDER ]
         type: DataTypes.UUID,
       },
       change_debt: {
