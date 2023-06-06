@@ -87,7 +87,6 @@ export const handleFormatCustomer = (
       createdAt,
       updatedAt,
     } = UserCustomerArray.dataValues;
-    console.log(UserCustomerArray.dataValues);
     const { customer_status, staff_in_charge_note } =
       UserCustomerArray.dataValues.Customer.dataValues;
     const tagList: Array<TagAttributes> =

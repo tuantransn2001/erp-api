@@ -96,6 +96,7 @@ class OrderController {
             attributes: [
               "id",
               "order_status",
+              "order_code",
               "order_note",
               "order_total",
               "createdAt",
@@ -158,7 +159,13 @@ class OrderController {
 
           const foundOrder = await Order.findOne({
             where: { id, order_type: ORDER_TYPE.IMPORT },
-            attributes: ["id", "order_note", "order_status", "order_total"],
+            attributes: [
+              "id",
+              "order_note",
+              "order_status",
+              "order_total",
+              "order_code",
+            ],
             include: [
               {
                 model: Customer,

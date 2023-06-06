@@ -86,8 +86,7 @@ export const handleFormatOrder = (
   formatType: string
 ): Array<OrderItemResult> | OrderDetailResult => {
   if (formatType === "isObject") {
-    console.log(OrderSource);
-    const { id, order_note, order_status, order_total } =
+    const { id, order_note, order_status, order_total, order_code } =
       OrderSource.dataValues;
 
     const { id: supplier_id } = OrderSource.dataValues.Customer.dataValues;
@@ -138,8 +137,9 @@ export const handleFormatOrder = (
     );
     return {
       id,
-      order_note,
+      order_code,
       order_status,
+      order_note,
       order_total,
       supplier: {
         user_id,
@@ -159,7 +159,7 @@ export const handleFormatOrder = (
   }
   const orderResultList: Array<OrderItemResult> = OrderSource.map(
     (orderItem: OrderSourceAttributes) => {
-      const { id, order_status, order_note, order_total } =
+      const { id, order_status, order_note, order_total, order_code } =
         orderItem.dataValues;
       const { user_name: supplier_name, user_phone: supplier_phone } =
         orderItem.dataValues.Customer.dataValues.User.dataValues;
@@ -177,6 +177,7 @@ export const handleFormatOrder = (
         supplier_name,
         supplier_phone,
         agency_branch_name,
+        order_code,
         order_status,
         order_total,
         isPaymentSuccess,

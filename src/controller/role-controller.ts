@@ -122,7 +122,6 @@ class RoleController {
             },
           ],
         });
-      console.log(staffRoleList);
 
       interface DeleteDataRowAttributes {
         staffRoleDeleteRowArr: Array<string>;

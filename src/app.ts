@@ -14,11 +14,7 @@ const ENVIRONMENT: string = process.env.SERVER_RUNNING_ON as string;
 // ? ============================== SETTING SERVER ================================
 app.use(cors()); // * Allow cors
 app.use(express.json()); // * Converted Data into JSON type - !Important
-app.use(
-  ROOT_URL,
-
-  rootRouter
-); // * Router Set up
+app.use(ROOT_URL, rootRouter); // * Router Set up
 // ? ========================== CONNECT DATABASE - RUN SERVER ====================
 (async () => {
   await db.sequelize.sync({ force: true }).then(() => {
