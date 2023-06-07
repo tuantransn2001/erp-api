@@ -67,7 +67,7 @@ interface OrderSourceAttributes {
 interface OrderItemResult {
   id: string;
   order_status: string;
-  order_note: string;
+  order_note?: string;
   createdAt: Date;
   supplier_name: string;
   supplier_phone: string;

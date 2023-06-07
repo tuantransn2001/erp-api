@@ -22,8 +22,8 @@ interface OrderAttributes {
   order_code: string;
   order_delivery_date: Date;
   order_status: string;
-  order_note: string;
   order_total: number;
+  order_note?: string;
   createdAt?: Date;
   updatedAt?: Date;
 }

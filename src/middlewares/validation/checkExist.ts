@@ -5,7 +5,7 @@ import { Request, Response, NextFunction } from "express";
 const checkExist =
   (Model: any) => async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const { id } = req.params;
+      const id = req.params.id || req.query.id;
 
       const foundItem = await Model.findOne({
         where: {

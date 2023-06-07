@@ -9,33 +9,27 @@ orderRouter
   // ? ================================
   // ? Import
   // ? ================================
-  .get("/import/get-all", authenticate, OrderController.Import().getAll)
+  .get("/get-all", authenticate, OrderController.getAll)
   .get(
-    "/import/get-by-id/:id",
+    "/get-by-id",
     authenticate,
     checkExist(Order),
-    OrderController.Import().getByID,
+    OrderController.getByID,
     errorHandler
   )
+  .post("/create", authenticate, OrderController.create, errorHandler)
   .patch(
     "/import/update-detail-by-id/:id",
     authenticate,
     checkExist(Order),
-    OrderController.Import().updateDetailByID,
+    OrderController.updateDetailByID,
     errorHandler
   )
   .patch(
     "/import/update-status-by-id/:id",
     authenticate,
     checkExist(Order),
-    OrderController.Import().updateStatusByID,
-    errorHandler
-  )
-  .post(
-    "/import/create",
-    authenticate,
-    OrderController.checkValidOrderDataInputBeforeModify,
-    OrderController.Import().create,
+    OrderController.updateStatusByID,
     errorHandler
   );
 
