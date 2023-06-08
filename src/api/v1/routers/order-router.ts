@@ -36,6 +36,8 @@ orderRouter
     checkExist(Order),
     OrderController.Import().updateStatusByID,
     errorHandler
-  );
+  )
+  .post("/purchase/create", OrderController.Purchase().create),
+  errorHandler;
 
 export default orderRouter;

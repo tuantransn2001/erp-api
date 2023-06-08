@@ -1,3 +1,11 @@
+import { v4 as uuiv4 } from "uuid";
+import { randomStringByCharsetAndLength } from "../../v1/common";
+import {
+  ORDER_IMPORT_STATUS,
+  ORDER_PURCHASE_STATUS,
+  ORDER_TYPE,
+} from "../ts/enums/order_enum";
+import { CUSTOMER_ACTION } from "../../v1/ts/enums/app_enums";
 import {
   DebtAttributes,
   OrderAttributes,
@@ -13,6 +21,7 @@ import {
 import db from "../models";
 import HttpException from "../utils/exceptions/http.exception";
 import { handleFormatOrder } from "../utils/format/order.format";
+import { ObjectDynamicKeyWithValue } from "../ts/interfaces/global_interfaces";
 const {
   Customer,
   UserAddress,
@@ -27,11 +36,25 @@ const {
   ProductVariantDetail,
 } = db;
 
+type ProductItem = {
+  p_variant_id: string;
+  unit: string;
+  price: number;
+  amount: number;
+  discount: number;
+};
+
 type OrderDataAttributes = {
-  orderRow: OrderAttributes;
-  orderTagRowArr: Array<OrderTagAttributes>;
-  orderProductRowArr: Array<OrderProductListAttributes>;
-  debtRow: DebtAttributes;
+  supplier_id: string;
+  agency_branch_id: string;
+  shipper_id: string;
+  payment_id: string;
+  staff_id: string;
+  order_delivery_date: Date;
+  order_note: string;
+  order_type: string;
+  tags: Array<string>;
+  products: Array<ProductItem>;
 };
 
 type QueryConditionAttributes = {
@@ -40,6 +63,13 @@ type QueryConditionAttributes = {
 };
 
 class OrderServices {
+  public static calculateOrderTotal(productList: Array<ProductItem>) {
+    return productList.reduce((total: number, product: ProductItem) => {
+      total +=
+        (product.amount * product.price * (100 - product.discount)) / 100;
+      return total;
+    }, 0);
+  }
   public static async getAll(order_type: string) {
     try {
       const orderList = await Order.findAll({
@@ -206,34 +236,104 @@ class OrderServices {
     }
   }
   public static async create(orderData: OrderDataAttributes) {
+    const {
+      supplier_id,
+      agency_branch_id,
+      shipper_id,
+      payment_id,
+      staff_id,
+      order_delivery_date,
+      order_note,
+      tags,
+      products,
+      order_type,
+    } = orderData;
+
+    const order_total: number = OrderServices.calculateOrderTotal(products);
+    // ? ===== Generate order
+    const orderRow: OrderAttributes = {
+      id: uuiv4(),
+      agency_branch_id,
+      shipper_id,
+      payment_id,
+      staff_id,
+      supplier_id,
+      order_code: randomStringByCharsetAndLength("alphabet", 5, true),
+      order_delivery_date,
+      order_note,
+      order_type,
+      order_status: ORDER_IMPORT_STATUS.GENERATE,
+      order_total: order_total,
+    };
+    // ? ===== Generate product list
+    const orderProductRowArr: Array<OrderProductListAttributes> = products.map(
+      ({
+        p_variant_id: product_variant_id,
+        amount: product_amount,
+        price: product_price,
+        discount: product_discount,
+        unit: product_unit,
+      }: ObjectDynamicKeyWithValue) => ({
+        id: uuiv4(),
+        order_id: orderRow.id,
+        product_variant_id,
+        product_amount,
+        product_price,
+        product_discount,
+        product_unit,
+      })
+    );
+
+    const foundOrderOwner = await Customer.findOne({
+      where: {
+        id: supplier_id,
+      },
+      attributes: ["id"],
+      include: [
+        {
+          model: User,
+          where: {
+            isDelete: null,
+          },
+          attributes: ["id"],
+        },
+      ],
+    });
+
+    const orderTagRowArr: Array<OrderTagAttributes> = tags.map(
+      (tagID: string) => ({ id: uuiv4(), order_id: orderRow.id, tag_id: tagID })
+    );
+
+    const userID: string = foundOrderOwner.dataValues.User.dataValues.id;
+    const debtRow: DebtAttributes = {
+      id: uuiv4(),
+      source_id: orderRow.id,
+      user_id: userID,
+      debt_amount: `-${order_total}`,
+      change_debt: `-${order_total}`,
+      debt_note: `${ORDER_PURCHASE_STATUS.GENERATE} ${ORDER_TYPE.PURCHASE}`,
+      action: CUSTOMER_ACTION.PURCHASE,
+    };
+
     try {
       const isAcceptCreate = () => {
         const isOrderRowValid = isEmpty(
-          checkMissPropertyInObjectBaseOnValueCondition(
-            orderData.orderRow,
-            undefined
-          )
+          checkMissPropertyInObjectBaseOnValueCondition(orderRow, undefined)
         );
         const isDebtRowValid = isEmpty(
-          checkMissPropertyInObjectBaseOnValueCondition(
-            orderData.debtRow,
-            undefined
-          )
+          checkMissPropertyInObjectBaseOnValueCondition(debtRow, undefined)
         );
 
-        const isOrderProductRowArrValid = !isEmpty(
-          orderData.orderProductRowArr
-        );
+        const isOrderProductRowArrValid = !isEmpty(orderProductRowArr);
 
         return isOrderRowValid && isDebtRowValid && isOrderProductRowArrValid;
       };
 
       if (isAcceptCreate()) {
-        await Order.create(orderData.orderRow);
-        !isEmpty(orderData.orderTagRowArr) &&
-          (await OrderTag.bulkCreate(orderData.orderTagRowArr));
-        await OrderProductList.bulkCreate(orderData.orderProductRowArr);
-        await Debt.create(orderData.debtRow);
+        await Order.create(orderRow);
+        !isEmpty(orderTagRowArr) && (await OrderTag.bulkCreate(orderTagRowArr));
+        await OrderProductList.bulkCreate(orderProductRowArr);
+        await Debt.create(debtRow);
 
         return {
           statusCode: STATUS_CODE.STATUS_CODE_200,
@@ -241,15 +341,9 @@ class OrderServices {
         };
       } else {
         const responseMessage: string =
-          checkMissPropertyInObjectBaseOnValueCondition(
-            orderData.orderRow,
-            undefined
-          )
+          checkMissPropertyInObjectBaseOnValueCondition(orderRow, undefined)
             .concat(
-              checkMissPropertyInObjectBaseOnValueCondition(
-                orderData.debtRow,
-                undefined
-              )
+              checkMissPropertyInObjectBaseOnValueCondition(debtRow, undefined)
             )
             .join(",") + " is required!";
 

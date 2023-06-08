@@ -1,23 +1,14 @@
-import { v4 as uuiv4 } from "uuid";
 import { Request, Response, NextFunction } from "express";
 import {
   isEmpty,
   checkMissPropertyInObjectBaseOnValueCondition,
   handleFormatUpdateDataByValidValue,
-  randomStringByCharsetAndLength,
 } from "../../v1/common";
 import { STATUS_CODE, STATUS_MESSAGE } from "../../v1/ts/enums/api_enums";
-import {
-  ORDER_IMPORT_STATUS,
-  ORDER_PURCHASE_STATUS,
-  ORDER_TYPE,
-} from "../../v1/ts/enums/order_enum";
-import { CUSTOMER_ACTION } from "../../v1/ts/enums/app_enums";
+import { ORDER_IMPORT_STATUS, ORDER_TYPE } from "../../v1/ts/enums/order_enum";
 import RestFullAPI from "../utils/response/apiResponse";
 import {
   AgencyBranchProductListAttributes,
-  DebtAttributes,
-  OrderAttributes,
   OrderProductListAttributes,
   OrderTagAttributes,
 } from "../../v1/ts/interfaces/app_interfaces";
@@ -26,8 +17,6 @@ import { ObjectDynamicKeyWithValue } from "../../v1/ts/interfaces/global_interfa
 import OrderServices from "../services/order.services";
 
 const {
-  Customer,
-  User,
   Order,
   OrderProductList,
   OrderTag,
@@ -82,89 +71,17 @@ class OrderController {
             products,
           } = req.body;
 
-          // ? ===== Generate debt
-          const totalDebt: number = products.reduce(
-            (total: number, product: any) => {
-              total +=
-                (product.amount * product.price * (100 - product.discount)) /
-                100;
-
-              return total;
-            },
-            0
-          );
-
-          // ? ===== Generate order
-          const orderRow: OrderAttributes = {
-            id: uuiv4(),
+          const { statusCode, data } = await OrderServices.create({
+            supplier_id,
             agency_branch_id,
             shipper_id,
             payment_id,
             staff_id,
-            supplier_id,
-            order_code: randomStringByCharsetAndLength("alphabet", 5, true),
             order_delivery_date,
             order_note,
+            tags,
+            products,
             order_type: ORDER_TYPE.IMPORT,
-            order_status: ORDER_IMPORT_STATUS.GENERATE,
-            order_total: totalDebt,
-          };
-
-          // ? ===== Generate order tag
-          const orderTagRowArr: Array<OrderTagAttributes> = tags.map(
-            (tagID: string) => ({ order_id: orderRow.id, tag_id: tagID })
-          );
-
-          // ? ===== Generate product list
-          const orderProductRowArr: Array<OrderProductListAttributes> =
-            products.map(
-              ({
-                p_variant_id: product_variant_id,
-                amount: product_amount,
-                price: product_price,
-                discount: product_discount,
-                unit: product_unit,
-              }: ObjectDynamicKeyWithValue) => ({
-                order_id: orderRow.id,
-                product_variant_id,
-                product_amount,
-                product_price,
-                product_discount,
-                product_unit,
-              })
-            );
-
-          const foundOrderOwner = await Customer.findOne({
-            where: {
-              id: supplier_id,
-            },
-            attributes: ["id"],
-            include: [
-              {
-                model: User,
-                where: {
-                  isDelete: null,
-                },
-                attributes: ["id"],
-              },
-            ],
-          });
-          const userID: string = foundOrderOwner.dataValues.User.dataValues.id;
-          const debtRow: DebtAttributes = {
-            id: uuiv4(),
-            source_id: orderRow.id,
-            user_id: userID,
-            debt_amount: `-${totalDebt}`,
-            change_debt: `-${totalDebt}`,
-            debt_note: `${ORDER_PURCHASE_STATUS.GENERATE} ${ORDER_TYPE.IMPORT}`,
-            action: CUSTOMER_ACTION.IMPORT,
-          };
-
-          const { statusCode, data } = await OrderServices.create({
-            orderRow,
-            orderTagRowArr,
-            orderProductRowArr,
-            debtRow,
           });
 
           res.status(statusCode).send(data);
@@ -605,6 +522,46 @@ class OrderController {
               break;
             }
           }
+        } catch (err) {
+          next(err);
+        }
+      }
+    };
+  }
+  public static Purchase() {
+    return class {
+      public static async create(
+        req: Request,
+        res: Response,
+        next: NextFunction
+      ) {
+        try {
+          const {
+            supplier_id,
+            agency_branch_id,
+            shipper_id,
+            payment_id,
+            staff_id,
+            order_delivery_date,
+            order_note,
+            tags,
+            products,
+          } = req.body;
+
+          const { statusCode, data } = await OrderServices.create({
+            supplier_id,
+            agency_branch_id,
+            shipper_id,
+            payment_id,
+            staff_id,
+            order_delivery_date,
+            order_note,
+            tags,
+            products,
+            order_type: ORDER_TYPE.PURCHASE,
+          });
+
+          res.status(statusCode).send(data);
         } catch (err) {
           next(err);
         }
