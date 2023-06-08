@@ -7,7 +7,7 @@ module.exports = {
   target: "node",
   mode: "development",
   watch: true,
-  entry: ["./src/app.ts", "./src/models/index.ts"],
+  entry: ["./src/app.ts", "./src/api/v1/models/index.ts"],
   devServer: {
     static: [
       {
@@ -39,7 +39,7 @@ module.exports = {
         onEnd: {
           copy: [
             {
-              source: "./src/models/*.ts*",
+              source: "./src/api/v1/models/*.ts*",
               destination: "./build/development/models/",
               globOptions: {
                 ignore: "./src/models/index.ts",

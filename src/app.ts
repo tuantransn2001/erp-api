@@ -1,9 +1,9 @@
 require("dotenv").config();
 import express, { Express } from "express";
 import cors from "cors";
-import db from "./models";
-import { handleSeedData } from "./data/handleSeedData";
-import rootRouter from "./routers";
+import db from "./api/v1/models";
+import { handleSeedData } from "./api/v1/data/handleSeedData";
+import rootRouter from "./api/v1/routers";
 // ? ============================== INITIATE SERVER ====================================
 const app: Express = express();
 // ? ============================== VARIABLES ====================================
