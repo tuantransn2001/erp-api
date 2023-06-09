@@ -7,7 +7,7 @@ module.exports = {
   target: "node",
   mode: "production",
   watch: true,
-  entry: ["./src/app.ts", "./src/models/index.ts"],
+  entry: ["./src/app.ts", "./src/api/v1/models/index.ts"],
   devServer: {
     static: [
       {
@@ -17,7 +17,7 @@ module.exports = {
   },
   output: {
     filename: "app.js",
-    path: path.resolve(__dirname, "build/production"),
+    path: path.resolve(__dirname, "build/production/v1"),
   },
   module: {
     rules: [
@@ -39,10 +39,10 @@ module.exports = {
         onEnd: {
           copy: [
             {
-              source: "./src/models/*.ts*",
-              destination: "./build/production/models/",
+              source: "./src/api/v1/models/*.ts*",
+              destination: "./build/production/v1/models/",
               globOptions: {
-                ignore: "./src/models/index.ts",
+                ignore: "./src/api/v1/models/index.ts",
               },
             },
           ],

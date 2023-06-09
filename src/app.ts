@@ -1,9 +1,9 @@
 require("dotenv").config();
 import express, { Express } from "express";
 import cors from "cors";
-import db from "./models";
-import { handleSeedData } from "./data/handleSeedData";
-import rootRouter from "./routers";
+import db from "./api/v1/models";
+import { handleSeedData } from "./api/v1/data/handleSeedData";
+import rootRouter from "./api/v1/routers";
 // ? ============================== INITIATE SERVER ====================================
 const app: Express = express();
 // ? ============================== VARIABLES ====================================
@@ -20,7 +20,6 @@ app.use(ROOT_URL, rootRouter); // * Router Set up
   await db.sequelize.sync({ force: true }).then(() => {
     app.listen(PORT, async () => {
       handleSeedData();
-
       console.log("Connected - Synchronous Database Success");
       console.log(
         `🚀 Server is running on ${ENVIRONMENT}  🚀 - http://${HOST}:${PORT}${ROOT_URL}`
