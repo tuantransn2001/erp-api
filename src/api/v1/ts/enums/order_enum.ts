@@ -1,17 +1,20 @@
 enum ORDER_TYPE {
   IMPORT = "Đơn nhập",
-  PURCHASE = "Đơn bán",
+  SALE = "Đơn bán",
 }
-enum ORDER_PURCHASE_STATUS {
+enum ORDER_SALE_STATUS {
   CANCEL = "Hủy",
-  GENERATE = "Tạo đơn hàng",
-  TRADING = "Đang giao dịch",
+  GENERATE = "Đặt hàng",
+  APPROVE = "Duyệt",
+  PACKAGE = "Đóng gói",
+  DELIVERY = "Xuất kho",
   DONE = "Hoàn thành",
+  RETURN = "Hoàn trả",
 }
 enum ORDER_IMPORT_STATUS {
   CANCEL = "Hủy",
-  GENERATE = "Tạo đơn hàng",
-  TRADING = "Đang giao dịch",
+  GENERATE = "Tạo đơn",
+  TRADING = "Nhập hàng",
   DONE = "Hoàn thành",
   RETURN = "Hoàn trả",
 }
@@ -22,7 +25,7 @@ enum ORDER_RESULT_STATUS {
 
 export {
   ORDER_TYPE,
-  ORDER_PURCHASE_STATUS,
+  ORDER_SALE_STATUS,
   ORDER_RESULT_STATUS,
   ORDER_IMPORT_STATUS,
 };

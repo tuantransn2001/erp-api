@@ -94,3 +94,7 @@ export const checkMissPropertyInObjectBaseOnValueCondition = (
 
   return arrMissArray;
 };
+
+export const isAcceptUpdateTag = (tags: Array<string>) => {
+  return typeof tags !== undefined && !isEmpty(tags);
+};

@@ -2,7 +2,7 @@ import { v4 as uuiv4 } from "uuid";
 import { randomStringByCharsetAndLength } from "../../v1/common";
 import {
   ORDER_IMPORT_STATUS,
-  ORDER_PURCHASE_STATUS,
+  ORDER_SALE_STATUS,
   ORDER_TYPE,
 } from "../ts/enums/order_enum";
 import { CUSTOMER_ACTION } from "../../v1/ts/enums/app_enums";
@@ -60,6 +60,20 @@ type OrderDataAttributes = {
 type QueryConditionAttributes = {
   id: string;
   order_type: string;
+};
+
+type UpdateDetailDataAttributes = {
+  queryCondition: { id: string };
+  updateData: OrderAttributes;
+};
+type OrderProductAttributes = {
+  order_id: string;
+  products: Array<ProductItem>;
+};
+type UpdateOrderProductListDataAttributes = {
+  queryCondition: { order_id: string };
+  JunctionModel: any;
+  updateProductsData: Array<ProductItem>;
 };
 
 class OrderServices {
@@ -134,12 +148,10 @@ class OrderServices {
       };
     }
   }
-  public static async getByID(queryCondition: QueryConditionAttributes) {
+  public static async getByID(queryConditions: QueryConditionAttributes) {
     try {
-      const { id, order_type } = queryCondition;
-
       const foundOrder = await Order.findOne({
-        where: { id, order_type },
+        where: queryConditions,
         attributes: [
           "id",
           "order_note",
@@ -228,43 +240,17 @@ class OrderServices {
       const customErr = err as HttpException;
 
       return {
-        statusCode: STATUS_CODE.STATUS_CODE_500,
-        data: RestFullAPI.onSuccess(STATUS_MESSAGE.SERVER_ERROR, {
+        statusCode: STATUS_CODE.STATUS_CODE_406,
+        data: RestFullAPI.onSuccess(STATUS_MESSAGE.NOT_ACCEPTABLE, {
           message: customErr.message,
         }),
       };
     }
   }
-  public static async create(orderData: OrderDataAttributes) {
-    const {
-      supplier_id,
-      agency_branch_id,
-      shipper_id,
-      payment_id,
-      staff_id,
-      order_delivery_date,
-      order_note,
-      tags,
-      products,
-      order_type,
-    } = orderData;
-
-    const order_total: number = OrderServices.calculateOrderTotal(products);
-    // ? ===== Generate order
-    const orderRow: OrderAttributes = {
-      id: uuiv4(),
-      agency_branch_id,
-      shipper_id,
-      payment_id,
-      staff_id,
-      supplier_id,
-      order_code: randomStringByCharsetAndLength("alphabet", 5, true),
-      order_delivery_date,
-      order_note,
-      order_type,
-      order_status: ORDER_IMPORT_STATUS.GENERATE,
-      order_total: order_total,
-    };
+  public static async generateOrderProducts({
+    order_id,
+    products,
+  }: OrderProductAttributes) {
     // ? ===== Generate product list
     const orderProductRowArr: Array<OrderProductListAttributes> = products.map(
       ({
@@ -275,7 +261,7 @@ class OrderServices {
         unit: product_unit,
       }: ObjectDynamicKeyWithValue) => ({
         id: uuiv4(),
-        order_id: orderRow.id,
+        order_id,
         product_variant_id,
         product_amount,
         product_price,
@@ -284,38 +270,75 @@ class OrderServices {
       })
     );
 
-    const foundOrderOwner = await Customer.findOne({
-      where: {
-        id: supplier_id,
-      },
-      attributes: ["id"],
-      include: [
-        {
-          model: User,
-          where: {
-            isDelete: null,
-          },
-          attributes: ["id"],
-        },
-      ],
-    });
-
-    const orderTagRowArr: Array<OrderTagAttributes> = tags.map(
-      (tagID: string) => ({ id: uuiv4(), order_id: orderRow.id, tag_id: tagID })
-    );
-
-    const userID: string = foundOrderOwner.dataValues.User.dataValues.id;
-    const debtRow: DebtAttributes = {
-      id: uuiv4(),
-      source_id: orderRow.id,
-      user_id: userID,
-      debt_amount: `-${order_total}`,
-      change_debt: `-${order_total}`,
-      debt_note: `${ORDER_PURCHASE_STATUS.GENERATE} ${ORDER_TYPE.PURCHASE}`,
-      action: CUSTOMER_ACTION.PURCHASE,
-    };
-
+    await OrderProductList.bulkCreate(orderProductRowArr);
+  }
+  public static async create(orderData: OrderDataAttributes) {
     try {
+      const {
+        supplier_id,
+        agency_branch_id,
+        shipper_id,
+        payment_id,
+        staff_id,
+        order_delivery_date,
+        order_note,
+        tags,
+        products,
+        order_type,
+      } = orderData;
+
+      const order_total: number = OrderServices.calculateOrderTotal(products);
+      // ? ===== Generate order
+      const orderRow: OrderAttributes = {
+        id: uuiv4(),
+        agency_branch_id,
+        shipper_id,
+        payment_id,
+        staff_id,
+        supplier_id,
+        order_code: randomStringByCharsetAndLength("alphabet", 5, true),
+        order_delivery_date,
+        order_note,
+        order_type,
+        order_status: ORDER_IMPORT_STATUS.GENERATE,
+        order_total: order_total,
+      };
+
+      const foundOrderOwner = await Customer.findOne({
+        where: {
+          id: supplier_id,
+        },
+        attributes: ["id"],
+        include: [
+          {
+            model: User,
+            where: {
+              isDelete: null,
+            },
+            attributes: ["id"],
+          },
+        ],
+      });
+
+      const orderTagRowArr: Array<OrderTagAttributes> = tags.map(
+        (tagID: string) => ({
+          id: uuiv4(),
+          order_id: orderRow.id,
+          tag_id: tagID,
+        })
+      );
+
+      const userID: string = foundOrderOwner.dataValues.User.dataValues.id;
+      const debtRow: DebtAttributes = {
+        id: uuiv4(),
+        source_id: orderRow.id,
+        user_id: userID,
+        debt_amount: `-${order_total}`,
+        change_debt: `-${order_total}`,
+        debt_note: `${ORDER_SALE_STATUS.GENERATE} ${ORDER_TYPE.SALE}`,
+        action: CUSTOMER_ACTION.PURCHASE,
+      };
+
       const isAcceptCreate = () => {
         const isOrderRowValid = isEmpty(
           checkMissPropertyInObjectBaseOnValueCondition(orderRow, undefined)
@@ -324,16 +347,27 @@ class OrderServices {
           checkMissPropertyInObjectBaseOnValueCondition(debtRow, undefined)
         );
 
-        const isOrderProductRowArrValid = !isEmpty(orderProductRowArr);
-
-        return isOrderRowValid && isDebtRowValid && isOrderProductRowArrValid;
+        return isOrderRowValid && isDebtRowValid;
       };
 
       if (isAcceptCreate()) {
         await Order.create(orderRow);
         !isEmpty(orderTagRowArr) && (await OrderTag.bulkCreate(orderTagRowArr));
-        await OrderProductList.bulkCreate(orderProductRowArr);
         await Debt.create(debtRow);
+
+        switch (order_type) {
+          case ORDER_TYPE.IMPORT: {
+            await OrderServices.generateOrderProducts({
+              order_id: orderRow.id,
+              products,
+            });
+          }
+          case ORDER_TYPE.SALE: {
+            await OrderServices.updateAgencyProductsAmount({
+              products,
+            });
+          }
+        }
 
         return {
           statusCode: STATUS_CODE.STATUS_CODE_200,
@@ -356,7 +390,6 @@ class OrderServices {
       }
     } catch (err) {
       const customErr = err as HttpException;
-
       return {
         statusCode: STATUS_CODE.STATUS_CODE_500,
         data: RestFullAPI.onSuccess(STATUS_MESSAGE.SERVER_ERROR, {
@@ -364,6 +397,112 @@ class OrderServices {
         }),
       };
     }
+  }
+  public static async updateOrderProductList(
+    updateOrderProductListData: UpdateOrderProductListDataAttributes
+  ) {
+    const { updateProductsData, JunctionModel, queryCondition } =
+      updateOrderProductListData;
+
+    const { order_id } = updateOrderProductListData.queryCondition;
+
+    const argMissArr = checkMissPropertyInObjectBaseOnValueCondition(
+      updateProductsData,
+      undefined
+    );
+
+    await JunctionModel.destroy({
+      where: queryCondition,
+    });
+
+    if (isEmpty(argMissArr)) {
+      const orderProductRowArr: Array<OrderProductListAttributes> =
+        updateProductsData.map(
+          ({
+            p_variant_id: product_variant_id,
+            amount: product_amount,
+            price: product_price,
+            discount: product_discount,
+            unit: product_unit,
+          }) => ({
+            id: uuiv4(),
+            order_id,
+            product_variant_id,
+            product_amount,
+            product_price,
+            product_discount,
+            product_unit,
+          })
+        );
+
+      return await JunctionModel.bulkCreate(orderProductRowArr)
+        .then(() => {
+          return {
+            statusCode: STATUS_CODE.STATUS_CODE_200,
+            data: RestFullAPI.onSuccess(STATUS_MESSAGE.SUCCESS),
+          };
+        })
+        .catch((err: HttpException) => {
+          return {
+            statusCode: STATUS_CODE.STATUS_CODE_500,
+            data: RestFullAPI.onSuccess(STATUS_MESSAGE.SERVER_ERROR, {
+              message: err.message,
+            }),
+          };
+        });
+    } else {
+      return {
+        statusCode: STATUS_CODE.STATUS_CODE_406,
+        data: RestFullAPI.onSuccess(STATUS_MESSAGE.NOT_ACCEPTABLE, {
+          message: argMissArr.join(",") + " is required!",
+        }),
+      };
+    }
+  }
+  public static async updateDetail(
+    updateDetailData: UpdateDetailDataAttributes
+  ) {
+    const { queryCondition, updateData } = updateDetailData;
+
+    return await Order.update(updateData, { where: queryCondition })
+      .then(() => {
+        return {
+          statusCode: STATUS_CODE.STATUS_CODE_200,
+          data: RestFullAPI.onSuccess(STATUS_MESSAGE.SUCCESS),
+        };
+      })
+      .catch((err: HttpException) => {
+        return {
+          statusCode: STATUS_CODE.STATUS_CODE_500,
+          data: RestFullAPI.onSuccess(STATUS_MESSAGE.SERVER_ERROR, {
+            message: err.message,
+          }),
+        };
+      });
+  }
+  public static async updateAgencyProductsAmount({
+    products,
+  }: Omit<OrderProductAttributes, "order_id">) {
+    products.forEach(async (p: ProductItem) => {
+      await db.AgencyBranchProductList.update(
+        {
+          available_quantity: db.sequelize.literal(
+            `available_quantity - ${p.amount}`
+          ),
+          available_to_sell_quantity: db.sequelize.literal(
+            `available_to_sell_quantity - ${p.amount}`
+          ),
+          trading_quantity: db.sequelize.literal(
+            `trading_quantity + ${p.amount}`
+          ),
+        },
+        {
+          where: {
+            product_variant_id: p.p_variant_id,
+          },
+        }
+      );
+    });
   }
 }
 

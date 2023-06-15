@@ -1,7 +1,6 @@
 import { NextFunction, Request, Response } from "express";
 import db from "../models";
 const { UserAddress } = db;
-
 import { handleFormatUpdateDataByValidValue } from "../../v1/common";
 import { UserAddressAttributes } from "@/src/api/v1/ts/interfaces/app_interfaces";
 import { STATUS_CODE, STATUS_MESSAGE } from "../../v1/ts/enums/api_enums";

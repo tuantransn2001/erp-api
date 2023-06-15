@@ -27,17 +27,17 @@ orderRouter
     "/import/update-detail-by-id/:id",
     authenticate,
     checkExist(Order),
-    OrderController.Import().updateDetailByID,
+    OrderController.updateDetailByID,
     errorHandler
   )
   .patch(
     "/import/update-status-by-id/:id",
     authenticate,
     checkExist(Order),
-    OrderController.Import().updateStatusByID,
+    OrderController.updateStatusByID,
     errorHandler
   )
-  .post("/purchase/create", OrderController.Purchase().create),
+  .post("/sale/create", OrderController.Sale().create),
   errorHandler;
 
 export default orderRouter;

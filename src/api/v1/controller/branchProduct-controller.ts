@@ -24,9 +24,9 @@ class BranchProductController {
             attributes: ["id", "product_variant_name", "product_variant_SKU"],
             include: [
               {
-                model: ProductVariantPrice,
-                as: "Variant_Prices",
                 where: { price_id },
+                as: "Variant_Prices",
+                model: ProductVariantPrice,
                 attributes: ["id", "price_value"],
               },
             ],
