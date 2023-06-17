@@ -1,18 +1,12 @@
 import { Request } from "express";
-interface MyRequest extends Request {
+export interface MyRequest extends Request {
   currentUserID?: string;
 }
 
-interface ObjectDynamicKeyWithValue {
+export interface ObjectDynamicKeyWithValue {
   [props: string]: any;
 }
 
-interface ObjectDynamicKeyWithValueIsString {
+export interface ObjectDynamicKeyWithValueIsString {
   [props: string]: string;
 }
-
-export {
-  MyRequest,
-  ObjectDynamicKeyWithValueIsString,
-  ObjectDynamicKeyWithValue,
-};

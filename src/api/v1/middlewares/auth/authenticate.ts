@@ -11,7 +11,7 @@ interface MyCustomsHeaders {
 }
 type IncomingCustomHeaders = IncomingHttpHeaders & MyCustomsHeaders;
 
-const authenticate = async (
+export const authenticate = async (
   req: MyRequest,
   res: Response,
   next: NextFunction
@@ -49,4 +49,3 @@ const authenticate = async (
       );
   }
 };
-export default authenticate;

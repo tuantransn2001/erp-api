@@ -83,46 +83,72 @@ class OrderController {
             tags,
           } = req.body;
 
-          const updateOrderRow = handleFormatUpdateDataByValidValue(
-            {
-              supplier_id,
-              staff_id,
-              order_delivery_date,
-              order_note,
-            },
-            foundOrder.dataValues
+          const argMissArr = checkMissPropertyInObjectBaseOnValueCondition(
+            { supplier_id, staff_id, products },
+            undefined
           );
 
-          const updateDetailResult = await OrderServices.updateDetail({
-            queryCondition: { id: order_id },
-            updateData: updateOrderRow,
-          });
+          const isAcceptUpdate = isEmpty(argMissArr) && !isEmpty(products);
 
-          const updateOrderProductListResult =
-            await OrderServices.updateOrderProductList({
-              queryCondition: { order_id },
-              JunctionModel: OrderProductList,
-              updateProductsData: products,
+          if (isAcceptUpdate) {
+            const updateOrderTotal =
+              OrderServices.calculateOrderTotal(products);
+
+            const updateOrderRow = handleFormatUpdateDataByValidValue(
+              {
+                supplier_id,
+                staff_id,
+                order_delivery_date,
+                order_note,
+                order_total: updateOrderTotal,
+              },
+              foundOrder.dataValues
+            );
+
+            const updateDetailResult = await OrderServices.updateDetail({
+              queryCondition: { id: order_id },
+              updateData: updateOrderRow,
             });
 
-          const updateTagResult =
-            isAcceptUpdateTag(tags) &&
-            (await CommonServices.updateTags({
-              TagJunctionModel: OrderTag,
-              queryCondition: {
-                order_id,
-              },
-              updateTags: tags,
-            }));
+            const updateOrderProductListResult =
+              await OrderServices.updateOrderProductList({
+                queryCondition: { order_id },
+                JunctionModel: OrderProductList,
+                updateProductsData: products,
+              });
 
-          const { statusCode, response } =
-            await RestFullAPI.onArrayPromiseSuccess([
-              updateDetailResult,
-              updateOrderProductListResult,
-              updateTagResult,
-            ]);
+            const updateTagResult =
+              isAcceptUpdateTag(tags) &&
+              (await CommonServices.updateTags({
+                TagJunctionModel: OrderTag,
+                queryCondition: {
+                  order_id,
+                },
+                updateTags: tags,
+              }));
 
-          res.status(statusCode).send(response);
+            const { statusCode, response } =
+              await RestFullAPI.onArrayPromiseSuccess([
+                updateDetailResult,
+                updateOrderProductListResult,
+                updateTagResult,
+              ]);
+
+            res.status(statusCode).send(response);
+          } else {
+            const responseMessage =
+              argMissArr.join(",") +
+              " is required!" +
+              " " +
+              (isEmpty(products) && "products can't be empty!");
+
+            res.status(STATUS_CODE.STATUS_CODE_406).send(
+              RestFullAPI.onSuccess(STATUS_MESSAGE.NOT_ACCEPTABLE, {
+                message: responseMessage,
+              })
+            );
+          }
+
           break;
         }
         // * REST [TRADING,DONE] -> Modify tags , note

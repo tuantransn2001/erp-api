@@ -2,7 +2,7 @@ import { STATUS_CODE, STATUS_MESSAGE } from "../../ts/enums/api_enums";
 import RestFullAPI from "../../utils/response/apiResponse";
 import { Request, Response, NextFunction } from "express";
 
-const checkExist =
+export const checkExist =
   (Model: any) => async (req: Request, res: Response, next: NextFunction) => {
     try {
       const id = req.params.id || req.query.id;
@@ -28,5 +28,3 @@ const checkExist =
       next(err);
     }
   };
-
-export default checkExist;

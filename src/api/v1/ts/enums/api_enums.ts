@@ -1,4 +1,4 @@
-enum STATUS_MESSAGE {
+export enum STATUS_MESSAGE {
   SUCCESS = "Success",
   CONFLICT = "Conflict",
   NOT_FOUND = "Not Found",
@@ -9,7 +9,7 @@ enum STATUS_MESSAGE {
   SERVICES_UNAVAILABLE = "Server Unavailable",
 }
 
-enum STATUS_CODE {
+export enum STATUS_CODE {
   STATUS_CODE_200 = 200, // * Get / Modify
   STATUS_CODE_201 = 201, // * Create
   STATUS_CODE_202 = 202, // * Delete
@@ -21,5 +21,3 @@ enum STATUS_CODE {
   STATUS_CODE_500 = 500, // ! Server Error
   STATUS_CODE_503 = 503, // ! Services Unavailable
 }
-
-export { STATUS_MESSAGE, STATUS_CODE };

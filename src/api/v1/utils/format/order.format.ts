@@ -90,8 +90,11 @@ export const handleFormatOrder = (
       OrderSource.dataValues;
 
     const { id: supplier_id } = OrderSource.dataValues.Customer.dataValues;
-    const { user_name: supplier_name, user_phone: supplier_phone } =
-      OrderSource.dataValues.Customer.dataValues.User.dataValues;
+    const {
+      id: user_id,
+      user_name: supplier_name,
+      user_phone: supplier_phone,
+    } = OrderSource.dataValues.Customer.dataValues.User.dataValues;
 
     const supplier_address_list =
       OrderSource.dataValues.Customer.dataValues.User.dataValues.UserAddresses;
@@ -139,17 +142,13 @@ export const handleFormatOrder = (
       order_note,
       order_total,
       supplier: {
-        user_id: OrderSource.dataValues.Customer.dataValues.User.dataValues.id,
+        user_id,
         id: supplier_id,
         name: supplier_name,
         phone: supplier_phone,
         addresses: supplier_address_list,
       },
-      staff: {
-        user_id: OrderSource.dataValues.Staff.dataValues.User.dataValues.id,
-        id: staff_id,
-        name: staff_name,
-      },
+      staff: { id: staff_id, name: staff_name },
       agency_branch: {
         id: agency_branch_id,
         name: agency_branch_name,

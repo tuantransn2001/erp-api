@@ -5,7 +5,7 @@ import { STATUS_CODE, STATUS_MESSAGE } from "../../ts/enums/api_enums";
 import RestFullAPI from "../../utils/response/apiResponse";
 import { isEmpty } from "../../common";
 const { User } = db;
-const checkUserExist =
+export const checkUserExist =
   () => async (req: Request, res: Response, next: NextFunction) => {
     try {
       const { user_code, user_name, user_phone, user_email }: UserAttributes =
@@ -75,5 +75,3 @@ const checkUserExist =
       next(err);
     }
   };
-
-export default checkUserExist;
