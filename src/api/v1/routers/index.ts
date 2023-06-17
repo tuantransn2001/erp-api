@@ -14,7 +14,8 @@ import typeRouter from "./type-router";
 import orderRouter from "./order-router";
 import debtRouter from "./debt-router";
 import swaggerRouter from "./swagger-router";
-
+import paymentRouter from "./payment-router";
+import shipperRouter from "./shipper-router";
 const rootRouter = Router();
 
 rootRouter
@@ -32,6 +33,8 @@ rootRouter
   .use("/product", productRouter)
   .use("/order", orderRouter)
   .use("/swagger", swaggerRouter)
-  .use("/debt", debtRouter);
+  .use("/debt", debtRouter)
+  .use("/payment", paymentRouter)
+  .use("/shipper", shipperRouter);
 
 export default rootRouter;

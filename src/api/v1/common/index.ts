@@ -1,7 +1,9 @@
 import randomstring from "randomstring";
 import { Falsy } from "../ts/types/app_type";
 import { ObjectDynamicKeyWithValue } from "../ts/interfaces/global_interfaces";
-export const isEmpty = (target: Object | Array<any>): boolean => {
+export const isEmpty = (
+  target: ObjectDynamicKeyWithValue | Array<any>
+): boolean => {
   return target instanceof Array
     ? target.length === 0
     : target === undefined || target === null
@@ -22,7 +24,7 @@ export const handleGetFirstNameFromFullName = (fullName: string) => {
 };
 
 export const handleFormatUpdateDataByValidValue = (
-  targetObj: any,
+  targetObj: ObjectDynamicKeyWithValue,
   defaultValue: any
 ) => {
   return Object.keys(targetObj).reduce(
