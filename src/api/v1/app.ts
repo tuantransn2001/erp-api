@@ -20,6 +20,7 @@ app.use(ROOT_URL, rootRouter); // * Router Set up
   await db.sequelize.sync({ force: true }).then(() => {
     app.listen(PORT, async () => {
       handleSeedData();
+
       console.log("Connected - Synchronous Database Success");
       console.log(
         `🚀 Server is running on ${ENVIRONMENT}  🚀 - http://${HOST}:${PORT}${ROOT_URL}`

@@ -1,5 +1,5 @@
 import { Router } from "express";
-import TypeController from "../controller/brand-controller";
+import TypeController from "../controller/type-controller";
 import { authenticate, errorHandler } from "../middlewares";
 
 const typeRouter = Router();
