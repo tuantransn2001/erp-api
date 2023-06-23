@@ -8,6 +8,7 @@ import {
   StaffAttributes,
   UserAddressAttributes,
   UserAttributes,
+  PaymentAttributes,
 } from "@/src/api/v1/ts/interfaces/app_interfaces";
 import { ORDER_IMPORT_STATUS } from "../../ts/enums/order_enum";
 type UserQueryExclude = Omit<
@@ -43,6 +44,7 @@ type OrderProductItemQueryExcludeAttributes = {
 };
 
 interface OrderItemQueryAttributes extends OrderAttributes {
+  Payment: { dataValues: PaymentAttributes };
   Customer: { dataValues: CustomerQueryAttributes };
   Staff: { dataValues: StaffQueryAttributes };
   AgencyBranch: {
@@ -86,9 +88,17 @@ export const handleFormatOrder = (
   formatType: string
 ): Array<OrderItemResult> | OrderDetailResult => {
   if (formatType === "isObject") {
-    const { id, order_note, order_status, order_total, order_code } =
-      OrderSource.dataValues;
-
+    const {
+      id,
+      order_note,
+      order_status,
+      order_total,
+      order_code,
+      order_delivery_date,
+      createdAt,
+    } = OrderSource.dataValues;
+    const { id: payment_id, payment_type } =
+      OrderSource.dataValues.Payment.dataValues;
     const { id: supplier_id } = OrderSource.dataValues.Customer.dataValues;
     const {
       id: user_id,
@@ -141,6 +151,12 @@ export const handleFormatOrder = (
       order_status,
       order_note,
       order_total,
+      order_delivery_date,
+      createdAt,
+      payment: {
+        id: payment_id,
+        payment_type,
+      },
       supplier: {
         user_id,
         id: supplier_id,
