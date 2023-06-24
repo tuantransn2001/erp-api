@@ -17,9 +17,9 @@ import {
   OrderProductListAttributes,
 } from "../../v1/ts/interfaces/app_interfaces";
 import db from "../models";
-import { ObjectDynamicKeyWithValue } from "../../v1/ts/interfaces/global_interfaces";
 import OrderServices from "../services/order.services";
 import CommonServices from "../services/common.services";
+import { ObjectType } from "../ts/types/app_type";
 const {
   Order,
   OrderProductList,
@@ -295,54 +295,53 @@ class OrderController {
               const {
                 newProductInStockRowArr,
                 updateProductInStockRowArr,
-              }: ObjectDynamicKeyWithValue =
-                foundOrder.dataValues.OrderProductLists.reduce(
-                  (
-                    result: ObjectDynamicKeyWithValue,
-                    order_product_item: OrderProductListQueryAttributes
-                  ) => {
-                    const {
+              }: ObjectType = foundOrder.dataValues.OrderProductLists.reduce(
+                (
+                  result: ObjectType,
+                  order_product_item: OrderProductListQueryAttributes
+                ) => {
+                  const {
+                    product_variant_id,
+                    product_amount,
+                    product_discount,
+                    product_price,
+                  } = order_product_item.dataValues;
+                  if (productExistInStockIndex(product_variant_id) !== -1) {
+                    result.updateProductInStockRowArr.push({
+                      agency_branch_id:
+                        foundOrder.dataValues.AgencyBranch.dataValues.id,
                       product_variant_id,
                       product_amount,
-                      product_discount,
                       product_price,
-                    } = order_product_item.dataValues;
-                    if (productExistInStockIndex(product_variant_id) !== -1) {
-                      result.updateProductInStockRowArr.push({
-                        agency_branch_id:
-                          foundOrder.dataValues.AgencyBranch.dataValues.id,
-                        product_variant_id,
-                        product_amount,
-                        product_price,
-                        product_amount_inStock:
-                          foundAgencyBranchProductList[
-                            productExistInStockIndex(product_variant_id)
-                          ].dataValues.available_to_sell_quantity,
-                        product_price_inStock:
-                          foundAgencyBranchProductList[
-                            productExistInStockIndex(product_variant_id)
-                          ].dataValues.product_price,
-                      });
-                    } else {
-                      result.newProductInStockRowArr.push({
-                        agency_branch_id:
-                          foundOrder.dataValues.AgencyBranch.dataValues.id,
-                        product_variant_id,
-                        available_quantity: product_amount,
-                        trading_quantity: 0,
-                        available_to_sell_quantity: product_amount,
-                        product_price,
-                        product_discount,
-                      });
-                    }
-
-                    return result;
-                  },
-                  {
-                    newProductInStockRowArr: [],
-                    updateProductInStockRowArr: [],
+                      product_amount_inStock:
+                        foundAgencyBranchProductList[
+                          productExistInStockIndex(product_variant_id)
+                        ].dataValues.available_to_sell_quantity,
+                      product_price_inStock:
+                        foundAgencyBranchProductList[
+                          productExistInStockIndex(product_variant_id)
+                        ].dataValues.product_price,
+                    });
+                  } else {
+                    result.newProductInStockRowArr.push({
+                      agency_branch_id:
+                        foundOrder.dataValues.AgencyBranch.dataValues.id,
+                      product_variant_id,
+                      available_quantity: product_amount,
+                      trading_quantity: 0,
+                      available_to_sell_quantity: product_amount,
+                      product_price,
+                      product_discount,
+                    });
                   }
-                );
+
+                  return result;
+                },
+                {
+                  newProductInStockRowArr: [],
+                  updateProductInStockRowArr: [],
+                }
+              );
               // ? => true -> update amount
               if (!isEmpty(updateProductInStockRowArr)) {
                 updateProductInStockRowArr.forEach(

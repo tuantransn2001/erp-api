@@ -10,7 +10,7 @@ import {
   ProductTagItemAttributes,
   TagAttributes,
 } from "@/src/api/v1/ts/interfaces/app_interfaces";
-import { ObjectDynamicKeyWithValue } from "@/src/api/v1/ts/interfaces/global_interfaces";
+import { ObjectType } from "../../ts/types/app_type";
 
 interface ProductVariantPriceQueryAttributes
   extends ProductVariantPriceAttributes {
@@ -57,7 +57,7 @@ type ProductSourceAttributes = ProductItemQueryAttributes[] &
 export const handleFormatProduct = (
   productSource: ProductSourceAttributes,
   formatType: string
-): ObjectDynamicKeyWithValue[] | ObjectDynamicKeyWithValue => {
+): ObjectType[] | ObjectType => {
   if (formatType === "isObject") {
     const {
       id,

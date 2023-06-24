@@ -21,7 +21,7 @@ import {
 import db from "../models";
 import HttpException from "../utils/exceptions/http.exception";
 import { handleFormatOrder } from "../utils/format/order.format";
-import { ObjectDynamicKeyWithValue } from "../ts/interfaces/global_interfaces";
+import { ObjectType } from "../ts/types/app_type";
 const {
   Customer,
   UserAddress,
@@ -235,7 +235,7 @@ class OrderServices {
           },
         ],
       });
-      console.log(foundOrder);
+
       return {
         statusCode: STATUS_CODE.STATUS_CODE_200,
         data: RestFullAPI.onSuccess(
@@ -266,7 +266,7 @@ class OrderServices {
         price: product_price,
         discount: product_discount,
         unit: product_unit,
-      }: ObjectDynamicKeyWithValue) => ({
+      }: ObjectType) => ({
         id: uuiv4(),
         order_id,
         product_variant_id,
@@ -370,6 +370,10 @@ class OrderServices {
             });
           }
           case ORDER_TYPE.SALE: {
+            await OrderServices.generateOrderProducts({
+              order_id: orderRow.id,
+              products,
+            });
             await OrderServices.updateAgencyProductsAmount({
               products,
             });

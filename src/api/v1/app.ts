@@ -4,6 +4,7 @@ import cors from "cors";
 import db from "./models";
 import { handleSeedData } from "./data/handleSeedData";
 import rootRouter from "./routers";
+
 // ? ============================== INITIATE SERVER ====================================
 const app: Express = express();
 // ? ============================== VARIABLES ====================================
