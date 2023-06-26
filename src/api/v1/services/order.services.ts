@@ -35,6 +35,7 @@ const {
   Tag,
   ProductVariantDetail,
   Payment,
+  Shipper,
 } = db;
 
 type ProductItem = {
@@ -160,9 +161,14 @@ class OrderServices {
           "order_total",
           "order_code",
           "order_delivery_date",
+          "shipper_id",
           "createdAt",
         ],
         include: [
+          {
+            model: Shipper,
+            attributes: ["id", "shipper_unit", "shipper_phone"],
+          },
           {
             model: Payment,
             attributes: ["id", "payment_type"],
@@ -235,7 +241,7 @@ class OrderServices {
           },
         ],
       });
-
+      console.log(foundOrder);
       return {
         statusCode: STATUS_CODE.STATUS_CODE_200,
         data: RestFullAPI.onSuccess(

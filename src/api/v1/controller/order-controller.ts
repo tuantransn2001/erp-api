@@ -43,11 +43,11 @@ class OrderController {
   }
   public static async getByID(req: Request, res: Response, next: NextFunction) {
     try {
-      const { id, order_type } = req.query;
+      const { id, order_type }: ObjectType = req.query;
 
       const { statusCode, data } = await OrderServices.getByID({
-        id: id as string,
-        order_type: order_type as string,
+        id,
+        order_type,
       });
 
       res.status(statusCode).send(data);

@@ -9,8 +9,10 @@ import {
   UserAddressAttributes,
   UserAttributes,
   PaymentAttributes,
+  ShipperAttributes,
 } from "@/src/api/v1/ts/interfaces/app_interfaces";
 import { ORDER_IMPORT_STATUS } from "../../ts/enums/order_enum";
+import { ObjectType } from "../../ts/types/app_type";
 type UserQueryExclude = Omit<
   UserAttributes,
   "user_code" | "user_email" | "user_password" | "user_type" | "isDelete"
@@ -44,6 +46,7 @@ type OrderProductItemQueryExcludeAttributes = {
 };
 
 interface OrderItemQueryAttributes extends OrderAttributes {
+  Shipper: { dataValues: ShipperAttributes };
   Payment: { dataValues: PaymentAttributes };
   Customer: { dataValues: CustomerQueryAttributes };
   Staff: { dataValues: StaffQueryAttributes };
@@ -79,14 +82,10 @@ interface OrderItemResult {
   isPaymentSuccess: boolean;
 }
 
-interface OrderDetailResult {
-  [prop: string]: any;
-}
-
 export const handleFormatOrder = (
   OrderSource: Array<OrderSourceAttributes> & OrderSourceAttributes,
   formatType: string
-): Array<OrderItemResult> | OrderDetailResult => {
+): Array<OrderItemResult> | ObjectType => {
   if (formatType === "isObject") {
     const {
       id,
@@ -97,6 +96,13 @@ export const handleFormatOrder = (
       order_delivery_date,
       createdAt,
     } = OrderSource.dataValues;
+
+    const {
+      id: shipper_id,
+      shipper_unit,
+      shipper_phone,
+    } = OrderSource.dataValues.Shipper.dataValues;
+
     const { id: payment_id, payment_type } =
       OrderSource.dataValues.Payment.dataValues;
     const { id: supplier_id } = OrderSource.dataValues.Customer.dataValues;
@@ -153,6 +159,11 @@ export const handleFormatOrder = (
       order_total,
       order_delivery_date,
       createdAt,
+      shipper: {
+        id: shipper_id,
+        shipper_unit,
+        shipper_phone,
+      },
       payment: {
         id: payment_id,
         payment_type,
