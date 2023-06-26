@@ -241,7 +241,7 @@ class OrderServices {
           },
         ],
       });
-      console.log(foundOrder);
+
       return {
         statusCode: STATUS_CODE.STATUS_CODE_200,
         data: RestFullAPI.onSuccess(
@@ -380,7 +380,7 @@ class OrderServices {
               order_id: orderRow.id,
               products,
             });
-            await OrderServices.updateAgencyProductsAmount({
+            await OrderServices.updateOrderAgencyProductsAmount({
               products,
             });
           }
@@ -497,7 +497,7 @@ class OrderServices {
         };
       });
   }
-  public static async updateAgencyProductsAmount({
+  public static async updateOrderAgencyProductsAmount({
     products,
   }: Omit<OrderProductAttributes, "order_id">) {
     products.forEach(async (p: ProductItem) => {

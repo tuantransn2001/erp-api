@@ -24,14 +24,14 @@ orderRouter
     errorHandler
   )
   .patch(
-    "/import/update-detail-by-id/:id",
+    "/update-detail-by-id/:id",
     authenticate,
     checkExist(Order),
     OrderController.updateDetailByID,
     errorHandler
   )
   .patch(
-    "/import/update-status-by-id/:id",
+    "/update-status-by-id/:id",
     authenticate,
     checkExist(Order),
     OrderController.updateStatusByID,
