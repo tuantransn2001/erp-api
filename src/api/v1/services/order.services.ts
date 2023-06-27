@@ -521,6 +521,141 @@ class OrderServices {
       );
     });
   }
+  // TODO: Continue...
+  // public static async updateProductAmountOnOrderDone() {
+  //   const foundOrder = await Order.findOne({
+  //     where: { id },
+  //     attributes: ["id"],
+  //     include: [
+  //       { model: AgencyBranch, attributes: ["id"] },
+  //       {
+  //         model: OrderProductList,
+  //         attributes: [
+  //           "product_variant_id",
+  //           "product_amount",
+  //           "product_discount",
+  //           "product_price",
+  //         ],
+  //       },
+  //     ],
+  //   });
+
+  //   type AgencyBranchProductListQueryAttributes = {
+  //     dataValues: AgencyBranchProductListAttributes;
+  //   };
+
+  //   const foundAgencyBranchProductList: Array<AgencyBranchProductListQueryAttributes> =
+  //     await AgencyBranchProductList.findAll({
+  //       where: {
+  //         agency_branch_id: foundOrder.dataValues.AgencyBranch.dataValues.id,
+  //       },
+  //     });
+
+  //   // ? Check if the product is still in stock
+  //   const productExistInStockIndex = (product_variant_id: string): number => {
+  //     return foundAgencyBranchProductList.findIndex(
+  //       (agency_product_item: AgencyBranchProductListQueryAttributes) => {
+  //         return (
+  //           agency_product_item.dataValues.product_variant_id ===
+  //           product_variant_id
+  //         );
+  //       }
+  //     );
+  //   };
+
+  //   type OrderProductListQueryAttributes = {
+  //     dataValues: OrderProductListAttributes;
+  //   };
+
+  //   const { newProductInStockRowArr, updateProductInStockRowArr }: ObjectType =
+  //     foundOrder.dataValues.OrderProductLists.reduce(
+  //       (
+  //         result: ObjectType,
+  //         order_product_item: OrderProductListQueryAttributes
+  //       ) => {
+  //         const {
+  //           product_variant_id,
+  //           product_amount,
+  //           product_discount,
+  //           product_price,
+  //         } = order_product_item.dataValues;
+  //         if (productExistInStockIndex(product_variant_id) !== -1) {
+  //           result.updateProductInStockRowArr.push({
+  //             agency_branch_id:
+  //               foundOrder.dataValues.AgencyBranch.dataValues.id,
+  //             product_variant_id,
+  //             product_amount,
+  //             product_price,
+  //             product_amount_inStock:
+  //               foundAgencyBranchProductList[
+  //                 productExistInStockIndex(product_variant_id)
+  //               ].dataValues.available_to_sell_quantity,
+  //             product_price_inStock:
+  //               foundAgencyBranchProductList[
+  //                 productExistInStockIndex(product_variant_id)
+  //               ].dataValues.product_price,
+  //           });
+  //         } else {
+  //           result.newProductInStockRowArr.push({
+  //             agency_branch_id:
+  //               foundOrder.dataValues.AgencyBranch.dataValues.id,
+  //             product_variant_id,
+  //             available_quantity: product_amount,
+  //             trading_quantity: 0,
+  //             available_to_sell_quantity: product_amount,
+  //             product_price,
+  //             product_discount,
+  //           });
+  //         }
+
+  //         return result;
+  //       },
+  //       {
+  //         newProductInStockRowArr: [],
+  //         updateProductInStockRowArr: [],
+  //       }
+  //     );
+  //   // ? => true -> update amount
+  //   if (!isEmpty(updateProductInStockRowArr)) {
+  //     updateProductInStockRowArr.forEach(
+  //       async ({
+  //         agency_branch_id,
+  //         product_variant_id,
+  //         product_amount,
+  //         product_price,
+  //         product_amount_inStock,
+  //         product_price_inStock,
+  //       }) => {
+  //         const updateProductInStock = {
+  //           product_price:
+  //             (product_amount_inStock * product_price_inStock +
+  //               product_amount * product_price) /
+  //             (product_amount_inStock + product_amount),
+  //           available_quantity:
+  //             foundAgencyBranchProductList[
+  //               productExistInStockIndex(product_variant_id)
+  //             ].dataValues.available_quantity + product_amount,
+  //           available_to_sell_quantity:
+  //             foundAgencyBranchProductList[
+  //               productExistInStockIndex(product_variant_id)
+  //             ].dataValues.available_to_sell_quantity + product_amount,
+  //           updatedAt: new Date(),
+  //         };
+
+  //         await AgencyBranchProductList.update(updateProductInStock, {
+  //           where: { agency_branch_id, product_variant_id },
+  //         });
+  //       }
+  //     );
+  //   }
+  //   // ? => false -> create new
+  //   if (!isEmpty(newProductInStockRowArr)) {
+  //     await AgencyBranchProductList.bulkCreate(newProductInStockRowArr);
+  //   }
+  //   res
+  //     .status(STATUS_CODE.STATUS_CODE_201)
+  //     .send(RestFullAPI.onSuccess(STATUS_MESSAGE.SUCCESS));
+  // }
 }
 
 export default OrderServices;
