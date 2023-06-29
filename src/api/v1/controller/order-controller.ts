@@ -3,7 +3,6 @@ import {
   isEmpty,
   checkMissPropertyInObjectBaseOnValueCondition,
   handleFormatUpdateDataByValidValue,
-  isAcceptUpdateTag,
   removeItem,
 } from "../../v1/common";
 import { STATUS_CODE, STATUS_MESSAGE } from "../../v1/ts/enums/api_enums";
@@ -18,6 +17,7 @@ import db from "../models";
 import OrderServices from "../services/order.services";
 import CommonServices from "../services/common.services";
 import { ObjectType } from "../ts/types/app_type";
+import DebtService from "../services/debt.services";
 const { Order, OrderProductList, OrderTag } = db;
 
 const ORDER_SALE_STATUS_VALUES: string[] = removeItem(
@@ -119,7 +119,7 @@ class OrderController {
               });
 
             const updateTagResult =
-              isAcceptUpdateTag(tags) &&
+              CommonServices.isAcceptUpdateTag(tags) &&
               (await CommonServices.updateTags({
                 TagJunctionModel: OrderTag,
                 queryCondition: {
@@ -175,7 +175,7 @@ class OrderController {
           });
 
           const updateTagResult =
-            isAcceptUpdateTag(tags) &&
+            CommonServices.isAcceptUpdateTag(tags) &&
             (await CommonServices.updateTags({
               TagJunctionModel: OrderTag,
               queryCondition: {
@@ -318,6 +318,19 @@ class OrderController {
             )
           );
       }
+    } catch (err) {
+      next(err);
+    }
+  }
+  public static async pay(req: Request, res: Response, next: NextFunction) {
+    try {
+      const { statusCode, data } = await DebtService.pay({
+        user_id: req.query.user_id as string,
+        source_id: req.query.source_id as string,
+        debt_payment_amount: req.query.debt_payment_amount as string,
+      });
+
+      res.status(statusCode).send(data);
     } catch (err) {
       next(err);
     }

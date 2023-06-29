@@ -41,6 +41,9 @@ class CommonServices {
         });
     }
   }
+  public static isAcceptUpdateTag(tags: Array<string>) {
+    return typeof tags !== undefined && !isEmpty(tags);
+  }
 }
 
 export default CommonServices;

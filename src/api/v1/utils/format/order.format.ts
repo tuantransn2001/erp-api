@@ -11,8 +11,8 @@ import {
   PaymentAttributes,
   ShipperAttributes,
 } from "@/src/api/v1/ts/interfaces/app_interfaces";
+import OrderServices from "../../services/order.services";
 import { ORDER_IMPORT_STATUS } from "../../ts/enums/order_enum";
-import { ObjectType } from "../../ts/types/app_type";
 type UserQueryExclude = Omit<
   UserAttributes,
   "user_code" | "user_email" | "user_password" | "user_type" | "isDelete"
@@ -69,26 +69,13 @@ interface OrderSourceAttributes {
   dataValues: OrderItemQueryAttributes;
 }
 
-interface OrderItemResult {
-  id: string;
-  order_status: string;
-  order_note?: string;
-  createdAt: Date;
-  supplier_name: string;
-  supplier_phone: string;
-  staff_name: string;
-  agency_branch_name: string;
-  order_total: number;
-  isPaymentSuccess: boolean;
-}
-
 export const handleFormatOrder = (
   OrderSource: Array<OrderSourceAttributes> & OrderSourceAttributes,
   formatType: string
-): Array<OrderItemResult> | ObjectType => {
+) => {
   if (formatType === "isObject") {
     const {
-      id,
+      id: order_id,
       order_note,
       order_status,
       order_total,
@@ -151,8 +138,14 @@ export const handleFormatOrder = (
         };
       }
     );
+    // ? =============================================================================
+    // ? ====================== AUTOMATIC UPDATE STATUS===============================
+    // ? =============================================================================
+    (async () => {
+      await OrderServices.updateOrderOnSuccess({ user_id, order_id });
+    })();
     return {
-      id,
+      id: order_id,
       order_code,
       order_status,
       order_note,
@@ -184,35 +177,43 @@ export const handleFormatOrder = (
       order_product_list,
     };
   }
-  const orderResultList: Array<OrderItemResult> = OrderSource.map(
-    (orderItem: OrderSourceAttributes) => {
-      const { id, order_status, order_note, order_total, order_code } =
-        orderItem.dataValues;
-      const { user_name: supplier_name, user_phone: supplier_phone } =
-        orderItem.dataValues.Customer.dataValues.User.dataValues;
-      const { user_name: staff_name } =
-        orderItem.dataValues.Staff.dataValues.User.dataValues;
-      const { agency_branch_name } =
-        orderItem.dataValues.AgencyBranch.dataValues;
+  return OrderSource.map((orderItem: OrderSourceAttributes) => {
+    const {
+      id: order_id,
+      order_status,
+      order_note,
+      order_total,
+      order_code,
+    } = orderItem.dataValues;
+    const {
+      id: user_id,
+      user_name: supplier_name,
+      user_phone: supplier_phone,
+    } = orderItem.dataValues.Customer.dataValues.User.dataValues;
+    const { user_name: staff_name } =
+      orderItem.dataValues.Staff.dataValues.User.dataValues;
+    const { agency_branch_name } = orderItem.dataValues.AgencyBranch.dataValues;
 
-      const isPaymentSuccess: boolean =
-        order_status === ORDER_IMPORT_STATUS.DONE ? true : false;
-
-      return {
-        id,
-        staff_name,
-        supplier_name,
-        supplier_phone,
-        agency_branch_name,
-        order_code,
-        order_status,
-        order_total,
-        isPaymentSuccess,
-        order_note,
-        createdAt: orderItem.dataValues.createdAt as Date,
-      };
-    }
-  );
-
-  return orderResultList;
+    const isPaymentSuccess: boolean =
+      order_status === ORDER_IMPORT_STATUS.DONE ? true : false;
+    // ? =============================================================================
+    // ? ====================== AUTOMATIC UPDATE STATUS===============================
+    // ? =============================================================================
+    (async () => {
+      await OrderServices.updateOrderOnSuccess({ user_id, order_id });
+    })();
+    return {
+      id: order_id,
+      staff_name,
+      supplier_name,
+      supplier_phone,
+      agency_branch_name,
+      order_code,
+      order_status,
+      order_total,
+      isPaymentSuccess,
+      order_note,
+      createdAt: orderItem.dataValues.createdAt as Date,
+    };
+  });
 };

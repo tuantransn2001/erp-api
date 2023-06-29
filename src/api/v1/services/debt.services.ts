@@ -13,6 +13,8 @@ type DebtPayPayload = {
   debt_payment_amount: string;
 };
 
+type DebtGetTotalPayload = { user_id: string };
+
 class DebtService {
   public static async pay({
     user_id,
@@ -96,6 +98,34 @@ class DebtService {
           };
         }
       }
+    } catch (err) {
+      return {
+        statusCode: STATUS_CODE.STATUS_CODE_500,
+        data: handleError(err as Error),
+      };
+    }
+  }
+  public static async getTotal({ user_id }: DebtGetTotalPayload) {
+    try {
+      const foundDebt = await Debt.findOne({
+        where: {
+          user_id,
+        },
+        attributes: ["id", "debt_amount", "createdAt", "updatedAt"],
+        order: [["createdAt", "DESC"]],
+      });
+
+      const { id, debt_amount, createdAt, updatedAt } = foundDebt.dataValues;
+
+      return {
+        statusCode: STATUS_CODE.STATUS_CODE_200,
+        data: RestFullAPI.onSuccess(STATUS_MESSAGE.SUCCESS, {
+          id,
+          debt_amount,
+          createdAt,
+          updatedAt,
+        }),
+      };
     } catch (err) {
       return {
         statusCode: STATUS_CODE.STATUS_CODE_500,

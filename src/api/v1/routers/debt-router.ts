@@ -7,12 +7,18 @@ const { User } = db;
 const debtRouter = Router();
 
 debtRouter
-  .post("/pay", authenticate, DebtController.pay, errorHandler)
   .get(
     "/get-change-logs/:id",
     authenticate,
     checkExist(User),
     DebtController.getAllChangeByUserID,
+    errorHandler
+  )
+  .get(
+    "/:id",
+    authenticate,
+    checkExist(User),
+    DebtController.getDebtAmount,
     errorHandler
   );
 

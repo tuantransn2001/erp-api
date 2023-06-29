@@ -7,7 +7,7 @@ import {
 } from "../ts/enums/order_enum";
 import { CUSTOMER_ACTION } from "../../v1/ts/enums/app_enums";
 import {
-  AgencyBranchProductListAttributes,
+  // AgencyBranchProductListAttributes,
   DebtAttributes,
   OrderAttributes,
   OrderProductListAttributes,
@@ -23,6 +23,8 @@ import db from "../models";
 import HttpException from "../utils/exceptions/http.exception";
 import { handleFormatOrder } from "../utils/format/order.format";
 import { ObjectType } from "../ts/types/app_type";
+import { handleError } from "../utils/handleError/handleError";
+import DebtService from "./debt.services";
 const {
   Customer,
   UserAddress,
@@ -37,7 +39,6 @@ const {
   ProductVariantDetail,
   Payment,
   Shipper,
-  AgencyBranchProductList,
 } = db;
 
 type ProductItem = {
@@ -79,15 +80,12 @@ type UpdateOrderProductListDataAttributes = {
   JunctionModel: any;
   updateProductsData: Array<ProductItem>;
 };
-type OrderProductListQueryAttributes = {
-  dataValues: OrderProductListAttributes;
-};
-type AgencyBranchProductListQueryAttributes = {
-  dataValues: AgencyBranchProductListAttributes;
-};
-type UpdateImportProductAmountOnOrderDone = {
+
+type UpdateOrderOnSuccessAttributes = {
   order_id: string;
+  user_id: string;
 };
+
 class OrderServices {
   public static calculateOrderTotal(productList: Array<ProductItem>) {
     return productList.reduce((total: number, product: ProductItem) => {
@@ -530,146 +528,50 @@ class OrderServices {
         }
       );
     });
+    return;
   }
-  // TODO: Continue...
-  public static async updateProductAmountOnOrderDone({
+  public static async updateOrderOnSuccess({
+    user_id,
     order_id,
-  }: UpdateImportProductAmountOnOrderDone) {
-    const foundOrder = await Order.findOne({
-      where: { id: order_id },
-      attributes: ["id", "order_type"],
-      include: [
-        { model: AgencyBranch, attributes: ["id"] },
-        {
-          model: OrderProductList,
-          attributes: [
-            "product_variant_id",
-            "product_amount",
-            "product_discount",
-            "product_price",
-          ],
-        },
-      ],
-    });
-
-    // const current_order_type = foundOrder.dataValues.order_type;
-
-    const foundAgencyBranchProductList: Array<AgencyBranchProductListQueryAttributes> =
-      await AgencyBranchProductList.findAll({
+  }: UpdateOrderOnSuccessAttributes) {
+    try {
+      // ? Check total debt
+      // ? Check last status
+      const foundOrder = await Order.findOne({
         where: {
-          agency_branch_id: foundOrder.dataValues.AgencyBranch.dataValues.id,
+          id: order_id,
         },
       });
 
-    // ? Check if the product is still in stock
-    const productExistInStockIndex = (product_variant_id: string): number => {
-      return foundAgencyBranchProductList.findIndex(
-        (agency_product_item: AgencyBranchProductListQueryAttributes) => {
-          return (
-            agency_product_item.dataValues.product_variant_id ===
-            product_variant_id
-          );
-        }
-      );
-    };
+      const { order_status, order_type } = foundOrder.dataValues;
+      const isOK = async () => {
+        const { data: debtData }: ObjectType = await DebtService.getTotal({
+          user_id,
+        });
+        const { debt_amount }: ObjectType = debtData.data;
 
-    const { newProductInStockRowArr, updateProductInStockRowArr }: ObjectType =
-      foundOrder.dataValues.OrderProductLists.reduce(
-        (
-          result: ObjectType,
-          order_product_item: OrderProductListQueryAttributes
-        ) => {
-          const {
-            product_variant_id,
-            product_amount,
-            product_discount,
-            product_price,
-          } = order_product_item.dataValues;
-          if (productExistInStockIndex(product_variant_id) !== -1) {
-            result.updateProductInStockRowArr.push({
-              agency_branch_id:
-                foundOrder.dataValues.AgencyBranch.dataValues.id,
-              product_variant_id,
-              product_amount,
-              product_price,
-              product_amount_inStock:
-                foundAgencyBranchProductList[
-                  productExistInStockIndex(product_variant_id)
-                ].dataValues.available_to_sell_quantity,
-              product_price_inStock:
-                foundAgencyBranchProductList[
-                  productExistInStockIndex(product_variant_id)
-                ].dataValues.product_price,
-            });
-          } else {
-            result.newProductInStockRowArr.push({
-              agency_branch_id:
-                foundOrder.dataValues.AgencyBranch.dataValues.id,
-              product_variant_id,
-              available_quantity: product_amount,
-              trading_quantity: 0,
-              available_to_sell_quantity: product_amount,
-              product_price,
-              product_discount,
-            });
-          }
+        return (
+          parseFloat(debt_amount) === 0 &&
+          (order_status === ORDER_IMPORT_STATUS.TRADING ||
+            ORDER_SALE_STATUS.DELIVERY)
+        );
+      };
 
-          return result;
-        },
-        {
-          newProductInStockRowArr: [],
-          updateProductInStockRowArr: [],
-        }
-      );
-    // ? => true -> update amount
-    if (!isEmpty(updateProductInStockRowArr)) {
-      updateProductInStockRowArr.forEach(
-        async ({
-          agency_branch_id,
-          product_variant_id,
-          product_amount,
-          product_price,
-          product_amount_inStock,
-          product_price_inStock,
-        }) => {
-          const updateProductInStock = {
-            product_price:
-              (product_amount_inStock * product_price_inStock +
-                product_amount * product_price) /
-              (product_amount_inStock + product_amount),
-            available_quantity:
-              // ? Solution 1
-              foundAgencyBranchProductList[
-                productExistInStockIndex(product_variant_id)
-              ].dataValues.available_quantity + product_amount,
-            // ? Solution 2
-            //   db.sequelize.literal(`available_quantity + ${product_amount}`),
-            // ? Solution 1
-            available_to_sell_quantity:
-              foundAgencyBranchProductList[
-                productExistInStockIndex(product_variant_id)
-              ].dataValues.available_to_sell_quantity + product_amount,
-            // ? Solution 2
-            // db.sequelize.literal(
-            //   `available_to_sell_quantity + ${product_amount}`
-            // ),
-            updatedAt: new Date(),
-          };
+      if (await isOK()) {
+        // ? => Accept update => Update => Return
+        const UPDATE_ORDER_STATUS = {
+          [ORDER_TYPE.IMPORT]: ORDER_IMPORT_STATUS.DONE,
+          [ORDER_TYPE.SALE]: ORDER_SALE_STATUS.DONE,
+        };
 
-          await AgencyBranchProductList.update(updateProductInStock, {
-            where: { agency_branch_id, product_variant_id },
-          });
-        }
-      );
+        foundOrder.order_status = UPDATE_ORDER_STATUS[order_type];
+        await foundOrder.save();
+      }
+
+      return;
+    } catch (err) {
+      return handleError(err as Error);
     }
-    // ? => false -> create new
-    if (!isEmpty(newProductInStockRowArr)) {
-      await AgencyBranchProductList.bulkCreate(newProductInStockRowArr);
-    }
-    return {
-      statusCode: STATUS_CODE.STATUS_CODE_200,
-      data: RestFullAPI.onSuccess(STATUS_MESSAGE.SUCCESS),
-    };
   }
 }
 
