@@ -4,6 +4,7 @@ import {
   checkMissPropertyInObjectBaseOnValueCondition,
   handleFormatUpdateDataByValidValue,
   isAcceptUpdateTag,
+  removeItem,
 } from "../../v1/common";
 import { STATUS_CODE, STATUS_MESSAGE } from "../../v1/ts/enums/api_enums";
 import {
@@ -18,6 +19,15 @@ import OrderServices from "../services/order.services";
 import CommonServices from "../services/common.services";
 import { ObjectType } from "../ts/types/app_type";
 const { Order, OrderProductList, OrderTag } = db;
+
+const ORDER_SALE_STATUS_VALUES: string[] = removeItem(
+  Object.values(ORDER_SALE_STATUS),
+  ORDER_SALE_STATUS.DONE
+);
+const ORDER_IMPORT_STATUS_VALUES: string[] = removeItem(
+  Object.values(ORDER_IMPORT_STATUS),
+  ORDER_IMPORT_STATUS.DONE
+);
 
 class OrderController {
   public static async getAll(req: Request, res: Response, next: NextFunction) {
@@ -193,11 +203,11 @@ class OrderController {
     next: NextFunction
   ) {
     try {
-      const { id } = req.params;
-      const { order_status: update_status } = req.body;
+      const { id: order_id } = req.params;
+      const { update_status } = req.body;
 
       const foundOrder = await Order.findOne({
-        where: { id },
+        where: { id: order_id },
       });
 
       const _order_type = foundOrder.dataValues.order_type;
@@ -213,8 +223,8 @@ class OrderController {
 
         const VALID_STATUS_LIST =
           _order_type === ORDER_TYPE.SALE
-            ? new Set(Object.values(ORDER_SALE_STATUS) as string[])
-            : new Set(Object.values(ORDER_IMPORT_STATUS) as string[]);
+            ? new Set(ORDER_SALE_STATUS_VALUES)
+            : new Set(ORDER_IMPORT_STATUS_VALUES);
 
         const argMissArr = checkMissPropertyInObjectBaseOnValueCondition(
           { update_status },
@@ -253,7 +263,6 @@ class OrderController {
       if (checkAcceptUpdate().isOK) {
         // ? check order_status - order_status must be [ cancel , trading , return ]
 
-        const foundOrder = await Order.findOne({ where: { id } });
         const current_status = foundOrder.dataValues.order_status;
 
         switch (current_status) {

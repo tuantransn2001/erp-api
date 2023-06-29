@@ -6,6 +6,7 @@ import RestFullAPI from "../utils/response/apiResponse";
 import HashStringHandler from "../utils/hashString/string.hash";
 import jwt from "jsonwebtoken";
 import db from "../models";
+import { MyRequest } from "../ts/interfaces/global_interfaces";
 const { User } = db;
 class AuthController {
   public static async login(req: Request, res: Response, next: NextFunction) {
@@ -74,6 +75,23 @@ class AuthController {
             )
           );
       }
+    } catch (err) {
+      next(err);
+    }
+  }
+  public static async me(req: MyRequest, res: Response, next: NextFunction) {
+    try {
+      const foundUser = await User.findOne({
+        attributes: ["id", "user_code", "user_name"],
+        where: {
+          id: req.currentUserID,
+          isDelete: null,
+        },
+      });
+
+      res
+        .status(STATUS_CODE.STATUS_CODE_200)
+        .send(RestFullAPI.onSuccess(STATUS_MESSAGE.SUCCESS, foundUser));
     } catch (err) {
       next(err);
     }

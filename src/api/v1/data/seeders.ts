@@ -6,7 +6,7 @@ const ADMIN_PASSWORD: string = process.env.ADMIN_PASSWORD as string;
 export const USER_ARRAY = [
   {
     id: "27e83e28-b3de-4212-be39-81e61198d77b",
-    user_name: "Trần Thái Tuấn",
+    user_name: "Trần Tuấn",
     user_type: "admin",
     user_phone: "0123456789",
     user_email: "admin@gmail.com",
