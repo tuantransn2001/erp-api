@@ -1,4 +1,3 @@
-const { v4: uuidv4 } = require("uuid");
 import { Request, Response, NextFunction } from "express";
 import { TagAttributes } from "@/src/api/v1/ts/interfaces/app_interfaces";
 import { handleFormatUpdateDataByValidValue } from "../../v1/common";
@@ -19,36 +18,13 @@ class TagController {
   }
   public static async create(req: Request, res: Response, next: NextFunction) {
     try {
-      const { tag_title, tag_description } = req.body;
+      const tags: TagAttributes[] = req.body.tags;
 
-      const foundTag = await Tag.findOne({
-        where: {
-          tag_title,
-        },
-      });
+      await Tag.bulkCreate(tags);
 
-      if (foundTag) {
-        res
-          .status(STATUS_CODE.STATUS_CODE_409)
-          .send(
-            RestFullAPI.onSuccess(
-              STATUS_MESSAGE.CONFLICT,
-              "Tag is already exist!"
-            )
-          );
-      } else {
-        const tagID: string = uuidv4();
-        const newTagRow: TagAttributes = {
-          id: tagID,
-          tag_title,
-          tag_description,
-        };
-
-        await Tag.create(newTagRow);
-        res
-          .status(STATUS_CODE.STATUS_CODE_200)
-          .send(RestFullAPI.onSuccess(STATUS_MESSAGE.SUCCESS));
-      }
+      res
+        .status(STATUS_CODE.STATUS_CODE_200)
+        .send(RestFullAPI.onSuccess(STATUS_MESSAGE.SUCCESS));
     } catch (err) {
       next(err);
     }
