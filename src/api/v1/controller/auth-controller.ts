@@ -7,7 +7,7 @@ import HashStringHandler from "../utils/hashString/string.hash";
 import jwt from "jsonwebtoken";
 import db from "../models";
 import { MyRequest } from "../ts/interfaces/global_interfaces";
-const { User } = db;
+const { User, Staff } = db;
 class AuthController {
   public static async login(req: Request, res: Response, next: NextFunction) {
     try {
@@ -87,11 +87,24 @@ class AuthController {
           id: req.currentUserID,
           isDelete: null,
         },
+        include: [
+          {
+            model: Staff,
+            attributes: ["id"],
+          },
+        ],
       });
 
-      res
-        .status(STATUS_CODE.STATUS_CODE_200)
-        .send(RestFullAPI.onSuccess(STATUS_MESSAGE.SUCCESS, foundUser));
+      const { id, user_code, user_name } = foundUser.dataValues;
+      const { id: staff_id } = foundUser.dataValues.Staff.dataValues;
+      res.status(STATUS_CODE.STATUS_CODE_200).send(
+        RestFullAPI.onSuccess(STATUS_MESSAGE.SUCCESS, {
+          id,
+          staff_id,
+          user_code,
+          user_name,
+        })
+      );
     } catch (err) {
       next(err);
     }

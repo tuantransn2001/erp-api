@@ -5247,6 +5247,16 @@ export const CUSTOMER_TAG_LIST_ARRAY = [
 ];
 export const STAFF_ARRAY = [
   {
+    id: "36adfa49-0a33-4124-81e7-f6c885b2418d",
+    user_id: "27e83e28-b3de-4212-be39-81e61198d77b",
+    staff_status: "Đang làm việc",
+    staff_birthday: "2023-04-12T14:59:18.275Z",
+    staff_gender: true,
+    note_about_staff: "Những ghi chú về nhân viên sẽ được lưu ở cột này",
+    isAllowViewImportNWholesalePrice: true,
+    isAllowViewShippingPrice: true,
+  },
+  {
     id: "e35d810a-96ea-4fcd-aa12-71e4d5b196c6",
     user_id: "06d76f1d-824b-4cba-b388-6567ccc8f270",
     staff_status: "Đang làm việc",
