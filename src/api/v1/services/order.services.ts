@@ -508,8 +508,16 @@ class OrderServices {
       await JunctionModel.destroy({
         where: queryCondition,
       });
-      await JunctionModel.bulkCreate(orderProductRowArr);
 
+      // ? ======================================================================
+      // ? Add New Product Data ( new available to sell , available )
+      // ? ======================================================================
+
+      await JunctionModel.bulkCreate(orderProductRowArr);
+      await OrderServices.updateOrderAgencyProductsAmountOnUpdate({
+        products: updateProductsData,
+        operator: "minus",
+      });
       return {
         statusCode: STATUS_CODE.STATUS_CODE_200,
         data: RestFullAPI.onSuccess(STATUS_MESSAGE.SUCCESS),
