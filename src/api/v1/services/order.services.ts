@@ -7,7 +7,6 @@ import {
 } from "../ts/enums/order_enum";
 import { CUSTOMER_ACTION } from "../../v1/ts/enums/app_enums";
 import {
-  // AgencyBranchProductListAttributes,
   DebtAttributes,
   OrderAttributes,
   OrderProductListAttributes,
@@ -72,8 +71,10 @@ type UpdateDetailDataAttributes = {
   updateData: OrderAttributes;
 };
 type OrderProductAttributes = {
+  order_type: string;
   order_id: string;
   products: Array<ProductItem>;
+  operator?: string;
 };
 type UpdateOrderProductListDataAttributes = {
   queryCondition: { order_id: string };
@@ -273,23 +274,27 @@ class OrderServices {
     products,
   }: OrderProductAttributes) {
     // ? ===== Generate product list
-    const orderProductRowArr: Array<OrderProductListAttributes> = products.map(
-      ({
-        p_variant_id: product_variant_id,
-        amount: product_amount,
-        price: product_price,
-        discount: product_discount,
-        unit: product_unit,
-      }: ObjectType) => ({
-        id: uuiv4(),
-        order_id,
-        product_variant_id,
-        product_amount,
-        product_price,
-        product_discount,
-        product_unit,
-      })
-    );
+
+    const orderProductRowArr: Array<Partial<OrderProductListAttributes>> =
+      products.map(
+        ({
+          p_variant_id: product_variant_id,
+          amount: product_amount,
+          price: product_price,
+          discount: product_discount,
+          unit: product_unit,
+        }: ObjectType) => {
+          return {
+            id: uuiv4(),
+            order_id,
+            product_variant_id,
+            product_amount,
+            product_price,
+            product_discount,
+            product_unit,
+          };
+        }
+      );
 
     await OrderProductList.bulkCreate(orderProductRowArr);
   }
@@ -381,16 +386,21 @@ class OrderServices {
             await OrderServices.generateOrderProducts({
               order_id: orderRow.id,
               products,
+              order_type,
             });
+            break;
           }
           case ORDER_TYPE.SALE: {
             await OrderServices.generateOrderProducts({
               order_id: orderRow.id,
               products,
+              order_type,
             });
             await OrderServices.updateOrderAgencyProductsAmountOnUpdate({
               products,
+              operator: "minus",
             });
+            break;
           }
         }
 
@@ -436,12 +446,8 @@ class OrderServices {
       undefined
     );
 
-    await JunctionModel.destroy({
-      where: queryCondition,
-    });
-
     if (isEmpty(argMissArr)) {
-      const orderProductRowArr: Array<OrderProductListAttributes> =
+      const orderProductRowArr: Array<Partial<OrderProductListAttributes>> =
         updateProductsData.map(
           ({
             p_variant_id: product_variant_id,
@@ -459,22 +465,55 @@ class OrderServices {
             product_unit,
           })
         );
+      // ? ======================================================================
+      // ? Reset Old Product Data ( restore available to sell , available )
+      // ? ======================================================================
 
-      return await JunctionModel.bulkCreate(orderProductRowArr)
-        .then(() => {
-          return {
-            statusCode: STATUS_CODE.STATUS_CODE_200,
-            data: RestFullAPI.onSuccess(STATUS_MESSAGE.SUCCESS),
-          };
-        })
-        .catch((err: HttpException) => {
-          return {
-            statusCode: STATUS_CODE.STATUS_CODE_500,
-            data: RestFullAPI.onSuccess(STATUS_MESSAGE.SERVER_ERROR, {
-              message: err.message,
-            }),
-          };
+      // ? Update Agency Product Amount - ORDER SALE Only
+      const getCurrentOrderDetail = async () => {
+        const foundOrder = await Order.findOne({
+          where: { id: order_id },
+          include: [
+            {
+              model: OrderProductList,
+            },
+          ],
         });
+
+        return {
+          type: foundOrder.dataValues.order_type,
+          resetOldProductAmountData:
+            foundOrder.dataValues.OrderProductLists.map(
+              (order_product_item: {
+                dataValues: OrderProductListAttributes;
+              }) => {
+                const {
+                  product_variant_id: p_variant_id,
+                  product_amount: amount,
+                } = order_product_item.dataValues;
+
+                return { p_variant_id, amount };
+              }
+            ),
+        };
+      };
+
+      if ((await getCurrentOrderDetail()).type === ORDER_TYPE.SALE) {
+        await OrderServices.updateOrderAgencyProductsAmountOnUpdate({
+          products: (await getCurrentOrderDetail()).resetOldProductAmountData,
+          operator: "plus",
+        });
+      }
+
+      await JunctionModel.destroy({
+        where: queryCondition,
+      });
+      await JunctionModel.bulkCreate(orderProductRowArr);
+
+      return {
+        statusCode: STATUS_CODE.STATUS_CODE_200,
+        data: RestFullAPI.onSuccess(STATUS_MESSAGE.SUCCESS),
+      };
     } else {
       return {
         statusCode: STATUS_CODE.STATUS_CODE_406,
@@ -507,28 +546,35 @@ class OrderServices {
   }
   public static async updateOrderAgencyProductsAmountOnUpdate({
     products,
-  }: Omit<OrderProductAttributes, "order_id">) {
-    products.forEach(async (p: ProductItem) => {
+    operator,
+  }: Omit<OrderProductAttributes, "order_type" | "order_id">) {
+    const OPERATOR = {
+      minus: "-",
+      plus: "+",
+    };
+    type Key = keyof typeof OPERATOR;
+    products.forEach(async ({ amount, p_variant_id }: ProductItem) => {
       await db.AgencyBranchProductList.update(
         {
           available_quantity: db.sequelize.literal(
-            `available_quantity - ${p.amount}`
+            `available_quantity ${OPERATOR[operator as Key]} ${amount}`
           ),
           available_to_sell_quantity: db.sequelize.literal(
-            `available_to_sell_quantity - ${p.amount}`
+            `available_to_sell_quantity ${OPERATOR[operator as Key]} ${amount}`
           ),
           trading_quantity: db.sequelize.literal(
-            `trading_quantity + ${p.amount}`
+            `trading_quantity ${
+              operator === "minus" ? OPERATOR["plus"] : OPERATOR["minus"]
+            } ${amount}`
           ),
         },
         {
           where: {
-            product_variant_id: p.p_variant_id,
+            product_variant_id: p_variant_id,
           },
         }
       );
     });
-    return;
   }
   public static async updateOrderOnSuccess({
     user_id,

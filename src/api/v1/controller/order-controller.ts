@@ -67,7 +67,13 @@ class OrderController {
         where: {
           id: order_id,
         },
+        include: [
+          {
+            model: OrderProductList,
+          },
+        ],
       });
+
       const order_status = foundOrder.dataValues.order_status;
       // ? Check status => ...
       // * [ GENERATE , TRADING , DONE ]

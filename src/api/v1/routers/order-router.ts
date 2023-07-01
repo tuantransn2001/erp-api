@@ -23,6 +23,7 @@ orderRouter
     OrderController.Import().create,
     errorHandler
   )
+  .post("/sale/create", OrderController.Sale().create, errorHandler)
   .patch(
     "/update-detail-by-id/:id",
     authenticate,
@@ -37,7 +38,6 @@ orderRouter
     OrderController.updateStatusByID,
     errorHandler
   )
-  .post("/sale/create", OrderController.Sale().create, errorHandler)
   .patch("/pay", authenticate, OrderController.pay, errorHandler);
 
 export default orderRouter;
