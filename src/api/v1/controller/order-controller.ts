@@ -18,7 +18,7 @@ import OrderServices from "../services/order.services";
 import CommonServices from "../services/common.services";
 import { ObjectType } from "../ts/types/app_type";
 import DebtService from "../services/debt.services";
-const { Order, OrderProductList, OrderTag } = db;
+const { Order, OrderProductList, OrderTag, Customer, User } = db;
 
 const ORDER_SALE_STATUS_VALUES: string[] = removeItem(
   Object.values(ORDER_SALE_STATUS),
@@ -215,10 +215,23 @@ class OrderController {
 
       const foundOrder = await Order.findOne({
         where: { id: order_id },
+        include: [
+          {
+            model: Customer,
+            attributes: ["id", "user_id"],
+            include: [
+              {
+                model: User,
+                attributes: ["id"],
+              },
+            ],
+          },
+        ],
       });
 
       const _order_type = foundOrder.dataValues.order_type;
-
+      const user_id =
+        foundOrder.dataValues.Customer.dataValues.User.dataValues.id;
       const checkAcceptUpdate = () => {
         let isOK: boolean = false;
         let messages: string[] = [];
@@ -283,6 +296,11 @@ class OrderController {
             foundOrder.order_status = update_status;
             await foundOrder.save();
 
+            await OrderServices.updateOrderOnSuccess({
+              user_id,
+              order_id,
+            });
+
             res
               .status(STATUS_CODE.STATUS_CODE_201)
               .send(RestFullAPI.onSuccess(STATUS_MESSAGE.SUCCESS));
@@ -337,6 +355,10 @@ class OrderController {
         debt_payment_amount: req.query.debt_payment_amount as string,
       });
 
+      await OrderServices.updateOrderOnSuccess({
+        user_id: req.query.user_id as string,
+        order_id: req.query.source_id as string,
+      });
       res.status(statusCode).send(data);
     } catch (err) {
       next(err);

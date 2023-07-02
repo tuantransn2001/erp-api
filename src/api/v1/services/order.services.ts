@@ -84,7 +84,7 @@ type UpdateOrderProductListDataAttributes = {
 
 type UpdateOrderOnSuccessAttributes = {
   order_id: string;
-  user_id?: string;
+  user_id: string;
 };
 
 type UpdateStatusDoneBeforeGet = {
@@ -154,10 +154,6 @@ class OrderServices {
   }
   public static async getAll(order_type: string) {
     try {
-      await OrderServices.updateStatusDoneBeforeGet({
-        order_type,
-      });
-
       const orderList = await Order.findAll({
         where: {
           order_type,
@@ -222,17 +218,6 @@ class OrderServices {
   }
   public static async getByID(queryConditions: QueryConditionAttributes) {
     try {
-      const foundOrderCheck = await Order.findOne({
-        where: queryConditions,
-        attributes: ["id", "order_type"],
-      });
-
-      const { order_type } = foundOrderCheck.dataValues;
-
-      await OrderServices.updateStatusDoneBeforeGet({
-        order_type,
-      });
-
       const foundOrder = await Order.findOne({
         where: queryConditions,
         attributes: [
