@@ -33,6 +33,7 @@
     "webpack-node-externals": "^3.0.0"
   },
   "dependencies": {
+    "awaity": "^1.0.0",
     "bcrypt": "^5.1.0",
     "clean-webpack-plugin": "^4.0.0",
     "cors": "^2.8.5",

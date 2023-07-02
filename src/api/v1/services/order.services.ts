@@ -1,4 +1,5 @@
 import { v4 as uuiv4 } from "uuid";
+import reduce from "awaity/reduce";
 import { randomStringByCharsetAndLength } from "../../v1/common";
 import {
   ORDER_IMPORT_STATUS,
@@ -36,6 +37,7 @@ const {
   AgencyBranch,
   Tag,
   ProductVariantDetail,
+  AgencyBranchProductList,
   Payment,
   Shipper,
 } = db;
@@ -75,6 +77,7 @@ type OrderProductAttributes = {
   order_id: string;
   products: Array<ProductItem>;
   operator?: string;
+  agency_branch_id?: string;
 };
 type UpdateOrderProductListDataAttributes = {
   queryCondition: { order_id: string };
@@ -330,8 +333,6 @@ class OrderServices {
     order_id,
     products,
   }: OrderProductAttributes) {
-    // ? ===== Generate product list
-
     const orderProductRowArr: Array<Partial<OrderProductListAttributes>> =
       products.map(
         ({
@@ -448,6 +449,49 @@ class OrderServices {
               products,
               order_type,
             });
+
+            // ? Check if product is exist or not
+            const { createData, updateData } = await reduce(
+              products,
+              async function (
+                modifyData: any,
+                { p_variant_id: product_variant_id },
+                index: number
+              ) {
+                const foundExistProduct = await AgencyBranchProductList.findOne(
+                  { where: { product_variant_id } }
+                );
+
+                if (foundExistProduct) {
+                  modifyData.updateData.push(products[index]);
+                } else {
+                  modifyData.createData.push(products[index]);
+                }
+
+                return modifyData;
+              },
+              { createData: [], updateData: [] }
+            );
+
+            // ? Exist -> Update amount
+            if (!isEmpty(createData)) {
+              await OrderServices.generateAgencyProductsOnUpdate({
+                products: createData,
+                agency_branch_id,
+              });
+            }
+            // ? Do not Exist -> Generate
+            if (!isEmpty(updateData)) {
+              await OrderServices.updateOrderAgencyProductsAmountOnUpdate({
+                products: updateData,
+                operator: "plus",
+              });
+              break;
+            }
+            await OrderServices.generateAgencyProductsOnUpdate({
+              products,
+              agency_branch_id,
+            });
             break;
           }
           case ORDER_TYPE.SALE: {
@@ -456,6 +500,7 @@ class OrderServices {
               products,
               order_type,
             });
+
             await OrderServices.updateOrderAgencyProductsAmountOnUpdate({
               products,
               operator: "minus",
@@ -611,6 +656,31 @@ class OrderServices {
           }),
         };
       });
+  }
+  public static async generateAgencyProductsOnUpdate({
+    products,
+    agency_branch_id,
+  }: Omit<OrderProductAttributes, "order_type" | "order_id">) {
+    const newAgencyProduct = products.map(
+      ({
+        p_variant_id: product_variant_id,
+        price: product_price,
+        discount: product_discount,
+        amount,
+      }) => {
+        return {
+          agency_branch_id,
+          product_variant_id,
+          product_price,
+          product_discount,
+          available_quantity: amount,
+          available_to_sell_quantity: amount,
+          trading_quantity: 0,
+        };
+      }
+    );
+
+    console.log(newAgencyProduct);
   }
   public static async updateOrderAgencyProductsAmountOnUpdate({
     products,
