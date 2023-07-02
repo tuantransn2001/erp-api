@@ -2,7 +2,7 @@
   "compilerOptions": {
     "baseUrl": "./",
     "paths": {
-      "@/*": ["*"]
+      "@/*": ["*", "src/api/v1/ts/types/*"]
     },
     "resolveJsonModule": true,
     "target": "es2018",
@@ -21,7 +21,8 @@
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
     "forceConsistentCasingInFileNames": true,
-    "skipLibCheck": true
+    "skipLibCheck": true,
+    "typeRoots": ["./src/api/v1/ts/types/global_type.d.ts"]
   },
   "exclude": ["node_modules"]
 }

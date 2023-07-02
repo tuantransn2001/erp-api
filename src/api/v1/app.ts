@@ -4,7 +4,6 @@ import cors from "cors";
 import db from "./models";
 import { handleSeedData } from "./data/handleSeedData";
 import rootRouter from "./routers";
-import OrderServices from "./services/order.services";
 
 // ? ============================== INITIATE SERVER ====================================
 const app: Express = express();
@@ -22,10 +21,7 @@ app.use(ROOT_URL, rootRouter); // * Router Set up
   await db.sequelize.sync({ force: true }).then(() => {
     app.listen(PORT, async () => {
       handleSeedData();
-      OrderServices.updateOrderOnSuccess({
-        user_id: "8082f9c8-c649-42b3-8d19-edc2ddbf83a5",
-        order_id: "7b20eb0b-2cc0-412f-b394-048d40b2a1c9",
-      });
+
       console.log("Connected - Synchronous Database Success");
       console.log(
         `🚀 Server is running on ${ENVIRONMENT}  🚀 - http://${HOST}:${PORT}${ROOT_URL}`

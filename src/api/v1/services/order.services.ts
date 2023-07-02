@@ -84,7 +84,11 @@ type UpdateOrderProductListDataAttributes = {
 
 type UpdateOrderOnSuccessAttributes = {
   order_id: string;
-  user_id: string;
+  user_id?: string;
+};
+
+type UpdateStatusDoneBeforeGet = {
+  order_type: string;
 };
 
 class OrderServices {
@@ -95,8 +99,65 @@ class OrderServices {
       return total;
     }, 0);
   }
+  public static async updateStatusDoneBeforeGet({
+    order_type,
+  }: UpdateStatusDoneBeforeGet) {
+    try {
+      const updateDataArr = await Order.findAll({
+        where: {
+          order_type,
+        },
+        attributes: ["id"],
+        include: [
+          {
+            model: Customer,
+            attributes: ["id"],
+            include: [
+              {
+                model: User,
+                attributes: ["id"],
+              },
+            ],
+          },
+        ],
+      }).then((response: any) => {
+        return response.map((orderData: any) => {
+          const { id: order_id } = orderData.dataValues;
+          const { id: user_id } =
+            orderData.dataValues.Customer.dataValues.User.dataValues;
+          return {
+            order_id,
+            user_id,
+          };
+        });
+      });
+
+      for (let index = 0; index <= updateDataArr.length - 1; index++) {
+        const { user_id, order_id } = updateDataArr[index];
+
+        await OrderServices.updateOrderOnSuccess({
+          user_id,
+          order_id,
+        });
+      }
+
+      return {
+        statusCode: STATUS_CODE.STATUS_CODE_200,
+        data: RestFullAPI.onSuccess(STATUS_MESSAGE.SUCCESS),
+      };
+    } catch (err) {
+      return {
+        statusCode: STATUS_CODE.STATUS_CODE_500,
+        data: handleError(err as Error),
+      };
+    }
+  }
   public static async getAll(order_type: string) {
     try {
+      await OrderServices.updateStatusDoneBeforeGet({
+        order_type,
+      });
+
       const orderList = await Order.findAll({
         where: {
           order_type,
@@ -161,6 +222,17 @@ class OrderServices {
   }
   public static async getByID(queryConditions: QueryConditionAttributes) {
     try {
+      const foundOrderCheck = await Order.findOne({
+        where: queryConditions,
+        attributes: ["id", "order_type"],
+      });
+
+      const { order_type } = foundOrderCheck.dataValues;
+
+      await OrderServices.updateStatusDoneBeforeGet({
+        order_type,
+      });
+
       const foundOrder = await Order.findOne({
         where: queryConditions,
         attributes: [
@@ -326,7 +398,10 @@ class OrderServices {
         order_delivery_date,
         order_note,
         order_type,
-        order_status: ORDER_IMPORT_STATUS.GENERATE,
+        order_status:
+          order_type === ORDER_TYPE.IMPORT
+            ? ORDER_IMPORT_STATUS.GENERATE
+            : ORDER_SALE_STATUS.GENERATE,
         order_total: order_total,
       };
 
@@ -589,6 +664,16 @@ class OrderServices {
     order_id,
   }: UpdateOrderOnSuccessAttributes) {
     try {
+      const VALID_ORDER_NEAREST_SUCCESS = [
+        ORDER_IMPORT_STATUS.TRADING,
+        ORDER_SALE_STATUS.DELIVERY,
+      ];
+
+      const UPDATE_ORDER_STATUS = {
+        [ORDER_TYPE.IMPORT]: ORDER_IMPORT_STATUS.DONE,
+        [ORDER_TYPE.SALE]: ORDER_SALE_STATUS.DONE,
+      };
+
       // ? Check total debt
       // ? Check last status
       const foundOrder = await Order.findOne({
@@ -596,35 +681,38 @@ class OrderServices {
           id: order_id,
         },
       });
+      const { data: debtData }: ObjectType = await DebtService.getTotal({
+        user_id: user_id as string,
+      });
 
       const { order_status, order_type } = foundOrder.dataValues;
-      const isOK = async () => {
-        const { data: debtData }: ObjectType = await DebtService.getTotal({
-          user_id,
-        });
+
+      const isOK = () => {
         const { debt_amount }: ObjectType = debtData.data;
 
-        return (
-          parseFloat(debt_amount) === 0 &&
-          (order_status === ORDER_IMPORT_STATUS.TRADING ||
-            ORDER_SALE_STATUS.DELIVERY)
-        );
+        const isPaymentSuccess = parseFloat(debt_amount) === 0;
+
+        const isValidOrderStatus =
+          VALID_ORDER_NEAREST_SUCCESS.includes(order_status);
+
+        return isPaymentSuccess && isValidOrderStatus;
       };
 
-      if (await isOK()) {
+      if (isOK()) {
         // ? => Accept update => Update => Return
-        const UPDATE_ORDER_STATUS = {
-          [ORDER_TYPE.IMPORT]: ORDER_IMPORT_STATUS.DONE,
-          [ORDER_TYPE.SALE]: ORDER_SALE_STATUS.DONE,
-        };
-
         foundOrder.order_status = UPDATE_ORDER_STATUS[order_type];
         await foundOrder.save();
       }
 
-      return;
+      return {
+        statusCode: STATUS_CODE.STATUS_CODE_200,
+        data: RestFullAPI.onSuccess(STATUS_MESSAGE.SUCCESS),
+      };
     } catch (err) {
-      return handleError(err as Error);
+      return {
+        statusCode: STATUS_CODE.STATUS_CODE_500,
+        data: handleError(err as Error),
+      };
     }
   }
 }

@@ -31,8 +31,9 @@ const ORDER_IMPORT_STATUS_VALUES: string[] = removeItem(
 
 class OrderController {
   public static async getAll(req: Request, res: Response, next: NextFunction) {
-    const { order_type } = req.query;
     try {
+      const { order_type } = req.query;
+
       const { statusCode, data } = await OrderServices.getAll(
         order_type as string
       );

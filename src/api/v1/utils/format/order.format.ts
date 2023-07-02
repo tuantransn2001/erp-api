@@ -11,7 +11,7 @@ import {
   PaymentAttributes,
   ShipperAttributes,
 } from "@/src/api/v1/ts/interfaces/app_interfaces";
-import OrderServices from "../../services/order.services";
+
 import { ORDER_IMPORT_STATUS } from "../../ts/enums/order_enum";
 type UserQueryExclude = Omit<
   UserAttributes,
@@ -138,12 +138,7 @@ export const handleFormatOrder = (
         };
       }
     );
-    // ? =============================================================================
-    // ? ====================== AUTOMATIC UPDATE STATUS===============================
-    // ? =============================================================================
-    (async () => {
-      await OrderServices.updateOrderOnSuccess({ user_id, order_id });
-    })();
+
     return {
       id: order_id,
       order_code,
@@ -196,14 +191,9 @@ export const handleFormatOrder = (
 
     const isPaymentSuccess: boolean =
       order_status === ORDER_IMPORT_STATUS.DONE ? true : false;
-    // ? =============================================================================
-    // ? ====================== AUTOMATIC UPDATE STATUS===============================
-    // ? =============================================================================
-    (async () => {
-      await OrderServices.updateOrderOnSuccess({ user_id, order_id });
-    })();
     return {
       id: order_id,
+      user_id,
       staff_name,
       supplier_name,
       supplier_phone,
