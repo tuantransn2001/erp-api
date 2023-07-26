@@ -1,13 +1,20 @@
+require("dotenv").config();
 const path = require("path");
 const CleanPlugin = require("clean-webpack-plugin");
 const nodeExternals = require("webpack-node-externals");
 const FileManagerPlugin = require("filemanager-webpack-plugin");
 
+const _v = process.env.APP_VERSION;
+
 module.exports = {
   target: "node",
   mode: "development",
   watch: true,
+<<<<<<< HEAD
   entry: ["./src/app.ts", "./src/api/v1/models/index.ts"],
+=======
+  entry: [`./src/api/v${_v}/server.ts`, `./src/api/v${_v}/models/index.ts`],
+>>>>>>> dev/api-v2
   devServer: {
     static: [
       {
@@ -16,8 +23,8 @@ module.exports = {
     ],
   },
   output: {
-    filename: "app.js",
-    path: path.resolve(__dirname, "build/development"),
+    filename: "server.js",
+    path: path.resolve(__dirname, `build/development/`),
   },
   module: {
     rules: [
@@ -39,10 +46,15 @@ module.exports = {
         onEnd: {
           copy: [
             {
+<<<<<<< HEAD
               source: "./src/api/v1/models/*.ts*",
               destination: "./build/development/models/",
+=======
+              source: `./src/api/v${_v}/models/*.ts*`,
+              destination: `./build/development/models/`,
+>>>>>>> dev/api-v2
               globOptions: {
-                ignore: "./src/models/index.ts",
+                ignore: `./src/api/v${_v}/models/index.ts`,
               },
             },
           ],

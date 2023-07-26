@@ -1,11 +1,25 @@
-const { v4: uuidv4 } = require("uuid");
 import { Request, Response, NextFunction } from "express";
+<<<<<<< HEAD
+<<<<<<<< HEAD:src/api/v1/controller/tag-controller.ts
+import { TagAttributes } from "@/src/api/v1/ts/interfaces/app_interfaces";
+import { handleFormatUpdateDataByValidValue } from "../../v1/common";
+import { STATUS_CODE, STATUS_MESSAGE } from "../../v1/ts/enums/api_enums";
+========
+import { TagAttributes } from "@/src/api/v2/ts/interfaces/app_interfaces";
+import { handleFormatUpdateDataByValidValue } from "../common";
+import { STATUS_CODE, STATUS_MESSAGE } from "../ts/enums/api_enums";
+>>>>>>>> dev/api-v2:src/api/v2/controller/tag.controller.ts
+import RestFullAPI from "../utils/response/apiResponse";
+import db from "../models";
+const { Tag, CustSuppTag } = db;
+=======
 import { TagAttributes } from "@/src/api/v1/ts/interfaces/app_interfaces";
 import { handleFormatUpdateDataByValidValue } from "../../v1/common";
 import { STATUS_CODE, STATUS_MESSAGE } from "../../v1/ts/enums/api_enums";
 import RestFullAPI from "../utils/response/apiResponse";
 import db from "../models";
 const { Tag, CustomerTag } = db;
+>>>>>>> dev/api-v2
 class TagController {
   public static async getAll(_: Request, res: Response, next: NextFunction) {
     try {
@@ -19,36 +33,13 @@ class TagController {
   }
   public static async create(req: Request, res: Response, next: NextFunction) {
     try {
-      const { tag_title, tag_description } = req.body;
+      const tags: TagAttributes[] = req.body.tags;
 
-      const foundTag = await Tag.findOne({
-        where: {
-          tag_title,
-        },
-      });
+      await Tag.bulkCreate(tags);
 
-      if (foundTag) {
-        res
-          .status(STATUS_CODE.STATUS_CODE_409)
-          .send(
-            RestFullAPI.onSuccess(
-              STATUS_MESSAGE.CONFLICT,
-              "Tag is already exist!"
-            )
-          );
-      } else {
-        const tagID: string = uuidv4();
-        const newTagRow: TagAttributes = {
-          id: tagID,
-          tag_title,
-          tag_description,
-        };
-
-        await Tag.create(newTagRow);
-        res
-          .status(STATUS_CODE.STATUS_CODE_200)
-          .send(RestFullAPI.onSuccess(STATUS_MESSAGE.SUCCESS));
-      }
+      res
+        .status(STATUS_CODE.STATUS_CODE_200)
+        .send(RestFullAPI.onSuccess(STATUS_MESSAGE.SUCCESS));
     } catch (err) {
       next(err);
     }
@@ -97,7 +88,11 @@ class TagController {
     try {
       const { id } = req.params;
 
+<<<<<<< HEAD
+      await CustSuppTag.destroy({
+=======
       await CustomerTag.destroy({
+>>>>>>> dev/api-v2
         where: {
           tag_id: id,
         },

@@ -6,7 +6,14 @@ import {
   checkMissPropertyInObjectBaseOnValueCondition,
   isEmpty,
 } from "../../v1/common";
+<<<<<<< HEAD
 import { handleFormatProduct } from "../utils/format/product.format";
+=======
+import {
+  handleFormatImportProduct,
+  handleFormatProduct,
+} from "../utils/format/product.format";
+>>>>>>> dev/api-v2
 import db from "../models";
 import {
   ProductVariantDetailAttributes,
@@ -26,6 +33,7 @@ const {
   Brand,
   Price,
   Tag,
+  AgencyBranchProductList,
 } = db;
 class ProductController {
   public static async getAll(_: Request, res: Response, next: NextFunction) {
@@ -323,6 +331,62 @@ class ProductController {
     } catch (err) {
       next(err);
     }
+  }
+  public static ImportProduct() {
+    return class {
+      public static async getAll(
+        _: Request,
+        res: Response,
+        next: NextFunction
+      ) {
+        const sellPriceDefault = await Price.findOne({
+          where: {
+            isSellDefault: true,
+          },
+        });
+
+        const importProductList = await ProductVariantDetail.findAll({
+          attributes: [
+            "id",
+            "product_variant_name",
+            "product_variant_SKU",
+            "product_weight_calculator_unit",
+          ],
+          include: [
+            {
+              model: ProductVariantPrice,
+              attributes: ["id", "price_id", "price_value"],
+              where: {
+                price_id: sellPriceDefault.dataValues.id,
+              },
+              as: "Variant_Prices",
+            },
+            {
+              attributes: [
+                "id",
+                "available_quantity",
+                "available_to_sell_quantity",
+              ],
+              model: AgencyBranchProductList,
+            },
+          ],
+        });
+
+        res
+          .status(STATUS_CODE.STATUS_CODE_200)
+          .send(
+            RestFullAPI.onSuccess(
+              STATUS_MESSAGE.SUCCESS,
+              handleFormatImportProduct(importProductList)
+            )
+          );
+
+        try {
+        } catch (err) {
+          next(err);
+        }
+      }
+    };
   }
 }
 

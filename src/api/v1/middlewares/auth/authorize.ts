@@ -4,7 +4,11 @@ import db from "../../models";
 import { STATUS_CODE, STATUS_MESSAGE } from "../../ts/enums/api_enums";
 import RestFullAPI from "../../utils/response/apiResponse";
 
-const authorize = async (req: MyRequest, res: Response, next: NextFunction) => {
+export const authorize = async (
+  req: MyRequest,
+  res: Response,
+  next: NextFunction
+) => {
   try {
     const authorizeArr = ["admin"];
     const userID = req.currentUserID;
@@ -26,5 +30,3 @@ const authorize = async (req: MyRequest, res: Response, next: NextFunction) => {
     next(err);
   }
 };
-
-export default authorize;

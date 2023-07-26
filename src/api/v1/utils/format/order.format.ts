@@ -8,7 +8,14 @@ import {
   StaffAttributes,
   UserAddressAttributes,
   UserAttributes,
+<<<<<<< HEAD
 } from "@/src/api/v1/ts/interfaces/app_interfaces";
+=======
+  PaymentAttributes,
+  ShipperAttributes,
+} from "@/src/api/v1/ts/interfaces/app_interfaces";
+
+>>>>>>> dev/api-v2
 import { ORDER_IMPORT_STATUS } from "../../ts/enums/order_enum";
 type UserQueryExclude = Omit<
   UserAttributes,
@@ -43,6 +50,8 @@ type OrderProductItemQueryExcludeAttributes = {
 };
 
 interface OrderItemQueryAttributes extends OrderAttributes {
+  Shipper: { dataValues: ShipperAttributes };
+  Payment: { dataValues: PaymentAttributes };
   Customer: { dataValues: CustomerQueryAttributes };
   Staff: { dataValues: StaffQueryAttributes };
   AgencyBranch: {
@@ -64,31 +73,29 @@ interface OrderSourceAttributes {
   dataValues: OrderItemQueryAttributes;
 }
 
-interface OrderItemResult {
-  id: string;
-  order_status: string;
-  order_note?: string;
-  createdAt: Date;
-  supplier_name: string;
-  supplier_phone: string;
-  staff_name: string;
-  agency_branch_name: string;
-  order_total: number;
-  isPaymentSuccess: boolean;
-}
-
-interface OrderDetailResult {
-  [prop: string]: any;
-}
-
 export const handleFormatOrder = (
   OrderSource: Array<OrderSourceAttributes> & OrderSourceAttributes,
   formatType: string
-): Array<OrderItemResult> | OrderDetailResult => {
+) => {
   if (formatType === "isObject") {
-    const { id, order_note, order_status, order_total, order_code } =
-      OrderSource.dataValues;
+    const {
+      id: order_id,
+      order_note,
+      order_status,
+      order_total,
+      order_code,
+      order_delivery_date,
+      createdAt,
+    } = OrderSource.dataValues;
 
+    const {
+      id: shipper_id,
+      shipper_unit,
+      shipper_phone,
+    } = OrderSource.dataValues.Shipper.dataValues;
+
+    const { id: payment_id, payment_type } =
+      OrderSource.dataValues.Payment.dataValues;
     const { id: supplier_id } = OrderSource.dataValues.Customer.dataValues;
     const {
       id: user_id,
@@ -135,12 +142,24 @@ export const handleFormatOrder = (
         };
       }
     );
+
     return {
-      id,
+      id: order_id,
       order_code,
       order_status,
       order_note,
       order_total,
+      order_delivery_date,
+      createdAt,
+      shipper: {
+        id: shipper_id,
+        shipper_unit,
+        shipper_phone,
+      },
+      payment: {
+        id: payment_id,
+        payment_type,
+      },
       supplier: {
         user_id,
         id: supplier_id,
@@ -157,35 +176,38 @@ export const handleFormatOrder = (
       order_product_list,
     };
   }
-  const orderResultList: Array<OrderItemResult> = OrderSource.map(
-    (orderItem: OrderSourceAttributes) => {
-      const { id, order_status, order_note, order_total, order_code } =
-        orderItem.dataValues;
-      const { user_name: supplier_name, user_phone: supplier_phone } =
-        orderItem.dataValues.Customer.dataValues.User.dataValues;
-      const { user_name: staff_name } =
-        orderItem.dataValues.Staff.dataValues.User.dataValues;
-      const { agency_branch_name } =
-        orderItem.dataValues.AgencyBranch.dataValues;
+  return OrderSource.map((orderItem: OrderSourceAttributes) => {
+    const {
+      id: order_id,
+      order_status,
+      order_note,
+      order_total,
+      order_code,
+    } = orderItem.dataValues;
+    const {
+      id: user_id,
+      user_name: supplier_name,
+      user_phone: supplier_phone,
+    } = orderItem.dataValues.Customer.dataValues.User.dataValues;
+    const { user_name: staff_name } =
+      orderItem.dataValues.Staff.dataValues.User.dataValues;
+    const { agency_branch_name } = orderItem.dataValues.AgencyBranch.dataValues;
 
-      const isPaymentSuccess: boolean =
-        order_status === ORDER_IMPORT_STATUS.DONE ? true : false;
-
-      return {
-        id,
-        staff_name,
-        supplier_name,
-        supplier_phone,
-        agency_branch_name,
-        order_code,
-        order_status,
-        order_total,
-        isPaymentSuccess,
-        order_note,
-        createdAt: orderItem.dataValues.createdAt as Date,
-      };
-    }
-  );
-
-  return orderResultList;
+    const isPaymentSuccess: boolean =
+      order_status === ORDER_IMPORT_STATUS.DONE ? true : false;
+    return {
+      id: order_id,
+      user_id,
+      staff_name,
+      supplier_name,
+      supplier_phone,
+      agency_branch_name,
+      order_code,
+      order_status,
+      order_total,
+      isPaymentSuccess,
+      order_note,
+      createdAt: orderItem.dataValues.createdAt as Date,
+    };
+  });
 };

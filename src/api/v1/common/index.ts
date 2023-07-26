@@ -1,7 +1,7 @@
 import randomstring from "randomstring";
-import { Falsy } from "../ts/types/app_type";
-import { ObjectDynamicKeyWithValue } from "../ts/interfaces/global_interfaces";
-export const isEmpty = (target: Object | Array<any>): boolean => {
+import { Falsy, ObjectType } from "../ts/types/app_type";
+
+export const isEmpty = (target: ObjectType | Array<any>): boolean => {
   return target instanceof Array
     ? target.length === 0
     : target === undefined || target === null
@@ -22,7 +22,7 @@ export const handleGetFirstNameFromFullName = (fullName: string) => {
 };
 
 export const handleFormatUpdateDataByValidValue = (
-  targetObj: any,
+  targetObj: ObjectType,
   defaultValue: any
 ) => {
   return Object.keys(targetObj).reduce(
@@ -76,7 +76,7 @@ export const handleGenerateVariantBaseOnProperties = (
 };
 
 export const checkMissPropertyInObjectBaseOnValueCondition = (
-  baseObject: ObjectDynamicKeyWithValue,
+  baseObject: ObjectType,
   valueCondition: Falsy
 ): Array<string> => {
   const arrMissArray: Array<string> = Object.keys(baseObject).reduce(
@@ -93,4 +93,12 @@ export const checkMissPropertyInObjectBaseOnValueCondition = (
   );
 
   return arrMissArray;
+};
+
+export const removeItem = <T>(arr: Array<T>, value: T): Array<T> => {
+  const index = arr.indexOf(value);
+  if (index > -1) {
+    arr.splice(index, 1);
+  }
+  return arr;
 };

@@ -3,10 +3,10 @@ import HashStringHandler from "../utils/hashString/string.hash";
 const SALT_ROUNDS: number = +(process.env.SALT_ROUNDS as string);
 const ADMIN_PASSWORD: string = process.env.ADMIN_PASSWORD as string;
 
-const USER_ARRAY = [
+export const USER_ARRAY = [
   {
     id: "27e83e28-b3de-4212-be39-81e61198d77b",
-    user_name: "Trần Thái Tuấn",
+    user_name: "Trần Tuấn",
     user_type: "admin",
     user_phone: "0123456789",
     user_email: "admin@gmail.com",
@@ -1625,7 +1625,7 @@ const USER_ARRAY = [
     isDelete: null,
   },
 ];
-const USER_ADDRESS_LIST_ARRAY = [
+export const USER_ADDRESS_LIST_ARRAY = [
   {
     id: "20588b6c-2e0e-4047-a0b7-739b44a12bd6",
     user_id: "18a23bb6-5847-42c8-af9e-0e3e0f86a614",
@@ -3234,7 +3234,7 @@ const USER_ADDRESS_LIST_ARRAY = [
     user_specific_address: "Số nhà ... ELRGVSLSDX",
   },
 ];
-const CUSTOMER_ARRAY = [
+export const CUSTOMER_ARRAY = [
   {
     id: "cf29df72-9d48-4b3a-9ff5-8bd73ae59c44",
     user_id: "18a23bb6-5847-42c8-af9e-0e3e0f86a614",
@@ -3943,7 +3943,7 @@ const CUSTOMER_ARRAY = [
     staff_in_charge_note: "Lưu ý về nhà cung cấp sẽ được lưu vào cột này",
   },
 ];
-const CUSTOMER_TAG_LIST_ARRAY = [
+export const CUSTOMER_TAG_LIST_ARRAY = [
   {
     customer_id: "cf29df72-9d48-4b3a-9ff5-8bd73ae59c44",
     tag_id: "0c18dd40-443c-4ff9-8022-73ff41b1f807",
@@ -5245,7 +5245,17 @@ const CUSTOMER_TAG_LIST_ARRAY = [
     tag_id: "0c18dd40-443c-4ff9-8022-73ff41b1f807",
   },
 ];
-const STAFF_ARRAY = [
+export const STAFF_ARRAY = [
+  {
+    id: "36adfa49-0a33-4124-81e7-f6c885b2418d",
+    user_id: "27e83e28-b3de-4212-be39-81e61198d77b",
+    staff_status: "Đang làm việc",
+    staff_birthday: "2023-04-12T14:59:18.275Z",
+    staff_gender: true,
+    note_about_staff: "Những ghi chú về nhân viên sẽ được lưu ở cột này",
+    isAllowViewImportNWholesalePrice: true,
+    isAllowViewShippingPrice: true,
+  },
   {
     id: "e35d810a-96ea-4fcd-aa12-71e4d5b196c6",
     user_id: "06d76f1d-824b-4cba-b388-6567ccc8f270",
@@ -5747,7 +5757,7 @@ const STAFF_ARRAY = [
     isAllowViewShippingPrice: true,
   },
 ];
-const STAFF_ROLE_ARRAY = [
+export const STAFF_ROLE_ARRAY = [
   {
     id: "ac9dfbb6-bbc1-4bf9-802c-f0a0d3a3a450",
     staff_id: "e35d810a-96ea-4fcd-aa12-71e4d5b196c6",
@@ -6479,7 +6489,7 @@ const STAFF_ROLE_ARRAY = [
     role_id: "b351a4dc-4fa7-4170-840c-201405eba532",
   },
 ];
-const AGENCY_BRANCH_ARRAY = [
+export const AGENCY_BRANCH_ARRAY = [
   {
     id: "e7b1d0d2-f2e0-437d-94f4-f3b75cb99e21",
     agency_branch_name: "LCD",
@@ -6517,7 +6527,7 @@ const AGENCY_BRANCH_ARRAY = [
     isDefaultCN: false,
   },
 ];
-const STAFF_AGENCY_INCHARGE_ARRAY = [
+export const STAFF_AGENCY_INCHARGE_ARRAY = [
   {
     staff_role_id: "ac9dfbb6-bbc1-4bf9-802c-f0a0d3a3a450",
     agency_branch_id: "995ea74e-0358-4833-856c-cd45f2e99c21",
@@ -7107,7 +7117,7 @@ const STAFF_AGENCY_INCHARGE_ARRAY = [
     agency_branch_id: "e7b1d0d2-f2e0-437d-94f4-f3b75cb99e21",
   },
 ];
-const ROLE_ARRAY = [
+export const ROLE_ARRAY = [
   {
     id: "b351a4dc-4fa7-4170-840c-201405eba532",
     role_title: "Admin",
@@ -7144,7 +7154,7 @@ const ROLE_ARRAY = [
     role_description: "Những mô tả chi tiết về role sẽ được lưu ở cột này",
   },
 ];
-const TAG_ARRAY = [
+export const TAG_ARRAY = [
   {
     id: "98262ca5-484a-4d83-b124-27cc121d548e",
     tag_title: "Tiktok",
@@ -7176,7 +7186,7 @@ const TAG_ARRAY = [
     tag_description: "Những mô tả chi tiết về tag sẽ được lưu ở cột này",
   },
 ];
-const PRICE_ARRAY = [
+export const PRICE_ARRAY = [
   {
     id: "b1071b31-cbf3-43b2-b302-cf18bcd7a3a8",
     price_type: "Sell Price 1",
@@ -7248,7 +7258,7 @@ const PRICE_ARRAY = [
     isSellDefault: false,
   },
 ];
-const BRAND_ARRAY = [
+export const BRAND_ARRAY = [
   {
     id: "eb8f2c94-1d00-4e9b-a2cd-5771fdf8aee3",
     brand_title: "XIAOMI",
@@ -7275,7 +7285,7 @@ const BRAND_ARRAY = [
     brand_description: "Những lưu ý về brand sẽ lưu ở cột này",
   },
 ];
-const TYPE_ARRAY = [
+export const TYPE_ARRAY = [
   {
     id: "5ac1dbcd-cf73-4a7a-bd8a-c7603c903fa2",
     type_title: "CÁP SẠC",
@@ -7307,7 +7317,7 @@ const TYPE_ARRAY = [
     type_description: "Những lưu ý về type sẽ lưu ở cột này",
   },
 ];
-const PRODUCT_ARRAY = [
+export const PRODUCT_ARRAY = [
   {
     id: "e7c734cb-85b9-4b25-8b31-d860737bcde4",
     product_classify: "Sản phẩm thường",
@@ -7615,7 +7625,7 @@ const PRODUCT_ARRAY = [
     product_SKU: "LHHVS",
   },
 ];
-const PRODUCT_TAG_LIST_ARRAY = [
+export const PRODUCT_TAG_LIST_ARRAY = [
   {
     tag_id: "5d6912ed-632c-43b5-9c40-4df84685c8d0",
     addition_product_information_id: "8def0df7-0058-4176-90c9-b6246a1f3810",
@@ -8597,7 +8607,7 @@ const PRODUCT_TAG_LIST_ARRAY = [
     addition_product_information_id: "f6c98e98-716b-40a1-aff0-6af643db9e4c",
   },
 ];
-const ADDITIONAL_PRODUCT_INFORMATION = [
+export const ADDITIONAL_PRODUCT_INFORMATION = [
   {
     id: "8def0df7-0058-4176-90c9-b6246a1f3810",
     product_id: "e7c734cb-85b9-4b25-8b31-d860737bcde4",
@@ -8905,7 +8915,7 @@ const ADDITIONAL_PRODUCT_INFORMATION = [
     brand_id: "eb8f2c94-1d00-4e9b-a2cd-5771fdf8aee3",
   },
 ];
-const PRODUCT_VARIANT_DETAIL_ARRAY = [
+export const PRODUCT_VARIANT_DETAIL_ARRAY = [
   {
     id: "d1771604-01a5-4c19-b042-a0927855004f",
     product_id: "e7c734cb-85b9-4b25-8b31-d860737bcde4",
@@ -11661,7 +11671,7 @@ const PRODUCT_VARIANT_DETAIL_ARRAY = [
     product_weight_calculator_unit: "g",
   },
 ];
-const PRODUCT_VARIANT_PRICE_ARRAY = [
+export const PRODUCT_VARIANT_PRICE_ARRAY = [
   {
     product_variant_id: "d1771604-01a5-4c19-b042-a0927855004f",
     price_id: "b1071b31-cbf3-43b2-b302-cf18bcd7a3a8",
@@ -26963,7 +26973,7 @@ const PRODUCT_VARIANT_PRICE_ARRAY = [
     price_value: "70000",
   },
 ];
-const PRODUCT_VARIANT_PROPERTY_ARRAY = [
+export const PRODUCT_VARIANT_PROPERTY_ARRAY = [
   {
     product_variant_id: "d1771604-01a5-4c19-b042-a0927855004f",
     product_variant_property_key: "Height",
@@ -30025,7 +30035,7 @@ const PRODUCT_VARIANT_PROPERTY_ARRAY = [
     product_variant_property_value: "Small",
   },
 ];
-const SHIPPER_ARRAY = [
+export const SHIPPER_ARRAY = [
   {
     id: "60d7c4bc-0b51-4ab5-ab42-cfb5ab321132",
     shipper_unit: "Anh Cường",
@@ -30052,7 +30062,7 @@ const SHIPPER_ARRAY = [
     shipper_phone: "0123456789",
   },
 ];
-const PAYMENT_ARRAY = [
+export const PAYMENT_ARRAY = [
   {
     id: "5f81f1a2-1144-43d1-a5c8-6caa6dbad03f",
     payment_type: "Thanh toán tiền mặt",
@@ -30084,7 +30094,7 @@ const PAYMENT_ARRAY = [
       "Những lưu ý về phương thức thanh toán sẽ được lưu ở cột này",
   },
 ];
-const ORDER_ARRAY = [
+export const ORDER_ARRAY = [
   {
     id: "245bdeea-e93e-4009-9e73-dabe55cb1c0b",
     agency_branch_id: "6ab4f7c8-353f-47f2-8757-2347f2ab6332",
@@ -30110,7 +30120,7 @@ const ORDER_ARRAY = [
     order_delivery_date: "2023-05-16T02:43:42.855Z",
     order_note: "Những lưu ý về đơn hàng sẽ được lưu ở cột này",
     order_type: "Đơn nhập",
-    order_status: "Tạo đơn hàng",
+    order_status: "Tạo đơn",
     order_total: 10336296.75,
   },
   {
@@ -30124,7 +30134,7 @@ const ORDER_ARRAY = [
     order_delivery_date: "2023-05-16T02:43:42.855Z",
     order_note: "Những lưu ý về đơn hàng sẽ được lưu ở cột này",
     order_type: "Đơn nhập",
-    order_status: "Tạo đơn hàng",
+    order_status: "Tạo đơn",
     order_total: 6311275.500000001,
   },
   {
@@ -30138,7 +30148,7 @@ const ORDER_ARRAY = [
     order_delivery_date: "2023-05-16T02:43:42.855Z",
     order_note: "Những lưu ý về đơn hàng sẽ được lưu ở cột này",
     order_type: "Đơn nhập",
-    order_status: "Tạo đơn hàng",
+    order_status: "Nhập hàng",
     order_total: 7506653.83,
   },
   {
@@ -30152,7 +30162,7 @@ const ORDER_ARRAY = [
     order_delivery_date: "2023-05-16T02:43:42.855Z",
     order_note: "Những lưu ý về đơn hàng sẽ được lưu ở cột này",
     order_type: "Đơn nhập",
-    order_status: "Tạo đơn hàng",
+    order_status: "Tạo đơn",
     order_total: 10225166.39,
   },
   {
@@ -30166,7 +30176,7 @@ const ORDER_ARRAY = [
     order_delivery_date: "2023-05-16T02:43:42.855Z",
     order_note: "Những lưu ý về đơn hàng sẽ được lưu ở cột này",
     order_type: "Đơn nhập",
-    order_status: "Tạo đơn hàng",
+    order_status: "Tạo đơn",
     order_total: 12064482.299999999,
   },
   {
@@ -30180,7 +30190,7 @@ const ORDER_ARRAY = [
     order_delivery_date: "2023-05-16T02:43:42.855Z",
     order_note: "Những lưu ý về đơn hàng sẽ được lưu ở cột này",
     order_type: "Đơn nhập",
-    order_status: "Tạo đơn hàng",
+    order_status: "Tạo đơn",
     order_total: 3567810.5200000005,
   },
   {
@@ -30194,7 +30204,7 @@ const ORDER_ARRAY = [
     order_delivery_date: "2023-05-16T02:43:42.855Z",
     order_note: "Những lưu ý về đơn hàng sẽ được lưu ở cột này",
     order_type: "Đơn nhập",
-    order_status: "Tạo đơn hàng",
+    order_status: "Tạo đơn",
     order_total: 9790907.19,
   },
   {
@@ -30208,7 +30218,7 @@ const ORDER_ARRAY = [
     order_delivery_date: "2023-05-16T02:43:42.855Z",
     order_note: "Những lưu ý về đơn hàng sẽ được lưu ở cột này",
     order_type: "Đơn nhập",
-    order_status: "Tạo đơn hàng",
+    order_status: "Tạo đơn",
     order_total: 7317724.91,
   },
   {
@@ -30222,7 +30232,7 @@ const ORDER_ARRAY = [
     order_delivery_date: "2023-05-16T02:43:42.855Z",
     order_note: "Những lưu ý về đơn hàng sẽ được lưu ở cột này",
     order_type: "Đơn nhập",
-    order_status: "Tạo đơn hàng",
+    order_status: "Tạo đơn",
     order_total: 6733894.14,
   },
   {
@@ -30236,7 +30246,7 @@ const ORDER_ARRAY = [
     order_delivery_date: "2023-05-16T02:43:42.855Z",
     order_note: "Những lưu ý về đơn hàng sẽ được lưu ở cột này",
     order_type: "Đơn nhập",
-    order_status: "Tạo đơn hàng",
+    order_status: "Tạo đơn",
     order_total: 10154077.17,
   },
   {
@@ -30250,7 +30260,7 @@ const ORDER_ARRAY = [
     order_delivery_date: "2023-05-16T02:43:42.855Z",
     order_note: "Những lưu ý về đơn hàng sẽ được lưu ở cột này",
     order_type: "Đơn nhập",
-    order_status: "Tạo đơn hàng",
+    order_status: "Tạo đơn",
     order_total: 5008520.96,
   },
   {
@@ -30264,7 +30274,7 @@ const ORDER_ARRAY = [
     order_delivery_date: "2023-05-16T02:43:42.855Z",
     order_note: "Những lưu ý về đơn hàng sẽ được lưu ở cột này",
     order_type: "Đơn nhập",
-    order_status: "Tạo đơn hàng",
+    order_status: "Tạo đơn",
     order_total: 5150428.84,
   },
   {
@@ -30278,7 +30288,7 @@ const ORDER_ARRAY = [
     order_delivery_date: "2023-05-16T02:43:42.855Z",
     order_note: "Những lưu ý về đơn hàng sẽ được lưu ở cột này",
     order_type: "Đơn nhập",
-    order_status: "Tạo đơn hàng",
+    order_status: "Tạo đơn",
     order_total: 5310390.58,
   },
   {
@@ -30292,7 +30302,7 @@ const ORDER_ARRAY = [
     order_delivery_date: "2023-05-16T02:43:42.855Z",
     order_note: "Những lưu ý về đơn hàng sẽ được lưu ở cột này",
     order_type: "Đơn nhập",
-    order_status: "Tạo đơn hàng",
+    order_status: "Tạo đơn",
     order_total: 9414672.200000001,
   },
   {
@@ -30306,7 +30316,7 @@ const ORDER_ARRAY = [
     order_delivery_date: "2023-05-16T02:43:42.855Z",
     order_note: "Những lưu ý về đơn hàng sẽ được lưu ở cột này",
     order_type: "Đơn nhập",
-    order_status: "Tạo đơn hàng",
+    order_status: "Tạo đơn",
     order_total: 16334827.95,
   },
   {
@@ -30320,7 +30330,7 @@ const ORDER_ARRAY = [
     order_delivery_date: "2023-05-16T02:43:42.855Z",
     order_note: "Những lưu ý về đơn hàng sẽ được lưu ở cột này",
     order_type: "Đơn nhập",
-    order_status: "Tạo đơn hàng",
+    order_status: "Tạo đơn",
     order_total: 8725512.58,
   },
   {
@@ -30334,7 +30344,7 @@ const ORDER_ARRAY = [
     order_delivery_date: "2023-05-16T02:43:42.855Z",
     order_note: "Những lưu ý về đơn hàng sẽ được lưu ở cột này",
     order_type: "Đơn nhập",
-    order_status: "Tạo đơn hàng",
+    order_status: "Tạo đơn",
     order_total: 3592170.58,
   },
   {
@@ -30348,7 +30358,7 @@ const ORDER_ARRAY = [
     order_delivery_date: "2023-05-16T02:43:42.855Z",
     order_note: "Những lưu ý về đơn hàng sẽ được lưu ở cột này",
     order_type: "Đơn nhập",
-    order_status: "Tạo đơn hàng",
+    order_status: "Tạo đơn",
     order_total: 3220025.2600000002,
   },
   {
@@ -30362,7 +30372,7 @@ const ORDER_ARRAY = [
     order_delivery_date: "2023-05-16T02:43:42.855Z",
     order_note: "Những lưu ý về đơn hàng sẽ được lưu ở cột này",
     order_type: "Đơn nhập",
-    order_status: "Tạo đơn hàng",
+    order_status: "Tạo đơn",
     order_total: 5562544.87,
   },
   {
@@ -30376,7 +30386,7 @@ const ORDER_ARRAY = [
     order_delivery_date: "2023-05-16T02:43:42.855Z",
     order_note: "Những lưu ý về đơn hàng sẽ được lưu ở cột này",
     order_type: "Đơn nhập",
-    order_status: "Tạo đơn hàng",
+    order_status: "Tạo đơn",
     order_total: 5890633.57,
   },
   {
@@ -30390,7 +30400,7 @@ const ORDER_ARRAY = [
     order_delivery_date: "2023-05-16T02:43:42.855Z",
     order_note: "Những lưu ý về đơn hàng sẽ được lưu ở cột này",
     order_type: "Đơn nhập",
-    order_status: "Tạo đơn hàng",
+    order_status: "Tạo đơn",
     order_total: 8544451.74,
   },
   {
@@ -30404,7 +30414,7 @@ const ORDER_ARRAY = [
     order_delivery_date: "2023-05-16T02:43:42.855Z",
     order_note: "Những lưu ý về đơn hàng sẽ được lưu ở cột này",
     order_type: "Đơn nhập",
-    order_status: "Tạo đơn hàng",
+    order_status: "Tạo đơn",
     order_total: 7611041.17,
   },
   {
@@ -30418,7 +30428,7 @@ const ORDER_ARRAY = [
     order_delivery_date: "2023-05-16T02:43:42.855Z",
     order_note: "Những lưu ý về đơn hàng sẽ được lưu ở cột này",
     order_type: "Đơn nhập",
-    order_status: "Tạo đơn hàng",
+    order_status: "Tạo đơn",
     order_total: 10594401.38,
   },
   {
@@ -30432,7 +30442,7 @@ const ORDER_ARRAY = [
     order_delivery_date: "2023-05-16T02:43:42.855Z",
     order_note: "Những lưu ý về đơn hàng sẽ được lưu ở cột này",
     order_type: "Đơn nhập",
-    order_status: "Tạo đơn hàng",
+    order_status: "Tạo đơn",
     order_total: 12142370.73,
   },
   {
@@ -30446,7 +30456,7 @@ const ORDER_ARRAY = [
     order_delivery_date: "2023-05-16T02:43:42.855Z",
     order_note: "Những lưu ý về đơn hàng sẽ được lưu ở cột này",
     order_type: "Đơn nhập",
-    order_status: "Tạo đơn hàng",
+    order_status: "Tạo đơn",
     order_total: 4702972.12,
   },
   {
@@ -30460,7 +30470,7 @@ const ORDER_ARRAY = [
     order_delivery_date: "2023-05-16T02:43:42.855Z",
     order_note: "Những lưu ý về đơn hàng sẽ được lưu ở cột này",
     order_type: "Đơn nhập",
-    order_status: "Tạo đơn hàng",
+    order_status: "Tạo đơn",
     order_total: 7072310.500000001,
   },
   {
@@ -30474,7 +30484,7 @@ const ORDER_ARRAY = [
     order_delivery_date: "2023-05-16T02:43:42.855Z",
     order_note: "Những lưu ý về đơn hàng sẽ được lưu ở cột này",
     order_type: "Đơn nhập",
-    order_status: "Tạo đơn hàng",
+    order_status: "Tạo đơn",
     order_total: 6997074.17,
   },
   {
@@ -30488,7 +30498,7 @@ const ORDER_ARRAY = [
     order_delivery_date: "2023-05-16T02:43:42.855Z",
     order_note: "Những lưu ý về đơn hàng sẽ được lưu ở cột này",
     order_type: "Đơn nhập",
-    order_status: "Tạo đơn hàng",
+    order_status: "Tạo đơn",
     order_total: 7368023.23,
   },
   {
@@ -30502,7 +30512,7 @@ const ORDER_ARRAY = [
     order_delivery_date: "2023-05-16T02:43:42.855Z",
     order_note: "Những lưu ý về đơn hàng sẽ được lưu ở cột này",
     order_type: "Đơn nhập",
-    order_status: "Tạo đơn hàng",
+    order_status: "Tạo đơn",
     order_total: 6765719.96,
   },
   {
@@ -30516,7 +30526,7 @@ const ORDER_ARRAY = [
     order_delivery_date: "2023-05-16T02:43:42.855Z",
     order_note: "Những lưu ý về đơn hàng sẽ được lưu ở cột này",
     order_type: "Đơn nhập",
-    order_status: "Tạo đơn hàng",
+    order_status: "Tạo đơn",
     order_total: 9158846.02,
   },
   {
@@ -30530,7 +30540,7 @@ const ORDER_ARRAY = [
     order_delivery_date: "2023-05-16T02:43:42.855Z",
     order_note: "Những lưu ý về đơn hàng sẽ được lưu ở cột này",
     order_type: "Đơn nhập",
-    order_status: "Tạo đơn hàng",
+    order_status: "Tạo đơn",
     order_total: 4125578.22,
   },
   {
@@ -30544,7 +30554,7 @@ const ORDER_ARRAY = [
     order_delivery_date: "2023-05-16T02:43:42.855Z",
     order_note: "Những lưu ý về đơn hàng sẽ được lưu ở cột này",
     order_type: "Đơn nhập",
-    order_status: "Tạo đơn hàng",
+    order_status: "Tạo đơn",
     order_total: 8610842.969999999,
   },
   {
@@ -30558,7 +30568,7 @@ const ORDER_ARRAY = [
     order_delivery_date: "2023-05-16T02:43:42.855Z",
     order_note: "Những lưu ý về đơn hàng sẽ được lưu ở cột này",
     order_type: "Đơn nhập",
-    order_status: "Tạo đơn hàng",
+    order_status: "Tạo đơn",
     order_total: 7714755.880000001,
   },
   {
@@ -30572,7 +30582,7 @@ const ORDER_ARRAY = [
     order_delivery_date: "2023-05-16T02:43:42.855Z",
     order_note: "Những lưu ý về đơn hàng sẽ được lưu ở cột này",
     order_type: "Đơn nhập",
-    order_status: "Tạo đơn hàng",
+    order_status: "Tạo đơn",
     order_total: 10026385.77,
   },
   {
@@ -30586,7 +30596,7 @@ const ORDER_ARRAY = [
     order_delivery_date: "2023-05-16T02:43:42.855Z",
     order_note: "Những lưu ý về đơn hàng sẽ được lưu ở cột này",
     order_type: "Đơn nhập",
-    order_status: "Tạo đơn hàng",
+    order_status: "Tạo đơn",
     order_total: 6680669.91,
   },
   {
@@ -30600,7 +30610,7 @@ const ORDER_ARRAY = [
     order_delivery_date: "2023-05-16T02:43:42.855Z",
     order_note: "Những lưu ý về đơn hàng sẽ được lưu ở cột này",
     order_type: "Đơn nhập",
-    order_status: "Tạo đơn hàng",
+    order_status: "Tạo đơn",
     order_total: 3743763.1199999996,
   },
   {
@@ -30614,7 +30624,7 @@ const ORDER_ARRAY = [
     order_delivery_date: "2023-05-16T02:43:42.855Z",
     order_note: "Những lưu ý về đơn hàng sẽ được lưu ở cột này",
     order_type: "Đơn nhập",
-    order_status: "Tạo đơn hàng",
+    order_status: "Tạo đơn",
     order_total: 8160923.1,
   },
   {
@@ -30628,7 +30638,7 @@ const ORDER_ARRAY = [
     order_delivery_date: "2023-05-16T02:43:42.855Z",
     order_note: "Những lưu ý về đơn hàng sẽ được lưu ở cột này",
     order_type: "Đơn nhập",
-    order_status: "Tạo đơn hàng",
+    order_status: "Tạo đơn",
     order_total: 7381183.16,
   },
   {
@@ -30642,7 +30652,7 @@ const ORDER_ARRAY = [
     order_delivery_date: "2023-05-16T02:43:42.855Z",
     order_note: "Những lưu ý về đơn hàng sẽ được lưu ở cột này",
     order_type: "Đơn nhập",
-    order_status: "Tạo đơn hàng",
+    order_status: "Tạo đơn",
     order_total: 11986916.72,
   },
   {
@@ -30656,7 +30666,7 @@ const ORDER_ARRAY = [
     order_delivery_date: "2023-05-16T02:43:42.855Z",
     order_note: "Những lưu ý về đơn hàng sẽ được lưu ở cột này",
     order_type: "Đơn nhập",
-    order_status: "Tạo đơn hàng",
+    order_status: "Tạo đơn",
     order_total: 5563149.92,
   },
   {
@@ -30670,7 +30680,7 @@ const ORDER_ARRAY = [
     order_delivery_date: "2023-05-16T02:43:42.855Z",
     order_note: "Những lưu ý về đơn hàng sẽ được lưu ở cột này",
     order_type: "Đơn nhập",
-    order_status: "Tạo đơn hàng",
+    order_status: "Tạo đơn",
     order_total: 12896847.35,
   },
   {
@@ -30684,7 +30694,7 @@ const ORDER_ARRAY = [
     order_delivery_date: "2023-05-16T02:43:42.855Z",
     order_note: "Những lưu ý về đơn hàng sẽ được lưu ở cột này",
     order_type: "Đơn nhập",
-    order_status: "Tạo đơn hàng",
+    order_status: "Tạo đơn",
     order_total: 9030946.25,
   },
   {
@@ -30698,7 +30708,7 @@ const ORDER_ARRAY = [
     order_delivery_date: "2023-05-16T02:43:42.855Z",
     order_note: "Những lưu ý về đơn hàng sẽ được lưu ở cột này",
     order_type: "Đơn nhập",
-    order_status: "Tạo đơn hàng",
+    order_status: "Tạo đơn",
     order_total: 4442471.99,
   },
   {
@@ -30712,7 +30722,7 @@ const ORDER_ARRAY = [
     order_delivery_date: "2023-05-16T02:43:42.855Z",
     order_note: "Những lưu ý về đơn hàng sẽ được lưu ở cột này",
     order_type: "Đơn nhập",
-    order_status: "Tạo đơn hàng",
+    order_status: "Tạo đơn",
     order_total: 12230311.530000001,
   },
   {
@@ -30726,7 +30736,7 @@ const ORDER_ARRAY = [
     order_delivery_date: "2023-05-16T02:43:42.855Z",
     order_note: "Những lưu ý về đơn hàng sẽ được lưu ở cột này",
     order_type: "Đơn nhập",
-    order_status: "Tạo đơn hàng",
+    order_status: "Tạo đơn",
     order_total: 9549002.42,
   },
   {
@@ -30740,7 +30750,7 @@ const ORDER_ARRAY = [
     order_delivery_date: "2023-05-16T02:43:42.855Z",
     order_note: "Những lưu ý về đơn hàng sẽ được lưu ở cột này",
     order_type: "Đơn nhập",
-    order_status: "Tạo đơn hàng",
+    order_status: "Tạo đơn",
     order_total: 6268186.66,
   },
   {
@@ -30754,7 +30764,7 @@ const ORDER_ARRAY = [
     order_delivery_date: "2023-05-16T02:43:42.855Z",
     order_note: "Những lưu ý về đơn hàng sẽ được lưu ở cột này",
     order_type: "Đơn nhập",
-    order_status: "Tạo đơn hàng",
+    order_status: "Tạo đơn",
     order_total: 11694296.24,
   },
   {
@@ -30768,7 +30778,7 @@ const ORDER_ARRAY = [
     order_delivery_date: "2023-05-16T02:43:42.855Z",
     order_note: "Những lưu ý về đơn hàng sẽ được lưu ở cột này",
     order_type: "Đơn nhập",
-    order_status: "Tạo đơn hàng",
+    order_status: "Tạo đơn",
     order_total: 9679964.870000001,
   },
   {
@@ -30782,11 +30792,11 @@ const ORDER_ARRAY = [
     order_delivery_date: "2023-05-16T02:43:42.855Z",
     order_note: "Những lưu ý về đơn hàng sẽ được lưu ở cột này",
     order_type: "Đơn nhập",
-    order_status: "Tạo đơn hàng",
+    order_status: "Tạo đơn",
     order_total: 11370141.9,
   },
 ];
-const ORDER_TAG_LIST_ARRAY = [
+export const ORDER_TAG_LIST_ARRAY = [
   {
     order_id: "245bdeea-e93e-4009-9e73-dabe55cb1c0b",
     tag_id: "0c18dd40-443c-4ff9-8022-73ff41b1f807",
@@ -31588,7 +31598,7 @@ const ORDER_TAG_LIST_ARRAY = [
     tag_id: "19b4d273-c844-4c65-9611-168091b7e841",
   },
 ];
-const ORDER_PRODUCT_LIST_ARRAY = [
+export const ORDER_PRODUCT_LIST_ARRAY = [
   {
     order_id: "245bdeea-e93e-4009-9e73-dabe55cb1c0b",
     product_variant_id: "ec8d722c-e815-4f6b-b830-2b58a6c7fe94",
@@ -33590,7 +33600,7 @@ const ORDER_PRODUCT_LIST_ARRAY = [
     product_unit: "Cái",
   },
 ];
-const DEBT_ARRAY = [
+export const DEBT_ARRAY = [
   {
     id: "c2db32a7-51ee-40d9-8d35-e60c675e981d",
     user_id: "a6ce9449-0fba-49b4-8c0c-1d50aad1f84f",
@@ -34042,7 +34052,7 @@ const DEBT_ARRAY = [
     action: "Nhập hàng",
   },
 ];
-const AGENCY_BRANCH_PRODUCT_ARRAY = [
+export const AGENCY_BRANCH_PRODUCT_ARRAY = [
   {
     agency_branch_id: "6ab4f7c8-353f-47f2-8757-2347f2ab6332",
     product_variant_id: "ec8d722c-e815-4f6b-b830-2b58a6c7fe94",
@@ -34089,32 +34099,3 @@ const AGENCY_BRANCH_PRODUCT_ARRAY = [
     product_discount: 15,
   },
 ];
-
-export {
-  SHIPPER_ARRAY,
-  AGENCY_BRANCH_PRODUCT_ARRAY,
-  PRICE_ARRAY,
-  PAYMENT_ARRAY,
-  USER_ARRAY,
-  USER_ADDRESS_LIST_ARRAY,
-  CUSTOMER_ARRAY,
-  STAFF_ARRAY,
-  STAFF_ROLE_ARRAY,
-  STAFF_AGENCY_INCHARGE_ARRAY,
-  AGENCY_BRANCH_ARRAY,
-  ROLE_ARRAY,
-  TAG_ARRAY,
-  CUSTOMER_TAG_LIST_ARRAY,
-  BRAND_ARRAY,
-  TYPE_ARRAY,
-  PRODUCT_ARRAY,
-  PRODUCT_TAG_LIST_ARRAY,
-  ADDITIONAL_PRODUCT_INFORMATION,
-  PRODUCT_VARIANT_DETAIL_ARRAY,
-  PRODUCT_VARIANT_PRICE_ARRAY,
-  PRODUCT_VARIANT_PROPERTY_ARRAY,
-  ORDER_ARRAY,
-  ORDER_TAG_LIST_ARRAY,
-  ORDER_PRODUCT_LIST_ARRAY,
-  DEBT_ARRAY,
-};

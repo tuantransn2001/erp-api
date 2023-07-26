@@ -1,4 +1,5 @@
 import { Request } from "express";
+<<<<<<< HEAD
 interface MyRequest extends Request {
   currentUserID?: string;
 }
@@ -16,3 +17,8 @@ export {
   ObjectDynamicKeyWithValueIsString,
   ObjectDynamicKeyWithValue,
 };
+=======
+export interface MyRequest extends Request {
+  currentUserID?: string;
+}
+>>>>>>> dev/api-v2

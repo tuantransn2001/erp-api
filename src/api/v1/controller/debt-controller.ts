@@ -2,6 +2,7 @@ import { Request, Response, NextFunction } from "express";
 import { isEmpty } from "../../v1/common";
 import db from "../models";
 import { STATUS_CODE, STATUS_MESSAGE } from "../../v1/ts/enums/api_enums";
+<<<<<<< HEAD
 import { CUSTOMER_ACTION } from "../../v1/ts/enums/app_enums";
 import { ORDER_IMPORT_STATUS } from "../../v1/ts/enums/order_enum";
 import RestFullAPI from "../utils/response/apiResponse";
@@ -98,6 +99,12 @@ class DebtController {
       next(err);
     }
   }
+=======
+import RestFullAPI from "../utils/response/apiResponse";
+import DebtService from "../services/debt.services";
+const { Debt } = db;
+class DebtController {
+>>>>>>> dev/api-v2
   public static async getAllChangeByUserID(
     req: Request,
     res: Response,
@@ -137,6 +144,24 @@ class DebtController {
       next(err);
     }
   }
+<<<<<<< HEAD
+=======
+  public static async getDebtAmount(
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ) {
+    try {
+      const { id: user_id } = req.params;
+
+      const { statusCode, data } = await DebtService.getTotal({ user_id });
+
+      res.status(statusCode).send(data);
+    } catch (err) {
+      next(err);
+    }
+  }
+>>>>>>> dev/api-v2
 }
 
 export default DebtController;

@@ -9,8 +9,15 @@ import {
   BrandAttributes,
   ProductTagItemAttributes,
   TagAttributes,
+<<<<<<< HEAD
 } from "@/src/api/v1/ts/interfaces/app_interfaces";
 import { ObjectDynamicKeyWithValue } from "@/src/api/v1/ts/interfaces/global_interfaces";
+=======
+  AgencyBranchProductListAttributes,
+} from "@/src/api/v1/ts/interfaces/app_interfaces";
+import { isEmpty } from "../../common";
+import { ObjectType } from "../../ts/types/app_type";
+>>>>>>> dev/api-v2
 
 interface ProductVariantPriceQueryAttributes
   extends ProductVariantPriceAttributes {
@@ -57,7 +64,7 @@ type ProductSourceAttributes = ProductItemQueryAttributes[] &
 export const handleFormatProduct = (
   productSource: ProductSourceAttributes,
   formatType: string
-): ObjectDynamicKeyWithValue[] | ObjectDynamicKeyWithValue => {
+): ObjectType[] | ObjectType => {
   if (formatType === "isObject") {
     const {
       id,
@@ -214,4 +221,56 @@ export const handleFormatProduct = (
   });
 
   return productListResult;
+};
+
+interface ProductVariantQueryAttributes extends ProductVariantDetailAttributes {
+  Variant_Prices: { dataValues: ProductVariantPriceAttributes }[];
+  AgencyBranchProductLists: { dataValues: AgencyBranchProductListAttributes }[];
+}
+
+interface ImportProductSourceAttributes {
+  dataValues: ProductVariantQueryAttributes;
+}
+
+export const handleFormatImportProduct = (
+  importProductSources: ImportProductSourceAttributes[]
+): ObjectType => {
+  return importProductSources.map((product) => {
+    const {
+      id: product_variant_id,
+      product_variant_name,
+      product_variant_SKU,
+      product_weight_calculator_unit,
+    } = product.dataValues;
+    const prices = product.dataValues.Variant_Prices;
+
+    const handleGetInfo = () => {
+      const AgencyProductVariantList =
+        product.dataValues.AgencyBranchProductLists;
+
+      if (isEmpty(AgencyProductVariantList)) {
+        return {
+          inStock: 0,
+          available_to_sell: 0,
+        };
+      } else {
+        return {
+          inStock: AgencyProductVariantList[0].dataValues.available_quantity,
+          available_to_sell:
+            AgencyProductVariantList[0].dataValues.available_to_sell_quantity,
+        };
+      }
+    };
+
+    return {
+      product_variant: {
+        id: product_variant_id,
+        name: product_variant_name,
+        sku: product_variant_SKU,
+        calculator_unit: product_weight_calculator_unit,
+        price_sell: prices[0].dataValues.price_value,
+        amount: handleGetInfo(),
+      },
+    };
+  });
 };

@@ -16,6 +16,7 @@ productRouter
     errorHandler
   )
   .post("/create", authenticate, ProductController.create, errorHandler)
-  .get("/branch/get-all", BranchProductController.getAll);
+  .get("/branch/get-all", BranchProductController.getAll)
+  .get("/import/get-all", ProductController.ImportProduct().getAll);
 
 export default productRouter;

@@ -1,4 +1,4 @@
-interface AgencyBranchAttributes {
+export interface AgencyBranchAttributes {
   id: string;
   agency_branch_name: string;
   agency_branch_phone: string;
@@ -11,7 +11,7 @@ interface AgencyBranchAttributes {
   createdAt?: Date;
   updatedAt?: Date;
 }
-interface OrderAttributes {
+export interface OrderAttributes {
   id: string;
   agency_branch_id: string;
   shipper_id: string;
@@ -27,7 +27,7 @@ interface OrderAttributes {
   createdAt?: Date;
   updatedAt?: Date;
 }
-interface OrderProductListAttributes {
+export interface OrderProductListAttributes {
   id: string;
   order_id: string;
   product_variant_id: string;
@@ -39,14 +39,14 @@ interface OrderProductListAttributes {
   updatedAt?: Date;
 }
 
-interface RolePermissionAttributes {
+export interface RolePermissionAttributes {
   id: string;
   role_id: string;
   role_permission_description: string;
   createdAt?: Date;
   updatedAt?: Date;
 }
-interface ProductAttributes {
+export interface ProductAttributes {
   id: string;
   order_product_item_id: string;
   agency_branch_product_item_id: string;
@@ -56,7 +56,7 @@ interface ProductAttributes {
   createdAt?: Date;
   updatedAt?: Date;
 }
-interface CustomerAttributes {
+export interface CustomerAttributes {
   id: string;
   user_id: string;
   staff_id: string | null;
@@ -66,7 +66,7 @@ interface CustomerAttributes {
   updatedAt?: Date;
 }
 
-interface RoleAttributes {
+export interface RoleAttributes {
   id: string;
   role_title: string;
   role_description: string;
@@ -74,7 +74,7 @@ interface RoleAttributes {
   updatedAt?: Date;
 }
 
-interface StaffAttributes {
+export interface StaffAttributes {
   id: string;
   user_id: string;
   staff_status: string;
@@ -87,7 +87,7 @@ interface StaffAttributes {
   updatedAt?: Date;
 }
 
-interface StaffAgencyBranchInChargeAttributes {
+export interface StaffAgencyBranchInChargeAttributes {
   id: string;
   staff_role_id: string;
   agency_branch_id: string;
@@ -95,14 +95,14 @@ interface StaffAgencyBranchInChargeAttributes {
   updatedAt?: Date;
 }
 
-interface StaffRoleAttributes {
+export interface StaffRoleAttributes {
   id: string;
   role_id: string;
   staff_id: string;
   createdAt?: Date;
   updatedAt?: Date;
 }
-interface UserAttributes {
+export interface UserAttributes {
   id: string;
   user_code: string;
   user_phone: string;
@@ -114,7 +114,7 @@ interface UserAttributes {
   createdAt?: Date;
   updatedAt?: Date;
 }
-interface UserAddressAttributes {
+export interface UserAddressAttributes {
   id: string;
   user_id: string;
   user_province: string;
@@ -123,7 +123,7 @@ interface UserAddressAttributes {
   createdAt?: Date;
   updatedAt?: Date;
 }
-interface CustomerTagAttributes {
+export interface CustomerTagAttributes {
   id: string;
   customer_id: string;
   tag_id: string;
@@ -131,7 +131,7 @@ interface CustomerTagAttributes {
   updatedAt?: Date;
 }
 
-interface TagAttributes {
+export interface TagAttributes {
   id: string;
   tag_title: string;
   tag_description: string;
@@ -139,7 +139,7 @@ interface TagAttributes {
   updatedAt?: Date;
 }
 
-interface TypeAttributes {
+export interface TypeAttributes {
   id: string;
   type_title: string;
   type_description: string;
@@ -147,14 +147,14 @@ interface TypeAttributes {
   updatedAt?: Date;
 }
 
-interface BrandAttributes {
+export interface BrandAttributes {
   id: string;
   brand_title: string;
   brand_description: string;
   createdAt?: Date;
   updatedAt?: Date;
 }
-interface ProductTagItemAttributes {
+export interface ProductTagItemAttributes {
   id: string;
   tag_id: string;
   addition_product_information_id: string;
@@ -162,7 +162,7 @@ interface ProductTagItemAttributes {
   updatedAt?: Date;
 }
 
-interface AdditionProductInformationAttributes {
+export interface AdditionProductInformationAttributes {
   id: string;
   product_id: string;
   type_id: string;
@@ -171,7 +171,7 @@ interface AdditionProductInformationAttributes {
   updatedAt?: Date;
 }
 
-interface ProductVariantDetailAttributes {
+export interface ProductVariantDetailAttributes {
   id: string;
   product_id: string;
   product_variant_name: string;
@@ -183,7 +183,7 @@ interface ProductVariantDetailAttributes {
   updatedAt?: Date;
 }
 
-interface ProductVariantPropertyAttributes {
+export interface ProductVariantPropertyAttributes {
   id: string;
   product_variant_id: string;
   product_variant_property_key: string;
@@ -192,7 +192,7 @@ interface ProductVariantPropertyAttributes {
   updatedAt?: Date;
 }
 
-interface ProductVariantPriceAttributes {
+export interface ProductVariantPriceAttributes {
   id: string;
   product_variant_id: string;
   price_id: string;
@@ -201,7 +201,7 @@ interface ProductVariantPriceAttributes {
   updatedAt?: Date;
 }
 
-interface PriceAttributes {
+export interface PriceAttributes {
   id: string;
   price_type: string;
   price_description: string;
@@ -211,7 +211,7 @@ interface PriceAttributes {
   updatedAt?: Date;
 }
 
-interface DebtAttributes {
+export interface DebtAttributes {
   id: string;
   user_id: string;
   source_id: string;
@@ -223,7 +223,7 @@ interface DebtAttributes {
   updatedAt?: Date;
 }
 
-interface ShipperAttributes {
+export interface ShipperAttributes {
   id: string;
   shipper_unit: string;
   shipper_phone: string;
@@ -231,7 +231,7 @@ interface ShipperAttributes {
   updatedAt?: Date;
 }
 
-interface PaymentAttributes {
+export interface PaymentAttributes {
   id: string;
   payment_type: string;
   payment_description: string;
@@ -239,7 +239,7 @@ interface PaymentAttributes {
   updatedAt?: Date;
 }
 
-interface OrderTagAttributes {
+export interface OrderTagAttributes {
   id: string;
   order_id: string;
   tag_id: string;
@@ -247,7 +247,7 @@ interface OrderTagAttributes {
   updatedAt?: Date;
 }
 
-interface AgencyBranchProductListAttributes {
+export interface AgencyBranchProductListAttributes {
   id: string;
   agency_branch_id: string;
   product_variant_id: string;
@@ -259,33 +259,3 @@ interface AgencyBranchProductListAttributes {
   createdAt?: Date;
   updatedAt?: Date;
 }
-
-export {
-  PriceAttributes,
-  PaymentAttributes,
-  DebtAttributes,
-  OrderTagAttributes,
-  AgencyBranchProductListAttributes,
-  ShipperAttributes,
-  ProductVariantPriceAttributes,
-  ProductVariantPropertyAttributes,
-  ProductVariantDetailAttributes,
-  AdditionProductInformationAttributes,
-  ProductTagItemAttributes,
-  BrandAttributes,
-  TypeAttributes,
-  TagAttributes,
-  CustomerTagAttributes,
-  AgencyBranchAttributes,
-  OrderAttributes,
-  OrderProductListAttributes,
-  RolePermissionAttributes,
-  ProductAttributes,
-  CustomerAttributes,
-  RoleAttributes,
-  StaffAttributes,
-  StaffAgencyBranchInChargeAttributes,
-  StaffRoleAttributes,
-  UserAttributes,
-  UserAddressAttributes,
-};

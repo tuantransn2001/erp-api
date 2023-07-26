@@ -78,7 +78,6 @@ export const handleSeedData = () => {
       Model: Brand,
       data: BRAND_ARRAY,
     },
-
     {
       Model: Type,
       data: TYPE_ARRAY,

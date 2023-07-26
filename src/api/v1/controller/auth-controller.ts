@@ -6,7 +6,8 @@ import RestFullAPI from "../utils/response/apiResponse";
 import HashStringHandler from "../utils/hashString/string.hash";
 import jwt from "jsonwebtoken";
 import db from "../models";
-const { User } = db;
+import { MyRequest } from "../ts/interfaces/global_interfaces";
+const { User, Staff } = db;
 class AuthController {
   public static async login(req: Request, res: Response, next: NextFunction) {
     try {
@@ -74,6 +75,36 @@ class AuthController {
             )
           );
       }
+    } catch (err) {
+      next(err);
+    }
+  }
+  public static async me(req: MyRequest, res: Response, next: NextFunction) {
+    try {
+      const foundUser = await User.findOne({
+        attributes: ["id", "user_code", "user_name"],
+        where: {
+          id: req.currentUserID,
+          isDelete: null,
+        },
+        include: [
+          {
+            model: Staff,
+            attributes: ["id"],
+          },
+        ],
+      });
+
+      const { id, user_code, user_name } = foundUser.dataValues;
+      const { id: staff_id } = foundUser.dataValues.Staff.dataValues;
+      res.status(STATUS_CODE.STATUS_CODE_200).send(
+        RestFullAPI.onSuccess(STATUS_MESSAGE.SUCCESS, {
+          id,
+          staff_id,
+          user_code,
+          user_name,
+        })
+      );
     } catch (err) {
       next(err);
     }
