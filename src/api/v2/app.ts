@@ -3,7 +3,7 @@ import express, { Express, Request, Response } from "express";
 import cors from "cors";
 import env from "./constants/env";
 import rootRouter from "./routers";
-// import APIGateWay from "./gateway/app.gateway";
+import APIGateWay from "./gateway/app.gateway";
 import RestFullAPI from "./utils/response/apiResponse";
 import { STATUS_CODE, STATUS_MESSAGE } from "./ts/enums/api_enums";
 // ? ============================== INITIATE SERVER ==============================
@@ -20,8 +20,4 @@ app.get(ROOT_URL, (_: Request, res: Response) => {
     .send(RestFullAPI.onSuccess(STATUS_MESSAGE.SUCCESS));
 });
 
-app.use(
-  ROOT_URL,
-  //  APIGateWay.handleUseGlobalMiddleware,
-  rootRouter
-); // * Use Router
+app.use(ROOT_URL, APIGateWay.handleUseGlobalMiddleware, rootRouter); // * Use Router

@@ -5,10 +5,8 @@
   "main": "app.js",
   "scripts": {
     "test": "jest",
-    "build:dev": "cross-env SERVER_RUNNING_ON=local NODE_ENVIRONMENT=development webpack --config webpack.config.dev.js",
-    "build:dev:start": "cross-env SERVER_RUNNING_ON=local NODE_ENVIRONMENT=development nodemon build/development/server.js",
-    "build:prod": "cross-env SERVER_RUNNING_ON=cloud NODE_ENVIRONMENT=production webpack --config webpack.config.prod.js",
-    "build:prod:start": "cross-env SERVER_RUNNING_ON=cloud NODE_ENVIRONMENT=production node build/production/server.js"
+    "build:prod": "webpack --config webpack.config.prod.js",
+    "build:prod:start": "nodemon build/production/server.js"
   },
   "author": "ERP Project - Backend Team",
   "license": "ISC",
