@@ -1,10 +1,10 @@
 import db from "../models";
 import { STATUS_CODE, STATUS_MESSAGE } from "../ts/enums/api_enums";
 import { CUSTSUPP_ACTION } from "../ts/enums/app_enums";
-import { ORDER_IMPORT_STATUS } from "../ts/enums/order_enum";
 import HttpException from "../utils/exceptions/http.exception";
 import { handleError } from "../utils/handleError/handleError";
 import RestFullAPI from "../utils/response/apiResponse";
+import OrderServices from "./order.services";
 const { Debt, Order } = db;
 
 type DebtPayPayload = {
@@ -82,7 +82,6 @@ class DebtService {
             parseFloat(debt_payment_amount as string);
           await Order.update(
             {
-              order_status: ORDER_IMPORT_STATUS.DONE,
               order_total: remaining_order_value,
             },
             {
@@ -91,6 +90,10 @@ class DebtService {
               },
             }
           );
+          await OrderServices.updateOrderOnSuccess({
+            user_id,
+            order_id: source_id,
+          });
 
           return {
             statusCode: STATUS_CODE.STATUS_CODE_200,

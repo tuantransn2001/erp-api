@@ -12,7 +12,6 @@ import {
   ShipperAttributes,
 } from "@/src/api/v2/ts/interfaces/app_interfaces";
 import OrderServices from "../../services/order.services";
-import { ORDER_IMPORT_STATUS } from "../../ts/enums/order_enum";
 type UserQueryExclude = Omit<
   UserAttributes,
   "user_code" | "user_email" | "user_password" | "user_type" | "isDelete"
@@ -194,8 +193,6 @@ export const handleFormatOrder = (
       orderItem.dataValues.Staff.dataValues.User.dataValues;
     const { agency_branch_name } = orderItem.dataValues.AgencyBranch.dataValues;
 
-    const isPaymentSuccess: boolean =
-      order_status === ORDER_IMPORT_STATUS.DONE ? true : false;
     // ? =============================================================================
     // ? ====================== AUTOMATIC UPDATE STATUS===============================
     // ? =============================================================================
@@ -211,7 +208,6 @@ export const handleFormatOrder = (
       order_code,
       order_status,
       order_total,
-      isPaymentSuccess,
       order_note,
       createdAt: orderItem.dataValues.createdAt as Date,
     };

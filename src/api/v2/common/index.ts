@@ -62,11 +62,14 @@ export const checkMissPropertyInObjectBaseOnValueCondition = (
   return arrMissArray;
 };
 
-export const removeItem = <T>(arr: Array<T>, value: T): Array<T> => {
-  const index = arr.indexOf(value);
-  if (index > -1) {
-    arr.splice(index, 1);
-  }
+export const removeItem = <T>(arr: Array<T>, values: Array<T>): Array<T> => {
+  values.forEach((value) => {
+    const index = arr.indexOf(value);
+    if (index > -1) {
+      arr.splice(index, 1);
+    }
+  });
+
   return arr;
 };
 

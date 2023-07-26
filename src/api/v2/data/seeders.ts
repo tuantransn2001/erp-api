@@ -30139,7 +30139,7 @@ export const ORDER_ARRAY: Partial<OrderAttributes>[] = [
     order_delivery_date: "2023-05-16T02:43:42.855Z",
     order_note: "Những lưu ý về đơn hàng sẽ được lưu ở cột này",
     order_type: "Đơn nhập",
-    order_status: "Hoàn thành",
+    order_status: "Tạo đơn",
     order_total: 14626236.23,
   },
   {
