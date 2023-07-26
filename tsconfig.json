@@ -2,7 +2,9 @@
   "compilerOptions": {
     "baseUrl": "./",
     "paths": {
-      "@/*": ["*", "src/api/v1/ts/types/*"]
+      "@/*": ["*", "src/api/v1/ts/types/*"],
+      "types": ["jest", "node", "@types/jest"],
+      "include": ["tests/*.ts"]
     },
     "resolveJsonModule": true,
     "target": "es2018",
@@ -21,8 +23,7 @@
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
     "forceConsistentCasingInFileNames": true,
-    "skipLibCheck": true,
-    "typeRoots": ["./src/api/v1/ts/types/global_type.d.ts"]
+    "skipLibCheck": true
   },
   "exclude": ["node_modules"]
 }

@@ -1,3 +1,4 @@
+import { each as forEachAwait } from "awaity";
 import {
   USER_ARRAY,
   USER_ADDRESS_LIST_ARRAY,
@@ -28,11 +29,11 @@ import {
 } from "./seeders";
 import db from "../models";
 const {
+  User,
   Order,
   OrderTag,
   OrderProductList,
   Debt,
-  User,
   CustSupp,
   UserAddress,
   AgencyBranch,
@@ -57,7 +58,11 @@ const {
 } = db;
 
 export const handleSeedData = () => {
-  [
+  const seedData = [
+    {
+      Model: User,
+      data: USER_ARRAY,
+    },
     {
       Model: Payment,
       data: PAYMENT_ARRAY,
@@ -65,10 +70,6 @@ export const handleSeedData = () => {
     {
       Model: Shipper,
       data: SHIPPER_ARRAY,
-    },
-    {
-      Model: User,
-      data: USER_ARRAY,
     },
     {
       Model: UserAddress,
@@ -165,7 +166,9 @@ export const handleSeedData = () => {
       Model: OrderTag,
       data: ORDER_TAG_LIST_ARRAY,
     },
-  ].forEach(async ({ Model, data }) => {
+  ];
+
+  forEachAwait(seedData, async ({ Model, data }) => {
     await Model.bulkCreate(data);
   });
 };

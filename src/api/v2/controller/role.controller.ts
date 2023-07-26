@@ -4,7 +4,7 @@ import {
   RoleAttributes,
   StaffAgencyBranchInChargeAttributes,
   StaffRoleAttributes,
-} from "@/src/api/v1/ts/interfaces/app_interfaces";
+} from "@/src/api/v2/ts/interfaces/app_interfaces";
 const { Role, StaffRole, StaffAgencyBranchInCharge } = db;
 const { v4: uuidv4 } = require("uuid");
 import { handleFormatUpdateDataByValidValue } from "../common";

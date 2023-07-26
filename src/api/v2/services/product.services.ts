@@ -3,6 +3,7 @@ import { STATUS_CODE, STATUS_MESSAGE } from "../ts/enums/api_enums";
 import { ENTITIES_FORMAT_TYPE, MODIFY_STATUS } from "../ts/enums/app_enums";
 import {
   AdditionProductInformationAttributes,
+  AgencyBranchAttributes,
   AgencyBranchProductListAttributes,
   BrandAttributes,
   PriceAttributes,
@@ -32,6 +33,7 @@ import HttpException from "../utils/exceptions/http.exception";
 const {
   Products,
   AdditionProductInformation,
+  AgencyBranch,
   AgencyBranchProductList,
   Type,
   Brand,
@@ -109,6 +111,7 @@ interface ProductVariantQueryAttributes extends ProductVariantDetailAttributes {
 interface AgencyBranchProductListQueryAttributes
   extends AgencyBranchProductListAttributes {
   ProductVariantDetail: { dataValues: ProductVariantQueryAttributes };
+  AgencyBranch: { dataValues: AgencyBranchAttributes };
 }
 
 interface BranchProductQueryAttributes {
@@ -305,6 +308,9 @@ class ProductServices {
             product_discount,
           } = branchProduct.dataValues;
 
+          const { id: agency_branch_id, agency_branch_name } =
+            branchProduct.dataValues.AgencyBranch.dataValues;
+
           const {
             id: product_variant_id,
             product_variant_name,
@@ -319,6 +325,10 @@ class ProductServices {
             available_quantity,
             available_to_sell_quantity,
             product_discount,
+            agencyBranch: {
+              id: agency_branch_id,
+              name: agency_branch_name,
+            },
             product: {
               product_variant_id,
               name: product_variant_name,
@@ -393,7 +403,7 @@ class ProductServices {
     properties: PropertyDTO[]
   ) => {
     const { keys, combineValues } = properties.reduce(
-      (res: ObjectType, { key, values }) => {
+      (res: ObjectType<any>, { key, values }) => {
         res.keys.push(key);
         res.combineValues.push(values);
         return res;
@@ -527,6 +537,10 @@ class ProductServices {
               attributes: ["id", "price_value"],
             },
           ],
+        },
+        {
+          attributes: ["id", "agency_branch_name"],
+          model: AgencyBranch,
         },
       ],
     });

@@ -7,7 +7,7 @@ import RestFullAPI from "../utils/response/apiResponse";
 
 interface ModifyJunctionPayload {
   JunctionModel: any;
-  attrs: ObjectType[];
+  attrs: ObjectType<string>[];
   ownerQuery: { [key: string]: string };
 }
 

@@ -10,7 +10,7 @@ module.exports = {
   target: "node",
   mode: "production",
   watch: true,
-  entry: [`./src/api/v${_v}/app.ts`, `./src/api/v${_v}/models/index.ts`],
+  entry: [`./src/api/v${_v}/server.ts`, `./src/api/v${_v}/models/index.ts`],
   devServer: {
     static: [
       {
@@ -19,7 +19,7 @@ module.exports = {
     ],
   },
   output: {
-    filename: "app.js",
+    filename: "server.js",
     path: path.resolve(__dirname, `build/production/`),
   },
   module: {

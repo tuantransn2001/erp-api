@@ -1,4 +1,4 @@
-import bcrypt from "bcrypt";
+import * as bcrypt from "bcrypt";
 
 class HashStringHandler {
   public static hash(str: string, saltRounds: number): string {

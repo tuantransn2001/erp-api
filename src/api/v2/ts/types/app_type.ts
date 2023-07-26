@@ -2,7 +2,7 @@ import { IncomingHttpHeaders } from "http2";
 import { ENTITIES_FORMAT_TYPE } from "../enums/app_enums";
 
 export type Falsy = false | 0 | "" | null | undefined;
-export type ObjectType = Record<string, any>;
+export type ObjectType<T> = Record<string, T>;
 export type IncomingCustomHeaders = IncomingHttpHeaders & {
   token: string;
 };

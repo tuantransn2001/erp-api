@@ -8,6 +8,7 @@ class AuthController {
   public static async login(req: Request, res: Response, next: NextFunction) {
     try {
       const { phone, password }: LoginDTO = req.body;
+
       const { statusCode, data } = await AuthServices.login({
         phone,
         password,
@@ -21,6 +22,7 @@ class AuthController {
   public static async me(req: MyRequest, res: Response, next: NextFunction) {
     try {
       const { currentUserID } = req as MeDTO;
+      console.log(req.headers.token);
       const { statusCode, data } = await AuthServices.me({ currentUserID });
       res.status(statusCode).send(data);
     } catch (err) {

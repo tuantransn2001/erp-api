@@ -1,4 +1,5 @@
 import { v4 as uuiv4 } from "uuid";
+import reduce from "awaity/reduce";
 import { randomStringByCharsetAndLength } from "../../v2/common";
 import {
   ORDER_IMPORT_STATUS,
@@ -36,6 +37,7 @@ const {
   AgencyBranch,
   Tag,
   ProductVariantDetail,
+  AgencyBranchProductList,
   Payment,
   Shipper,
 } = db;
@@ -49,7 +51,7 @@ type ProductItem = {
 };
 
 type OrderDataAttributes = {
-  custSupp_id: string;
+  supplier_id: string;
   agency_branch_id: string;
   shipper_id: string;
   payment_id: string;
@@ -71,8 +73,11 @@ type UpdateDetailDataAttributes = {
   updateData: OrderAttributes;
 };
 type OrderProductAttributes = {
+  order_type: string;
   order_id: string;
   products: Array<ProductItem>;
+  operator?: string;
+  agency_branch_id?: string;
 };
 type UpdateOrderProductListDataAttributes = {
   queryCondition: { order_id: string };
@@ -86,7 +91,7 @@ type UpdateOrderOnSuccessAttributes = {
 };
 
 class OrderServices {
-  public static calculateOrderTotal(productList: Array<ProductItem>) {
+  public static calculateOrderTotal(productList: ProductItem[]) {
     return productList.reduce((total: number, product: ProductItem) => {
       total +=
         (product.amount * product.price * (100 - product.discount)) / 100;
@@ -147,12 +152,12 @@ class OrderServices {
         ),
       };
     } catch (err) {
-      const CustSuppr = err as HttpException;
+      const customErr = err as HttpException;
 
       return {
         statusCode: STATUS_CODE.STATUS_CODE_500,
         data: RestFullAPI.onSuccess(STATUS_MESSAGE.SERVER_ERROR, {
-          message: CustSuppr.message,
+          message: customErr.message,
         }),
       };
     }
@@ -257,45 +262,48 @@ class OrderServices {
         ),
       };
     } catch (err) {
-      const CustSuppr = err as HttpException;
+      const customErr = err as HttpException;
 
       return {
         statusCode: STATUS_CODE.STATUS_CODE_406,
         data: RestFullAPI.onSuccess(STATUS_MESSAGE.NOT_ACCEPTABLE, {
-          message: CustSuppr.message,
+          message: customErr.message,
         }),
       };
     }
   }
+  // ? Tạo record sản phẩm khi đơn hàng được tạo
   public static async generateOrderProducts({
     order_id,
     products,
   }: OrderProductAttributes) {
-    // ? ===== Generate product list
-    const orderProductRowArr: Array<OrderProductListAttributes> = products.map(
-      ({
-        p_variant_id: product_variant_id,
-        amount: product_amount,
-        price: product_price,
-        discount: product_discount,
-        unit: product_unit,
-      }: ObjectType) => ({
-        id: uuiv4(),
-        order_id,
-        product_variant_id,
-        product_amount,
-        product_price,
-        product_discount,
-        product_unit,
-      })
-    );
+    const orderProductRowArr: Partial<OrderProductListAttributes>[] =
+      products.map(
+        ({
+          p_variant_id: product_variant_id,
+          amount: product_amount,
+          price: product_price,
+          discount: product_discount,
+          unit: product_unit,
+        }) => {
+          return {
+            id: uuiv4(),
+            order_id,
+            product_variant_id,
+            product_amount,
+            product_price,
+            product_discount,
+            product_unit,
+          };
+        }
+      );
 
     await OrderProductList.bulkCreate(orderProductRowArr);
   }
   public static async create(orderData: OrderDataAttributes) {
     try {
       const {
-        custSupp_id,
+        supplier_id,
         agency_branch_id,
         shipper_id,
         payment_id,
@@ -315,18 +323,21 @@ class OrderServices {
         shipper_id,
         payment_id,
         staff_id,
-        custSupp_id,
+        custSupp_id: supplier_id,
         order_code: randomStringByCharsetAndLength("alphabet", 5, true),
         order_delivery_date,
         order_note,
         order_type,
-        order_status: ORDER_IMPORT_STATUS.GENERATE,
+        order_status:
+          order_type === ORDER_TYPE.IMPORT
+            ? ORDER_IMPORT_STATUS.GENERATE
+            : ORDER_SALE_STATUS.GENERATE,
         order_total: order_total,
       };
 
       const foundOrderOwner = await CustSupp.findOne({
         where: {
-          id: custSupp_id,
+          id: supplier_id,
         },
         attributes: ["id"],
         include: [
@@ -380,16 +391,65 @@ class OrderServices {
             await OrderServices.generateOrderProducts({
               order_id: orderRow.id,
               products,
+              order_type,
             });
+
+            // ? Check if product is exist or not
+            const { createData, updateData } = await reduce(
+              products,
+              async function (
+                modifyData: any,
+                { p_variant_id: product_variant_id },
+                index: number
+              ) {
+                const foundExistProduct = await AgencyBranchProductList.findOne(
+                  { where: { product_variant_id } }
+                );
+
+                if (foundExistProduct) {
+                  modifyData.updateData.push(products[index]);
+                } else {
+                  modifyData.createData.push(products[index]);
+                }
+
+                return modifyData;
+              },
+              { createData: [], updateData: [] }
+            );
+
+            // ? Exist -> Update amount
+            if (!isEmpty(createData)) {
+              await OrderServices.generateAgencyProductsOnCreate({
+                products: createData,
+                agency_branch_id,
+              });
+            }
+            // ? Do not Exist -> Generate
+            if (!isEmpty(updateData)) {
+              await OrderServices.updateOrderAgencyProductsAmountOnUpdate({
+                products: updateData,
+                operator: "plus",
+              });
+              break;
+            }
+            await OrderServices.generateAgencyProductsOnCreate({
+              products,
+              agency_branch_id,
+            });
+            break;
           }
           case ORDER_TYPE.SALE: {
             await OrderServices.generateOrderProducts({
               order_id: orderRow.id,
               products,
+              order_type,
             });
+
             await OrderServices.updateOrderAgencyProductsAmountOnUpdate({
               products,
+              operator: "minus",
             });
+            break;
           }
         }
 
@@ -415,11 +475,11 @@ class OrderServices {
         };
       }
     } catch (err) {
-      const CustSuppr = err as HttpException;
+      const customErr = err as HttpException;
       return {
         statusCode: STATUS_CODE.STATUS_CODE_500,
         data: RestFullAPI.onSuccess(STATUS_MESSAGE.SERVER_ERROR, {
-          message: CustSuppr.message,
+          message: customErr.message,
         }),
       };
     }
@@ -437,12 +497,8 @@ class OrderServices {
       [undefined]
     );
 
-    await JunctionModel.destroy({
-      where: queryCondition,
-    });
-
     if (isEmpty(argMissArr)) {
-      const orderProductRowArr: Array<OrderProductListAttributes> =
+      const orderProductRowArr: Array<Partial<OrderProductListAttributes>> =
         updateProductsData.map(
           ({
             p_variant_id: product_variant_id,
@@ -460,22 +516,63 @@ class OrderServices {
             product_unit,
           })
         );
+      // ? ======================================================================
+      // ? Reset Old Product Data ( restore available to sell , available )
+      // ? ======================================================================
 
-      return await JunctionModel.bulkCreate(orderProductRowArr)
-        .then(() => {
-          return {
-            statusCode: STATUS_CODE.STATUS_CODE_200,
-            data: RestFullAPI.onSuccess(STATUS_MESSAGE.SUCCESS),
-          };
-        })
-        .catch((err: HttpException) => {
-          return {
-            statusCode: STATUS_CODE.STATUS_CODE_500,
-            data: RestFullAPI.onSuccess(STATUS_MESSAGE.SERVER_ERROR, {
-              message: err.message,
-            }),
-          };
+      // ? Update Agency Product Amount - ORDER SALE Only
+      const getCurrentOrderDetail = async () => {
+        const foundOrder = await Order.findOne({
+          where: { id: order_id },
+          include: [
+            {
+              model: OrderProductList,
+            },
+          ],
         });
+
+        return {
+          type: foundOrder.dataValues.order_type,
+          resetOldProductAmountData:
+            foundOrder.dataValues.OrderProductLists.map(
+              (order_product_item: {
+                dataValues: OrderProductListAttributes;
+              }) => {
+                const {
+                  product_variant_id: p_variant_id,
+                  product_amount: amount,
+                } = order_product_item.dataValues;
+
+                return { p_variant_id, amount };
+              }
+            ),
+        };
+      };
+
+      if ((await getCurrentOrderDetail()).type === ORDER_TYPE.SALE) {
+        await OrderServices.updateOrderAgencyProductsAmountOnUpdate({
+          products: (await getCurrentOrderDetail()).resetOldProductAmountData,
+          operator: "plus",
+        });
+      }
+
+      await JunctionModel.destroy({
+        where: queryCondition,
+      });
+
+      // ? ======================================================================
+      // ? Add New Product Data ( new available to sell , available )
+      // ? ======================================================================
+
+      await JunctionModel.bulkCreate(orderProductRowArr);
+      await OrderServices.updateOrderAgencyProductsAmountOnUpdate({
+        products: updateProductsData,
+        operator: "minus",
+      });
+      return {
+        statusCode: STATUS_CODE.STATUS_CODE_200,
+        data: RestFullAPI.onSuccess(STATUS_MESSAGE.SUCCESS),
+      };
     } else {
       return {
         statusCode: STATUS_CODE.STATUS_CODE_406,
@@ -506,36 +603,84 @@ class OrderServices {
         };
       });
   }
+  // ? Tạo ra record sản phẩm đơn hàng khi đơn hàng đơn tạo
+  public static async generateAgencyProductsOnCreate({
+    products,
+    agency_branch_id,
+  }: Omit<OrderProductAttributes, "order_type" | "order_id">) {
+    const newAgencyProduct = products.map(
+      ({
+        p_variant_id: product_variant_id,
+        price: product_price,
+        discount: product_discount,
+        amount,
+      }) => {
+        return {
+          agency_branch_id,
+          product_variant_id,
+          product_price,
+          product_discount,
+          available_quantity: amount,
+          available_to_sell_quantity: amount,
+          trading_quantity: 0,
+        };
+      }
+    );
+
+    await OrderProductList.bulkCreate(newAgencyProduct);
+  }
+  // ? Cập nhật số lượng sản phẩm trong kho khi đơn hàng bán ra hoặc nhập hàng vào
+  // ? operator: ["plus","minus"]
   public static async updateOrderAgencyProductsAmountOnUpdate({
     products,
-  }: Omit<OrderProductAttributes, "order_id">) {
-    products.forEach(async (p: ProductItem) => {
+    operator,
+  }: Omit<OrderProductAttributes, "order_type" | "order_id">) {
+    const OPERATOR = {
+      minus: "-",
+      plus: "+",
+    };
+    type Key = keyof typeof OPERATOR;
+    products.forEach(async ({ amount, p_variant_id }: ProductItem) => {
       await db.AgencyBranchProductList.update(
         {
           available_quantity: db.sequelize.literal(
-            `available_quantity - ${p.amount}`
+            `available_quantity ${OPERATOR[operator as Key]} ${amount}`
           ),
           available_to_sell_quantity: db.sequelize.literal(
-            `available_to_sell_quantity - ${p.amount}`
+            `available_to_sell_quantity ${OPERATOR[operator as Key]} ${amount}`
           ),
           trading_quantity: db.sequelize.literal(
-            `trading_quantity + ${p.amount}`
+            `trading_quantity ${
+              operator === "minus" ? OPERATOR["plus"] : OPERATOR["minus"]
+            } ${amount}`
           ),
         },
         {
           where: {
-            product_variant_id: p.p_variant_id,
+            product_variant_id: p_variant_id,
           },
         }
       );
     });
-    return;
   }
+  // ? Chuyển trạng thái đơn hàng sang hoàn thành khi:
+  // ? + Khi khách hàng / nhà cung cấp đã thanh toán
+  // ? + Đơn hàng ở trạng thái cuối ( đơn bán là DELIVER-Xuất kho || đơn nhập là TRADING-Đang giao dịch )
   public static async updateOrderOnSuccess({
     user_id,
     order_id,
   }: UpdateOrderOnSuccessAttributes) {
     try {
+      const VALID_ORDER_NEAREST_SUCCESS = [
+        ORDER_IMPORT_STATUS.TRADING,
+        ORDER_SALE_STATUS.DELIVERY,
+      ];
+
+      const UPDATE_ORDER_STATUS = {
+        [ORDER_TYPE.IMPORT]: ORDER_IMPORT_STATUS.DONE,
+        [ORDER_TYPE.SALE]: ORDER_SALE_STATUS.DONE,
+      };
+
       // ? Check total debt
       // ? Check last status
       const foundOrder = await Order.findOne({
@@ -543,35 +688,38 @@ class OrderServices {
           id: order_id,
         },
       });
+      const { data: debtData }: ObjectType<any> = await DebtService.getTotal({
+        user_id: user_id as string,
+      });
 
       const { order_status, order_type } = foundOrder.dataValues;
-      const isOK = async () => {
-        const { data: debtData }: ObjectType = await DebtService.getTotal({
-          user_id,
-        });
-        const { debt_amount }: ObjectType = debtData.data;
 
-        return (
-          parseFloat(debt_amount) === 0 &&
-          (order_status === ORDER_IMPORT_STATUS.TRADING ||
-            ORDER_SALE_STATUS.DELIVERY)
-        );
+      const isOK = () => {
+        const { debt_amount }: ObjectType<string> = debtData.data;
+
+        const isPaymentSuccess = parseFloat(debt_amount) === 0;
+
+        const isValidOrderStatus =
+          VALID_ORDER_NEAREST_SUCCESS.includes(order_status);
+
+        return isPaymentSuccess && isValidOrderStatus;
       };
 
-      if (await isOK()) {
+      if (isOK()) {
         // ? => Accept update => Update => Return
-        const UPDATE_ORDER_STATUS = {
-          [ORDER_TYPE.IMPORT]: ORDER_IMPORT_STATUS.DONE,
-          [ORDER_TYPE.SALE]: ORDER_SALE_STATUS.DONE,
-        };
-
         foundOrder.order_status = UPDATE_ORDER_STATUS[order_type];
         await foundOrder.save();
       }
 
-      return;
+      return {
+        statusCode: STATUS_CODE.STATUS_CODE_200,
+        data: RestFullAPI.onSuccess(STATUS_MESSAGE.SUCCESS),
+      };
     } catch (err) {
-      return handleError(err as Error);
+      return {
+        statusCode: STATUS_CODE.STATUS_CODE_500,
+        data: handleError(err as Error),
+      };
     }
   }
 }

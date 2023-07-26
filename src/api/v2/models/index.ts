@@ -21,8 +21,8 @@ switch (RUNNING_ON) {
   }
 }
 
-const currentPath: string = `${__dirname}/models`;
-console.log("Dirname: ", currentPath);
+const currentPath = [...new Set(`${__dirname}/models`.split("/"))].join("/");
+
 fs.readdirSync(currentPath)
   .filter((file: any) => {
     return (

@@ -90,10 +90,6 @@ type UpdateOrderOnSuccessAttributes = {
   user_id: string;
 };
 
-type UpdateStatusDoneBeforeGet = {
-  order_type: string;
-};
-
 class OrderServices {
   public static calculateOrderTotal(productList: Array<ProductItem>) {
     return productList.reduce((total: number, product: ProductItem) => {
@@ -101,59 +97,6 @@ class OrderServices {
         (product.amount * product.price * (100 - product.discount)) / 100;
       return total;
     }, 0);
-  }
-  public static async updateStatusDoneBeforeGet({
-    order_type,
-  }: UpdateStatusDoneBeforeGet) {
-    try {
-      const updateDataArr = await Order.findAll({
-        where: {
-          order_type,
-        },
-        attributes: ["id"],
-        include: [
-          {
-            model: Customer,
-            attributes: ["id"],
-            include: [
-              {
-                model: User,
-                attributes: ["id"],
-              },
-            ],
-          },
-        ],
-      }).then((response: any) => {
-        return response.map((orderData: any) => {
-          const { id: order_id } = orderData.dataValues;
-          const { id: user_id } =
-            orderData.dataValues.Customer.dataValues.User.dataValues;
-          return {
-            order_id,
-            user_id,
-          };
-        });
-      });
-
-      for (let index = 0; index <= updateDataArr.length - 1; index++) {
-        const { user_id, order_id } = updateDataArr[index];
-
-        await OrderServices.updateOrderOnSuccess({
-          user_id,
-          order_id,
-        });
-      }
-
-      return {
-        statusCode: STATUS_CODE.STATUS_CODE_200,
-        data: RestFullAPI.onSuccess(STATUS_MESSAGE.SUCCESS),
-      };
-    } catch (err) {
-      return {
-        statusCode: STATUS_CODE.STATUS_CODE_500,
-        data: handleError(err as Error),
-      };
-    }
   }
   public static async getAll(order_type: string) {
     try {
@@ -680,7 +623,7 @@ class OrderServices {
       }
     );
 
-    console.log(newAgencyProduct);
+    await OrderProductList.bulkCreate(newAgencyProduct);
   }
   public static async updateOrderAgencyProductsAmountOnUpdate({
     products,

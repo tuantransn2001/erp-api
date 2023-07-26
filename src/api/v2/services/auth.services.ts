@@ -1,11 +1,10 @@
 import db from "../models";
-import jwt from "jsonwebtoken";
+import * as jwt from "jsonwebtoken";
 import HashStringHandler from "../utils/hashString/string.hash";
 import { LoginDTO, MeDTO, TokenDTO } from "../ts/dto/auth.dto";
 import env from "../constants/env";
 import { STATUS_CODE, STATUS_MESSAGE } from "../ts/enums/api_enums";
 import RestFullAPI from "../utils/response/apiResponse";
-import HttpException from "../utils/exceptions/http.exception";
 import { handleError } from "../utils/handleError/handleError";
 const { User, Staff } = db;
 
@@ -15,12 +14,13 @@ class AuthServices {
       const { phone: user_phone, password } = payload;
 
       const foundUser = await User.findOne({
-        attributes: ["id"],
+        attributes: ["id", "user_password"],
         where: {
           user_phone,
           isDelete: null,
         },
       });
+
       // ? Check user is exist or not by phone
       if (foundUser) {
         // * Case Exist
@@ -58,9 +58,7 @@ class AuthServices {
         // * Case does not exist
         return {
           statusCode: STATUS_CODE.STATUS_CODE_404,
-          data: RestFullAPI.onFail(STATUS_MESSAGE.NOT_FOUND, {
-            message: `User with phone: ${user_phone} doesn't exist ! Please check it and try again!`,
-          } as HttpException),
+          data: RestFullAPI.onFail(STATUS_MESSAGE.NOT_FOUND),
         };
       }
     } catch (err) {

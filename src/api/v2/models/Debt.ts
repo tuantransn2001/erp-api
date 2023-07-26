@@ -1,6 +1,6 @@
 "use strict";
 import { Model } from "sequelize";
-import { DebtAttributes } from "@/src/api/v1/ts/interfaces/app_interfaces";
+import { DebtAttributes } from "@/src/api/v2/ts/interfaces/app_interfaces";
 
 export default (sequelize: any, DataTypes: any) => {
   class Debt extends Model<DebtAttributes> implements DebtAttributes {

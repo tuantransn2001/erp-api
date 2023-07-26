@@ -10,9 +10,8 @@ import {
   ProductTagItemAttributes,
   TagAttributes,
   AgencyBranchProductListAttributes,
-} from "@/src/api/v1/ts/interfaces/app_interfaces";
+} from "@/src/api/v2/ts/interfaces/app_interfaces";
 import { isEmpty } from "../../common";
-import { ObjectType } from "../../ts/types/app_type";
 
 interface ProductVariantPriceQueryAttributes
   extends ProductVariantPriceAttributes {
@@ -59,7 +58,7 @@ type ProductSourceAttributes = ProductItemQueryAttributes[] &
 export const handleFormatProduct = (
   productSource: ProductSourceAttributes,
   formatType: string
-): ObjectType[] | ObjectType => {
+) => {
   if (formatType === "isObject") {
     const {
       id,
@@ -229,7 +228,7 @@ interface ImportProductSourceAttributes {
 
 export const handleFormatImportProduct = (
   importProductSources: ImportProductSourceAttributes[]
-): ObjectType => {
+) => {
   return importProductSources.map((product) => {
     const {
       id: product_variant_id,

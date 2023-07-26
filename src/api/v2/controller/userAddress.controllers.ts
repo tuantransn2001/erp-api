@@ -2,7 +2,7 @@ import { NextFunction, Request, Response } from "express";
 import db from "../models";
 const { UserAddress } = db;
 import { handleFormatUpdateDataByValidValue } from "../common";
-import { UserAddressAttributes } from "@/src/api/v1/ts/interfaces/app_interfaces";
+import { UserAddressAttributes } from "@/src/api/v2/ts/interfaces/app_interfaces";
 import { STATUS_CODE, STATUS_MESSAGE } from "../ts/enums/api_enums";
 import RestFullAPI from "../utils/response/apiResponse";
 interface NewAddressAttributes {

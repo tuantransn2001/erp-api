@@ -2,7 +2,7 @@ import randomstring from "randomstring";
 import { MODIFY_STATUS } from "../ts/enums/app_enums";
 import { Falsy, ObjectType } from "../ts/types/app_type";
 
-export const isEmpty = (target: ObjectType | any[]): boolean => {
+export const isEmpty = (target: ObjectType<any> | any[]): boolean => {
   return target instanceof Array
     ? target.length === 0
     : target === undefined || target === null
@@ -11,7 +11,7 @@ export const isEmpty = (target: ObjectType | any[]): boolean => {
 };
 
 export const handleFormatUpdateDataByValidValue = (
-  targetObj: ObjectType,
+  targetObj: ObjectType<any>,
   defaultValue: any
 ) => {
   return Object.keys(targetObj).reduce(
@@ -43,7 +43,7 @@ export const randomStringByCharsetAndLength = (
 };
 
 export const checkMissPropertyInObjectBaseOnValueCondition = (
-  baseObject: ObjectType,
+  baseObject: ObjectType<any>,
   valueCondition: Falsy[]
 ) => {
   const arrMissArray: string[] = Object.keys(baseObject).reduce(
@@ -70,7 +70,9 @@ export const removeItem = <T>(arr: Array<T>, value: T): Array<T> => {
   return arr;
 };
 
-export const handleValidateClientRequestBeforeModify = <P extends ObjectType>(
+export const handleValidateClientRequestBeforeModify = <
+  P extends ObjectType<any>
+>(
   payload: P,
   checkConditions: Falsy[]
 ) => {

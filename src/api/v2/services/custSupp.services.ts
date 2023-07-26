@@ -449,7 +449,7 @@ class CustSuppServices {
         ownerQuery: {
           custSupp_id: custSuppID,
         },
-        attrs: tags?.map((tag_id) => ({ tag_id })) as ObjectType[],
+        attrs: tags?.map((tag_id) => ({ tag_id })) as ObjectType<string>[],
       });
 
       return {

@@ -20,7 +20,7 @@ export interface OrderAttributes {
   custSupp_id: string;
   order_type: string;
   order_code: string;
-  order_delivery_date: Date;
+  order_delivery_date: Date | string;
   order_status: string;
   order_total: number;
   order_note?: string;
@@ -78,7 +78,7 @@ export interface StaffAttributes {
   id: string;
   user_id: string;
   staff_status: string;
-  staff_birthday: Date;
+  staff_birthday: Date | string;
   note_about_staff: string;
   staff_gender: boolean;
   isAllowViewImportNWholesalePrice: boolean;

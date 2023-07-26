@@ -16,8 +16,8 @@ import RestFullAPI from "../utils/response/apiResponse";
 import db from "../models";
 import OrderServices from "../services/order.services";
 import CommonServices from "../services/common.services";
-import { ObjectType } from "../ts/types/app_type";
 import DebtService from "../services/debt.services";
+import { ObjectType } from "../ts/types/app_type";
 const { Order, OrderProductList, OrderTag } = db;
 
 const ORDER_SALE_STATUS_VALUES: string[] = removeItem(
@@ -30,21 +30,22 @@ const ORDER_IMPORT_STATUS_VALUES: string[] = removeItem(
 );
 
 class OrderController {
-  public static async getAll(req: Request, res: Response, next: NextFunction) {
-    const { order_type } = req.query;
-    try {
-      const { statusCode, data } = await OrderServices.getAll(
-        order_type as string
-      );
+  public static getAll(order_type: ORDER_TYPE) {
+    return async (_: Request, res: Response, next: NextFunction) => {
+      try {
+        const { statusCode, data } = await OrderServices.getAll(
+          order_type as string
+        );
 
-      res.status(statusCode).send(data);
-    } catch (err) {
-      next(err);
-    }
+        res.status(statusCode).send(data);
+      } catch (err) {
+        next(err);
+      }
+    };
   }
   public static async getByID(req: Request, res: Response, next: NextFunction) {
     try {
-      const { id, order_type }: ObjectType = req.query;
+      const { id, order_type } = req.query as ObjectType<string>;
 
       const { statusCode, data } = await OrderServices.getByID({
         id,
@@ -340,7 +341,7 @@ class OrderController {
       ) {
         try {
           const {
-            custSupp_id,
+            supplier_id,
             agency_branch_id,
             shipper_id,
             payment_id,
@@ -352,7 +353,7 @@ class OrderController {
           } = req.body;
 
           const { statusCode, data } = await OrderServices.create({
-            custSupp_id,
+            supplier_id,
             agency_branch_id,
             shipper_id,
             payment_id,
@@ -380,7 +381,7 @@ class OrderController {
       ) {
         try {
           const {
-            custSupp_id,
+            supplier_id,
             agency_branch_id,
             shipper_id,
             payment_id,
@@ -392,7 +393,7 @@ class OrderController {
           } = req.body;
 
           const { statusCode, data } = await OrderServices.create({
-            custSupp_id,
+            supplier_id,
             agency_branch_id,
             shipper_id,
             payment_id,

@@ -4,22 +4,16 @@ import HttpException from "../exceptions/http.exception";
 type PromiseResultAttributes = Promise<any>[];
 
 class RestFullAPI {
-  private static message: string = STATUS_MESSAGE.SUCCESS;
-  private static data: any = {};
-  public static _error: Partial<HttpException> = {
-    status: STATUS_CODE.STATUS_CODE_200,
-    message: STATUS_MESSAGE.SUCCESS,
-  };
   public static onSuccess(message: string, data?: any) {
     return {
-      message: message || RestFullAPI.message,
-      data: data || RestFullAPI.data,
+      message: message || "",
+      data: data || {},
     };
   }
   public static onFail(message: string, error?: HttpException) {
     return {
-      message: message || RestFullAPI.message,
-      error: error || RestFullAPI._error,
+      message: message || "",
+      error: error || {},
     };
   }
   public static async onArrayPromiseSuccess(

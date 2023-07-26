@@ -3,20 +3,12 @@ const agencyBranchRouter = Router();
 import AgencyController from "../controller/agencyBranch.controller";
 import db from "../models";
 const { AgencyBranch } = db;
-import { authorize, checkExist, errorHandler } from "../middlewares";
+import { checkExist, errorHandler } from "../middlewares";
 
 agencyBranchRouter
-  .get(
-    "/get-all",
-
-    authorize,
-    AgencyController.getAll,
-    errorHandler
-  )
+  .get("/get-all", AgencyController.getAll, errorHandler)
   .post(
     "/create",
-
-    authorize,
     AgencyController.checkAgencyBranchExistByCode,
     AgencyController.create,
     errorHandler
@@ -24,7 +16,6 @@ agencyBranchRouter
   .patch(
     "/update-by-id/:id",
 
-    authorize,
     checkExist(AgencyBranch),
     AgencyController.checkAgencyBranchExistByCode,
     AgencyController.updateByID,
