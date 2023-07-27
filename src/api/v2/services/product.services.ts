@@ -1,4 +1,5 @@
 import { v4 as uuidv4 } from "uuid";
+
 import { STATUS_CODE, STATUS_MESSAGE } from "../ts/enums/api_enums";
 import { ENTITIES_FORMAT_TYPE, MODIFY_STATUS } from "../ts/enums/app_enums";
 import {
@@ -27,9 +28,15 @@ import {
   handleValidateClientRequestBeforeModify,
   isEmpty,
   randomStringByCharsetAndLength,
+  removeItem,
 } from "../common";
 import { CreateProductDTO, PropertyDTO } from "../ts/dto/product.dto";
 import HttpException from "../utils/exceptions/http.exception";
+import {
+  ORDER_IMPORT_STATUS,
+  ORDER_SALE_STATUS,
+  ORDER_TYPE,
+} from "../ts/enums/order_enum";
 const {
   Products,
   AdditionProductInformation,
@@ -41,8 +48,10 @@ const {
   ProductVariantProperty,
   ProductVariantPrice,
   ProductTagList,
+  OrderProductList,
   Tag,
   Price,
+  Order,
 } = db;
 
 // ? ========================================================================
@@ -94,6 +103,7 @@ interface ProductItemQueryAttributes {
 interface ProductVariantQueryAttributes extends ProductVariantDetailAttributes {
   Variant_Prices: { dataValues: ProductVariantPriceAttributes }[];
   AgencyBranchProductLists: { dataValues: AgencyBranchProductListAttributes }[];
+  Variants: { dataValues: ProductQueryAttributes };
 }
 
 interface ImportProductSourceAttributes {
@@ -118,6 +128,30 @@ interface BranchProductQueryAttributes {
   dataValues: AgencyBranchProductListQueryAttributes;
 }
 
+interface ProductVariantPriceQueryAttributes
+  extends ProductVariantPriceAttributes {
+  Price: { dataValues: PriceAttributes };
+}
+
+interface ProductQueryAttributesIncludeAdditionInfo extends ProductAttributes {
+  AdditionProductInformation: {
+    dataValues: AdditionProductInformationQueryAttributes;
+  };
+}
+
+interface ProductDetailQueryAttributes
+  extends ProductVariantDetailQueryAttributes {
+  Variants: { dataValues: ProductQueryAttributesIncludeAdditionInfo };
+}
+
+interface ProductDetailAttributes {
+  dataValues: ProductDetailQueryAttributes;
+}
+
+type GetProductVariantInventoryPayload = {
+  id: string;
+};
+
 // ? ========================================================================
 // ? ====================== Type For CartesianProduct =======================
 // ? ========================================================================
@@ -134,7 +168,7 @@ type CartesianProduct<Inputs> = ElementsOfAll<Inputs>[];
 class ProductServices {
   private static productList: ProductItemQueryAttributes[];
   private static branchProductVariantList: BranchProductQueryAttributes[];
-  private static productItem: ProductItemQueryAttributes;
+  private static productDetail: ProductDetailAttributes;
   private static productVariantDetailList: ImportProductSourceAttributes[];
   private static getProductFormat({ format_type }: GetEntitiesFormatPayload) {
     switch (format_type) {
@@ -166,100 +200,67 @@ class ProductServices {
         });
       }
       case ENTITIES_FORMAT_TYPE.P_ITEM: {
-        const productSource = { ...ProductServices.productItem };
+        const productSource = { ...ProductServices.productDetail };
+
         const {
           id,
-          order_product_item_id,
-          agency_branch_product_item_id,
-          product_name,
-          product_classify,
-          product_SKU,
+          product_id,
+          product_variant_name,
+          product_variant_SKU,
+          product_variant_barcode,
+          product_weight,
+          product_weight_calculator_unit,
           createdAt,
           updatedAt,
         } = productSource.dataValues;
 
-        const productVariants = productSource.dataValues.Variants.map(
-          (productVariant: {
-            dataValues: ProductVariantDetailQueryAttributes;
-          }) => {
+        const product_variant_properties =
+          productSource.dataValues.Properties.map((property) => {
             const {
               id,
-              product_variant_name,
-              product_variant_SKU,
-              product_variant_barcode,
-              product_weight,
-              product_weight_calculator_unit,
-              createdAt,
-              updatedAt,
-            } = productVariant.dataValues;
-
-            const productPrices = productVariant.dataValues.Variant_Prices.map(
-              (productPrice: {
-                dataValues: ProductVariantPriceQueryAttributes;
-              }) => {
-                const { id, price_id, price_value, createdAt, updatedAt } =
-                  productPrice.dataValues;
-
-                const { price_type, price_description } =
-                  productPrice.dataValues.Price.dataValues;
-                return {
-                  id,
-                  price_id,
-                  price_value,
-                  price_type,
-                  price_description,
-                  createdAt,
-                  updatedAt,
-                };
-              }
-            );
-
-            const productProperties = productVariant.dataValues.Properties.map(
-              (property) => {
-                const {
-                  id,
-                  product_variant_property_key,
-                  product_variant_property_value,
-                  createdAt,
-                  updatedAt,
-                } = property.dataValues;
-
-                return {
-                  id,
-                  product_variant_property_key,
-                  product_variant_property_value,
-                  createdAt,
-                  updatedAt,
-                };
-              }
-            );
-
+              product_variant_property_key,
+              product_variant_property_value,
+            } = property.dataValues;
             return {
               id,
-              product_variant_name,
-              product_variant_SKU,
-              product_variant_barcode,
-              product_weight,
-              product_weight_calculator_unit,
-              createdAt,
-              updatedAt,
-              productPrices,
-              productProperties,
+              product_variant_property_key,
+              product_variant_property_value,
             };
-          }
-        );
+          });
+
+        const product_variant_prices =
+          productSource.dataValues.Variant_Prices.map((price) => {
+            const { id: product_variant_price_id, price_value } =
+              price.dataValues;
+            const {
+              id: price_id,
+              price_type,
+              isImportDefault,
+              isSellDefault,
+            } = price.dataValues.Price.dataValues;
+            return {
+              product_variant_price_id,
+              price_id,
+              price_value,
+              price_type,
+              isImportDefault,
+              isSellDefault,
+            };
+          });
+
         const getAdditionInformation = () => {
           const { id, product_id, type_id, brand_id, createdAt, updatedAt } =
-            productSource.dataValues.AdditionProductInformation.dataValues;
+            productSource.dataValues.Variants.dataValues
+              .AdditionProductInformation.dataValues;
 
           const { brand_title, brand_description } =
-            productSource.dataValues.AdditionProductInformation.dataValues.Brand
-              .dataValues;
+            productSource.dataValues.Variants.dataValues
+              .AdditionProductInformation.dataValues.Brand.dataValues;
           const { type_title, type_description } =
-            productSource.dataValues.AdditionProductInformation.dataValues.Type
-              .dataValues;
+            productSource.dataValues.Variants.dataValues
+              .AdditionProductInformation.dataValues.Type.dataValues;
           const productTagList =
-            productSource.dataValues.AdditionProductInformation.dataValues.Product_Tag_List.map(
+            productSource.dataValues.Variants.dataValues.AdditionProductInformation.dataValues.Product_Tag_List.map(
               (productItem) => {
                 const { id, tag_id } = productItem.dataValues;
                 const { tag_title, tag_description, createdAt, updatedAt } =
@@ -284,17 +285,20 @@ class ProductServices {
             productTagList,
           };
         };
+        // ? Trading
         return {
           id,
-          order_product_item_id,
-          agency_branch_product_item_id,
-          product_name,
-          product_classify,
-          product_SKU,
+          product_id,
+          product_variant_name,
+          product_variant_SKU,
+          product_variant_barcode,
+          product_weight,
+          product_weight_calculator_unit,
+          product_variant_properties,
+          product_variant_prices,
+          additionProductInfo: getAdditionInformation(),
           createdAt,
           updatedAt,
-          productVariants,
-          productAdditionInformation: getAdditionInformation(),
         };
       }
       case ENTITIES_FORMAT_TYPE.B_P_V_LIST: {
@@ -348,8 +352,17 @@ class ProductServices {
             product_variant_name,
             product_variant_SKU,
             product_weight_calculator_unit,
+            createdAt,
           } = initiateProductVariant.dataValues;
           const prices = initiateProductVariant.dataValues.Variant_Prices;
+
+          const brand_title =
+            initiateProductVariant.dataValues.Variants.dataValues
+              .AdditionProductInformation.dataValues.Brand.dataValues
+              .brand_title;
+          const type_title =
+            initiateProductVariant.dataValues.Variants.dataValues
+              .AdditionProductInformation.dataValues.Type.dataValues.type_title;
 
           const handleGetInfo = () => {
             const AgencyProductVariantList =
@@ -372,6 +385,10 @@ class ProductServices {
           };
 
           return {
+            addition_info: {
+              brand_title,
+              type_title,
+            },
             product_variant: {
               id: product_variant_id,
               name: product_variant_name,
@@ -379,6 +396,7 @@ class ProductServices {
               calculator_unit: product_weight_calculator_unit,
               price_sell: prices[0].dataValues.price_value,
               amount: handleGetInfo(),
+              createdAt,
             },
           };
         });
@@ -428,6 +446,7 @@ class ProductServices {
           {
             model: AdditionProductInformation,
             attributes: ["id"],
+            separate: true,
             include: [
               {
                 model: Type,
@@ -461,60 +480,63 @@ class ProductServices {
     }
   }
   public static async getVariantByID({ id }: GetByIdPayload) {
-    const productDetail = await Products.findOne({
+    const productDetail = await ProductVariantDetail.findOne({
       where: {
         id,
       },
       include: [
         {
-          model: ProductVariantDetail,
+          model: ProductVariantProperty,
+          as: "Properties",
+        },
+        {
+          model: ProductVariantPrice,
+          include: [{ model: Price }],
+          as: "Variant_Prices",
+          separate: true,
+        },
+        {
+          model: Products,
           as: "Variants",
           include: [
             {
-              model: ProductVariantProperty,
-              as: "Properties",
-            },
-            {
-              model: ProductVariantPrice,
-              include: [{ model: Price }],
-              as: "Variant_Prices",
-              separate: true,
-            },
-          ],
-        },
-        {
-          model: AdditionProductInformation,
-          include: [
-            {
-              model: ProductTagList,
-              as: "Product_Tag_List",
-              separate: true,
+              model: AdditionProductInformation,
               include: [
                 {
-                  model: Tag,
+                  model: ProductTagList,
+                  as: "Product_Tag_List",
+                  separate: true,
+                  include: [
+                    {
+                      model: Tag,
+                    },
+                  ],
+                },
+                {
+                  model: Type,
+                },
+                {
+                  model: Brand,
                 },
               ],
-            },
-            {
-              model: Type,
-            },
-            {
-              model: Brand,
             },
           ],
         },
       ],
     });
 
-    ProductServices.productItem = productDetail;
+    ProductServices.productDetail = productDetail;
+    const { data: inventory } = await ProductServices.getProductsInventory({
+      id,
+    });
     return {
       statusCode: STATUS_CODE.STATUS_CODE_200,
-      data: RestFullAPI.onSuccess(
-        STATUS_MESSAGE.SUCCESS,
-        ProductServices.getProductFormat({
+      data: RestFullAPI.onSuccess(STATUS_MESSAGE.SUCCESS, {
+        ...ProductServices.getProductFormat({
           format_type: ENTITIES_FORMAT_TYPE.P_ITEM,
-        })
-      ),
+        }),
+        inventory,
+      }),
     };
   }
   public static async getAllBranchProductVariant({ price_id }) {
@@ -776,8 +798,26 @@ class ProductServices {
           "product_variant_name",
           "product_variant_SKU",
           "product_weight_calculator_unit",
+          "createdAt",
         ],
         include: [
+          {
+            model: Products,
+            as: "Variants",
+            include: [
+              {
+                model: AdditionProductInformation,
+                include: [
+                  {
+                    model: Brand,
+                  },
+                  {
+                    model: Type,
+                  },
+                ],
+              },
+            ],
+          },
           {
             model: ProductVariantPrice,
             attributes: ["id", "price_id", "price_value"],
@@ -814,6 +854,205 @@ class ProductServices {
         data: handleError(err as Error),
       };
     }
+  }
+  public static async getProductsInventory({
+    id,
+  }: GetProductVariantInventoryPayload) {
+    // ? Có sẵn trong kho sẵn sàng bán
+    const productDetailAvailableAmount = await AgencyBranchProductList.findAll({
+      where: {
+        product_variant_id: id,
+      },
+      attributes: [
+        "id",
+        "available_quantity",
+        "product_variant_id",
+        "agency_branch_id",
+      ],
+      include: [
+        {
+          model: AgencyBranch,
+          attributes: ["id", "agency_branch_name"],
+        },
+      ],
+    }).then((res) => {
+      return res.reduce((result, item) => {
+        const { available_quantity } = item.dataValues;
+        const { agency_branch_name } = item.dataValues.AgencyBranch.dataValues;
+
+        const targetIndex = result.findIndex(
+          (el) => el.agency_branch_name === agency_branch_name
+        );
+        if (targetIndex !== -1) {
+          result[targetIndex].available = result[
+            targetIndex
+          ].available_quantity += available_quantity;
+        } else {
+          result.push({ agency_branch_name, available: available_quantity });
+        }
+
+        return result;
+      }, []);
+    });
+    // ? Hàng đang giao dịch trong đơn bán
+    const productDeliveryAmount = await OrderProductList.findAll({
+      where: {
+        product_variant_id: id,
+      },
+
+      attributes: ["id", "product_amount", "product_variant_id"],
+      include: [
+        {
+          model: Order,
+          where: {
+            order_type: ORDER_TYPE.IMPORT,
+            order_status: {
+              // ? Số lượng sản phẩm đang giao dịch là những sản phẩm trong đơn hàng có những trạng thái này
+              [db.Sequelize.Op.or]: removeItem(
+                Object.values(ORDER_IMPORT_STATUS),
+                [
+                  ORDER_IMPORT_STATUS.CANCEL,
+                  ORDER_IMPORT_STATUS.RETURN,
+                  ORDER_IMPORT_STATUS.DONE,
+                ]
+              ),
+            },
+          },
+          attributes: ["id", "agency_branch_id"],
+          include: [
+            { model: AgencyBranch, attributes: ["id", "agency_branch_name"] },
+          ],
+        },
+      ],
+    }).then((res) => {
+      // ? Tính số lượng sản phẩm đang giao dịch tại từng chi nhánh
+      return res.reduce((result, item) => {
+        const { product_amount } = item.dataValues;
+        const { agency_branch_name } =
+          item.dataValues.Order.dataValues.AgencyBranch.dataValues;
+        const targetIndex = result.findIndex(
+          (el) => el.agency_branch_name === agency_branch_name
+        );
+        if (targetIndex !== -1) {
+          result[targetIndex].delivering = result[targetIndex].delivering +=
+            product_amount;
+        } else {
+          result.push({ agency_branch_name, delivering: product_amount });
+        }
+
+        return result;
+      }, []);
+    });
+    // ? Hàng đang về trong đơn nhập
+    const productPurchaseAmount = await OrderProductList.findAll({
+      where: {
+        product_variant_id: id,
+      },
+
+      attributes: ["id", "product_amount", "product_variant_id"],
+      include: [
+        {
+          model: Order,
+          where: {
+            order_type: ORDER_TYPE.SALE,
+            order_status: {
+              // ? Số lượng sản phẩm đang giao dịch là những sản phẩm trong đơn hàng có những trạng thái này
+              [db.Sequelize.Op.or]: removeItem(
+                Object.values(ORDER_SALE_STATUS),
+                [
+                  ORDER_SALE_STATUS.CANCEL,
+                  ORDER_SALE_STATUS.RETURN,
+                  ORDER_SALE_STATUS.DONE,
+                ]
+              ),
+            },
+          },
+          attributes: ["id", "agency_branch_id"],
+          include: [
+            { model: AgencyBranch, attributes: ["id", "agency_branch_name"] },
+          ],
+        },
+      ],
+    }).then((res) => {
+      // ? Tính số lượng sản phẩm đang giao dịch tại từng chi nhánh
+      return res.reduce((result, item) => {
+        const { product_amount } = item.dataValues;
+        const { agency_branch_name } =
+          item.dataValues.Order.dataValues.AgencyBranch.dataValues;
+        const targetIndex = result.findIndex(
+          (el) => el.agency_branch_name === agency_branch_name
+        );
+        if (targetIndex !== -1) {
+          result[targetIndex].inComing = result[targetIndex].inComing +=
+            product_amount;
+        } else {
+          result.push({ agency_branch_name, inComing: product_amount });
+        }
+
+        return result;
+      }, []);
+    });
+    // ? Tồn kho
+    // ? Giá vốn
+    // ? Có thể bán
+    // ? Đang giao dịch
+    // ? Hàng Đang về
+    // ? Hàng đang giao
+
+    const handleCheckAndFormatEmptyValues = (currentEl: ObjectType<number>) => {
+      const inventoryKeyRequire = ["available", "inComing", "delivering"];
+      let _currentEl = { ...currentEl };
+
+      inventoryKeyRequire.forEach((requireKey) => {
+        if (!Object.keys(_currentEl).includes(requireKey)) {
+          _currentEl[requireKey] = 0;
+        }
+      });
+
+      if (
+        Object.keys(_currentEl).some((el) => inventoryKeyRequire.includes(el))
+      ) {
+        _currentEl = {
+          ..._currentEl,
+          inventory: _currentEl.available + _currentEl.delivering,
+          trading: _currentEl.inComing + _currentEl.delivering,
+        };
+      }
+
+      return _currentEl;
+    };
+
+    const inventory = productDetailAvailableAmount
+      .concat(productDeliveryAmount)
+      .concat(productPurchaseAmount)
+      .reduce((res, item) => {
+        const targetIndex = res.findIndex(
+          (el) => el.agency_branch_name === item.agency_branch_name
+        );
+        if (targetIndex !== -1) {
+          let currentEl = res[targetIndex];
+          currentEl = { ...currentEl, ...item };
+
+          currentEl = {
+            ...currentEl,
+            ...handleCheckAndFormatEmptyValues(currentEl),
+          };
+        } else {
+          let currentItem = { ...item };
+          currentItem = {
+            ...currentItem,
+            ...handleCheckAndFormatEmptyValues(currentItem),
+          };
+
+          res.push(currentItem);
+        }
+        return res;
+      }, []);
+
+    return {
+      statusCode: STATUS_CODE.STATUS_CODE_200,
+      data: inventory,
+    };
   }
 }
 

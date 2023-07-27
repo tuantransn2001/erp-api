@@ -97,3 +97,17 @@ export const handleValidateClientRequestBeforeModify = <
     };
   }
 };
+
+// export function sumValueWithDuplicateKey<
+//   O extends {
+//     key: string;
+//     value: number;
+//   },
+//   K extends keyof O
+// >(arr: O[], compareObject: ObjectType<number | string | keyof K>) {
+//   return arr.reduce((res: Object[], item: O) => {
+//     // const targetIndex = res.findIndex((el) => el[compareObject.key] === "test");
+
+//     return res;
+//   }, []);
+// }

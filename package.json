@@ -6,7 +6,7 @@
   "scripts": {
     "test": "jest",
     "build:prod": "webpack --config webpack.config.prod.js",
-    "build:prod:start": "nodemon build/production/server.js"
+    "build:prod:start": "nodemon build/production/app.js"
   },
   "author": "ERP Project - Backend Team",
   "license": "ISC",
