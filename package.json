@@ -5,6 +5,8 @@
   "main": "app.js",
   "scripts": {
     "test": "jest",
+    "build:dev": "webpack --config webpack.config.dev.js",
+    "build:dev:start": "nodemon build/development/app.js",
     "build:prod": "webpack --config webpack.config.prod.js",
     "build:prod:start": "nodemon build/production/app.js"
   },

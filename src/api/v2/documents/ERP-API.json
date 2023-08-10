@@ -1,0 +1,1883 @@
+{
+	"info": {
+		"_postman_id": "330da2b8-e8c4-4a5e-bdc9-5d4a67a61e79",
+		"name": "MHK Admin Server - Develop",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "26564012",
+		"_collection_link": "https://gold-comet-729085.postman.co/workspace/ERP---API---V2~20b2c9c0-abb9-4d2c-a339-86ea1d638441/collection/26564012-330da2b8-e8c4-4a5e-bdc9-5d4a67a61e79?action=share&creator=26564012&source=collection_link"
+	},
+	"item": [
+		{
+			"name": "Customer",
+			"item": [
+				{
+					"name": "getAll",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "token",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjI3ZTgzZTI4LWIzZGUtNDIxMi1iZTM5LTgxZTYxMTk4ZDc3YiIsImlhdCI6MTY5MDkwMDY4NCwiZXhwIjoxNjkwOTg3MDg0fQ.r9DXSLyonwxuS3K05AU3Uejt2eNAsKmX8cdUGihA7fc",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{mhk_base_url_v2}}/customer/get-all",
+							"host": [
+								"{{mhk_base_url_v2}}"
+							],
+							"path": [
+								"customer",
+								"get-all"
+							],
+							"query": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZW1haWwiOiJhZG1pbkBnbWFpbC5jb20iLCJpYXQiOjE2ODAxNTgzMDEsImV4cCI6MTY4MDIzMDMwMX0.OT9N9WkKtgg6Vk6_WbSWJGrI1bLHxhTVHxVpaWsF_tA",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getByID",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "token",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjI3ZTgzZTI4LWIzZGUtNDIxMi1iZTM5LTgxZTYxMTk4ZDc3YiIsImlhdCI6MTY5MDkwMDY4NCwiZXhwIjoxNjkwOTg3MDg0fQ.r9DXSLyonwxuS3K05AU3Uejt2eNAsKmX8cdUGihA7fc",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{mhk_base_url_v2}}/customer/get-by-id/18a23bb6-5847-42c8-af9e-0e3e0f86a614",
+							"host": [
+								"{{mhk_base_url_v2}}"
+							],
+							"path": [
+								"customer",
+								"get-by-id",
+								"18a23bb6-5847-42c8-af9e-0e3e0f86a614"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "create",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "token",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjI3ZTgzZTI4LWIzZGUtNDIxMi1iZTM5LTgxZTYxMTk4ZDc3YiIsInVzZXJfbmFtZSI6IlRy4bqnbiBUdeG6pW4iLCJpYXQiOjE2ODgxMTI2NzUsImV4cCI6MTY4ODM3MTg3NX0.FtdTSF7-1uEh67BekF3GFwYRWw1mVc3ITNHyOQh8mCM",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"user_name\": \"Customer random 1\",\r\n    \"user_email\": \"khachhangd2dsfdsf@gmail.com\",\r\n    \"user_phone\": \"0565124332423\",\r\n    \"staff_id\": \"e35d810a-96ea-4fcd-aa12-71e4d5b196c6\",\r\n    \"staff_in_charge_note\": \"Create by staff\",\r\n    \"address_list\": [\r\n        {\r\n            \"user_province\": \"Thành phố Hồ Chí Minh\",\r\n            \"user_district\": \"Quận s3AAVlvogT\",\r\n            \"user_specific_address\": \"Số nhà ... IrTRICfOgg\"\r\n        }\r\n    ],  \r\n    \"tags\": [\r\n        \"98262ca5-484a-4d83-b124-27cc121d548e\",\r\n        \"0c18dd40-443c-4ff9-8022-73ff41b1f807\",\r\n        \"5d6912ed-632c-43b5-9c40-4df84685c8d0\"\r\n    ]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{mhk_base_url_v2}}/customer/create",
+							"host": [
+								"{{mhk_base_url_v2}}"
+							],
+							"path": [
+								"customer",
+								"create"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "deleteByID",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "token",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjI3ZTgzZTI4LWIzZGUtNDIxMi1iZTM5LTgxZTYxMTk4ZDc3YiIsInVzZXJfbmFtZSI6IlRy4bqnbiBUaMOhaSBUdeG6pW4iLCJpYXQiOjE2ODM1MjE4MTgsImV4cCI6MTY4Mzc4MTAxOH0.ccwE3umItJ00C-eM8qYBmw5HHb026ewJjusN41zqNko",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{mhk_base_url_v2}}/customer/delete-by-id/cf29df72-9d48-4b3a-9ff5-8bd73ae59c44",
+							"host": [
+								"{{mhk_base_url_v2}}"
+							],
+							"path": [
+								"customer",
+								"delete-by-id",
+								"cf29df72-9d48-4b3a-9ff5-8bd73ae59c44"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "updatePersonalInfoByID",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "token",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjI3ZTgzZTI4LWIzZGUtNDIxMi1iZTM5LTgxZTYxMTk4ZDc3YiIsInVzZXJfbmFtZSI6IlRy4bqnbiBUaMOhaSBUdeG6pW4iLCJpYXQiOjE2ODU1MTI4NTUsImV4cCI6MTY4NTc3MjA1NX0.EgRnEDa-TmP6N8l6fOYOVjjtMKqoLtsELXdk1iOaSHE",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"user_name\": \"Michle Jacks2on 2\",\r\n    \"user_code\": \"SK12AA\",\r\n    \"user_phone\": \"012347892\",\r\n    \"user_email\": \"khachfd1f@gmail.com\",\r\n    \"customer_status\": \"Đang giao dịch\",\r\n    \"staff_in_charge_note\": \"Create by staff\",\r\n    \"staff_id\": \"82c9c811-8916-4959-98c7-9d7dd74c0606\",\r\n    \"tags\": [\r\n        \"98262ca5-484a-4d83-b124-27cc121d548e\",\r\n        \"0c18dd40-443c-4ff9-8022-73ff41b1f807\",\r\n        \"5d6912ed-632c-43b5-9c40-4df84685c8d0\"\r\n    ]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{mhk_base_url_v2}}/customer/update-personalInfo-by-id/cf29df72-9d48-4b3a-9ff5-8bd73ae59c44",
+							"host": [
+								"{{mhk_base_url_v2}}"
+							],
+							"path": [
+								"customer",
+								"update-personalInfo-by-id",
+								"cf29df72-9d48-4b3a-9ff5-8bd73ae59c44"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Supplier",
+			"item": [
+				{
+					"name": "getAll",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "token",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjI3ZTgzZTI4LWIzZGUtNDIxMi1iZTM5LTgxZTYxMTk4ZDc3YiIsInVzZXJfbmFtZSI6IlRy4bqnbiBUaMOhaSBUdeG6pW4iLCJpYXQiOjE2ODY4NDA5OTAsImV4cCI6MTY4NzEwMDE5MH0.C04mDHj-YlEsXfN9q2poYA1vZAf95gyHqUTjvhv9J3k",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{mhk_base_url_v2}}/supplier/get-all",
+							"host": [
+								"{{mhk_base_url_v2}}"
+							],
+							"path": [
+								"supplier",
+								"get-all"
+							],
+							"query": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZW1haWwiOiJhZG1pbkBnbWFpbC5jb20iLCJpYXQiOjE2ODAxNTgzMDEsImV4cCI6MTY4MDIzMDMwMX0.OT9N9WkKtgg6Vk6_WbSWJGrI1bLHxhTVHxVpaWsF_tA",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getByID",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "token",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjI3ZTgzZTI4LWIzZGUtNDIxMi1iZTM5LTgxZTYxMTk4ZDc3YiIsInVzZXJfbmFtZSI6IlRy4bqnbiBUaMOhaSBUdeG6pW4iLCJpYXQiOjE2ODY4NDA5OTAsImV4cCI6MTY4NzEwMDE5MH0.C04mDHj-YlEsXfN9q2poYA1vZAf95gyHqUTjvhv9J3k",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{mhk_base_url_v2}}/supplier/get-by-id/a6ce9449-0fba-49b4-8c0c-1d50aad1f84f",
+							"host": [
+								"{{mhk_base_url_v2}}"
+							],
+							"path": [
+								"supplier",
+								"get-by-id",
+								"a6ce9449-0fba-49b4-8c0c-1d50aad1f84f"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "create",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "token",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjI3ZTgzZTI4LWIzZGUtNDIxMi1iZTM5LTgxZTYxMTk4ZDc3YiIsInVzZXJfbmFtZSI6IlRy4bqnbiBUdeG6pW4iLCJpYXQiOjE2ODgxMTI2NzUsImV4cCI6MTY4ODM3MTg3NX0.FtdTSF7-1uEh67BekF3GFwYRWw1mVc3ITNHyOQh8mCM",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"user_name\": \"Customer random 1\",\r\n    \"user_email\": \"khachhangd2dsfdsf@gmail.com\",\r\n    \"user_phone\": \"0565124332423\",\r\n    \"staff_id\": \"e35d810a-96ea-4fcd-aa12-71e4d5b196c6\",\r\n    \"staff_in_charge_note\": \"Create by staff\",\r\n    \"address_list\": [\r\n        {\r\n            \"user_province\": \"Thành phố Hồ Chí Minh\",\r\n            \"user_district\": \"Quận s3AAVlvogT\",\r\n            \"user_specific_address\": \"Số nhà ... IrTRICfOgg\"\r\n        }\r\n    ],  \r\n    \"tags\": [\r\n        \"98262ca5-484a-4d83-b124-27cc121d548e\",\r\n        \"0c18dd40-443c-4ff9-8022-73ff41b1f807\",\r\n        \"5d6912ed-632c-43b5-9c40-4df84685c8d0\"\r\n    ]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{mhk_base_url_v2}}/supplier/create",
+							"host": [
+								"{{mhk_base_url_v2}}"
+							],
+							"path": [
+								"supplier",
+								"create"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "deleteByID",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "token",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjI3ZTgzZTI4LWIzZGUtNDIxMi1iZTM5LTgxZTYxMTk4ZDc3YiIsInVzZXJfbmFtZSI6IlRy4bqnbiBUaMOhaSBUdeG6pW4iLCJpYXQiOjE2ODM1MjE4MTgsImV4cCI6MTY4Mzc4MTAxOH0.ccwE3umItJ00C-eM8qYBmw5HHb026ewJjusN41zqNko",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{mhk_base_url_v2}}/supplier/delete-by-id/25badfb0-93d9-445e-8a01-8c9c0f578fac",
+							"host": [
+								"{{mhk_base_url_v2}}"
+							],
+							"path": [
+								"supplier",
+								"delete-by-id",
+								"25badfb0-93d9-445e-8a01-8c9c0f578fac"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "updatePersonalInfoByID",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "token",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjI3ZTgzZTI4LWIzZGUtNDIxMi1iZTM5LTgxZTYxMTk4ZDc3YiIsInVzZXJfbmFtZSI6IlRy4bqnbiBUaMOhaSBUdeG6pW4iLCJpYXQiOjE2ODU1MTI4NTUsImV4cCI6MTY4NTc3MjA1NX0.EgRnEDa-TmP6N8l6fOYOVjjtMKqoLtsELXdk1iOaSHE",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"user_name\": \"Michle Jacks2on 2\",\r\n    \"user_code\": \"SK12AA\",\r\n    \"user_phone\": \"012347892\",\r\n    \"user_email\": \"khachfd1f@gmail.com\",\r\n    \"customer_status\": \"Đang giao dịch\",\r\n    \"staff_in_charge_note\": \"Create by staff\",\r\n    \"staff_id\": \"82c9c811-8916-4959-98c7-9d7dd74c0606\",\r\n    \"tags\": [\r\n        \"98262ca5-484a-4d83-b124-27cc121d548e\",\r\n        \"0c18dd40-443c-4ff9-8022-73ff41b1f807\",\r\n        \"5d6912ed-632c-43b5-9c40-4df84685c8d0\"\r\n    ]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{mhk_base_url_v2}}/supplier/update-personalInfo-by-id/8579f499-e215-494d-a0c3-1bc952309f17",
+							"host": [
+								"{{mhk_base_url_v2}}"
+							],
+							"path": [
+								"supplier",
+								"update-personalInfo-by-id",
+								"8579f499-e215-494d-a0c3-1bc952309f17"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Agency Branch",
+			"item": [
+				{
+					"name": "getAll",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "token",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjI3ZTgzZTI4LWIzZGUtNDIxMi1iZTM5LTgxZTYxMTk4ZDc3YiIsInVzZXJfbmFtZSI6IlRy4bqnbiBUaMOhaSBUdeG6pW4iLCJpYXQiOjE2ODQ3MjE4MTQsImV4cCI6MTY4NDk4MTAxNH0._cbcTUzfTLFfdfSks_xtJaBxDCfxO7rlX3KzyQByCwg",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{mhk_base_url_v2}}/agency-branch/get-all",
+							"host": [
+								"{{mhk_base_url_v2}}"
+							],
+							"path": [
+								"agency-branch",
+								"get-all"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "updateAgencyBranchByID",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "token",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjI3ZTgzZTI4LWIzZGUtNDIxMi1iZTM5LTgxZTYxMTk4ZDc3YiIsInVzZXJfbmFtZSI6IlRy4bqnbiBUaMOhaSBUdeG6pW4iLCJpYXQiOjE2ODI0MTc5MTksImV4cCI6MTY4MjY3NzExOX0.R4ST_pOhdWdhlVqGSw7gFks4Vopn6U4kJ-d_r54iwZY",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"agency_branch_name\": \"LCD 12\",\r\n    \"agency_branch_phone\": \"0123456789\",\r\n    \"agency_branch_code\": \"CN1\",\r\n    \"agency_branch_address\": \"70 đường B (Trần Thị Vững), KDC Him Lam Phú Đông, KP Bình Đường 3\",\r\n    \"agency_branch_area\": \"Bình Dương - Thành phố Dĩ An\",\r\n    \"agency_branch_expiration_date\": \"2029-04-07T02:36:00.738Z\",\r\n    \"agency_branch_status\": \"active\",\r\n    \"isDefaultCN\": true\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{mhk_base_url_v2}}/agency-branch/update-by-id/e7b1d0d2-f2e0-437d-94f4-f3b75cb99e21",
+							"host": [
+								"{{mhk_base_url_v2}}"
+							],
+							"path": [
+								"agency-branch",
+								"update-by-id",
+								"e7b1d0d2-f2e0-437d-94f4-f3b75cb99e21"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "create",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "token",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjI3ZTgzZTI4LWIzZGUtNDIxMi1iZTM5LTgxZTYxMTk4ZDc3YiIsInVzZXJfbmFtZSI6IlRy4bqnbiBUaMOhaSBUdeG6pW4iLCJpYXQiOjE2ODQ3MjMxODgsImV4cCI6MTY4NDk4MjM4OH0.HRmfe7ael7cvA7a0K9Kh9E-1mztimCVC3mMSnjK3dOQ",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"agency_branch_name\": \"Trung tâm bảo hành bảo hành LCD\",\r\n    \"agency_branch_phone\": \"0706952905\",\r\n    \"agency_branch_code\": \"CN2\",\r\n    \"agency_branch_address\": \"70 đường B (Trần Thị Vững), KDC Him Lam Phú Đông, KP Bình Đường 3\",\r\n    \"agency_branch_area\": \"Bình Dương - Thành phố Dĩ An\",\r\n    \"agency_branch_expiration_date\": \"2029-04-07T02:30:54.209Z\",\r\n    \"agency_branch_status\": \"active\",\r\n    \"isDefaultCN\": true\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{mhk_base_url_v2}}/agency-branch/create",
+							"host": [
+								"{{mhk_base_url_v2}}"
+							],
+							"path": [
+								"agency-branch",
+								"create"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Staff",
+			"item": [
+				{
+					"name": "getAll",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjp7InVzZXJJZCI6IjA4Y2JiOTk4LTk5NmQtNGMyMy05YWM5LTFiMDQ3Y2Q2MDZjYyIsImZ1bGxOYW1lIjoiQWRtaW4gdOG7lW5nIiwiZW1haWwiOiJibC5yb290LmFkbWluQGFucGhhcGV0cm9sLmNvbSIsInBob25lIjoiMDAwMDAxIiwidHlwZSI6MCwidG9waWMiOiI4NCIsInJlZnJlc2hUb2tlbiI6ImV5SmhiR2NpT2lKSVV6STFOaUlzSW5SNWNDSTZJa3BYVkNKOS5leUpwWVhRaU9qRTJNVFV5TVRNeE1EUjkuQ1BBZFR2Q2pYcURDR21PdWlORWlfeFg2TzJMRUVfOHZBOE11NXBDdEVOcyIsImxldmVsIjpudWxsLCJpc0NyZWF0b3IiOjAsImlzQ3JlYXRlZE9yZGVyIjowLCJwaG9uZUNvZGUiOiIrODQiLCJjb2RlIjpudWxsfSwiaWF0IjoxNjg1MzI4MjE2fQ.B1sC_nFHvCGlVn7nfUqae4VttUK6EQMfZImf10g4FPc",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "token",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjp7InVzZXJJZCI6IjA4Y2JiOTk4LTk5NmQtNGMyMy05YWM5LTFiMDQ3Y2Q2MDZjYyIsImZ1bGxOYW1lIjoiQWRtaW4gdOG7lW5nIiwiZW1haWwiOiJibC5yb290LmFkbWluQGFucGhhcGV0cm9sLmNvbSIsInBob25lIjoiMDAwMDAxIiwidHlwZSI6MCwidG9waWMiOiI4NCIsInJlZnJlc2hUb2tlbiI6ImV5SmhiR2NpT2lKSVV6STFOaUlzSW5SNWNDSTZJa3BYVkNKOS5leUpwWVhRaU9qRTJNVFV5TVRNeE1EUjkuQ1BBZFR2Q2pYcURDR21PdWlORWlfeFg2TzJMRUVfOHZBOE11NXBDdEVOcyIsImxldmVsIjpudWxsLCJpc0NyZWF0b3IiOjAsImlzQ3JlYXRlZE9yZGVyIjowLCJwaG9uZUNvZGUiOiIrODQiLCJjb2RlIjpudWxsfSwiaWF0IjoxNjg1MzI4MjE2fQ.B1sC_nFHvCGlVn7nfUqae4VttUK6EQMfZImf10g4FPc",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{mhk_base_url_v2}}/staff/get-all",
+							"host": [
+								"{{mhk_base_url_v2}}"
+							],
+							"path": [
+								"staff",
+								"get-all"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getByID",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "token",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjI3ZTgzZTI4LWIzZGUtNDIxMi1iZTM5LTgxZTYxMTk4ZDc3YiIsInVzZXJfbmFtZSI6IlRy4bqnbiBUaMOhaSBUdeG6pW4iLCJpYXQiOjE2ODQ3MjUzMTMsImV4cCI6MTY4NDk4NDUxM30.xTTEziFKmUZMj4xyvktxufFzH8PrN2f9EC6_w-In3ls",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{mhk_base_url_v2}}/staff/get-by-id/e35d810a-96ea-4fcd-aa12-71e4d5b196c6",
+							"host": [
+								"{{mhk_base_url_v2}}"
+							],
+							"path": [
+								"staff",
+								"get-by-id",
+								"e35d810a-96ea-4fcd-aa12-71e4d5b196c6"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "create",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "token",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjI3ZTgzZTI4LWIzZGUtNDIxMi1iZTM5LTgxZTYxMTk4ZDc3YiIsInVzZXJfbmFtZSI6IlRy4bqnbiBUaMOhaSBUdeG6pW4iLCJpYXQiOjE2ODMzNDc5OTAsImV4cCI6MTY4MzYwNzE5MH0.Yih5J5noGCPW8GcVmPYvWHTDZ5P7vNVw1-iMfzMLrQ8",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"user_phone\": \"0410627683\",\r\n    \"user_email\": \"staff1@gmail.com\",\r\n    \"user_password\": \"pvusqss0Gtf\",\r\n    \"user_name\": \"Lê Văn Hùng\",\r\n    \"staff_birthday\": \"1999-04-13T02:16:44.065Z\",\r\n    \"staff_gender\": true,\r\n    \"isAllowViewImportNWholesalePrice\": false,\r\n    \"isAllowViewShippingPrice\": true,\r\n    \"address_list\": [\r\n        {\r\n            \"user_province\": \"Thành Phố Hà Nội\",\r\n            \"user_district\": \"Quận Ba Đình\",\r\n            \"user_specific_address\": \"Huyện Ý Yên\"\r\n        },\r\n        {\r\n            \"user_province\": \"Thành Phố Hồ Chí Minh\",\r\n            \"user_district\": \"Quận Thủ Đức\",\r\n            \"user_specific_address\": \"KTX Khu B Đại Học Quốc Gia\"\r\n        }\r\n    ],\r\n    \"roles\": [\r\n        {\r\n            \"role_id\": \"1ca075ba-3074-4c15-9e74-f4ca173f5ad0\",\r\n            \"agencyBranches_inCharge\": [\r\n                \"6ab4f7c8-353f-47f2-8757-2347f2ab6332\",\r\n                \"e7b1d0d2-f2e0-437d-94f4-f3b75cb99e21\"\r\n            ]\r\n        },\r\n        {\r\n            \"role_id\": \"2a546d25-1e44-4fa3-818d-5ac6cc436aa6\",\r\n            \"agencyBranches_inCharge\": [\r\n                \"995ea74e-0358-4833-856c-cd45f2e99c21\"\r\n            ]   \r\n        }\r\n    ]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{mhk_base_url_v2}}/staff/create",
+							"host": [
+								"{{mhk_base_url_v2}}"
+							],
+							"path": [
+								"staff",
+								"create"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "deleteByID",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "token",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjI3ZTgzZTI4LWIzZGUtNDIxMi1iZTM5LTgxZTYxMTk4ZDc3YiIsInVzZXJfbmFtZSI6IlRy4bqnbiBUaMOhaSBUdeG6pW4iLCJpYXQiOjE2ODM1MjE4MTgsImV4cCI6MTY4Mzc4MTAxOH0.ccwE3umItJ00C-eM8qYBmw5HHb026ewJjusN41zqNko",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{mhk_base_url_v2}}/staff/delete-by-id/e35d810a-96ea-4fcd-aa12-71e4d5b196c6",
+							"host": [
+								"{{mhk_base_url_v2}}"
+							],
+							"path": [
+								"staff",
+								"delete-by-id",
+								"e35d810a-96ea-4fcd-aa12-71e4d5b196c6"
+							],
+							"query": [
+								{
+									"key": "token",
+									"value": "",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "updateByID",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "token",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjI3ZTgzZTI4LWIzZGUtNDIxMi1iZTM5LTgxZTYxMTk4ZDc3YiIsInVzZXJfbmFtZSI6IlRy4bqnbiBUaMOhaSBUdeG6pW4iLCJpYXQiOjE2ODU1MTI4NTUsImV4cCI6MTY4NTc3MjA1NX0.EgRnEDa-TmP6N8l6fOYOVjjtMKqoLtsELXdk1iOaSHE",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"user_name\": \"Tuan Tran 1\",\n    \"staff_gender\": true,\n    \"staff_birthday\": \"2023-02-20T14:59:18.275Z\",\n    \"staff_address_list\": [\n        {\n            \"user_province\": \"Thành phố Hồ Chí Minh 11111111\",\n            \"user_district\": \"Quận y0Bq0KFO8w\",\n            \"user_specific_address\": \"Số nhà ... vSIPYnjfsq\"\n        }\n    ],\n    \"roles\": [\n        {\n            \"role_id\": \"1ca075ba-3074-4c15-9e74-f4ca173f5ad0\",\n            \"agencyBranches_inCharge_id_list\": [\n                \"6ab4f7c8-353f-47f2-8757-2347f2ab6332\",\n                \"e7b1d0d2-f2e0-437d-94f4-f3b75cb99e21\"\n            ]\n        },\n        {\n            \"role_id\": \"2a546d25-1e44-4fa3-818d-5ac6cc436aa6\",\n            \"agencyBranches_inCharge_id_list\": [\n                \"995ea74e-0358-4833-856c-cd45f2e99c21\"\n            ]\n        }\n    ]\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{mhk_base_url_v2}}/staff/update-personal-by-id/9afd545e-b1fe-469b-8bb3-af0692364010",
+							"host": [
+								"{{mhk_base_url_v2}}"
+							],
+							"path": [
+								"staff",
+								"update-personal-by-id",
+								"9afd545e-b1fe-469b-8bb3-af0692364010"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Auth",
+			"item": [
+				{
+					"name": "login",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "",
+								"value": "",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"phone\": \"0123456789\",\r\n    \"password\": \"mhkadmin@123\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{mhk_base_url_v2}}/auth/login",
+							"host": [
+								"{{mhk_base_url_v2}}"
+							],
+							"path": [
+								"auth",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "me",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "token",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjI3ZTgzZTI4LWIzZGUtNDIxMi1iZTM5LTgxZTYxMTk4ZDc3YiIsImlhdCI6MTY5MDE2MzQzMSwiZXhwIjoxNjkwNDIyNjMxfQ.Vlr6ZluvKdDHTCs-ejZ3u0ECWuiITB0298ywDuPOasU",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{mhk_base_url_v2}}/auth/me",
+							"host": [
+								"{{mhk_base_url_v2}}"
+							],
+							"path": [
+								"auth",
+								"me"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Address",
+			"item": [
+				{
+					"name": "addNewAddressByUserID",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "token",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwibmFtZSI6IlRy4bqnbiBUaMOhaSBUdeG6pW4iLCJpYXQiOjE2ODA3NTAyMDksImV4cCI6MTY4MTAwOTQwOX0.1GIMhw8TJ4MEywC5TR0SwS8y1MnPJJ5Uu0n94w5V0w8",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"user_province\": \"Thành Phố Binh Thuong\",\r\n    \"user_district\": \"Quan Thu Duc\",\r\n    \"user_specific_address\": \"Di An\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{mhk_base_url_v2}}/address/add/c7ac812b-aef9-4789-92c1-4f15ad04c120",
+							"host": [
+								"{{mhk_base_url_v2}}"
+							],
+							"path": [
+								"address",
+								"add",
+								"c7ac812b-aef9-4789-92c1-4f15ad04c120"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "updateAddressByUserIDNAddressID",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "token",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjRkNGUyOWVmLTMwOWUtNGRhZi04MGUxLWU3YmVjODgyNTg2ZSIsIm5hbWUiOiJUcuG6p24gVGjDoWkgVHXhuqVuIiwiaWF0IjoxNjgwNzc1MDU3LCJleHAiOjE2ODEwMzQyNTd9.PyfCm52638DPhwVuoodwvJcsV8xIA5QOhgYp10W-rJg",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"user_province\": \"Thành Phố Binh Thuong\",\n    \"user_district\": \"Quan Thu Duc\",\n    \"user_specific_address\": \"Linh Xuan\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{mhk_base_url_v2}}/address/update/de644710-44d0-4f6e-83f2-96c541b06189",
+							"host": [
+								"{{mhk_base_url_v2}}"
+							],
+							"path": [
+								"address",
+								"update",
+								"de644710-44d0-4f6e-83f2-96c541b06189"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "deleteAddressByUserIDNAddressID",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "token",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjRkNGUyOWVmLTMwOWUtNGRhZi04MGUxLWU3YmVjODgyNTg2ZSIsIm5hbWUiOiJUcuG6p24gVGjDoWkgVHXhuqVuIiwiaWF0IjoxNjgwNzc1MDU3LCJleHAiOjE2ODEwMzQyNTd9.PyfCm52638DPhwVuoodwvJcsV8xIA5QOhgYp10W-rJg",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{mhk_base_url_v2}}/address/delete/de644710-44d0-4f6e-83f2-96c541b06189",
+							"host": [
+								"{{mhk_base_url_v2}}"
+							],
+							"path": [
+								"address",
+								"delete",
+								"de644710-44d0-4f6e-83f2-96c541b06189"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Tag",
+			"item": [
+				{
+					"name": "getAll",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "token",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjI3ZTgzZTI4LWIzZGUtNDIxMi1iZTM5LTgxZTYxMTk4ZDc3YiIsImlhdCI6MTY4OTkwOTk4MywiZXhwIjoxNjkwMTY5MTgzfQ.sSXmVBJPL2aqGC1dt71rutRtmnFjW8Lw763yAeKY1j8",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{mhk_base_url_v2}}/tag/get-all?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjI3ZTgzZTI4LWIzZGUtNDIxMi1iZTM5LTgxZTYxMTk4ZDc3YiIsImlhdCI6MTY4OTkwOTk4MywiZXhwIjoxNjkwMTY5MTgzfQ.sSXmVBJPL2aqGC1dt71rutRtmnFjW8Lw763yAeKY1j8",
+							"host": [
+								"{{mhk_base_url_v2}}"
+							],
+							"path": [
+								"tag",
+								"get-all"
+							],
+							"query": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjI3ZTgzZTI4LWIzZGUtNDIxMi1iZTM5LTgxZTYxMTk4ZDc3YiIsImlhdCI6MTY4OTkwOTk4MywiZXhwIjoxNjkwMTY5MTgzfQ.sSXmVBJPL2aqGC1dt71rutRtmnFjW8Lw763yAeKY1j8"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "create",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "token",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjI3ZTgzZTI4LWIzZGUtNDIxMi1iZTM5LTgxZTYxMTk4ZDc3YiIsInVzZXJfbmFtZSI6IlRy4bqnbiBUdeG6pW4iLCJpYXQiOjE2ODgwOTIwNDcsImV4cCI6MTY4ODM1MTI0N30.TbioV_8DslLDWwTvpXlesXOinTSxR0mu-Dg0_IvXxCY",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"tags\": [\n        {\n            \"tag_title\": \"Zalo\",\n            \"tag_description\": \"Nothing\"\n        },\n        {\n            \"tag_title\": \"Alibaba\",\n            \"tag_description\": \"Nothing\"\n        },\n        {\n            \"tag_title\": \"AWS\",\n            \"tag_description\": \"Nothing\"\n        },\n         {\n            \"tag_title\": \"Google Cloud\",\n            \"tag_description\": \"Nothing\"\n        }\n    ]\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{mhk_base_url_v2}}/tag/create",
+							"host": [
+								"{{mhk_base_url_v2}}"
+							],
+							"path": [
+								"tag",
+								"create"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "updateByID",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"tag_title\": \"IT STAFF\",\n    \"tag_description\": \"Nothing\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{mhk_base_url_v2}}/tag/update-by-id/041c6e7c-d8e0-4a34-b8b6-b396f0271f26",
+							"host": [
+								"{{mhk_base_url_v2}}"
+							],
+							"path": [
+								"tag",
+								"update-by-id",
+								"041c6e7c-d8e0-4a34-b8b6-b396f0271f26"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "deleteByID",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{mhk_base_url_v2}}/tag/delete-by-id/19b4d273-c844-4c65-9611-168091b7e841",
+							"host": [
+								"{{mhk_base_url_v2}}"
+							],
+							"path": [
+								"tag",
+								"delete-by-id",
+								"19b4d273-c844-4c65-9611-168091b7e841"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Role",
+			"item": [
+				{
+					"name": "getAll",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "token",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjI3ZTgzZTI4LWIzZGUtNDIxMi1iZTM5LTgxZTYxMTk4ZDc3YiIsInVzZXJfbmFtZSI6IlRy4bqnbiBUaMOhaSBUdeG6pW4iLCJpYXQiOjE2ODU1MTI4NTUsImV4cCI6MTY4NTc3MjA1NX0.EgRnEDa-TmP6N8l6fOYOVjjtMKqoLtsELXdk1iOaSHE",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{mhk_base_url_v2}}/role/get-all",
+							"host": [
+								"{{mhk_base_url_v2}}"
+							],
+							"path": [
+								"role",
+								"get-all"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "create",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "token",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjI3ZTgzZTI4LWIzZGUtNDIxMi1iZTM5LTgxZTYxMTk4ZDc3YiIsInVzZXJfbmFtZSI6IlRy4bqnbiBUaMOhaSBUdeG6pW4iLCJpYXQiOjE2ODU1MTI4NTUsImV4cCI6MTY4NTc3MjA1NX0.EgRnEDa-TmP6N8l6fOYOVjjtMKqoLtsELXdk1iOaSHE",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"role_title\": \"Nhân viên bán hàng\",\n    \"role_description\": \"Nothing\"\n}\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{mhk_base_url_v2}}/role/create",
+							"host": [
+								"{{mhk_base_url_v2}}"
+							],
+							"path": [
+								"role",
+								"create"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "updateByID",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "token",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjI3ZTgzZTI4LWIzZGUtNDIxMi1iZTM5LTgxZTYxMTk4ZDc3YiIsInVzZXJfbmFtZSI6IlRy4bqnbiBUaMOhaSBUdeG6pW4iLCJpYXQiOjE2ODU1MTI4NTUsImV4cCI6MTY4NTc3MjA1NX0.EgRnEDa-TmP6N8l6fOYOVjjtMKqoLtsELXdk1iOaSHE",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"role_title\": \"NEW ROLE TITLE\",\n    \"role_description\": \"NOTHING\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{mhk_base_url_v2}}/role/update-by-id/549c8e5d-2643-44ae-bbd8-039a7ff55b6a",
+							"host": [
+								"{{mhk_base_url_v2}}"
+							],
+							"path": [
+								"role",
+								"update-by-id",
+								"549c8e5d-2643-44ae-bbd8-039a7ff55b6a"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "deleteByID",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "token",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjI3ZTgzZTI4LWIzZGUtNDIxMi1iZTM5LTgxZTYxMTk4ZDc3YiIsInVzZXJfbmFtZSI6IlRy4bqnbiBUaMOhaSBUdeG6pW4iLCJpYXQiOjE2ODU1MTI4NTUsImV4cCI6MTY4NTc3MjA1NX0.EgRnEDa-TmP6N8l6fOYOVjjtMKqoLtsELXdk1iOaSHE",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{mhk_base_url_v2}}/role/delete-by-id/42dec332-be26-4463-9363-b6000fd3715c",
+							"host": [
+								"{{mhk_base_url_v2}}"
+							],
+							"path": [
+								"role",
+								"delete-by-id",
+								"42dec332-be26-4463-9363-b6000fd3715c"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Price",
+			"item": [
+				{
+					"name": "getAll",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "token",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjI3ZTgzZTI4LWIzZGUtNDIxMi1iZTM5LTgxZTYxMTk4ZDc3YiIsInVzZXJfbmFtZSI6IlRy4bqnbiBUaMOhaSBUdeG6pW4iLCJpYXQiOjE2ODYxMjYxODgsImV4cCI6MTY4NjM4NTM4OH0.ZmPUOC21XwEltNXeOKPX_4A27jSB6q4mIHcE7GemDDg",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{mhk_base_url_v2}}/price/get-all",
+							"host": [
+								"{{mhk_base_url_v2}}"
+							],
+							"path": [
+								"price",
+								"get-all"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "create",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"price_type\": \"Import price 2\",\n    \"price_description\": \"Nothing\",\n    \"isImportDefault\": true,\n    \"isSellDefault\": true\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{mhk_base_url_v2}}/price/create",
+							"host": [
+								"{{mhk_base_url_v2}}"
+							],
+							"path": [
+								"price",
+								"create"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "updateByID",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"price_type\": \"NEW PRICE TYPE\",\n    \"price_description\": \"NOTHING\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{mhk_base_url_v2}}/price/update-by-id/930a957b-0605-41e6-8765-794f7cac21e7",
+							"host": [
+								"{{mhk_base_url_v2}}"
+							],
+							"path": [
+								"price",
+								"update-by-id",
+								"930a957b-0605-41e6-8765-794f7cac21e7"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "deleteByID",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "token",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjI3ZTgzZTI4LWIzZGUtNDIxMi1iZTM5LTgxZTYxMTk4ZDc3YiIsInVzZXJfbmFtZSI6IlRy4bqnbiBUaMOhaSBUdeG6pW4iLCJpYXQiOjE2ODUzNTcwMjIsImV4cCI6MTY4NTYxNjIyMn0.tla5Jl0E_r-KLAF6j1Fvh2j8XJ0ZdG7rwVRRC8x2390",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{mhk_base_url_v2}}/price/delete-by-id/211ea80c-6049-4d1e-b78b-ff7c16a65bdd",
+							"host": [
+								"{{mhk_base_url_v2}}"
+							],
+							"path": [
+								"price",
+								"delete-by-id",
+								"211ea80c-6049-4d1e-b78b-ff7c16a65bdd"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Product",
+			"item": [
+				{
+					"name": "Branch",
+					"item": [
+						{
+							"name": "getAll",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "token",
+										"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjI3ZTgzZTI4LWIzZGUtNDIxMi1iZTM5LTgxZTYxMTk4ZDc3YiIsImlhdCI6MTY5MDA0MjQ1MiwiZXhwIjoxNjkwMzAxNjUyfQ.y6_SBoWOKAVJRgR4pZCX_r3Af_PY5fYoD2oDIF--56k",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{mhk_base_url_v2}}/product/branch/get-all?price_id=b1071b31-cbf3-43b2-b302-cf18bcd7a3a8",
+									"host": [
+										"{{mhk_base_url_v2}}"
+									],
+									"path": [
+										"product",
+										"branch",
+										"get-all"
+									],
+									"query": [
+										{
+											"key": "price_id",
+											"value": "b1071b31-cbf3-43b2-b302-cf18bcd7a3a8"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Initiate",
+					"item": [
+						{
+							"name": "create",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "token",
+										"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjI3ZTgzZTI4LWIzZGUtNDIxMi1iZTM5LTgxZTYxMTk4ZDc3YiIsInVzZXJfbmFtZSI6IlRy4bqnbiBUaMOhaSBUdeG6pW4iLCJpYXQiOjE2ODc0MDM3ODcsImV4cCI6MTY4NzY2Mjk4N30.EuAJiT0QTfPckt3CIjf69a82CQCEiuz-RRyXjAYZCgg",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"product_name\": \"Cáp sạc điện thoại\",\n    \"product_classify\": \"Sản phẩm thường\",\n    \"product_weight\": \"20g\",\n    \"product_weight_calculator_unit\": \"g\",\n    \"type_id\": \"5ac1dbcd-cf73-4a7a-bd8a-c7603c903fa2\",\n    \"brand_id\": \"79c9d6dc-a75c-4130-b780-d601085b3c2f\",\n    \"tagIDList\": [\n        \"0c18dd40-443c-4ff9-8022-73ff41b1f807\",\n        \"5d6912ed-632c-43b5-9c40-4df84685c8d0\",\n        \"2611848d-9fa0-4680-aacc-2be81b11ac12\"\n    ],\n    \"properties\": [\n        {\n            \"key\": \"Height\",\n            \"values\": [\n                \"1.2 feet\",\n                \"2 feet\"\n            ]\n        },\n        {\n            \"key\": \"Size\",\n            \"values\": [\n                \"Big\",\n                \"Medium\"\n            ]\n        },\n        {\n            \"key\": \"Weight\",\n            \"values\": [\n                \"40g\",\n                \"20g\",\n                \"10g\"\n            ]\n        }\n    ],\n    \"product_variant_prices\": [\n        {\n            \"price_id\": \"b1071b31-cbf3-43b2-b302-cf18bcd7a3a8\",\n            \"price_value\": \"25000\"\n        },\n        {\n            \"price_id\": \"211ea80c-6049-4d1e-b78b-ff7c16a65bdd\",\n            \"price_value\": \"30000\"\n        },\n        {\n            \"price_id\": \"5410f420-7c9c-4460-8e7f-4c28772f5fb1\",\n            \"price_value\": \"35000\"\n        },\n        {\n            \"price_id\": \"a024047c-6f3c-4274-b2e9-7384de9ceac5\",\n            \"price_value\": \"40000\"\n        },\n        {\n            \"price_id\": \"32169e6f-4d08-4673-ab22-3bb3b261929f\",\n            \"price_value\": \"45000\"\n        },\n        {\n            \"price_id\": \"8ca7b243-865b-43bb-8320-ac67ebee9d52\",\n            \"price_value\": \"50000\"\n        },\n        {\n            \"price_id\": \"7dd753aa-0860-46c5-bc7e-5a50701f38c1\",\n            \"price_value\": \"55000\"\n        },\n        {\n            \"price_id\": \"ec750adb-df12-46ea-a89b-a0e879e994ab\",\n            \"price_value\": \"60000\"\n        },\n        {\n            \"price_id\": \"35535127-9507-44dd-a3da-6bf61a9ddfb2\",\n            \"price_value\": \"65000\"\n        },\n         {\n            \"price_id\": \"f033caa9-aa61-4805-bc02-47ae25a12990\",\n            \"price_value\": \"70000\"\n        }\n    ]\n}\n\n// {\n//     \"product_name\": \"iPhone 11 Pro Max\",\n//     \"product_classify\": \"Sản phẩm thường\",\n//     \"product_weight\": \"200\",\n//     \"product_weight_calculator_unit\": \"g\",\n//     \"type_id\": \"79c9d6dc-a75c-4130-b780-d601085b3c2f\",\n//     \"brand_id\": \"32f73b51-f1ef-423b-a9bb-105f53a488ec\",\n//     \"tagIDList\": [\n//         \"0c18dd40-443c-4ff9-8022-73ff41b1f807\",\n//         \"5d6912ed-632c-43b5-9c40-4df84685c8d0\",\n//         \"98262ca5-484a-4d83-b124-27cc121d548e\"\n//     ],\n//     \"properties\": [\n//         {\n//             \"key\": \"Kích thước\",\n//             \"values\": [\n//                 \"Dài\",\n//                 \"Ngắn\"\n//             ]\n//         }\n//     ],\n//     \"product_variant_prices\": [\n//         {\n//             \"price_value\": \"2,000,000\",\n//             \"price_id\": \"b1071b31-cbf3-43b2-b302-cf18bcd7a3a8\"\n//         },\n//         {\n//             \"price_value\": \"400,000\",\n//             \"price_id\": \"211ea80c-6049-4d1e-b78b-ff7c16a65bdd\"\n//         }\n//     ]\n// }",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{mhk_base_url_v2}}/product/create",
+									"host": [
+										"{{mhk_base_url_v2}}"
+									],
+									"path": [
+										"product",
+										"create"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "getAll",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "token",
+										"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjI3ZTgzZTI4LWIzZGUtNDIxMi1iZTM5LTgxZTYxMTk4ZDc3YiIsInVzZXJfbmFtZSI6IlRy4bqnbiBUaMOhaSBUdeG6pW4iLCJpYXQiOjE2ODc4ODMwNjUsImV4cCI6MTY4ODE0MjI2NX0.i7o4GEAbkez0Gi_TyVFK6erW0ussX8a1KqwoGWERtW8",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{mhk_base_url_v2}}/product/get-all",
+									"host": [
+										"{{mhk_base_url_v2}}"
+									],
+									"path": [
+										"product",
+										"get-all"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "getByID",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "token",
+										"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjI3ZTgzZTI4LWIzZGUtNDIxMi1iZTM5LTgxZTYxMTk4ZDc3YiIsImlhdCI6MTY5MDg5MDkxNSwiZXhwIjoxNjkwOTc3MzE1fQ.y-mP4O2tJAHN2MuG4tqSwUOAri5k-Gg9lnp7lKjmAC0",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{mhk_base_url_v2}}/product/get-by-id/50ae18bc-dcfd-4e31-8cb5-03cbcb5ad1f3",
+									"host": [
+										"{{mhk_base_url_v2}}"
+									],
+									"path": [
+										"product",
+										"get-by-id",
+										"50ae18bc-dcfd-4e31-8cb5-03cbcb5ad1f3"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "[Warn]Import - Disable",
+					"item": [
+						{
+							"name": "getAll",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{mhk_base_url_v2}}/product/import/get-all",
+									"host": [
+										"{{mhk_base_url_v2}}"
+									],
+									"path": [
+										"product",
+										"import",
+										"get-all"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Supplier",
+			"item": [
+				{
+					"name": "getAll",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "token",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjI3ZTgzZTI4LWIzZGUtNDIxMi1iZTM5LTgxZTYxMTk4ZDc3YiIsInVzZXJfbmFtZSI6IlRy4bqnbiBUaMOhaSBUdeG6pW4iLCJpYXQiOjE2ODY4ODQ5MDYsImV4cCI6MTY4NzE0NDEwNn0.SR_PhcmlYhx9lQ8jkO_yqTL1IAwv6wvYjOu7RVJn228",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{mhk_base_url_v2}}/supplier/get-all",
+							"host": [
+								"{{mhk_base_url_v2}}"
+							],
+							"path": [
+								"supplier",
+								"get-all"
+							],
+							"query": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZW1haWwiOiJhZG1pbkBnbWFpbC5jb20iLCJpYXQiOjE2ODAxNTgzMDEsImV4cCI6MTY4MDIzMDMwMX0.OT9N9WkKtgg6Vk6_WbSWJGrI1bLHxhTVHxVpaWsF_tA",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getByID",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "token",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjI3ZTgzZTI4LWIzZGUtNDIxMi1iZTM5LTgxZTYxMTk4ZDc3YiIsInVzZXJfbmFtZSI6IlRy4bqnbiBUaMOhaSBUdeG6pW4iLCJpYXQiOjE2ODU3NzMwMzYsImV4cCI6MTY4NjAzMjIzNn0.ZL4tUrvcxLha9GoBUkEJYBpgSB3jlQOKociugofzgqA",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{mhk_base_url_v2}}/supplier/get-by-id/8082f9c8-c649-42b3-8d19-edc2ddbf83a5",
+							"host": [
+								"{{mhk_base_url_v2}}"
+							],
+							"path": [
+								"supplier",
+								"get-by-id",
+								"8082f9c8-c649-42b3-8d19-edc2ddbf83a5"
+							],
+							"query": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZW1haWwiOiJhZG1pbkBnbWFpbC5jb20iLCJpYXQiOjE2ODAxNTgzMDEsImV4cCI6MTY4MDIzMDMwMX0.OT9N9WkKtgg6Vk6_WbSWJGrI1bLHxhTVHxVpaWsF_tA",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Order",
+			"item": [
+				{
+					"name": "Import",
+					"item": [
+						{
+							"name": "create",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "token",
+										"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjI3ZTgzZTI4LWIzZGUtNDIxMi1iZTM5LTgxZTYxMTk4ZDc3YiIsInVzZXJfbmFtZSI6IlRy4bqnbiBUaMOhaSBUdeG6pW4iLCJpYXQiOjE2ODY4ODQ5MDYsImV4cCI6MTY4NzE0NDEwNn0.SR_PhcmlYhx9lQ8jkO_yqTL1IAwv6wvYjOu7RVJn228",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "// {\n//     \"supplier_id\": \"4fbcb2a2-2af4-47e2-8874-3828e2122a39\",\n//     \"agency_branch_id\": \"6ab4f7c8-353f-47f2-8757-2347f2ab6332\",\n//     \"shipper_id\": \"7cfb56ef-aa9e-468e-a7b2-874f046dfec8\",\n//     \"payment_id\": \"5f81f1a2-1144-43d1-a5c8-6caa6dbad03f\",\n//     \"staff_id\":\"e35d810a-96ea-4fcd-aa12-71e4d5b196c6\",\n//     \"order_delivery_date\": \"2023-06-07T08:22:44.916Z\",\n//     \"order_note\": \"Lưu ý về đơn hàng sẽ được lưu ở cột này\",    \n//     \"tags\": [\n//         \"0c18dd40-443c-4ff9-8022-73ff41b1f807\",\n//         \"5d6912ed-632c-43b5-9c40-4df84685c8d0\",\n//         \"98262ca5-484a-4d83-b124-27cc121d548e\"\n//     ],  \n//     \"products\": [\n//         {\n//             \"p_variant_id\": \"814c2531-683e-4c56-b9bc-f3e87e647e94\",\n//             \"unit\": \"Cái\",\n//             \"amount\": 20,\n//             \"price\": 20000,\n//             \"discount\": 10\n//         },\n//         {\n//             \"p_variant_id\": \"de6d7487-bcff-409d-9cb5-494f6afbcb00\",\n//             \"unit\": \"Cái\",\n//             \"amount\": 10,\n//             \"price\": 32000,\n//             \"discount\": 12\n//         },\n        // {\n        //     \"p_variant_id\": \"ec8d722c-e815-4f6b-b830-2b58a6c7fe94\",\n        //     \"unit\": \"Cái\",\n        //     \"amount\": 10,\n        //     \"price\": 52000,\n        //     \"discount\": 20\n        // }\n//     ]\n// }\n\n\n{\n    \"supplier_id\": \"4fbcb2a2-2af4-47e2-8874-3828e2122a39\",\n    \"agency_branch_id\": \"6ab4f7c8-353f-47f2-8757-2347f2ab6332\",\n    \"shipper_id\": \"7cfb56ef-aa9e-468e-a7b2-874f046dfec8\",\n    \"payment_id\": \"5f81f1a2-1144-43d1-a5c8-6caa6dbad03f\",\n    \"staff_id\": \"105b5c91-2324-4c83-94ec-5e26a7077802\",\n    \"order_delivery_date\": \"2023-06-01\",\n    \"order_note\": \"Hàng tặng gói riêng\",\n    \"tags\": [\n        \"041c6e7c-d8e0-4a34-b8b6-b396f0271f26\",\n        \"2611848d-9fa0-4680-aacc-2be81b11ac12\",\n        \"0c18dd40-443c-4ff9-8022-73ff41b1f807\",\n        \"5d6912ed-632c-43b5-9c40-4df84685c8d0\"\n    ],\n    \"products\": [\n        {\n            \"p_variant_id\": \"e75f0bb2-6207-40c5-85ac-a9f7c73a540f\",\n            \"unit\": \"Cái\",\n            \"amount\": 1,\n            \"price\": 0,\n            \"discount\": 0\n        },\n        {\n            \"p_variant_id\": \"13c3a895-3245-40e4-9589-ee1130d44530\",\n            \"unit\": \"Cái\",\n            \"amount\": 1,\n            \"price\": 0,\n            \"discount\": 0\n        },\n        {\n            \"p_variant_id\": \"e75f0bb2-6207-40c5-85ac-a9f7c73a540f\",\n            \"unit\": \"Cái\",\n            \"amount\": 1,\n            \"price\": 0,\n            \"discount\": 0\n        }\n    ]\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{mhk_base_url_v2}}/order/import/create",
+									"host": [
+										"{{mhk_base_url_v2}}"
+									],
+									"path": [
+										"order",
+										"import",
+										"create"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "getAll",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "token",
+										"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjI3ZTgzZTI4LWIzZGUtNDIxMi1iZTM5LTgxZTYxMTk4ZDc3YiIsImlhdCI6MTY5MDA0MjQ1MiwiZXhwIjoxNjkwMzAxNjUyfQ.y6_SBoWOKAVJRgR4pZCX_r3Af_PY5fYoD2oDIF--56k",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "{{mhk_base_url_v2}}/order/import/get-all",
+									"host": [
+										"{{mhk_base_url_v2}}"
+									],
+									"path": [
+										"order",
+										"import",
+										"get-all"
+									],
+									"query": [
+										{
+											"key": "",
+											"value": "",
+											"disabled": true
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Sale",
+					"item": [
+						{
+							"name": "create",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "token",
+										"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjI3ZTgzZTI4LWIzZGUtNDIxMi1iZTM5LTgxZTYxMTk4ZDc3YiIsImlhdCI6MTY5MDA0MjQ1MiwiZXhwIjoxNjkwMzAxNjUyfQ.y6_SBoWOKAVJRgR4pZCX_r3Af_PY5fYoD2oDIF--56k",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"supplier_id\": \"4fbcb2a2-2af4-47e2-8874-3828e2122a39\",\n    \"agency_branch_id\": \"6ab4f7c8-353f-47f2-8757-2347f2ab6332\",\n    \"shipper_id\": \"7cfb56ef-aa9e-468e-a7b2-874f046dfec8\",\n    \"payment_id\": \"5f81f1a2-1144-43d1-a5c8-6caa6dbad03f\",\n    \"staff_id\":\"e35d810a-96ea-4fcd-aa12-71e4d5b196c6\",\n    \"order_delivery_date\": \"2023-06-07T08:22:44.916Z\",\n    \"order_note\": \"Lưu ý về đơn hàng sẽ được lưu ở cột này\",\n    \"tags\": [\n        \"0c18dd40-443c-4ff9-8022-73ff41b1f807\",\n        \"5d6912ed-632c-43b5-9c40-4df84685c8d0\",\n        \"98262ca5-484a-4d83-b124-27cc121d548e\"\n    ],  \n    \"products\": [\n        {\n            \"p_variant_id\": \"ec8d722c-e815-4f6b-b830-2b58a6c7fe94\",\n            \"unit\": \"Cái\",\n            \"amount\": 5,\n            \"price\": 26000,\n            \"discount\": 26\n        }\n        // {\n        //     \"p_variant_id\": \"f7c723a3-a81f-4c4b-9602-de8f877383f4\",\n        //     \"unit\": \"Cái\",\n        //     \"amount\": 5,\n        //     \"price\": 32000,\n        //     \"discount\": 10\n        // },\n        // {\n        //     \"p_variant_id\": \"50ae18bc-dcfd-4e31-8cb5-03cbcb5ad1f3\",\n        //     \"unit\": \"Cái\",\n        //     \"amount\": 5,\n        //     \"price\": 52000,\n        //     \"discount\": 10\n        // }\n    ]\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{mhk_base_url_v2}}/order/sale/create",
+									"host": [
+										"{{mhk_base_url_v2}}"
+									],
+									"path": [
+										"order",
+										"sale",
+										"create"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "getAll",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "token",
+										"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjI3ZTgzZTI4LWIzZGUtNDIxMi1iZTM5LTgxZTYxMTk4ZDc3YiIsImlhdCI6MTY5MDM0ODg4MiwiZXhwIjoxNjkwNDM1MjgyfQ.wB_R0pNPsMlZqCD_pbUCCiUsFd4o-0T94gg3Z9vO7kA",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "{{mhk_base_url_v2}}/order/sell/get-all",
+									"host": [
+										"{{mhk_base_url_v2}}"
+									],
+									"path": [
+										"order",
+										"sell",
+										"get-all"
+									],
+									"query": [
+										{
+											"key": "",
+											"value": "",
+											"disabled": true
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "getByID",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "token",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjI3ZTgzZTI4LWIzZGUtNDIxMi1iZTM5LTgxZTYxMTk4ZDc3YiIsImlhdCI6MTY5MDkzNTc0NiwiZXhwIjoxNjkxMDIyMTQ2fQ.E1FPHrvpjoH9P4pxx3vGqW8kZ5q85NumIjPmxyTTy_M",
+								"type": "text"
+							},
+							{
+								"key": "",
+								"value": "",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"url": {
+							"raw": "{{mhk_base_url_v2}}/order/get-by-id?id=f3367e30-75d2-4a8e-aabf-4a886f2b3087&order_type=Đơn nhập",
+							"host": [
+								"{{mhk_base_url_v2}}"
+							],
+							"path": [
+								"order",
+								"get-by-id"
+							],
+							"query": [
+								{
+									"key": "id",
+									"value": "f3367e30-75d2-4a8e-aabf-4a886f2b3087"
+								},
+								{
+									"key": "order_type",
+									"value": "Đơn nhập"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "updateDetailByID",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "token",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjI3ZTgzZTI4LWIzZGUtNDIxMi1iZTM5LTgxZTYxMTk4ZDc3YiIsInVzZXJfbmFtZSI6IlRy4bqnbiBUaMOhaSBUdeG6pW4iLCJpYXQiOjE2ODc3NTEyMjIsImV4cCI6MTY4ODAxMDQyMn0.oBdM-IF90GdR5Ks_4G9uJMIiGaigl0IREABkmybmHMo",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"supplier_id\": \"4fbcb2a2-2af4-47e2-8874-3828e2122a39\",\n    \"staff_id\": \"5a6ee2c9-3af6-4736-8a51-714f796f94ed\",\n    \"order_delivery_date\": \"2023-05-16T02:43:42.855Z\",\n    \"order_note\": \"Modify order status: Trading\",\n    \"tags\": [\n        \"98262ca5-484a-4d83-b124-27cc121d548e\",\n        \"0c18dd40-443c-4ff9-8022-73ff41b1f807\",\n        \"5d6912ed-632c-43b5-9c40-4df84685c8d0\",\n        \"2611848d-9fa0-4680-aacc-2be81b11ac12\"\n    ],\n    \"products\": [\n        {\n            \"p_variant_id\": \"50ae18bc-dcfd-4e31-8cb5-03cbcb5ad1f3\",\n            \"unit\": \"Cái\",\n            \"amount\": 5,\n            \"price\": 52000,\n            \"discount\": 10\n        }\n    ]\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{mhk_base_url_v2}}/order/update-detail-by-id/7b20eb0b-2cc0-412f-b394-048d40b2a1c9",
+							"host": [
+								"{{mhk_base_url_v2}}"
+							],
+							"path": [
+								"order",
+								"update-detail-by-id",
+								"7b20eb0b-2cc0-412f-b394-048d40b2a1c9"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "updateStatusByID",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "token",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjI3ZTgzZTI4LWIzZGUtNDIxMi1iZTM5LTgxZTYxMTk4ZDc3YiIsInVzZXJfbmFtZSI6IlRy4bqnbiBUaMOhaSBUdeG6pW4iLCJpYXQiOjE2ODc5MTY4ODQsImV4cCI6MTY4ODE3NjA4NH0.FJIbV_n54LF25s4PSti4-VkOmS_fgaHbKVjNGhWBBlQ",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"update_status\": \"Nhập hàng 1\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{mhk_base_url_v2}}/order/update-status-by-id/7b20eb0b-2cc0-412f-b394-048d40b2a1c9",
+							"host": [
+								"{{mhk_base_url_v2}}"
+							],
+							"path": [
+								"order",
+								"update-status-by-id",
+								"7b20eb0b-2cc0-412f-b394-048d40b2a1c9"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "pay",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "token",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjI3ZTgzZTI4LWIzZGUtNDIxMi1iZTM5LTgxZTYxMTk4ZDc3YiIsInVzZXJfbmFtZSI6IlRy4bqnbiBUaMOhaSBUdeG6pW4iLCJpYXQiOjE2ODc5MTY4ODQsImV4cCI6MTY4ODE3NjA4NH0.FJIbV_n54LF25s4PSti4-VkOmS_fgaHbKVjNGhWBBlQ",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{mhk_base_url_v2}}/order/pay?user_id=a6ce9449-0fba-49b4-8c0c-1d50aad1f84f&source_id=245bdeea-e93e-4009-9e73-dabe55cb1c0b&debt_payment_amount=14626236.23",
+							"host": [
+								"{{mhk_base_url_v2}}"
+							],
+							"path": [
+								"order",
+								"pay"
+							],
+							"query": [
+								{
+									"key": "user_id",
+									"value": "a6ce9449-0fba-49b4-8c0c-1d50aad1f84f"
+								},
+								{
+									"key": "source_id",
+									"value": "245bdeea-e93e-4009-9e73-dabe55cb1c0b"
+								},
+								{
+									"key": "debt_payment_amount",
+									"value": "14626236.23"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Brand",
+			"item": [
+				{
+					"name": "getAll",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "token",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjI3ZTgzZTI4LWIzZGUtNDIxMi1iZTM5LTgxZTYxMTk4ZDc3YiIsInVzZXJfbmFtZSI6IlRy4bqnbiBUaMOhaSBUdeG6pW4iLCJpYXQiOjE2ODc0MDM3ODcsImV4cCI6MTY4NzY2Mjk4N30.EuAJiT0QTfPckt3CIjf69a82CQCEiuz-RRyXjAYZCgg",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{mhk_base_url_v2}}/brand/get-all",
+							"host": [
+								"{{mhk_base_url_v2}}"
+							],
+							"path": [
+								"brand",
+								"get-all"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Type",
+			"item": [
+				{
+					"name": "getAll",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "token",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjI3ZTgzZTI4LWIzZGUtNDIxMi1iZTM5LTgxZTYxMTk4ZDc3YiIsInVzZXJfbmFtZSI6IlRy4bqnbiBUaMOhaSBUdeG6pW4iLCJpYXQiOjE2ODc0MDM3ODcsImV4cCI6MTY4NzY2Mjk4N30.EuAJiT0QTfPckt3CIjf69a82CQCEiuz-RRyXjAYZCgg",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{mhk_base_url_v2}}/type/get-all",
+							"host": [
+								"{{mhk_base_url_v2}}"
+							],
+							"path": [
+								"type",
+								"get-all"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Debt",
+			"item": [
+				{
+					"name": "getAllChangeLogsByUserID",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "token",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjI3ZTgzZTI4LWIzZGUtNDIxMi1iZTM5LTgxZTYxMTk4ZDc3YiIsImlhdCI6MTY5MDM0ODg4MiwiZXhwIjoxNjkwNDM1MjgyfQ.wB_R0pNPsMlZqCD_pbUCCiUsFd4o-0T94gg3Z9vO7kA",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{mhk_base_url_v2}}/debt/get-change-logs/69385d34-67c6-4fff-8bb0-3fbb2318e709",
+							"host": [
+								"{{mhk_base_url_v2}}"
+							],
+							"path": [
+								"debt",
+								"get-change-logs",
+								"69385d34-67c6-4fff-8bb0-3fbb2318e709"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getToTalDebtByUserID",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "token",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjI3ZTgzZTI4LWIzZGUtNDIxMi1iZTM5LTgxZTYxMTk4ZDc3YiIsInVzZXJfbmFtZSI6IlRy4bqnbiBUaMOhaSBUdeG6pW4iLCJpYXQiOjE2ODc5MTY4ODQsImV4cCI6MTY4ODE3NjA4NH0.FJIbV_n54LF25s4PSti4-VkOmS_fgaHbKVjNGhWBBlQ",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{mhk_base_url_v2}}/debt/a6ce9449-0fba-49b4-8c0c-1d50aad1f84f",
+							"host": [
+								"{{mhk_base_url_v2}}"
+							],
+							"path": [
+								"debt",
+								"a6ce9449-0fba-49b4-8c0c-1d50aad1f84f"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Payment",
+			"item": [
+				{
+					"name": "getAll",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{mhk_base_url_v2}}/payment/get-all",
+							"host": [
+								"{{mhk_base_url_v2}}"
+							],
+							"path": [
+								"payment",
+								"get-all"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Shipper",
+			"item": [
+				{
+					"name": "getAll",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "token",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjI3ZTgzZTI4LWIzZGUtNDIxMi1iZTM5LTgxZTYxMTk4ZDc3YiIsImlhdCI6MTY5MDIwOTkwMywiZXhwIjoxNjkwNDY5MTAzfQ.jX0ZF533ZTcBuLJgJdTCnN3PyYbE-psQLM_9g2C2CYc",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{mhk_base_url_v2}}/shipper/get-all",
+							"host": [
+								"{{mhk_base_url_v2}}"
+							],
+							"path": [
+								"shipper",
+								"get-all"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Shipment",
+			"item": [
+				{
+					"name": "getAll",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "token",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjI3ZTgzZTI4LWIzZGUtNDIxMi1iZTM5LTgxZTYxMTk4ZDc3YiIsImlhdCI6MTY5MDg5MDkxNSwiZXhwIjoxNjkwOTc3MzE1fQ.y-mP4O2tJAHN2MuG4tqSwUOAri5k-Gg9lnp7lKjmAC0",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{mhk_base_url_v2}}/shipment/get-all",
+							"host": [
+								"{{mhk_base_url_v2}}"
+							],
+							"path": [
+								"shipment",
+								"get-all"
+							],
+							"query": [
+								{
+									"key": "order_type",
+									"value": "Đơn nhập",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getByID",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "token",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjI3ZTgzZTI4LWIzZGUtNDIxMi1iZTM5LTgxZTYxMTk4ZDc3YiIsImlhdCI6MTY5MDg5MDkxNSwiZXhwIjoxNjkwOTc3MzE1fQ.y-mP4O2tJAHN2MuG4tqSwUOAri5k-Gg9lnp7lKjmAC0",
+								"type": "text"
+							},
+							{
+								"key": "",
+								"value": "",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"url": {
+							"raw": "{{mhk_base_url_v2}}/order/get-by-id?id=7b20eb0b-2cc0-412f-b394-048d40b2a1c9&order_type=Đơn nhập",
+							"host": [
+								"{{mhk_base_url_v2}}"
+							],
+							"path": [
+								"order",
+								"get-by-id"
+							],
+							"query": [
+								{
+									"key": "id",
+									"value": "7b20eb0b-2cc0-412f-b394-048d40b2a1c9"
+								},
+								{
+									"key": "order_type",
+									"value": "Đơn nhập"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "mhk_base_url",
+			"value": "http://localhost:5001/mhk-api/v1/",
+			"type": "string"
+		}
+	]
+}
