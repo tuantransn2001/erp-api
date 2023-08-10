@@ -1,5 +1,5 @@
-import { UserAttributes } from "../interfaces/app_interfaces";
-import { ObjectType } from "../types/app_type";
+import { UserAttributes } from "../interfaces/entities_interfaces";
+import { ObjectType } from "../types/common";
 
 export interface StaffRoleInputDTO {
   role_id: string;

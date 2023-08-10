@@ -10,7 +10,7 @@ import {
   UserAttributes,
   PaymentAttributes,
   ShipperAttributes,
-} from "@/src/api/v2/ts/interfaces/app_interfaces";
+} from "@/src/api/v2/ts/interfaces/entities_interfaces";
 import OrderServices from "../../services/order.services";
 type UserQueryExclude = Omit<
   UserAttributes,

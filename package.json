@@ -53,6 +53,7 @@
     "glob": "^10.2.2",
     "jsonwebtoken": "^9.0.0",
     "randomstring": "^1.2.3",
+    "swagger-jsdoc": "^6.2.8",
     "swagger-ui-express": "^4.6.3"
   }
 }

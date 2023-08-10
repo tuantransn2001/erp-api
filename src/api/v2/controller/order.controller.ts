@@ -16,7 +16,7 @@ import db from "../models";
 import OrderServices from "../services/order.services";
 import CommonServices from "../services/common.services";
 import DebtService from "../services/debt.services";
-import { ObjectType } from "../ts/types/app_type";
+import { ObjectType } from "../ts/types/common";
 const { Order, OrderProductList, OrderTag } = db;
 
 class OrderController {

@@ -1,6 +1,6 @@
 import randomstring from "randomstring";
 import { MODIFY_STATUS } from "../ts/enums/app_enums";
-import { Falsy, ObjectType } from "../ts/types/app_type";
+import { Falsy, ObjectType } from "../ts/types/common";
 
 export const isEmpty = (target: ObjectType<any> | any[]): boolean => {
   return target instanceof Array

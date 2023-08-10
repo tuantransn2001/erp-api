@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response } from "express";
 const { v4: uuidv4 } = require("uuid");
-import { PriceAttributes } from "@/src/api/v2/ts/interfaces/app_interfaces";
+import { PriceAttributes } from "@/src/api/v2/ts/interfaces/entities_interfaces";
 import db from "../models";
 import { handleFormatUpdateDataByValidValue } from "../common";
 import { STATUS_CODE, STATUS_MESSAGE } from "../ts/enums/api_enums";

@@ -10,7 +10,7 @@ import {
   ProductTagItemAttributes,
   TagAttributes,
   AgencyBranchProductListAttributes,
-} from "@/src/api/v2/ts/interfaces/app_interfaces";
+} from "@/src/api/v2/ts/interfaces/entities_interfaces";
 import { isEmpty } from "../../common";
 
 interface ProductVariantPriceQueryAttributes

@@ -1,6 +1,6 @@
 "use strict";
 import { Model } from "sequelize";
-import { ShipperAttributes } from "@/src/api/v2/ts/interfaces/app_interfaces";
+import { ShipperAttributes } from "@/src/api/v2/ts/interfaces/entities_interfaces";
 
 export default (sequelize: any, DataTypes: any) => {
   class Shipper extends Model<ShipperAttributes> implements ShipperAttributes {

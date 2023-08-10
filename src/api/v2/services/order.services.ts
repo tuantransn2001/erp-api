@@ -11,7 +11,7 @@ import {
   OrderAttributes,
   OrderProductListAttributes,
   OrderTagAttributes,
-} from "../../v2/ts/interfaces/app_interfaces";
+} from "../ts/interfaces/entities_interfaces";
 import RestFullAPI from "../utils/response/apiResponse";
 import { STATUS_CODE, STATUS_MESSAGE } from "../../v2/ts/enums/api_enums";
 import {
@@ -21,7 +21,7 @@ import {
 import db from "../models";
 import HttpException from "../utils/exceptions/http.exception";
 import { handleFormatOrder } from "../utils/format/order.format";
-import { ObjectType } from "../ts/types/app_type";
+import { ObjectType } from "../ts/types/common";
 import { handleError } from "../utils/handleError/handleError";
 import DebtService from "./debt.services";
 const {

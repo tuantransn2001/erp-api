@@ -15,7 +15,6 @@ agencyBranchRouter
   )
   .patch(
     "/update-by-id/:id",
-
     checkExist(AgencyBranch),
     AgencyController.checkAgencyBranchExistByCode,
     AgencyController.updateByID,

@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from "express";
 import db from "../../models";
-import { UserAttributes } from "../../ts/interfaces/app_interfaces";
+import { UserAttributes } from "../../ts/interfaces/entities_interfaces";
 import { STATUS_CODE, STATUS_MESSAGE } from "../../ts/enums/api_enums";
 import RestFullAPI from "../../utils/response/apiResponse";
 import { isEmpty } from "../../common";

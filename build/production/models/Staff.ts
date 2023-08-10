@@ -1,6 +1,6 @@
 "use strict";
 import { Model } from "sequelize";
-import { StaffAttributes } from "@/src/api/v2/ts/interfaces/app_interfaces";
+import { StaffAttributes } from "@/src/api/v2/ts/interfaces/entities_interfaces";
 
 export default (sequelize: any, DataTypes: any) => {
   class Staff extends Model<StaffAttributes> implements StaffAttributes {

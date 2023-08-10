@@ -1,6 +1,6 @@
 "use strict";
 import { Model } from "sequelize";
-import { PriceAttributes } from "@/src/api/v2/ts/interfaces/app_interfaces";
+import { PriceAttributes } from "@/src/api/v2/ts/interfaces/entities_interfaces";
 
 export default (sequelize: any, DataTypes: any) => {
   class Price extends Model<PriceAttributes> implements PriceAttributes {

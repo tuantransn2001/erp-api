@@ -2,7 +2,7 @@ import {
   CustSuppAttributes,
   UserAddressAttributes,
   UserAttributes,
-} from "../interfaces/app_interfaces";
+} from "../interfaces/entities_interfaces";
 
 export interface CreateCustSuppDTO
   extends Partial<UserAttributes>,

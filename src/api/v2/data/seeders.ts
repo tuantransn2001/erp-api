@@ -22,7 +22,7 @@ import {
   TagAttributes,
   UserAddressAttributes,
   UserAttributes,
-} from "../ts/interfaces/app_interfaces";
+} from "../ts/interfaces/entities_interfaces";
 import {
   randomIntFromInterval,
   randomStringByCharsetAndLength,
@@ -6521,37 +6521,34 @@ export const STAFF_ROLE_ARRAY: Partial<StaffRoleAttributes>[] = [
 export const AGENCY_BRANCH_ARRAY: Partial<AgencyBranchAttributes>[] = [
   {
     id: "e7b1d0d2-f2e0-437d-94f4-f3b75cb99e21",
-    agency_branch_name: "LCD",
+    agency_branch_name: "Chi nhánh 1",
     agency_branch_code: "CN1",
     agency_branch_phone: "0706952905",
     agency_branch_expiration_date: "2026-03-21T14:59:18.275Z",
-    agency_branch_address:
-      "40-42 đường B (Trần Thị Vững), KDC Him Lam Phú Đông, KP Bình Đường 3",
-    agency_branch_area: "Bình Dương - Thành phố Dĩ An",
+    agency_branch_address: "362 Gianni Cove Suite 493",
+    agency_branch_area: "Vandervortstad",
     agency_branch_status: "active",
     isDefaultCN: true,
   },
   {
     id: "6ab4f7c8-353f-47f2-8757-2347f2ab6332",
-    agency_branch_name: "BẢO HÀNH",
+    agency_branch_name: "Chi nhánh 2",
     agency_branch_code: "CN2",
     agency_branch_phone: "0706952905",
     agency_branch_expiration_date: "2026-03-06T14:59:18.275Z",
-    agency_branch_address:
-      "40-42 đường B (Trần Thị Vững), KDC Him Lam Phú Đông, KP Bình Đường 3",
-    agency_branch_area: "Bình Dương - Thành phố Dĩ An",
+    agency_branch_address: "362 Gianni Cove Suite 493",
+    agency_branch_area: "Vandervortstad",
     agency_branch_status: "active",
     isDefaultCN: false,
   },
   {
     id: "995ea74e-0358-4833-856c-cd45f2e99c21",
-    agency_branch_name: "TRUNG TÂM SỬA CHỮA",
-    agency_branch_code: "CN2",
+    agency_branch_name: "Chi nhánh 3",
+    agency_branch_code: "CN3",
     agency_branch_phone: "0706952905",
     agency_branch_expiration_date: "2026-03-28T14:59:18.275Z",
-    agency_branch_address:
-      "40-42 đường B (Trần Thị Vững), KDC Him Lam Phú Đông, KP Bình Đường 3",
-    agency_branch_area: "Bình Dương - Thành phố Dĩ An",
+    agency_branch_address: "362 Gianni Cove Suite 493",
+    agency_branch_area: "Vandervortstad",
     agency_branch_status: "active",
     isDefaultCN: false,
   },
@@ -30071,27 +30068,27 @@ export const PRODUCT_VARIANT_PROPERTY_ARRAY: Partial<ProductVariantPropertyAttri
 export const SHIPPER_ARRAY = [
   {
     id: "60d7c4bc-0b51-4ab5-ab42-cfb5ab321132",
-    shipper_unit: "Anh Cường",
+    shipper_unit: "Shipper 1",
     shipper_phone: "0123456789",
   },
   {
     id: "7cfb56ef-aa9e-468e-a7b2-874f046dfec8",
-    shipper_unit: "Văn Phòng",
+    shipper_unit: "Shipper 2",
     shipper_phone: "0123456789",
   },
   {
     id: "6e1b4ede-1ec6-404b-89b6-7b2a98acd924",
-    shipper_unit: "Chú Tin",
+    shipper_unit: "Shipper 3",
     shipper_phone: "0123456789",
   },
   {
     id: "b003ac04-82af-4f57-a7a9-5c827b6b11c9",
-    shipper_unit: "Chú Dũng",
+    shipper_unit: "Shipper 4",
     shipper_phone: "0123456789",
   },
   {
     id: "815f275c-3ed4-4bc2-8ef6-b8c377e1ffa2",
-    shipper_unit: "Chú Thăng",
+    shipper_unit: "Shipper 5",
     shipper_phone: "0123456789",
   },
 ];

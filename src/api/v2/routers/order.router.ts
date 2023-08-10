@@ -7,9 +7,6 @@ const { Order } = model;
 const orderRouter = Router();
 
 orderRouter
-  // ? ================================
-  // ? Import
-  // ? ================================
   .get("/import/get-all", OrderController.getAll(ORDER_TYPE.IMPORT))
   .post("/import/create", OrderController.Import().create, errorHandler)
   .get("/sell/get-all", OrderController.getAll(ORDER_TYPE.SALE))

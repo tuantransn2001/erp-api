@@ -1,6 +1,6 @@
 "use strict";
 import { Model } from "sequelize";
-import { CustSuppAttributes } from "@/src/api/v2/ts/interfaces/app_interfaces";
+import { CustSuppAttributes } from "@/src/api/v2/ts/interfaces/entities_interfaces";
 
 export default (sequelize: any, DataTypes: any) => {
   class CustSupp

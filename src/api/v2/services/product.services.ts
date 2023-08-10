@@ -1,5 +1,4 @@
 import { v4 as uuidv4 } from "uuid";
-
 import { STATUS_CODE, STATUS_MESSAGE } from "../ts/enums/api_enums";
 import { ENTITIES_FORMAT_TYPE, MODIFY_STATUS } from "../ts/enums/app_enums";
 import {
@@ -15,12 +14,12 @@ import {
   ProductVariantPropertyAttributes,
   TagAttributes,
   TypeAttributes,
-} from "../ts/interfaces/app_interfaces";
+} from "../ts/interfaces/entities_interfaces";
 import {
   GetByIdPayload,
   GetEntitiesFormatPayload,
   ObjectType,
-} from "../ts/types/app_type";
+} from "../ts/types/common";
 import { handleError } from "../utils/handleError/handleError";
 import db from "../models";
 import RestFullAPI from "../utils/response/apiResponse";

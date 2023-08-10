@@ -1,6 +1,6 @@
 "use strict";
 import { Model } from "sequelize";
-import { UserAttributes } from "@/src/api/v2/ts/interfaces/app_interfaces";
+import { UserAttributes } from "@/src/api/v2/ts/interfaces/entities_interfaces";
 export default (sequelize: any, DataTypes: any) => {
   class User extends Model<UserAttributes> implements UserAttributes {
     id!: string;

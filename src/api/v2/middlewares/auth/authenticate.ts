@@ -1,10 +1,10 @@
 require("dotenv").config();
 import { Request, Response, NextFunction } from "express";
-import { MyRequest } from "@/src/api/v2/ts/interfaces/global_interfaces";
+import { MyRequest } from "@/src/api/v2/ts/interfaces/common";
 import jwt from "jsonwebtoken";
 import { STATUS_CODE, STATUS_MESSAGE } from "../../ts/enums/api_enums";
 import RestFullAPI from "../../utils/response/apiResponse";
-import { IncomingCustomHeaders, JwtPayload } from "../../ts/types/app_type";
+import { IncomingCustomHeaders, JwtPayload } from "../../ts/types/common";
 
 export const authenticate = async (
   req: MyRequest & Request,

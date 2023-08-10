@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from "express";
-import { TagAttributes } from "@/src/api/v2/ts/interfaces/app_interfaces";
+import { TagAttributes } from "@/src/api/v2/ts/interfaces/entities_interfaces";
 import { handleFormatUpdateDataByValidValue } from "../common";
 import { STATUS_CODE, STATUS_MESSAGE } from "../ts/enums/api_enums";
 import RestFullAPI from "../utils/response/apiResponse";
