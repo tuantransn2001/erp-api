@@ -1,10 +1,14 @@
 "use strict";
 import { Model } from "sequelize";
+<<<<<<< HEAD
 <<<<<<<< HEAD:build/production/v1/models/Brand.ts
 import { BrandAttributes } from "@/src/api/v1/ts/interfaces/app_interfaces";
 ========
 import { BrandAttributes } from "@/src/api/v2/ts/interfaces/app_interfaces";
 >>>>>>>> dev/api-v2:src/api/v2/models/Brand.ts
+=======
+import { BrandAttributes } from "@/src/api/v2/ts/interfaces/entities_interfaces";
+>>>>>>> dev/api-v2
 
 export default (sequelize: any, DataTypes: any) => {
   class Brand extends Model<BrandAttributes> implements BrandAttributes {

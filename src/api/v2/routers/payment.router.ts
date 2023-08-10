@@ -4,11 +4,6 @@ import { errorHandler } from "../middlewares";
 
 const paymentRouter = Router();
 
-paymentRouter.get(
-  "/get-all",
-
-  PaymentController.getAll,
-  errorHandler
-);
+paymentRouter.get("/get-all", PaymentController.getAll, errorHandler);
 
 export default paymentRouter;

@@ -6,23 +6,10 @@ import db from "../models";
 const { Price } = db;
 
 priceRouter
-  .get(
-    "/get-all",
-
-    authorize,
-    PriceController.getAll,
-    errorHandler
-  )
-  .post(
-    "/create",
-
-    authorize,
-    PriceController.create,
-    errorHandler
-  )
+  .get("/get-all", authorize, PriceController.getAll, errorHandler)
+  .post("/create", authorize, PriceController.create, errorHandler)
   .patch(
     "/update-by-id/:id",
-
     authorize,
     checkExist(Price),
     PriceController.checkDefaultPrice,
@@ -31,7 +18,6 @@ priceRouter
   )
   .delete(
     "/delete-by-id/:id",
-
     authorize,
     checkExist(Price),
     PriceController.checkDefaultPrice,

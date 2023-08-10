@@ -12,10 +12,17 @@
     "build:prod:start": "nodemon build/production/v1/app.js"
 =======
     "test": "jest",
+<<<<<<< HEAD
     "build:dev": "cross-env SERVER_RUNNING_ON=local NODE_ENVIRONMENT=development webpack --config webpack.config.dev.js",
     "build:dev:start": "cross-env SERVER_RUNNING_ON=local NODE_ENVIRONMENT=development nodemon build/development/server.js",
     "build:prod": "cross-env SERVER_RUNNING_ON=cloud NODE_ENVIRONMENT=production webpack --config webpack.config.prod.js",
     "build:prod:start": "cross-env SERVER_RUNNING_ON=cloud NODE_ENVIRONMENT=production node build/production/server.js"
+>>>>>>> dev/api-v2
+=======
+    "build:dev": "webpack --config webpack.config.dev.js",
+    "build:dev:start": "nodemon build/development/app.js",
+    "build:prod": "webpack --config webpack.config.prod.js",
+    "build:prod:start": "nodemon build/production/app.js"
 >>>>>>> dev/api-v2
   },
   "author": "ERP Project - Backend Team",
@@ -67,6 +74,7 @@
     "glob": "^10.2.2",
     "jsonwebtoken": "^9.0.0",
     "randomstring": "^1.2.3",
+    "swagger-jsdoc": "^6.2.8",
     "swagger-ui-express": "^4.6.3"
   }
 }

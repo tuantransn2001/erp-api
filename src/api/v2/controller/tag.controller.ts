@@ -1,10 +1,14 @@
 import { Request, Response, NextFunction } from "express";
+<<<<<<< HEAD
 <<<<<<<< HEAD:src/api/v1/controller/tag-controller.ts
 import { TagAttributes } from "@/src/api/v1/ts/interfaces/app_interfaces";
 import { handleFormatUpdateDataByValidValue } from "../../v1/common";
 import { STATUS_CODE, STATUS_MESSAGE } from "../../v1/ts/enums/api_enums";
 ========
 import { TagAttributes } from "@/src/api/v2/ts/interfaces/app_interfaces";
+=======
+import { TagAttributes } from "@/src/api/v2/ts/interfaces/entities_interfaces";
+>>>>>>> dev/api-v2
 import { handleFormatUpdateDataByValidValue } from "../common";
 import { STATUS_CODE, STATUS_MESSAGE } from "../ts/enums/api_enums";
 >>>>>>>> dev/api-v2:src/api/v2/controller/tag.controller.ts

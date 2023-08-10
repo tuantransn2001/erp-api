@@ -1,6 +1,6 @@
 import randomstring from "randomstring";
 import { MODIFY_STATUS } from "../ts/enums/app_enums";
-import { Falsy, ObjectType } from "../ts/types/app_type";
+import { Falsy, ObjectType } from "../ts/types/common";
 
 export const isEmpty = (target: ObjectType<any> | any[]): boolean => {
   return target instanceof Array
@@ -62,11 +62,14 @@ export const checkMissPropertyInObjectBaseOnValueCondition = (
   return arrMissArray;
 };
 
-export const removeItem = <T>(arr: Array<T>, value: T): Array<T> => {
-  const index = arr.indexOf(value);
-  if (index > -1) {
-    arr.splice(index, 1);
-  }
+export const removeItem = <T>(arr: Array<T>, values: Array<T>): Array<T> => {
+  values.forEach((value) => {
+    const index = arr.indexOf(value);
+    if (index > -1) {
+      arr.splice(index, 1);
+    }
+  });
+
   return arr;
 };
 
@@ -94,3 +97,17 @@ export const handleValidateClientRequestBeforeModify = <
     };
   }
 };
+
+// export function sumValueWithDuplicateKey<
+//   O extends {
+//     key: string;
+//     value: number;
+//   },
+//   K extends keyof O
+// >(arr: O[], compareObject: ObjectType<number | string | keyof K>) {
+//   return arr.reduce((res: Object[], item: O) => {
+//     // const targetIndex = res.findIndex((el) => el[compareObject.key] === "test");
+
+//     return res;
+//   }, []);
+// }

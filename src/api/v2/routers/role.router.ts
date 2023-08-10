@@ -12,7 +12,6 @@ roleRouter
   .patch(
     "/update-by-id/:id",
     checkExist(Role),
-
     authorize,
     RoleController.updateByID,
     errorHandler
@@ -20,7 +19,6 @@ roleRouter
   .delete(
     "/delete-by-id/:id",
     checkExist(Role),
-
     authorize,
     RoleController.deleteByID,
     errorHandler

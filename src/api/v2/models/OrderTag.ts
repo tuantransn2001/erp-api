@@ -1,10 +1,14 @@
 "use strict";
 import { Model } from "sequelize";
+<<<<<<< HEAD
 <<<<<<<< HEAD:build/production/v1/models/OrderTag.ts
 import { OrderTagAttributes } from "@/src/api/v1/ts/interfaces/app_interfaces";
 ========
 import { OrderTagAttributes } from "@/src/api/v2/ts/interfaces/app_interfaces";
 >>>>>>>> dev/api-v2:src/api/v2/models/OrderTag.ts
+=======
+import { OrderTagAttributes } from "@/src/api/v2/ts/interfaces/entities_interfaces";
+>>>>>>> dev/api-v2
 
 export default (sequelize: any, DataTypes: any) => {
   class OrderTag

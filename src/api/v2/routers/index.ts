@@ -11,7 +11,6 @@ import brandRouter from "./brand.router";
 import typeRouter from "./type.router";
 import orderRouter from "./order.router";
 import debtRouter from "./debt.router";
-import swaggerRouter from "./swagger.router";
 import paymentRouter from "./payment.router";
 import shipperRouter from "./shipper.router";
 import custSuppRouter from "./customer.router";
@@ -33,7 +32,6 @@ rootRouter
   .use("/type", typeRouter)
   .use("/product", productRouter)
   .use("/order", orderRouter)
-  .use("/swagger", swaggerRouter)
   .use("/debt", debtRouter)
   .use("/payment", paymentRouter)
   .use("/shipper", shipperRouter)

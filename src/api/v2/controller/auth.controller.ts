@@ -1,6 +1,6 @@
 require("dotenv").config();
 import { NextFunction, Request, Response } from "express";
-import { MyRequest } from "../ts/interfaces/global_interfaces";
+import { MyRequest } from "../ts/interfaces/common";
 import { LoginDTO, MeDTO } from "../ts/dto/auth.dto";
 import AuthServices from "../services/auth.services";
 

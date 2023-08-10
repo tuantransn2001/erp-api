@@ -2,14 +2,14 @@ import { STATUS_CODE } from "../ts/enums/api_enums";
 import { handleError } from "../utils/handleError/handleError";
 import { ORDER_TYPE } from "../ts/enums/order_enum";
 import db from "../models";
-import { GetEntitiesFormatPayload } from "../ts/types/app_type";
+import { GetEntitiesFormatPayload } from "../ts/types/common";
 import { ENTITIES_FORMAT_TYPE } from "../ts/enums/app_enums";
 import {
   CustSuppAttributes,
   OrderAttributes,
   ShipperAttributes,
   UserAttributes,
-} from "../ts/interfaces/app_interfaces";
+} from "../ts/interfaces/entities_interfaces";
 const { Order, CustSupp, User, Shipper } = db;
 
 interface CustSuppQuery extends CustSuppAttributes {

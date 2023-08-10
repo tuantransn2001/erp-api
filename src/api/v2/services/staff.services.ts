@@ -13,8 +13,8 @@ import {
   StaffRoleAttributes,
   UserAddressAttributes,
   UserAttributes,
-} from "../ts/interfaces/app_interfaces";
-import { GetByIdPayload, GetEntitiesFormatPayload } from "../ts/types/app_type";
+} from "../ts/interfaces/entities_interfaces";
+import { GetByIdPayload, GetEntitiesFormatPayload } from "../ts/types/common";
 import { handleError } from "../utils/handleError/handleError";
 import HashStringHandler from "../utils/hashString/string.hash";
 import CommonServices from "./common.services";

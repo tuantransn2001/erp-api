@@ -1,6 +1,5 @@
 import { v4 as uuiv4 } from "uuid";
-import reduce from "awaity/reduce";
-import { randomStringByCharsetAndLength } from "../../v2/common";
+import { randomStringByCharsetAndLength, removeItem } from "../../v2/common";
 import {
   ORDER_IMPORT_STATUS,
   ORDER_SALE_STATUS,
@@ -12,7 +11,7 @@ import {
   OrderAttributes,
   OrderProductListAttributes,
   OrderTagAttributes,
-} from "../../v2/ts/interfaces/app_interfaces";
+} from "../ts/interfaces/entities_interfaces";
 import RestFullAPI from "../utils/response/apiResponse";
 import { STATUS_CODE, STATUS_MESSAGE } from "../../v2/ts/enums/api_enums";
 import {
@@ -22,7 +21,7 @@ import {
 import db from "../models";
 import HttpException from "../utils/exceptions/http.exception";
 import { handleFormatOrder } from "../utils/format/order.format";
-import { ObjectType } from "../ts/types/app_type";
+import { ObjectType } from "../ts/types/common";
 import { handleError } from "../utils/handleError/handleError";
 import DebtService from "./debt.services";
 const {
@@ -37,7 +36,6 @@ const {
   AgencyBranch,
   Tag,
   ProductVariantDetail,
-  AgencyBranchProductList,
   Payment,
   Shipper,
 } = db;
@@ -50,7 +48,7 @@ type ProductItem = {
   discount: number;
 };
 
-type OrderDataAttributes = {
+type OrderDataPayload = {
   supplier_id: string;
   agency_branch_id: string;
   shipper_id: string;
@@ -68,7 +66,7 @@ type QueryConditionAttributes = {
   order_type: string;
 };
 
-type UpdateDetailDataAttributes = {
+type UpdateDetailDataPayload = {
   queryCondition: { id: string };
   updateData: OrderAttributes;
 };
@@ -79,15 +77,20 @@ type OrderProductAttributes = {
   operator?: string;
   agency_branch_id?: string;
 };
-type UpdateOrderProductListDataAttributes = {
+type UpdateOrderProductListPayload = {
   queryCondition: { order_id: string };
   JunctionModel: any;
   updateProductsData: Array<ProductItem>;
 };
 
-type UpdateOrderOnSuccessAttributes = {
+type UpdateOrderOnSuccessPayload = {
   order_id: string;
   user_id: string;
+};
+
+type UpdateOrderStatusPayload = {
+  order_id: string;
+  update_status: string;
 };
 
 class OrderServices {
@@ -300,7 +303,7 @@ class OrderServices {
 
     await OrderProductList.bulkCreate(orderProductRowArr);
   }
-  public static async create(orderData: OrderDataAttributes) {
+  public static async create(orderData: OrderDataPayload) {
     try {
       const {
         supplier_id,
@@ -386,73 +389,11 @@ class OrderServices {
         !isEmpty(orderTagRowArr) && (await OrderTag.bulkCreate(orderTagRowArr));
         await Debt.create(debtRow);
 
-        switch (order_type) {
-          case ORDER_TYPE.IMPORT: {
-            await OrderServices.generateOrderProducts({
-              order_id: orderRow.id,
-              products,
-              order_type,
-            });
-
-            // ? Check if product is exist or not
-            const { createData, updateData } = await reduce(
-              products,
-              async function (
-                modifyData: any,
-                { p_variant_id: product_variant_id },
-                index: number
-              ) {
-                const foundExistProduct = await AgencyBranchProductList.findOne(
-                  { where: { product_variant_id } }
-                );
-
-                if (foundExistProduct) {
-                  modifyData.updateData.push(products[index]);
-                } else {
-                  modifyData.createData.push(products[index]);
-                }
-
-                return modifyData;
-              },
-              { createData: [], updateData: [] }
-            );
-
-            // ? Exist -> Update amount
-            if (!isEmpty(createData)) {
-              await OrderServices.generateAgencyProductsOnCreate({
-                products: createData,
-                agency_branch_id,
-              });
-            }
-            // ? Do not Exist -> Generate
-            if (!isEmpty(updateData)) {
-              await OrderServices.updateOrderAgencyProductsAmountOnUpdate({
-                products: updateData,
-                operator: "plus",
-              });
-              break;
-            }
-            await OrderServices.generateAgencyProductsOnCreate({
-              products,
-              agency_branch_id,
-            });
-            break;
-          }
-          case ORDER_TYPE.SALE: {
-            await OrderServices.generateOrderProducts({
-              order_id: orderRow.id,
-              products,
-              order_type,
-            });
-
-            await OrderServices.updateOrderAgencyProductsAmountOnUpdate({
-              products,
-              operator: "minus",
-            });
-            break;
-          }
-        }
-
+        await OrderServices.generateOrderProducts({
+          order_id: orderRow.id,
+          products,
+          order_type,
+        });
         return {
           statusCode: STATUS_CODE.STATUS_CODE_200,
           data: RestFullAPI.onSuccess(STATUS_MESSAGE.SUCCESS),
@@ -485,7 +426,7 @@ class OrderServices {
     }
   }
   public static async updateOrderProductList(
-    updateOrderProductListData: UpdateOrderProductListDataAttributes
+    updateOrderProductListData: UpdateOrderProductListPayload
   ) {
     const { updateProductsData, JunctionModel, queryCondition } =
       updateOrderProductListData;
@@ -550,7 +491,7 @@ class OrderServices {
       };
 
       if ((await getCurrentOrderDetail()).type === ORDER_TYPE.SALE) {
-        await OrderServices.updateOrderAgencyProductsAmountOnUpdate({
+        await OrderServices.updateAgencyProductsAmountOnOrderUpdate({
           products: (await getCurrentOrderDetail()).resetOldProductAmountData,
           operator: "plus",
         });
@@ -565,10 +506,7 @@ class OrderServices {
       // ? ======================================================================
 
       await JunctionModel.bulkCreate(orderProductRowArr);
-      await OrderServices.updateOrderAgencyProductsAmountOnUpdate({
-        products: updateProductsData,
-        operator: "minus",
-      });
+
       return {
         statusCode: STATUS_CODE.STATUS_CODE_200,
         data: RestFullAPI.onSuccess(STATUS_MESSAGE.SUCCESS),
@@ -582,9 +520,7 @@ class OrderServices {
       };
     }
   }
-  public static async updateDetail(
-    updateDetailData: UpdateDetailDataAttributes
-  ) {
+  public static async updateDetail(updateDetailData: UpdateDetailDataPayload) {
     const { queryCondition, updateData } = updateDetailData;
 
     return await Order.update(updateData, { where: queryCondition })
@@ -603,35 +539,9 @@ class OrderServices {
         };
       });
   }
-  // ? Tạo ra record sản phẩm đơn hàng khi đơn hàng đơn tạo
-  public static async generateAgencyProductsOnCreate({
-    products,
-    agency_branch_id,
-  }: Omit<OrderProductAttributes, "order_type" | "order_id">) {
-    const newAgencyProduct = products.map(
-      ({
-        p_variant_id: product_variant_id,
-        price: product_price,
-        discount: product_discount,
-        amount,
-      }) => {
-        return {
-          agency_branch_id,
-          product_variant_id,
-          product_price,
-          product_discount,
-          available_quantity: amount,
-          available_to_sell_quantity: amount,
-          trading_quantity: 0,
-        };
-      }
-    );
-
-    await OrderProductList.bulkCreate(newAgencyProduct);
-  }
   // ? Cập nhật số lượng sản phẩm trong kho khi đơn hàng bán ra hoặc nhập hàng vào
   // ? operator: ["plus","minus"]
-  public static async updateOrderAgencyProductsAmountOnUpdate({
+  public static async updateAgencyProductsAmountOnOrderUpdate({
     products,
     operator,
   }: Omit<OrderProductAttributes, "order_type" | "order_id">) {
@@ -669,7 +579,7 @@ class OrderServices {
   public static async updateOrderOnSuccess({
     user_id,
     order_id,
-  }: UpdateOrderOnSuccessAttributes) {
+  }: UpdateOrderOnSuccessPayload) {
     try {
       const VALID_ORDER_NEAREST_SUCCESS = [
         ORDER_IMPORT_STATUS.TRADING,
@@ -687,6 +597,7 @@ class OrderServices {
         where: {
           id: order_id,
         },
+        attributes: ["order_status", "order_type"],
       });
       const { data: debtData }: ObjectType<any> = await DebtService.getTotal({
         user_id: user_id as string,
@@ -709,12 +620,120 @@ class OrderServices {
         // ? => Accept update => Update => Return
         foundOrder.order_status = UPDATE_ORDER_STATUS[order_type];
         await foundOrder.save();
+        // TODO : Update amount [ agency product ] ...
       }
 
       return {
         statusCode: STATUS_CODE.STATUS_CODE_200,
         data: RestFullAPI.onSuccess(STATUS_MESSAGE.SUCCESS),
       };
+    } catch (err) {
+      return {
+        statusCode: STATUS_CODE.STATUS_CODE_500,
+        data: handleError(err as Error),
+      };
+    }
+  }
+
+  // ? Cập nhật trạng thái đơn hàng
+  public static async updateOrderStatus({
+    order_id,
+    update_status,
+  }: UpdateOrderStatusPayload) {
+    try {
+      const ORDER_STATUS_BASE_ON_ORDER_TYPE = {
+        [ORDER_TYPE.IMPORT]: Object.values(
+          removeItem(Object.values(ORDER_IMPORT_STATUS), [
+            ORDER_IMPORT_STATUS.DONE,
+            ORDER_IMPORT_STATUS.RETURN,
+          ])
+        ),
+        [ORDER_TYPE.SALE]: Object.values(
+          removeItem(Object.values(ORDER_SALE_STATUS), [
+            ORDER_SALE_STATUS.DONE,
+            ORDER_SALE_STATUS.RETURN,
+          ])
+        ),
+      };
+
+      const foundOrder = await Order.findOne({
+        where: { id: order_id },
+        attributes: ["id", "order_status", "order_type"],
+        include: [
+          {
+            model: CustSupp,
+            attributes: ["id", "user_id"],
+            include: [{ model: User, attributes: ["id"] }],
+          },
+        ],
+      });
+
+      const order_type = foundOrder.dataValues.order_type;
+
+      const handleCheckAcceptUpdate = () => {
+        let isOK: boolean = false;
+        let messages: string[] = [];
+        const EXCEPTION_UPDATE_STATUS_LIST: string[] = Array.from(
+          new Set([
+            ORDER_IMPORT_STATUS.DONE,
+            ORDER_SALE_STATUS.DONE,
+            ORDER_IMPORT_STATUS.RETURN,
+            ORDER_SALE_STATUS.RETURN,
+          ])
+        );
+
+        const argMissArr = checkMissPropertyInObjectBaseOnValueCondition(
+          { update_status },
+          [undefined]
+        );
+
+        isOK =
+          isEmpty(argMissArr) &&
+          !EXCEPTION_UPDATE_STATUS_LIST.includes(update_status) &&
+          ORDER_STATUS_BASE_ON_ORDER_TYPE[order_type].includes(update_status);
+
+        if (!isEmpty(argMissArr)) {
+          messages.push(`${argMissArr.join(",")} is required!`);
+        }
+        if (EXCEPTION_UPDATE_STATUS_LIST.includes(update_status)) {
+          messages = [
+            `update order status value can't be: ${EXCEPTION_UPDATE_STATUS_LIST}`,
+          ];
+        }
+
+        if (
+          !ORDER_STATUS_BASE_ON_ORDER_TYPE[order_type].includes(update_status)
+        ) {
+          messages.push(
+            `update order status value must be: ${ORDER_STATUS_BASE_ON_ORDER_TYPE[
+              order_type
+            ].join(",")}`
+          );
+        }
+
+        return {
+          isOK,
+          messages,
+        };
+      };
+
+      if (handleCheckAcceptUpdate().isOK) {
+        foundOrder.order_status = update_status;
+        const res = await foundOrder.save();
+        console.log("update result:::", res);
+        return {
+          statusCode: STATUS_CODE.STATUS_CODE_200,
+          data: RestFullAPI.onSuccess(STATUS_MESSAGE.SUCCESS),
+        };
+      } else {
+        return {
+          statusCode: STATUS_CODE.STATUS_CODE_406,
+          data: RestFullAPI.onSuccess(
+            STATUS_MESSAGE.NOT_ACCEPTABLE,
+            handleCheckAcceptUpdate().messages
+          ),
+        };
+      }
     } catch (err) {
       return {
         statusCode: STATUS_CODE.STATUS_CODE_500,

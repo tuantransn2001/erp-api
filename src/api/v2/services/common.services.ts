@@ -1,6 +1,6 @@
 import { isEmpty } from "../common";
 import { STATUS_CODE, STATUS_MESSAGE } from "../ts/enums/api_enums";
-import { ObjectType } from "../ts/types/app_type";
+import { ObjectType } from "../ts/types/common";
 import HttpException from "../utils/exceptions/http.exception";
 
 import RestFullAPI from "../utils/response/apiResponse";

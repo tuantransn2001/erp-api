@@ -6,7 +6,7 @@ import {
   TagAttributes,
   UserAddressAttributes,
   UserAttributes,
-} from "../ts/interfaces/app_interfaces";
+} from "../ts/interfaces/entities_interfaces";
 import { STATUS_CODE, STATUS_MESSAGE } from "../ts/enums/api_enums";
 import RestFullAPI from "../utils/response/apiResponse";
 import HttpException from "../utils/exceptions/http.exception";
@@ -26,7 +26,7 @@ import {
   GetByIdPayload,
   GetEntitiesFormatPayload,
   ObjectType,
-} from "../ts/types/app_type";
+} from "../ts/types/common";
 import { CreateCustSuppDTO, UpdateCustSuppDTO } from "../ts/dto/custSupp.dto";
 import db from "../models";
 const { User, CustSupp, UserAddress, CustSuppTag, Tag, Staff } = db;
@@ -109,7 +109,8 @@ class CustSuppServices {
           createdAt,
           updatedAt,
         } = custSuppItemSource.dataValues;
-        const { id } = custSuppItemSource.dataValues.CustSupp.dataValues;
+        const { id, staff_in_charge_note, status } =
+          custSuppItemSource.dataValues.CustSupp.dataValues;
 
         const tagList: TagAttributes[] =
           custSuppItemSource.dataValues.CustSupp.dataValues.CustSuppTags.map(
@@ -163,6 +164,7 @@ class CustSuppServices {
                 staff_id,
                 user_staff_id,
                 staff_name,
+                staff_in_charge_note,
               }
             : null;
         };
@@ -175,6 +177,7 @@ class CustSuppServices {
           updatedAt,
           [user_type]: {
             id,
+            status,
             name: user_name,
             phone: user_phone,
             email: user_email,

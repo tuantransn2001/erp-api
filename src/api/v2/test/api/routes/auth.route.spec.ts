@@ -1,6 +1,6 @@
 import axios, { AxiosError } from "axios";
 import request from "supertest";
-import { app } from "../../../app";
+import { appTest } from "../../helpers/app";
 import env from "../../../constants/env";
 import { STATUS_CODE } from "../../../ts/enums/api_enums";
 describe("Test login route", () => {
@@ -34,7 +34,7 @@ describe("Test login route", () => {
 
     const expected = result;
 
-    await request(app)
+    await request(appTest)
       .post("/api/auth/login")
       .send(received)
       .then((res) => {

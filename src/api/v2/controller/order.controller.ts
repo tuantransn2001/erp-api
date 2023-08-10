@@ -3,7 +3,6 @@ import {
   isEmpty,
   checkMissPropertyInObjectBaseOnValueCondition,
   handleFormatUpdateDataByValidValue,
-  removeItem,
 } from "../common";
 import { STATUS_CODE, STATUS_MESSAGE } from "../ts/enums/api_enums";
 import {
@@ -17,17 +16,8 @@ import db from "../models";
 import OrderServices from "../services/order.services";
 import CommonServices from "../services/common.services";
 import DebtService from "../services/debt.services";
-import { ObjectType } from "../ts/types/app_type";
+import { ObjectType } from "../ts/types/common";
 const { Order, OrderProductList, OrderTag } = db;
-
-const ORDER_SALE_STATUS_VALUES: string[] = removeItem(
-  Object.values(ORDER_SALE_STATUS),
-  ORDER_SALE_STATUS.DONE
-);
-const ORDER_IMPORT_STATUS_VALUES: string[] = removeItem(
-  Object.values(ORDER_IMPORT_STATUS),
-  ORDER_IMPORT_STATUS.DONE
-);
 
 class OrderController {
   public static getAll(order_type: ORDER_TYPE) {
@@ -203,118 +193,12 @@ class OrderController {
       const { id: order_id } = req.params;
       const { update_status } = req.body;
 
-      const foundOrder = await Order.findOne({
-        where: { id: order_id },
+      const { statusCode, data } = await OrderServices.updateOrderStatus({
+        order_id,
+        update_status,
       });
 
-      const _order_type = foundOrder.dataValues.order_type;
-
-      const checkAcceptUpdate = () => {
-        let isOK: boolean = false;
-        let messages: string[] = [];
-
-        const IN_VALID_STATUS_LIST = new Set([
-          ORDER_IMPORT_STATUS.DONE,
-          ORDER_SALE_STATUS.DONE,
-        ]);
-
-        const VALID_STATUS_LIST =
-          _order_type === ORDER_TYPE.SALE
-            ? new Set(ORDER_SALE_STATUS_VALUES)
-            : new Set(ORDER_IMPORT_STATUS_VALUES);
-
-        const argMissArr = checkMissPropertyInObjectBaseOnValueCondition(
-          { update_status },
-          [undefined]
-        );
-
-        isOK =
-          isEmpty(argMissArr) &&
-          !IN_VALID_STATUS_LIST.has(update_status) &&
-          VALID_STATUS_LIST.has(update_status);
-        if (!isEmpty(argMissArr)) {
-          messages.push(`${argMissArr.join(",")} is required!`);
-        }
-
-        if (IN_VALID_STATUS_LIST.has(update_status)) {
-          messages.push(
-            `update order status value cann't be: ${Array.from(
-              IN_VALID_STATUS_LIST
-            )}`
-          );
-        }
-
-        if (!VALID_STATUS_LIST.has(update_status)) {
-          messages.push(
-            `update order status value must be: ${Array.from(
-              VALID_STATUS_LIST
-            ).join(",")}`
-          );
-        }
-        return {
-          isOK,
-          messages,
-        };
-      };
-
-      if (checkAcceptUpdate().isOK) {
-        // ? check order_status - order_status must be [ cancel , trading , return ]
-
-        const current_status = foundOrder.dataValues.order_status;
-
-        switch (current_status) {
-          // ? Accept update
-          case ORDER_SALE_STATUS.GENERATE:
-          case ORDER_SALE_STATUS.APPROVE:
-          case ORDER_SALE_STATUS.PACKAGE:
-          case ORDER_SALE_STATUS.DELIVERY:
-          case ORDER_IMPORT_STATUS.GENERATE:
-          case ORDER_IMPORT_STATUS.TRADING: {
-            foundOrder.order_status = update_status;
-            await foundOrder.save();
-
-            res
-              .status(STATUS_CODE.STATUS_CODE_201)
-              .send(RestFullAPI.onSuccess(STATUS_MESSAGE.SUCCESS));
-            break;
-          }
-          // ? Case return
-          case ORDER_SALE_STATUS.CANCEL:
-          case ORDER_SALE_STATUS.RETURN:
-          case ORDER_IMPORT_STATUS.CANCEL:
-          case ORDER_IMPORT_STATUS.RETURN: {
-            res
-              .status(STATUS_CODE.STATUS_CODE_503)
-              .send(
-                RestFullAPI.onSuccess(
-                  STATUS_MESSAGE.SERVICES_UNAVAILABLE,
-                  "In development state... Will complete later"
-                )
-              );
-            break;
-          }
-          // ! Deny update
-          default: {
-            res
-              .status(STATUS_CODE.STATUS_CODE_406)
-              .send(
-                RestFullAPI.onSuccess(
-                  STATUS_MESSAGE.NOT_ACCEPTABLE,
-                  `order_status: '${update_status}' in-valid! - Example: ${ORDER_SALE_STATUS} , ${ORDER_IMPORT_STATUS}`
-                )
-              );
-          }
-        }
-      } else {
-        res
-          .status(STATUS_CODE.STATUS_CODE_406)
-          .send(
-            RestFullAPI.onSuccess(
-              STATUS_MESSAGE.NOT_ACCEPTABLE,
-              checkAcceptUpdate().messages
-            )
-          );
-      }
+      res.status(statusCode).send(data);
     } catch (err) {
       next(err);
     }

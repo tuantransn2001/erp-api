@@ -4,7 +4,7 @@ import { STATUS_CODE, STATUS_MESSAGE } from "../ts/enums/api_enums";
 import RestFullAPI from "../utils/response/apiResponse";
 const { AgencyBranch } = db;
 import { handleFormatUpdateDataByValidValue } from "../common";
-import { AgencyBranchAttributes } from "@/src/api/v2/ts/interfaces/app_interfaces";
+import { AgencyBranchAttributes } from "@/src/api/v2/ts/interfaces/entities_interfaces";
 class AgencyController {
   public static async getAll(_: Request, res: Response, next: NextFunction) {
     try {

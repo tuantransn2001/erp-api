@@ -1,6 +1,5 @@
 import { Request, Response, NextFunction } from "express";
 import ProductServices from "../services/product.services";
-
 class ProductController {
   public static async getAllProduct(
     _: Request,
@@ -50,7 +49,9 @@ class ProductController {
   ) {
     try {
       const { id } = req.params;
+
       const { statusCode, data } = await ProductServices.getVariantByID({ id });
+
       res.status(statusCode).send(data);
     } catch (err) {
       next(err);
