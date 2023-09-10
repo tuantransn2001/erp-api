@@ -5,6 +5,7 @@ export default (sequelize: any, DataTypes: any) => {
   class Tag extends Model<TagAttributes> implements TagAttributes {
     id!: string;
     tag_title!: string;
+    isDelete!: boolean;
     tag_description!: string;
     /**
      * Helper method for defining associations.
@@ -33,6 +34,7 @@ export default (sequelize: any, DataTypes: any) => {
       },
       tag_title: { type: DataTypes.STRING },
       tag_description: { type: DataTypes.STRING },
+      isDelete: { type: DataTypes.BOOLEAN, defaultValue: false },
     },
     {
       sequelize,

@@ -1,11 +1,11 @@
-import { each as forEachAwait } from "awaity";
+import { each as forEachAsync } from "awaity";
 import {
   USER_ARRAY,
   USER_ADDRESS_LIST_ARRAY,
   CUSTSUPP_ARRAY,
   STAFF_ARRAY,
-  STAFF_ROLE_ARRAY,
-  STAFF_AGENCY_INCHARGE_ARRAY,
+  USER_ROLE_ARRAY,
+  USER_AGENCY_INCHARGE_ARRAY,
   AGENCY_BRANCH_ARRAY,
   ROLE_ARRAY,
   TAG_ARRAY,
@@ -39,8 +39,8 @@ const {
   AgencyBranch,
   Role,
   Staff,
-  StaffAgencyBranchInCharge,
-  StaffRole,
+  UserAgencyBranchInCharge,
+  UserRole,
   Tag,
   CustSuppTag,
   Price,
@@ -91,7 +91,6 @@ export const handleSeedData = () => {
       Model: Tag,
       data: TAG_ARRAY,
     },
-
     {
       Model: Role,
       data: ROLE_ARRAY,
@@ -111,8 +110,8 @@ export const handleSeedData = () => {
     },
 
     {
-      Model: StaffRole,
-      data: STAFF_ROLE_ARRAY,
+      Model: UserRole,
+      data: USER_ROLE_ARRAY,
     },
     {
       Model: Products,
@@ -143,8 +142,8 @@ export const handleSeedData = () => {
       data: CUSTSUPP_TAG_LIST_ARRAY,
     },
     {
-      Model: StaffAgencyBranchInCharge,
-      data: STAFF_AGENCY_INCHARGE_ARRAY,
+      Model: UserAgencyBranchInCharge,
+      data: USER_AGENCY_INCHARGE_ARRAY,
     },
     {
       Model: Order,
@@ -168,7 +167,7 @@ export const handleSeedData = () => {
     },
   ];
 
-  forEachAwait(seedData, async ({ Model, data }) => {
+  forEachAsync(seedData, async ({ Model, data }) => {
     await Model.bulkCreate(data);
   });
 };

@@ -1,7 +1,6 @@
 import { STATUS_CODE, STATUS_MESSAGE } from "../../ts/enums/api_enums";
 import HttpException from "../exceptions/http.exception";
-
-type PromiseResultAttributes = Promise<any>[];
+import { handleServerResponse } from "./handleServerResponse";
 
 class RestFullAPI {
   public static onSuccess(message: string, data?: any) {
@@ -16,20 +15,20 @@ class RestFullAPI {
       error: error || {},
     };
   }
-  public static async onArrayPromiseSuccess(
-    promisesResult: PromiseResultAttributes
-  ) {
-    const findResult = await Promise.all(promisesResult);
-    const isOK = findResult.every((result) => result.statusCode === 200);
-    return isOK
-      ? {
-          statusCode: STATUS_CODE.STATUS_CODE_200,
-          response: RestFullAPI.onSuccess(STATUS_MESSAGE.SUCCESS),
-        }
-      : {
-          statusCode: STATUS_CODE.STATUS_CODE_500,
-          response: RestFullAPI.onSuccess(STATUS_MESSAGE.SERVER_ERROR),
-        };
+  public static async onArrayPromiseSuccess(promisesResult: Promise<any>[]) {
+    return await Promise.all(promisesResult)
+      .then((response) =>
+        handleServerResponse(
+          STATUS_CODE.OK,
+          RestFullAPI.onSuccess(STATUS_MESSAGE.SUCCESS, response)
+        )
+      )
+      .catch((err) =>
+        handleServerResponse(
+          STATUS_CODE.INTERNAL_SERVER_ERROR,
+          RestFullAPI.onFail(STATUS_MESSAGE.SERVER_ERROR, err)
+        )
+      );
   }
 }
 

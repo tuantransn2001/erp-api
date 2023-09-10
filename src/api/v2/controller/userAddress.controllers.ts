@@ -1,90 +1,87 @@
 import { NextFunction, Request, Response } from "express";
 import db from "../models";
 const { UserAddress } = db;
-import { handleFormatUpdateDataByValidValue } from "../common";
-import { UserAddressAttributes } from "@/src/api/v2/ts/interfaces/entities_interfaces";
-import { STATUS_CODE, STATUS_MESSAGE } from "../ts/enums/api_enums";
-import RestFullAPI from "../utils/response/apiResponse";
-interface NewAddressAttributes {
-  user_province: string;
-  user_district: string;
-  user_specific_address: string;
-  user_id?: string;
-}
-class UserAddressController {
-  public static async addNewAddressByUserID(
-    req: Request,
-    res: Response,
-    next: NextFunction
-  ) {
-    try {
-      const { id } = req.params;
-      const { user_province, user_district, user_specific_address } = req.body;
+import {
+  CreateAddressItemRowDTO,
+  UpdateAddressItemRowDTO,
+} from "../ts/dto/input/common/common.interface";
+import {
+  CreateAsyncPayload,
+  SoftDeleteByIDAsyncPayload,
+  UpdateAsyncPayload,
+} from "../services/helpers/shared/baseModelHelper.interface";
+import { BaseModelHelper } from "../services/helpers/baseModelHelper";
 
-      const newAddressRow: NewAddressAttributes = {
-        user_id: id,
+class UserAddressController {
+  public async create(req: Request, res: Response, next: NextFunction) {
+    try {
+      const {
         user_province,
         user_district,
         user_specific_address,
-      };
+      }: CreateAddressItemRowDTO = req.body;
 
-      await UserAddress.create(newAddressRow);
-      res
-        .status(STATUS_CODE.STATUS_CODE_201)
-        .send(RestFullAPI.onSuccess(STATUS_MESSAGE.SUCCESS));
-    } catch (err) {
-      next(err);
-    }
-  }
-  public static async updateAddressByID(
-    req: Request,
-    res: Response,
-    next: NextFunction
-  ) {
-    try {
-      const { id } = req.params;
-      const { user_province, user_district, user_specific_address } = req.body;
-
-      const foundAddress = await UserAddress.findByPk(id);
-      const updateAddressRow: UserAddressAttributes =
-        handleFormatUpdateDataByValidValue(
-          {
+      const createNewUserAddressData: CreateAsyncPayload<CreateAddressItemRowDTO> =
+        {
+          Model: UserAddress,
+          dto: {
+            user_id: req.params.id,
             user_province,
             user_district,
             user_specific_address,
           },
-          foundAddress.dataValues
-        );
+        };
 
-      await UserAddress.update(updateAddressRow, {
-        where: {
-          id,
-        },
-      });
-
-      res
-        .status(STATUS_CODE.STATUS_CODE_202)
-        .send(RestFullAPI.onSuccess(STATUS_MESSAGE.SUCCESS));
+      const { statusCode, data } = await BaseModelHelper.createAsync(
+        createNewUserAddressData
+      );
+      res.status(statusCode).send(data);
     } catch (err) {
       next(err);
     }
   }
-  public static async deleteAddressByID(
-    req: Request,
-    res: Response,
-    next: NextFunction
-  ) {
+  public async update(req: Request, res: Response, next: NextFunction) {
     try {
-      const { id } = req.params;
-      await UserAddress.destroy({
-        where: {
-          id,
-        },
-      });
+      const {
+        user_province,
+        user_district,
+        user_specific_address,
+      }: UpdateAddressItemRowDTO = req.body;
 
-      res
-        .status(STATUS_CODE.STATUS_CODE_202)
-        .send(RestFullAPI.onSuccess(STATUS_MESSAGE.SUCCESS));
+      const updateNewUserAddressData: UpdateAsyncPayload<UpdateAddressItemRowDTO> =
+        {
+          Model: UserAddress,
+          where: {
+            id: req.params.id,
+          },
+          dto: {
+            user_province,
+            user_district,
+            user_specific_address,
+          },
+        };
+
+      const { statusCode, data } = await BaseModelHelper.updateAsync(
+        updateNewUserAddressData
+      );
+
+      res.status(statusCode).send(data);
+    } catch (err) {
+      next(err);
+    }
+  }
+  public async softDeleteByID(req: Request, res: Response, next: NextFunction) {
+    try {
+      const softDeleteData: SoftDeleteByIDAsyncPayload = {
+        Model: UserAddress,
+        id: req.params.id,
+      };
+
+      const { statusCode, data } = await BaseModelHelper.softDeleteAsync(
+        softDeleteData
+      );
+
+      res.status(statusCode).send(data);
     } catch (err) {
       next(err);
     }

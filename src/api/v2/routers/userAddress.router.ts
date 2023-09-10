@@ -1,28 +1,40 @@
 import { Router } from "express";
 import UserAddressController from "../controller/userAddress.controllers";
-import { checkExist, errorHandler } from "../middlewares";
+import {
+  CheckItemExistMiddleware,
+  errorCatcher,
+  ZodValidationMiddleware,
+} from "../middlewares";
 import db from "../models";
+import {
+  CreateAddressItemRowRowSchema,
+  UpdateAddressItemRowSchema,
+} from "../ts/dto/input/common/common.schema";
 const { User, UserAddress } = db;
 const userAddressRouter = Router();
+
+const _UserAddressController = new UserAddressController();
 
 userAddressRouter
   .post(
     "/add/:id",
-    checkExist(User),
-    UserAddressController.addNewAddressByUserID,
-    errorHandler
+    ZodValidationMiddleware(CreateAddressItemRowRowSchema),
+    CheckItemExistMiddleware(User),
+    _UserAddressController.create,
+    errorCatcher
   )
   .patch(
     "/update/:id",
-    checkExist(UserAddress),
-    UserAddressController.updateAddressByID,
-    errorHandler
+    ZodValidationMiddleware(UpdateAddressItemRowSchema),
+    CheckItemExistMiddleware(UserAddress),
+    _UserAddressController.update,
+    errorCatcher
   )
   .delete(
     "/delete/:id",
-    checkExist(UserAddress),
-    UserAddressController.deleteAddressByID,
-    errorHandler
+    CheckItemExistMiddleware(UserAddress),
+    _UserAddressController.softDeleteByID,
+    errorCatcher
   );
 
 export default userAddressRouter;

@@ -18,7 +18,7 @@ export const authorize = async (
       return next();
     } else {
       res
-        .status(STATUS_CODE.STATUS_CODE_406)
+        .status(STATUS_CODE.NOT_ACCEPTABLE)
         .send(
           RestFullAPI.onSuccess(
             STATUS_MESSAGE.NOT_ACCEPTABLE,

@@ -22,11 +22,11 @@ export default (sequelize: any, DataTypes: any) => {
      * The `models/index` file will call this method automatically.
      */
     static associate({
-      StaffAgencyBranchInCharge,
+      UserAgencyBranchInCharge,
       AgencyBranchProductList,
       Order,
     }: any) {
-      AgencyBranch.hasMany(StaffAgencyBranchInCharge, {
+      AgencyBranch.hasMany(UserAgencyBranchInCharge, {
         foreignKey: "agency_branch_id",
       });
       AgencyBranch.hasMany(AgencyBranchProductList, {

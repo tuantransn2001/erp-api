@@ -11,7 +11,7 @@ describe("Test login route", () => {
         phone: env.account.admin.phone,
         password: env.account.admin.password,
       },
-      STATUS_CODE.STATUS_CODE_200,
+      STATUS_CODE.OK,
     ],
     [
       "phone does not exist before should return status code 404",
@@ -19,7 +19,7 @@ describe("Test login route", () => {
         phone: "in correct phone",
         password: env.account.admin.password,
       },
-      STATUS_CODE.STATUS_CODE_404,
+      STATUS_CODE.NOT_FOUND,
     ],
     [
       "correct phone and password in-correct should return status code 401",
@@ -27,7 +27,7 @@ describe("Test login route", () => {
         phone: env.account.admin.phone,
         password: "in correct password",
       },
-      STATUS_CODE.STATUS_CODE_401,
+      STATUS_CODE.UNAUTHORIZED,
     ],
   ])("%s", async (_, input, result) => {
     const received = input;
@@ -42,7 +42,9 @@ describe("Test login route", () => {
       })
       .catch((err: Error | AxiosError) => {
         if (axios.isAxiosError(err)) {
-          expect(err.response?.status).toEqual(STATUS_CODE.STATUS_CODE_500);
+          expect(err.response?.status).toEqual(
+            STATUS_CODE.INTERNAL_SERVER_ERROR
+          );
         }
       });
   });

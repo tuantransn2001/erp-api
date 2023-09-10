@@ -1,23 +1,33 @@
 import { Router } from "express";
 const agencyBranchRouter = Router();
-import AgencyController from "../controller/agencyBranch.controller";
+
 import db from "../models";
 const { AgencyBranch } = db;
-import { checkExist, errorHandler } from "../middlewares";
+import {
+  CheckItemExistMiddleware,
+  errorCatcher,
+  ZodValidationMiddleware,
+} from "../middlewares";
+import { CreateAgencyBranchSchema } from "../ts/dto/input/agencyBranch/agencyBranch.schema";
+import AgencyBranchController from "../controller/agencyBranch.controller";
+
+const _AgencyBranchController = new AgencyBranchController();
 
 agencyBranchRouter
-  .get("/get-all", AgencyController.getAll, errorHandler)
+  .get("/get-all", _AgencyBranchController.getAll, errorCatcher)
   .post(
     "/create",
-    AgencyController.checkAgencyBranchExistByCode,
-    AgencyController.create,
-    errorHandler
+    ZodValidationMiddleware(CreateAgencyBranchSchema),
+    _AgencyBranchController.checkAgencyBranchExistByCode,
+    _AgencyBranchController.create,
+    errorCatcher
   )
   .patch(
     "/update-by-id/:id",
-    checkExist(AgencyBranch),
-    AgencyController.checkAgencyBranchExistByCode,
-    AgencyController.updateByID,
-    errorHandler
+    ZodValidationMiddleware(CreateAgencyBranchSchema),
+    CheckItemExistMiddleware(AgencyBranch),
+    _AgencyBranchController.checkAgencyBranchExistByCode,
+    _AgencyBranchController.updateByID,
+    errorCatcher
   );
 export default agencyBranchRouter;

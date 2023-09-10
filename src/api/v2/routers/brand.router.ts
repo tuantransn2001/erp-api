@@ -1,9 +1,11 @@
 import { Router } from "express";
 import BrandController from "../controller/brand.controller";
-import { errorHandler } from "../middlewares";
+import { errorCatcher } from "../middlewares";
 
 const brandRouter = Router();
 
-brandRouter.get("/get-all", BrandController.getAll, errorHandler);
+const _BrandController = new BrandController();
+
+brandRouter.get("/get-all", _BrandController.getAll, errorCatcher);
 
 export default brandRouter;

@@ -1,17 +1,22 @@
 import { NextFunction, Request, Response } from "express";
 import db from "../models";
-import { STATUS_CODE, STATUS_MESSAGE } from "../ts/enums/api_enums";
-import RestFullAPI from "../utils/response/apiResponse";
+import { BaseModelHelper } from "../services/helpers/baseModelHelper";
+import { GetAllAsyncPayload } from "../services/helpers/shared/baseModelHelper.interface";
 const { Type } = db;
 
 class TypeController {
-  public static async getAll(_: Request, res: Response, next: NextFunction) {
+  public async getAll(req: Request, res: Response, next: NextFunction) {
     try {
-      const typeList = await Type.findAll();
+      const getTypeAllData: GetAllAsyncPayload = {
+        ...BaseModelHelper.getPagination(req),
+        Model: Type,
+      };
 
-      res
-        .status(STATUS_CODE.STATUS_CODE_200)
-        .send(RestFullAPI.onSuccess(STATUS_MESSAGE.SUCCESS, typeList));
+      const { statusCode, data } = await BaseModelHelper.getAllAsync(
+        getTypeAllData
+      );
+
+      res.status(statusCode).send(data);
     } catch (err) {
       next(err);
     }

@@ -7,13 +7,14 @@ export default (sequelize: any, DataTypes: any) => {
     id!: string;
     role_title!: string;
     role_description!: string;
+    isDelete!: boolean;
     /**
      * Helper method for defining associations.
      * This method is not a part of Sequelize lifecycle.
      * The `models/index` file will call this method automatically.
      */
-    static associate({ StaffRole }: any) {
-      Role.hasMany(StaffRole, {
+    static associate({ UserRole }: any) {
+      Role.hasMany(UserRole, {
         foreignKey: "role_id",
       });
     }
@@ -31,6 +32,10 @@ export default (sequelize: any, DataTypes: any) => {
       },
       role_description: {
         type: DataTypes.STRING,
+      },
+      isDelete: {
+        type: DataTypes.BOOLEAN,
+        defaultValue: false,
       },
     },
     {

@@ -16,14 +16,15 @@ import {
   ProductVariantPriceAttributes,
   ProductVariantPropertyAttributes,
   RoleAttributes,
-  StaffAgencyBranchInChargeAttributes,
+  UserAgencyBranchInChargeAttributes,
   StaffAttributes,
-  StaffRoleAttributes,
+  UserRoleAttributes,
   TagAttributes,
   UserAddressAttributes,
   UserAttributes,
 } from "../ts/interfaces/entities_interfaces";
 import {
+  isNullOrFalse,
   randomIntFromInterval,
   randomStringByCharsetAndLength,
 } from "../common";
@@ -51,7 +52,7 @@ export const USER_ARRAY: Partial<UserAttributes>[] = [
       "$2b$10$JwMvE1p/IhW.92r9IA.iieSgVWWcw1.6aCoAq0gfvMTpI7OXL3um2",
     user_name: "Khách hàng hc",
     user_type: "customer",
-    isDelete: null,
+    isDelete: isNullOrFalse,
   },
   {
     id: "021b6322-351e-4fcb-891a-9aa8cb56c88f",
@@ -62,7 +63,7 @@ export const USER_ARRAY: Partial<UserAttributes>[] = [
       "$2b$10$861juxnncYD1acT9wUuYZOqMTommOv9tOlhqIkHSdw/jatbnqQZay",
     user_name: "Khách hàng 0x",
     user_type: "customer",
-    isDelete: null,
+    isDelete: isNullOrFalse,
   },
   {
     id: "53d9c4b8-fb2d-4c70-8a78-77ab84392651",
@@ -73,7 +74,7 @@ export const USER_ARRAY: Partial<UserAttributes>[] = [
       "$2b$10$VSO22s5HuBfRxbv9jcWAg.0p2wZZ0HwxPfc7EXh.SFX8BbKDzI0RC",
     user_name: "Khách hàng O2",
     user_type: "customer",
-    isDelete: null,
+    isDelete: isNullOrFalse,
   },
   {
     id: "9e6c64e7-010c-413f-9b35-a3df8eb499cb",
@@ -84,7 +85,7 @@ export const USER_ARRAY: Partial<UserAttributes>[] = [
       "$2b$10$aTxNct6th.pkDObuVu9bpeZz2y47u9W6gvaUVBlwOe/DzF/0rOGZu",
     user_name: "Khách hàng Ll",
     user_type: "customer",
-    isDelete: null,
+    isDelete: isNullOrFalse,
   },
   {
     id: "f5b0665c-20a2-46d8-8fa0-17b926c6d810",
@@ -95,7 +96,7 @@ export const USER_ARRAY: Partial<UserAttributes>[] = [
       "$2b$10$m9tDjHGnJ8M9qToMHGB05e8o2hlRcxR4L3JyPTDgQxeJUaKUuujv2",
     user_name: "Khách hàng yW",
     user_type: "customer",
-    isDelete: null,
+    isDelete: isNullOrFalse,
   },
   {
     id: "eced2196-a48d-41de-a1ef-3d316b371f6c",
@@ -106,7 +107,7 @@ export const USER_ARRAY: Partial<UserAttributes>[] = [
       "$2b$10$7lmOL9GZjXVjUckE7wje7.Y.xJ7bcuJIwtCc3q93W1ZK.aJq4sjxS",
     user_name: "Khách hàng hj",
     user_type: "customer",
-    isDelete: null,
+    isDelete: isNullOrFalse,
   },
   {
     id: "4adfcf52-1b1f-4888-9fdc-d70064590254",
@@ -117,7 +118,7 @@ export const USER_ARRAY: Partial<UserAttributes>[] = [
       "$2b$10$q0t8NCP9I6RllV./1JyYJu6iqb9RiayWTwCAOc6Urefcm6w/VbTAS",
     user_name: "Khách hàng nP",
     user_type: "customer",
-    isDelete: null,
+    isDelete: isNullOrFalse,
   },
   {
     id: "91257a17-2b78-4d4b-aeef-0a8e2ea37908",
@@ -128,7 +129,7 @@ export const USER_ARRAY: Partial<UserAttributes>[] = [
       "$2b$10$RqCm2Ppkmq87FrEFnkR1zOkabIY6cRRdy2jig.ymkmSj5.A6M3WF2",
     user_name: "Khách hàng Kc",
     user_type: "customer",
-    isDelete: null,
+    isDelete: isNullOrFalse,
   },
   {
     id: "2af97d91-6387-4ab3-8ac7-2031ed385665",
@@ -139,7 +140,7 @@ export const USER_ARRAY: Partial<UserAttributes>[] = [
       "$2b$10$KjY42rxuX9pqS3S1PCcITOCPm2q1OxCrnsZvsX7CtDAYvS4q0E0KC",
     user_name: "Khách hàng vB",
     user_type: "customer",
-    isDelete: null,
+    isDelete: isNullOrFalse,
   },
   {
     id: "b858ef6c-b8c5-41f8-9df2-0cd4b838091f",
@@ -150,7 +151,7 @@ export const USER_ARRAY: Partial<UserAttributes>[] = [
       "$2b$10$KRmL.5qO8stIjlPiw4LRVuIl5sP9r9ZO2TGC65Mc1MhTFFSvAnBJi",
     user_name: "Khách hàng ZL",
     user_type: "customer",
-    isDelete: null,
+    isDelete: isNullOrFalse,
   },
   {
     id: "d4432eca-1cc9-4aaf-8926-5f45967563d0",
@@ -161,7 +162,7 @@ export const USER_ARRAY: Partial<UserAttributes>[] = [
       "$2b$10$uBb7vK2GfzHwr2wKxMJdDeXwTnn7aZq0kKbZmg.jUpLNCFGeVHF5K",
     user_name: "Khách hàng OP",
     user_type: "customer",
-    isDelete: null,
+    isDelete: isNullOrFalse,
   },
   {
     id: "fd135ab8-fda5-41b9-a9e1-3579d44e8b36",
@@ -172,7 +173,7 @@ export const USER_ARRAY: Partial<UserAttributes>[] = [
       "$2b$10$hqeTRh/XGOmybHEAdK6ytusz7.64THiyEOj3UGEodqZkNt1hvHNIO",
     user_name: "Khách hàng RM",
     user_type: "customer",
-    isDelete: null,
+    isDelete: isNullOrFalse,
   },
   {
     id: "9404906e-d008-4c92-b42d-f76ccc4ec025",
@@ -183,7 +184,7 @@ export const USER_ARRAY: Partial<UserAttributes>[] = [
       "$2b$10$cMQfg2iBqKJ/mW.aaYSAZueFLEXDe97gQRdT9HDkPYbytQZ.6e1Ma",
     user_name: "Khách hàng Du",
     user_type: "customer",
-    isDelete: null,
+    isDelete: isNullOrFalse,
   },
   {
     id: "634f1ff5-b052-4100-94c6-b59f54f80300",
@@ -194,7 +195,7 @@ export const USER_ARRAY: Partial<UserAttributes>[] = [
       "$2b$10$eoN04IuqsVfHKKGtP8LPQO7TekqNDHokntj2wi2BImxc.BBeLNIPm",
     user_name: "Khách hàng o0",
     user_type: "customer",
-    isDelete: null,
+    isDelete: isNullOrFalse,
   },
   {
     id: "e46ab789-0f3a-49db-b272-de7b4180166d",
@@ -205,7 +206,7 @@ export const USER_ARRAY: Partial<UserAttributes>[] = [
       "$2b$10$6bQHHT.xh4k5/lyRW8lrWuLso10vuRHZvtCkzRpFSiPlEXj5.YyQ.",
     user_name: "Khách hàng iq",
     user_type: "customer",
-    isDelete: null,
+    isDelete: isNullOrFalse,
   },
   {
     id: "5646b11e-5c91-4096-b222-62e925ce9608",
@@ -216,7 +217,7 @@ export const USER_ARRAY: Partial<UserAttributes>[] = [
       "$2b$10$UYRjTc9nlmLrIp671aBHC.JRfkDO/Rzc7eW6MRweodXtx2BvoYlu2",
     user_name: "Khách hàng Bb",
     user_type: "customer",
-    isDelete: null,
+    isDelete: isNullOrFalse,
   },
   {
     id: "254cd683-443d-49cc-9fed-55f88ce892a1",
@@ -227,7 +228,7 @@ export const USER_ARRAY: Partial<UserAttributes>[] = [
       "$2b$10$Ih0oHbsHciWeS3O6OBJQO.qBzccdSEezxmm/v3ziBSXjA6nqJWVRq",
     user_name: "Khách hàng fT",
     user_type: "customer",
-    isDelete: null,
+    isDelete: isNullOrFalse,
   },
   {
     id: "eda0b064-4ddb-4ba9-b384-bf3e8c17ad1e",
@@ -238,7 +239,7 @@ export const USER_ARRAY: Partial<UserAttributes>[] = [
       "$2b$10$T8.v4TkUHU3h/YjZh0n6weDdGBXF1P4yi1m0bQzl4wt18y4weM8Tu",
     user_name: "Khách hàng wR",
     user_type: "customer",
-    isDelete: null,
+    isDelete: isNullOrFalse,
   },
   {
     id: "c5a74161-5de7-4cee-a167-fd30543bee68",
@@ -249,7 +250,7 @@ export const USER_ARRAY: Partial<UserAttributes>[] = [
       "$2b$10$64mh8ghz/RVtXKHqWH43PuAdQDuDvNWxtURbhG8YtHWFGC0WYuZuW",
     user_name: "Khách hàng ls",
     user_type: "customer",
-    isDelete: null,
+    isDelete: isNullOrFalse,
   },
   {
     id: "cc2f7ed7-e5a6-4ea9-aab6-8d8a068b53ae",
@@ -260,7 +261,7 @@ export const USER_ARRAY: Partial<UserAttributes>[] = [
       "$2b$10$ReCuKfCdja6KAIGRcXFINemVvXnOOM9L.d87BoMVeEA5j0UuwAMBK",
     user_name: "Khách hàng CY",
     user_type: "customer",
-    isDelete: null,
+    isDelete: isNullOrFalse,
   },
   {
     id: "baa5cd57-bd91-4843-aed0-b133501acbe3",
@@ -271,7 +272,7 @@ export const USER_ARRAY: Partial<UserAttributes>[] = [
       "$2b$10$21i/TQxF2ztUI6L1hbbl1.ZWcBGk6QlpuJbwHVq8DurI9CjbHOzlO",
     user_name: "Khách hàng nV",
     user_type: "customer",
-    isDelete: null,
+    isDelete: isNullOrFalse,
   },
   {
     id: "e851ddaa-22b2-477c-9eb2-dacf948b0d72",
@@ -282,7 +283,7 @@ export const USER_ARRAY: Partial<UserAttributes>[] = [
       "$2b$10$WsQ/dKaJYJsMtt3MoChc7OpYQ91tHIE86bJMqsOi7mxMRnneY.eGC",
     user_name: "Khách hàng iY",
     user_type: "customer",
-    isDelete: null,
+    isDelete: isNullOrFalse,
   },
   {
     id: "d4b15d32-849e-48dd-9156-cfd936235fb1",
@@ -293,7 +294,7 @@ export const USER_ARRAY: Partial<UserAttributes>[] = [
       "$2b$10$85HZW/YDW67dfOrXyxczk.SIZPzFemg7vfzmUv1dURlHI2wtthR2u",
     user_name: "Khách hàng wY",
     user_type: "customer",
-    isDelete: null,
+    isDelete: isNullOrFalse,
   },
   {
     id: "28ecfdc0-7465-4af0-8fb5-171d25cf4e4a",
@@ -304,7 +305,7 @@ export const USER_ARRAY: Partial<UserAttributes>[] = [
       "$2b$10$jdxkmLVm4sObQkXOaymifuRHdjykuvurrH0YbSeusamh0oxCyePpe",
     user_name: "Khách hàng 22",
     user_type: "customer",
-    isDelete: null,
+    isDelete: isNullOrFalse,
   },
   {
     id: "2b2d67d9-7500-4cfc-a793-758b2cd94708",
@@ -315,7 +316,7 @@ export const USER_ARRAY: Partial<UserAttributes>[] = [
       "$2b$10$WDORQZOVAeDBI76SXI/Fe.W1TIQeQisQa8sRNMVa5Gdp5tVXXx1Um",
     user_name: "Khách hàng 1F",
     user_type: "customer",
-    isDelete: null,
+    isDelete: isNullOrFalse,
   },
   {
     id: "25badfb0-93d9-445e-8a01-8c9c0f578fac",
@@ -326,7 +327,7 @@ export const USER_ARRAY: Partial<UserAttributes>[] = [
       "$2b$10$pHCmRUNRki2gchVR5rP5y.LxjOizP0HriAG4oCA0v3mAUeyu3SnyW",
     user_name: "Khách hàng 9l",
     user_type: "customer",
-    isDelete: null,
+    isDelete: isNullOrFalse,
   },
   {
     id: "1c703424-5eb1-4268-b59b-9b7c08c885eb",
@@ -337,7 +338,7 @@ export const USER_ARRAY: Partial<UserAttributes>[] = [
       "$2b$10$zHe7m9HCar9dRbgr6L9nK.hl3RCK6grRQaF6i/Mj6p4edhfFa0gjy",
     user_name: "Khách hàng Oc",
     user_type: "customer",
-    isDelete: null,
+    isDelete: isNullOrFalse,
   },
   {
     id: "817964d5-c994-414e-9516-38f007b22962",
@@ -348,7 +349,7 @@ export const USER_ARRAY: Partial<UserAttributes>[] = [
       "$2b$10$A9MlcwWbkDM/1u5IGHRypexw6jlCJ1CDcgk.8NZCrcHYc40REwHCK",
     user_name: "Khách hàng VZ",
     user_type: "customer",
-    isDelete: null,
+    isDelete: isNullOrFalse,
   },
   {
     id: "2cb52a77-3d04-4ed2-885d-6fa2c95ebb71",
@@ -359,7 +360,7 @@ export const USER_ARRAY: Partial<UserAttributes>[] = [
       "$2b$10$x9oX6w7PXh7s7xf9loIi4OJcsUlfkjLSRDtu.1hhY/whaMs.iK8fS",
     user_name: "Khách hàng YI",
     user_type: "customer",
-    isDelete: null,
+    isDelete: isNullOrFalse,
   },
   {
     id: "52c15c27-ddf7-4ebb-837c-a85895572183",
@@ -370,7 +371,7 @@ export const USER_ARRAY: Partial<UserAttributes>[] = [
       "$2b$10$kDSSrH1bzHk8act5WxAnG.wjDr2q0ktVW7lzhMT4l8pdbRaGQT0Du",
     user_name: "Khách hàng 4X",
     user_type: "customer",
-    isDelete: null,
+    isDelete: isNullOrFalse,
   },
   {
     id: "800a1b8d-5c47-49e1-bbd4-0b7a5554c9d2",
@@ -381,7 +382,7 @@ export const USER_ARRAY: Partial<UserAttributes>[] = [
       "$2b$10$yjkeQm/mTC5S.EeZGoHa2O0XXYk1nZr2GTHg70sR.wufoiVcART2a",
     user_name: "Khách hàng my",
     user_type: "customer",
-    isDelete: null,
+    isDelete: isNullOrFalse,
   },
   {
     id: "636166f9-7b2b-44dc-b204-c5ba4aff5812",
@@ -392,7 +393,7 @@ export const USER_ARRAY: Partial<UserAttributes>[] = [
       "$2b$10$GfaHqRaWIxvAiJ2AXEk.5.ZhNFeqqdzZuetvR2/Qircj/U7Tlvxn2",
     user_name: "Khách hàng QB",
     user_type: "customer",
-    isDelete: null,
+    isDelete: isNullOrFalse,
   },
   {
     id: "81ee2bf1-b9af-4f3c-9a8d-0be647d5bf80",
@@ -403,7 +404,7 @@ export const USER_ARRAY: Partial<UserAttributes>[] = [
       "$2b$10$shaOA4QjQ96YSKy3iLDWPuWj5WpRiIJuPfMyNzw2jBxWsp/PV4l52",
     user_name: "Khách hàng 6W",
     user_type: "customer",
-    isDelete: null,
+    isDelete: isNullOrFalse,
   },
   {
     id: "a6d53901-231b-43b0-9023-31b638b76692",
@@ -414,7 +415,7 @@ export const USER_ARRAY: Partial<UserAttributes>[] = [
       "$2b$10$JPCEFVU7VljYOAPdsCCWaeFC9gJ5R3ERGlGkizqIlLsTl3Og2O0FK",
     user_name: "Khách hàng qR",
     user_type: "customer",
-    isDelete: null,
+    isDelete: isNullOrFalse,
   },
   {
     id: "1f5097ff-a6f2-49b1-a729-ccfdd1328007",
@@ -425,7 +426,7 @@ export const USER_ARRAY: Partial<UserAttributes>[] = [
       "$2b$10$BQIh1BdcDpVDB8KrILz0ouQj.TdlrJe/ABaH.umrrQUT02ovRuy0O",
     user_name: "Khách hàng IS",
     user_type: "customer",
-    isDelete: null,
+    isDelete: isNullOrFalse,
   },
   {
     id: "21c8118f-fee7-49fa-b56b-c06ceea28f2e",
@@ -436,7 +437,7 @@ export const USER_ARRAY: Partial<UserAttributes>[] = [
       "$2b$10$1STcsKasnDDYwBVIawJfUeB8WGNBL/mjn7PTzSwVsTiHsKS3R.RxC",
     user_name: "Khách hàng JB",
     user_type: "customer",
-    isDelete: null,
+    isDelete: isNullOrFalse,
   },
   {
     id: "c11ece1d-dcf5-4263-b168-c26bf81a3d00",
@@ -447,7 +448,7 @@ export const USER_ARRAY: Partial<UserAttributes>[] = [
       "$2b$10$Z7n2P/Dth04vdCZ6iDzic.fB.Vgt8VpCPQHlpFZS0xxOo/SYpfP9q",
     user_name: "Khách hàng GP",
     user_type: "customer",
-    isDelete: null,
+    isDelete: isNullOrFalse,
   },
   {
     id: "6fbad688-09a8-40f4-9ea8-5f5219f257d8",
@@ -458,7 +459,7 @@ export const USER_ARRAY: Partial<UserAttributes>[] = [
       "$2b$10$s8QSa4rfDT1f/z3.7w6i7.i0nbKcz5mHjl7upyuFxSdCMcnNscita",
     user_name: "Khách hàng 4N",
     user_type: "customer",
-    isDelete: null,
+    isDelete: isNullOrFalse,
   },
   {
     id: "58e9a9f9-ed66-499a-9d1d-9cead82a9697",
@@ -469,7 +470,7 @@ export const USER_ARRAY: Partial<UserAttributes>[] = [
       "$2b$10$hzMTwv7ONPnKnLjJ5r1KDu.eOl1ipmnoX7PoUPBrNJPD.kYwuhCEi",
     user_name: "Khách hàng 6u",
     user_type: "customer",
-    isDelete: null,
+    isDelete: isNullOrFalse,
   },
   {
     id: "d1608224-2d53-4fd1-a2d6-cd050a557308",
@@ -480,7 +481,7 @@ export const USER_ARRAY: Partial<UserAttributes>[] = [
       "$2b$10$y2GfIy1MTI9CaFKLpkFSduXDxnMbmIF7Dxmh6Lzs0nOXrnfwoZiuu",
     user_name: "Khách hàng L0",
     user_type: "customer",
-    isDelete: null,
+    isDelete: isNullOrFalse,
   },
   {
     id: "04a0a054-fdbc-4977-b7a9-871e42c2ab14",
@@ -491,7 +492,7 @@ export const USER_ARRAY: Partial<UserAttributes>[] = [
       "$2b$10$xx98417wRPdIx1R/2Qw.FuEdaJbGxfxHwFLF9RmEThAogpg2uTqI.",
     user_name: "Khách hàng jh",
     user_type: "customer",
-    isDelete: null,
+    isDelete: isNullOrFalse,
   },
   {
     id: "cb9ed5de-662d-422f-9d9c-728f75a88953",
@@ -502,7 +503,7 @@ export const USER_ARRAY: Partial<UserAttributes>[] = [
       "$2b$10$yosrrv37J2Wb5I/gG/6KlOqFRHMMOl/6uMUoi3fbRXLdwWkRQOlmq",
     user_name: "Khách hàng by",
     user_type: "customer",
-    isDelete: null,
+    isDelete: isNullOrFalse,
   },
   {
     id: "2f393ca7-e9e7-4ca2-a054-485da712aa03",
@@ -513,7 +514,7 @@ export const USER_ARRAY: Partial<UserAttributes>[] = [
       "$2b$10$tXtMIlmrfqUGyjo.1UHGKeixdNEVU7xcxTaBAv3NezHie80eg4ZvK",
     user_name: "Khách hàng zL",
     user_type: "customer",
-    isDelete: null,
+    isDelete: isNullOrFalse,
   },
   {
     id: "90ad31e3-0dda-462c-b45e-0fb3b4b03c1b",
@@ -524,7 +525,7 @@ export const USER_ARRAY: Partial<UserAttributes>[] = [
       "$2b$10$XIjynVVTq7OfwIMt1DIgT.ikJN5./1AstxtURwd9r29QyXn3SV1gW",
     user_name: "Khách hàng iR",
     user_type: "customer",
-    isDelete: null,
+    isDelete: isNullOrFalse,
   },
   {
     id: "b06dd706-9450-443d-88ca-8f52781363a6",
@@ -535,7 +536,7 @@ export const USER_ARRAY: Partial<UserAttributes>[] = [
       "$2b$10$9BP/1S05syodrD7N12080OG6ltPQkRBdp/4SgyM7hDRo/h0GlhWMq",
     user_name: "Khách hàng XT",
     user_type: "customer",
-    isDelete: null,
+    isDelete: isNullOrFalse,
   },
   {
     id: "6fa87bc8-390a-4ac9-826c-d65296c798cf",
@@ -546,7 +547,7 @@ export const USER_ARRAY: Partial<UserAttributes>[] = [
       "$2b$10$nWIJe4Xdy53L0biOubDWrOxuJ9iYgR8IFCKNc1qCUcGZl77Nj56li",
     user_name: "Khách hàng TK",
     user_type: "customer",
-    isDelete: null,
+    isDelete: isNullOrFalse,
   },
   {
     id: "4ba747f9-7854-4829-aa2b-4c0106331dd8",
@@ -557,7 +558,7 @@ export const USER_ARRAY: Partial<UserAttributes>[] = [
       "$2b$10$5ZLj9EoRSJfR41x43ayrw.Iymy1ng9TaN7t9ajMW3qgG5HvddO5Ky",
     user_name: "Khách hàng S3",
     user_type: "customer",
-    isDelete: null,
+    isDelete: isNullOrFalse,
   },
   {
     id: "df4d5ff7-9bd6-41eb-a360-8b7e70798d49",
@@ -568,7 +569,7 @@ export const USER_ARRAY: Partial<UserAttributes>[] = [
       "$2b$10$F4gBgxyJwWjdRzW8o/e/jemzbl9sn7u7CL6Wc6eyEVDgzEHSMt6k2",
     user_name: "Khách hàng td",
     user_type: "customer",
-    isDelete: null,
+    isDelete: isNullOrFalse,
   },
   {
     id: "cd5173d0-9fc9-408c-b800-db0314fdac3a",
@@ -579,7 +580,7 @@ export const USER_ARRAY: Partial<UserAttributes>[] = [
       "$2b$10$odwPLde1uQ7NJP8E//PLcu2oLxN4qpAehoo1lfxvxsdzL0.4jQPyu",
     user_name: "Khách hàng iy",
     user_type: "customer",
-    isDelete: null,
+    isDelete: isNullOrFalse,
   },
   {
     id: "b974f71e-9485-425f-8e22-954981b35d7f",
@@ -590,7 +591,7 @@ export const USER_ARRAY: Partial<UserAttributes>[] = [
       "$2b$10$sNuilxhfEMXhvVi4pOip1OuPJcQO98QXFtgK2v3UWjO./lcMXUZIS",
     user_name: "Khách hàng a3",
     user_type: "customer",
-    isDelete: null,
+    isDelete: isNullOrFalse,
   },
   {
     id: "69385d34-67c6-4fff-8bb0-3fbb2318e709",
@@ -601,7 +602,7 @@ export const USER_ARRAY: Partial<UserAttributes>[] = [
       "$2b$10$x2CVwbSe53O39lCo7Idq.O.sGZAyKcwAESCm0MRhGoQdrfia45rlu",
     user_name: "Khách hàng jq",
     user_type: "customer",
-    isDelete: null,
+    isDelete: isNullOrFalse,
   },
   {
     id: "06d76f1d-824b-4cba-b388-6567ccc8f270",
@@ -612,7 +613,7 @@ export const USER_ARRAY: Partial<UserAttributes>[] = [
       "$2b$10$z7GYTMLv9Pi215VJGPfMCO1MlRs/32EAGmrR1W4IYxZWqUcbShzse",
     user_name: "Nhân viên lJ",
     user_type: "staff",
-    isDelete: null,
+    isDelete: isNullOrFalse,
   },
   {
     id: "65f58482-c6cc-42f3-9d7a-a1e6bc496cab",
@@ -623,7 +624,7 @@ export const USER_ARRAY: Partial<UserAttributes>[] = [
       "$2b$10$Zz2KbC1rAuY2hyilN.Mlwua.mnUiZYMkwgQPGzyTGu1pXtGfR1Kma",
     user_name: "Nhân viên he",
     user_type: "staff",
-    isDelete: null,
+    isDelete: isNullOrFalse,
   },
   {
     id: "7ec7a95d-04fd-4e8a-9120-3669420314f4",
@@ -634,7 +635,7 @@ export const USER_ARRAY: Partial<UserAttributes>[] = [
       "$2b$10$SANND6nZdzz9saMLf4HLn.hS0NbPGWTN.jAsWlN5BcGcCYZ.xEfkS",
     user_name: "Nhân viên yl",
     user_type: "staff",
-    isDelete: null,
+    isDelete: isNullOrFalse,
   },
   {
     id: "1bab389a-ebcb-44bd-8b67-aa71bb8e703e",
@@ -645,7 +646,7 @@ export const USER_ARRAY: Partial<UserAttributes>[] = [
       "$2b$10$BxnlEqOZhIpY4Hv4i3wSs.purtYK/QESJK9jZami1MyBxKo7se0M2",
     user_name: "Nhân viên Up",
     user_type: "staff",
-    isDelete: null,
+    isDelete: isNullOrFalse,
   },
   {
     id: "2d514b38-66ca-4e80-9423-f5d37f888eed",
@@ -656,7 +657,7 @@ export const USER_ARRAY: Partial<UserAttributes>[] = [
       "$2b$10$jsG7xsGuQV0vNNC/Krqc1unmDeHXYTmdaDtMQPz/eZDneRYdTxb0K",
     user_name: "Nhân viên 1R",
     user_type: "staff",
-    isDelete: null,
+    isDelete: isNullOrFalse,
   },
   {
     id: "3ff03155-e6ad-4763-b8fd-dfe42fb7d7a7",
@@ -667,7 +668,7 @@ export const USER_ARRAY: Partial<UserAttributes>[] = [
       "$2b$10$CZ85/.8RKHkAMoSI7fZrFeHkoL6tcLcOSZ2gveJpBpdmwEX57J2gi",
     user_name: "Nhân viên JG",
     user_type: "staff",
-    isDelete: null,
+    isDelete: isNullOrFalse,
   },
   {
     id: "e99b1fc9-dbd2-44ee-b70f-cc1db3e0a819",
@@ -678,7 +679,7 @@ export const USER_ARRAY: Partial<UserAttributes>[] = [
       "$2b$10$E/BGQG43Iv.PQs4E3XHhLeDTdxvIpVfJxaJRBkKJ6vpV/Ww5N0Twq",
     user_name: "Nhân viên u9",
     user_type: "staff",
-    isDelete: null,
+    isDelete: isNullOrFalse,
   },
   {
     id: "3bb40c74-0d27-4017-9fec-fa0dcedd830e",
@@ -689,7 +690,7 @@ export const USER_ARRAY: Partial<UserAttributes>[] = [
       "$2b$10$WZb1dfCAnIAnhip.NAANrunp9bIrST8vA8cJwmWdfXUnnUGn7juLi",
     user_name: "Nhân viên 5E",
     user_type: "staff",
-    isDelete: null,
+    isDelete: isNullOrFalse,
   },
   {
     id: "0cecdd8e-651c-449c-8de6-d6565061ed15",
@@ -700,7 +701,7 @@ export const USER_ARRAY: Partial<UserAttributes>[] = [
       "$2b$10$MDEN0ITq7fZE//p9a2XLDOuAFZsC4wOtIDr55O.qGoQjxGYaSgmc2",
     user_name: "Nhân viên Xv",
     user_type: "staff",
-    isDelete: null,
+    isDelete: isNullOrFalse,
   },
   {
     id: "7b803110-ea05-4b5d-985e-562ca3f64990",
@@ -711,7 +712,7 @@ export const USER_ARRAY: Partial<UserAttributes>[] = [
       "$2b$10$o.8HAfBRgzunUgko/ee4EOLeaoooqlDJQ6U/7PArLzzbG9YL7Pd1O",
     user_name: "Nhân viên VU",
     user_type: "staff",
-    isDelete: null,
+    isDelete: isNullOrFalse,
   },
   {
     id: "cab99d0b-50c7-490d-98bd-dcc86a94a665",
@@ -722,7 +723,7 @@ export const USER_ARRAY: Partial<UserAttributes>[] = [
       "$2b$10$2cWWDQJpgG7maxJ0fGGfb.7UIi1lXLDj.Dh67ZiLGkDSIY2r4GKZ6",
     user_name: "Nhân viên qs",
     user_type: "staff",
-    isDelete: null,
+    isDelete: isNullOrFalse,
   },
   {
     id: "e0918f44-909d-4d75-b5b7-1f3aaee14a16",
@@ -733,7 +734,7 @@ export const USER_ARRAY: Partial<UserAttributes>[] = [
       "$2b$10$vFTLds3Yp.a5PPXVRTJaPO0wOnq5DMcFhS085qVEwXfR2DSIopbwK",
     user_name: "Nhân viên MJ",
     user_type: "staff",
-    isDelete: null,
+    isDelete: isNullOrFalse,
   },
   {
     id: "0341ff71-67fe-4d00-8b76-c98aa84c6eb0",
@@ -744,7 +745,7 @@ export const USER_ARRAY: Partial<UserAttributes>[] = [
       "$2b$10$mKCw1A9VNVTuW30Vcq5Fee33.ddZ1zlx3yuzi0TKrTf2jcnPDfMwO",
     user_name: "Nhân viên le",
     user_type: "staff",
-    isDelete: null,
+    isDelete: isNullOrFalse,
   },
   {
     id: "346e6afa-aeb6-4e21-ac67-ac84cda5ecf5",
@@ -755,7 +756,7 @@ export const USER_ARRAY: Partial<UserAttributes>[] = [
       "$2b$10$pVfenErSRi2aF2m2qDoviOgVv/cvguHAotzzgZCv.Ul6rzb37QWZK",
     user_name: "Nhân viên Q1",
     user_type: "staff",
-    isDelete: null,
+    isDelete: isNullOrFalse,
   },
   {
     id: "26382d0c-887f-47f9-bca0-54a9a1f035ef",
@@ -766,7 +767,7 @@ export const USER_ARRAY: Partial<UserAttributes>[] = [
       "$2b$10$XHccMah5Ol3IuHKidA7d/OLojUddWEU4YY/gCqXV4Ql5fOkf6rZYK",
     user_name: "Nhân viên ip",
     user_type: "staff",
-    isDelete: null,
+    isDelete: isNullOrFalse,
   },
   {
     id: "e8ce4f55-c097-458d-b58f-da61899d4f61",
@@ -777,7 +778,7 @@ export const USER_ARRAY: Partial<UserAttributes>[] = [
       "$2b$10$44B.SErqzn0/BQ80JKD1WeGhId3Un3Ez.4B2ISyJasiuuipXGbyui",
     user_name: "Nhân viên se",
     user_type: "staff",
-    isDelete: null,
+    isDelete: isNullOrFalse,
   },
   {
     id: "f5cb4e73-1207-49b6-8a3f-422589c0d025",
@@ -788,7 +789,7 @@ export const USER_ARRAY: Partial<UserAttributes>[] = [
       "$2b$10$PyQp55xGO8K4eoyc0/4CTuxCs/Jy4dKcAtpX5oLeNN9ZsVrEO7OZO",
     user_name: "Nhân viên jb",
     user_type: "staff",
-    isDelete: null,
+    isDelete: isNullOrFalse,
   },
   {
     id: "da9c6cd6-587d-414e-a70d-9b5d39d26e68",
@@ -799,7 +800,7 @@ export const USER_ARRAY: Partial<UserAttributes>[] = [
       "$2b$10$XAvMvk237MJsPraPN1WvROQC1LAKkKcTDD0j.Lngj4cWAVCO5rOfm",
     user_name: "Nhân viên AW",
     user_type: "staff",
-    isDelete: null,
+    isDelete: isNullOrFalse,
   },
   {
     id: "12eb2771-18f1-45d0-9bba-7d98e24d1a45",
@@ -810,7 +811,7 @@ export const USER_ARRAY: Partial<UserAttributes>[] = [
       "$2b$10$gnoe1v0a3kwda0SBnB8sbOhgueSWpv.d47wX4mNnlzdVWCZqetCQe",
     user_name: "Nhân viên Ry",
     user_type: "staff",
-    isDelete: null,
+    isDelete: isNullOrFalse,
   },
   {
     id: "d64a645c-ece6-4885-95b5-56abd8f34095",
@@ -821,7 +822,7 @@ export const USER_ARRAY: Partial<UserAttributes>[] = [
       "$2b$10$4RA0.jfxg8nfoLcNJdewXupxyi756E.a41pBFTENkcjGpcIWEFyB.",
     user_name: "Nhân viên D8",
     user_type: "staff",
-    isDelete: null,
+    isDelete: isNullOrFalse,
   },
   {
     id: "a81b1edb-4034-4e7d-bcbe-e8e483f8c111",
@@ -832,7 +833,7 @@ export const USER_ARRAY: Partial<UserAttributes>[] = [
       "$2b$10$UPLlZTKsw7OcS9LFQU1oju1ZWVz.apaMkK9sLEFsOI5.naYfZX0a6",
     user_name: "Nhân viên Fg",
     user_type: "staff",
-    isDelete: null,
+    isDelete: isNullOrFalse,
   },
   {
     id: "022600ed-89d3-4a87-9e84-f1cfec7d5f31",
@@ -843,7 +844,7 @@ export const USER_ARRAY: Partial<UserAttributes>[] = [
       "$2b$10$mp2oR6tLOdvAF13Kn.ILKOW2tkiUedkQsWNpDwJgoGzAd/C0AbCMG",
     user_name: "Nhân viên md",
     user_type: "staff",
-    isDelete: null,
+    isDelete: isNullOrFalse,
   },
   {
     id: "f3fc9d17-4a02-4f2a-a079-615dc422d667",
@@ -854,7 +855,7 @@ export const USER_ARRAY: Partial<UserAttributes>[] = [
       "$2b$10$2c/bQdcW8FRF3EraLqzM8e56AJ6pFyQDarlOfe2Gf.ah.rmxuwZeu",
     user_name: "Nhân viên IW",
     user_type: "staff",
-    isDelete: null,
+    isDelete: isNullOrFalse,
   },
   {
     id: "f302cb9d-a0eb-4802-995b-05ee143924be",
@@ -865,7 +866,7 @@ export const USER_ARRAY: Partial<UserAttributes>[] = [
       "$2b$10$qC6Jcm0Y62zJym40HaZy2.hMhMH5bZnizGp8nY2e0XNGVHC8vC9ky",
     user_name: "Nhân viên mp",
     user_type: "staff",
-    isDelete: null,
+    isDelete: isNullOrFalse,
   },
   {
     id: "2e99f3c6-05f2-4c11-8349-60ffb4f73f8a",
@@ -876,7 +877,7 @@ export const USER_ARRAY: Partial<UserAttributes>[] = [
       "$2b$10$k1kRcZ0zmRhE6BwZ.DMVJObBKPUuqb3sd1o7.uVYhkWWPT2kB3jtS",
     user_name: "Nhân viên Ct",
     user_type: "staff",
-    isDelete: null,
+    isDelete: isNullOrFalse,
   },
   {
     id: "87fe776a-e0dd-4f2a-978e-c1bf81353cba",
@@ -887,7 +888,7 @@ export const USER_ARRAY: Partial<UserAttributes>[] = [
       "$2b$10$LQQGXLbhMY6/b.nveBZyG.1AGcmgx88BfKd5YilLmv8UlpYp3yEpi",
     user_name: "Nhân viên ij",
     user_type: "staff",
-    isDelete: null,
+    isDelete: isNullOrFalse,
   },
   {
     id: "ad8cd62a-5e75-42fd-a36b-12413f07a6b2",
@@ -898,7 +899,7 @@ export const USER_ARRAY: Partial<UserAttributes>[] = [
       "$2b$10$ptSJgPfuBPQy7y7jefhuxOmviW6l.2GZ6POLP.i7flQ1jz/uXheiq",
     user_name: "Nhân viên Dm",
     user_type: "staff",
-    isDelete: null,
+    isDelete: isNullOrFalse,
   },
   {
     id: "5652a4da-4839-4b1a-84e3-0f9c40843190",
@@ -909,7 +910,7 @@ export const USER_ARRAY: Partial<UserAttributes>[] = [
       "$2b$10$Or9kPpVQRmdvqg2flA78deuqtkqkzTIsu/CXNUOwDb3X1Dnw.WAqa",
     user_name: "Nhân viên Yb",
     user_type: "staff",
-    isDelete: null,
+    isDelete: isNullOrFalse,
   },
   {
     id: "21056040-9917-42c1-9e52-a30aa232b989",
@@ -920,7 +921,7 @@ export const USER_ARRAY: Partial<UserAttributes>[] = [
       "$2b$10$uBUSsfgRkrBdR9AL3lt6Z.NyFv67SD77rlqUYRsgXNr5CDlhE2sfG",
     user_name: "Nhân viên 7g",
     user_type: "staff",
-    isDelete: null,
+    isDelete: isNullOrFalse,
   },
   {
     id: "7931b700-c33a-4280-8d00-d0dd4a204f7d",
@@ -931,7 +932,7 @@ export const USER_ARRAY: Partial<UserAttributes>[] = [
       "$2b$10$X2J2GSyhosM0dCIqbfZ6X.2nYounrIWPeZ6F8RyU5Ror/1YbG5RKq",
     user_name: "Nhân viên FO",
     user_type: "staff",
-    isDelete: null,
+    isDelete: isNullOrFalse,
   },
   {
     id: "5d9f2066-ed63-4cb4-b3af-2667b2f84e0d",
@@ -942,7 +943,7 @@ export const USER_ARRAY: Partial<UserAttributes>[] = [
       "$2b$10$SVZ/YxJDDg29tYQgy1W82ubEpVSPpr2d0oKKtDtnPoYSLS.O9qCSm",
     user_name: "Nhân viên JR",
     user_type: "staff",
-    isDelete: null,
+    isDelete: isNullOrFalse,
   },
   {
     id: "acd268df-0b10-43f6-b379-2826ef6ba741",
@@ -953,7 +954,7 @@ export const USER_ARRAY: Partial<UserAttributes>[] = [
       "$2b$10$p1YhqwNQD5s/DcYC8w5u5OCFSNPDZi5.DGWT8ovTf89EZc3dXTtnC",
     user_name: "Nhân viên As",
     user_type: "staff",
-    isDelete: null,
+    isDelete: isNullOrFalse,
   },
   {
     id: "4ada65dc-4a1c-4533-8ec7-0f9f9dcb2287",
@@ -964,7 +965,7 @@ export const USER_ARRAY: Partial<UserAttributes>[] = [
       "$2b$10$f5gkVV.dQxS/d.P7oEKPeuJA8puTPbCx3SMnrfgc9ZI7XJs9BobOW",
     user_name: "Nhân viên bc",
     user_type: "staff",
-    isDelete: null,
+    isDelete: isNullOrFalse,
   },
   {
     id: "5f2fe632-ef79-4a4b-99b9-695c7211c52c",
@@ -975,7 +976,7 @@ export const USER_ARRAY: Partial<UserAttributes>[] = [
       "$2b$10$iH1C3BG08emVyylHlZF3huood4rt.7UMd/75wvR8Rp0LXWTV/4SxC",
     user_name: "Nhân viên C6",
     user_type: "staff",
-    isDelete: null,
+    isDelete: isNullOrFalse,
   },
   {
     id: "8557d6d0-feba-4ac0-a70a-a36106d55b52",
@@ -986,7 +987,7 @@ export const USER_ARRAY: Partial<UserAttributes>[] = [
       "$2b$10$AocPdVoqeUy4puUQTb1ymu/Q7MYww6Z9ttjKP/tOtkhNd.jMCntjy",
     user_name: "Nhân viên 4k",
     user_type: "staff",
-    isDelete: null,
+    isDelete: isNullOrFalse,
   },
   {
     id: "15933b08-e452-4d54-a66c-1b0ec6b041a7",
@@ -997,7 +998,7 @@ export const USER_ARRAY: Partial<UserAttributes>[] = [
       "$2b$10$FmY.66tbQEJr/pv2Evc2uOm3xrEMZWTs9YGBqHpZqh4M1nnlfRqnu",
     user_name: "Nhân viên A1",
     user_type: "staff",
-    isDelete: null,
+    isDelete: isNullOrFalse,
   },
   {
     id: "5f430ae1-ef4a-48cb-9266-eda51797d79d",
@@ -1008,7 +1009,7 @@ export const USER_ARRAY: Partial<UserAttributes>[] = [
       "$2b$10$N/saxjLfn6AadGHG4AL1vO8OqQGq1n7oivoP3MmaoTecEM8QUSEdK",
     user_name: "Nhân viên Nv",
     user_type: "staff",
-    isDelete: null,
+    isDelete: isNullOrFalse,
   },
   {
     id: "b22a35a4-7505-4539-af2c-a3af9682f76c",
@@ -1019,7 +1020,7 @@ export const USER_ARRAY: Partial<UserAttributes>[] = [
       "$2b$10$ylOprKHtRxM/4G2ndXMf4u1JLSp8f0sWNFM3hyplPDVcprtjhDotK",
     user_name: "Nhân viên n7",
     user_type: "staff",
-    isDelete: null,
+    isDelete: isNullOrFalse,
   },
   {
     id: "11843a8d-eaf1-4df4-aeb3-2254c8a58332",
@@ -1030,7 +1031,7 @@ export const USER_ARRAY: Partial<UserAttributes>[] = [
       "$2b$10$p0m8Vk2PNQS9HtHUsRAs9eWts6I1.//xb2S0Iom73dlqw49vPCnSG",
     user_name: "Nhân viên SB",
     user_type: "staff",
-    isDelete: null,
+    isDelete: isNullOrFalse,
   },
   {
     id: "50f6555c-b982-4af2-a081-c959a863fd80",
@@ -1041,7 +1042,7 @@ export const USER_ARRAY: Partial<UserAttributes>[] = [
       "$2b$10$fK64EGj5IvoKBpZeM5W6peR.KIVQNZQUz8dHn94KaKn/oclFmkC5u",
     user_name: "Nhân viên AJ",
     user_type: "staff",
-    isDelete: null,
+    isDelete: isNullOrFalse,
   },
   {
     id: "e42c4501-a7de-4ad1-99d1-e3009579fcbc",
@@ -1052,7 +1053,7 @@ export const USER_ARRAY: Partial<UserAttributes>[] = [
       "$2b$10$sMFJF61RDq47MKE9OlUmQe3zYp3avP.gDBq0etRL3IBqMTmyusbd2",
     user_name: "Nhân viên 6U",
     user_type: "staff",
-    isDelete: null,
+    isDelete: isNullOrFalse,
   },
   {
     id: "401b678e-d9a4-4fe2-886b-73eab8c4182a",
@@ -1063,7 +1064,7 @@ export const USER_ARRAY: Partial<UserAttributes>[] = [
       "$2b$10$mxedsJllEGUNVeyRog5D1uDwZLo7IYqG1uzXDF6KLN1HLPEAIm/Eu",
     user_name: "Nhân viên AU",
     user_type: "staff",
-    isDelete: null,
+    isDelete: isNullOrFalse,
   },
   {
     id: "f8190284-8e1c-4e92-be7d-9de51b7a3ee8",
@@ -1074,7 +1075,7 @@ export const USER_ARRAY: Partial<UserAttributes>[] = [
       "$2b$10$Tav6kcznUieBsYlQ4SwpFuEfRTrRLHdIldi4o/3bwgCvd.100WPzm",
     user_name: "Nhân viên c9",
     user_type: "staff",
-    isDelete: null,
+    isDelete: isNullOrFalse,
   },
   {
     id: "4689f803-946d-4620-9900-7454e4daa177",
@@ -1085,7 +1086,7 @@ export const USER_ARRAY: Partial<UserAttributes>[] = [
       "$2b$10$5uA/i59HroHG7yG9Uf7D9u87cqALxEh31VR7OLBLXc2BflXW0ftem",
     user_name: "Nhân viên jv",
     user_type: "staff",
-    isDelete: null,
+    isDelete: isNullOrFalse,
   },
   {
     id: "f37efbc8-398b-402e-b15e-f656ee26c0e0",
@@ -1096,7 +1097,7 @@ export const USER_ARRAY: Partial<UserAttributes>[] = [
       "$2b$10$DuVZpIGRPXsIpedhiECiQ.OdzndNCf79TnscDF8VP9dijBkDfu7/O",
     user_name: "Nhân viên vA",
     user_type: "staff",
-    isDelete: null,
+    isDelete: isNullOrFalse,
   },
   {
     id: "25967069-1524-48a9-9049-87ce85621799",
@@ -1107,7 +1108,7 @@ export const USER_ARRAY: Partial<UserAttributes>[] = [
       "$2b$10$rEoRRCa0jhyTWo69bS182eq6P4FjnzPR9jZeeKK5.oZXUQ1ggtKLa",
     user_name: "Nhân viên db",
     user_type: "staff",
-    isDelete: null,
+    isDelete: isNullOrFalse,
   },
   {
     id: "78929350-ecd4-4146-b042-a3191af12495",
@@ -1118,7 +1119,7 @@ export const USER_ARRAY: Partial<UserAttributes>[] = [
       "$2b$10$KYh6gAGyOjoD/.bk9D.k5uw2wv8t1YciAcfSXGMXI2mj1W35Tm1di",
     user_name: "Nhân viên GZ",
     user_type: "staff",
-    isDelete: null,
+    isDelete: isNullOrFalse,
   },
   {
     id: "d023945b-8cbd-4f97-a6f7-5fc53c48d5d7",
@@ -1129,7 +1130,7 @@ export const USER_ARRAY: Partial<UserAttributes>[] = [
       "$2b$10$G7z8cKdKnIU2m68p7bd/oOyPSlypKdpPXilLkoVCMnDdatttz0uL2",
     user_name: "Nhân viên FG",
     user_type: "staff",
-    isDelete: null,
+    isDelete: isNullOrFalse,
   },
   {
     id: "56639225-156a-4d56-9da8-dd32bef0c535",
@@ -1140,7 +1141,7 @@ export const USER_ARRAY: Partial<UserAttributes>[] = [
       "$2b$10$p5VRSozpKL9Cbel/VMh04.eS7hca6r/3xCbEi8be9MVKYXQFNRecG",
     user_name: "Nhân viên qz",
     user_type: "staff",
-    isDelete: null,
+    isDelete: isNullOrFalse,
   },
   {
     id: "cb2bfd47-3917-418e-825e-2f35cc7cb7ec",
@@ -1151,7 +1152,7 @@ export const USER_ARRAY: Partial<UserAttributes>[] = [
       "$2b$10$uQK/VPcrxSbhx6HpMw.a6eHJvQps8bU/fahbVni66x3223J/vF2K.",
     user_name: "Nhân viên o9",
     user_type: "staff",
-    isDelete: null,
+    isDelete: isNullOrFalse,
   },
   {
     id: "a6ce9449-0fba-49b4-8c0c-1d50aad1f84f",
@@ -1161,7 +1162,7 @@ export const USER_ARRAY: Partial<UserAttributes>[] = [
     user_password: null,
     user_name: "Nhà cung cấp QEOG",
     user_type: "supplier",
-    isDelete: null,
+    isDelete: isNullOrFalse,
   },
   {
     id: "8082f9c8-c649-42b3-8d19-edc2ddbf83a5",
@@ -1171,7 +1172,7 @@ export const USER_ARRAY: Partial<UserAttributes>[] = [
     user_password: null,
     user_name: "Nhà cung cấp AOUY",
     user_type: "supplier",
-    isDelete: null,
+    isDelete: isNullOrFalse,
   },
   {
     id: "9573f136-d350-4b74-a726-c768614ca360",
@@ -1181,7 +1182,7 @@ export const USER_ARRAY: Partial<UserAttributes>[] = [
     user_password: null,
     user_name: "Nhà cung cấp RWCA",
     user_type: "supplier",
-    isDelete: null,
+    isDelete: isNullOrFalse,
   },
   {
     id: "7931256c-c571-4979-a9c3-dad7ff3ea115",
@@ -1191,7 +1192,7 @@ export const USER_ARRAY: Partial<UserAttributes>[] = [
     user_password: null,
     user_name: "Nhà cung cấp TMJG",
     user_type: "supplier",
-    isDelete: null,
+    isDelete: isNullOrFalse,
   },
   {
     id: "f497a192-e83c-42bc-ba55-b0232d511611",
@@ -1201,7 +1202,7 @@ export const USER_ARRAY: Partial<UserAttributes>[] = [
     user_password: null,
     user_name: "Nhà cung cấp VJMT",
     user_type: "supplier",
-    isDelete: null,
+    isDelete: isNullOrFalse,
   },
   {
     id: "ad9a0012-66f0-4162-907b-ca544e87794c",
@@ -1211,7 +1212,7 @@ export const USER_ARRAY: Partial<UserAttributes>[] = [
     user_password: null,
     user_name: "Nhà cung cấp MNQH",
     user_type: "supplier",
-    isDelete: null,
+    isDelete: isNullOrFalse,
   },
   {
     id: "c6237e1d-f491-46b1-8976-d8a5e0a1ab17",
@@ -1221,7 +1222,7 @@ export const USER_ARRAY: Partial<UserAttributes>[] = [
     user_password: null,
     user_name: "Nhà cung cấp MHSW",
     user_type: "supplier",
-    isDelete: null,
+    isDelete: isNullOrFalse,
   },
   {
     id: "63cd0b0d-98f4-4fd8-9a8e-fb85a63cbc64",
@@ -1231,7 +1232,7 @@ export const USER_ARRAY: Partial<UserAttributes>[] = [
     user_password: null,
     user_name: "Nhà cung cấp CPXT",
     user_type: "supplier",
-    isDelete: null,
+    isDelete: isNullOrFalse,
   },
   {
     id: "7a5aec65-c046-474e-aadd-b4e695763421",
@@ -1241,7 +1242,7 @@ export const USER_ARRAY: Partial<UserAttributes>[] = [
     user_password: null,
     user_name: "Nhà cung cấp DKJD",
     user_type: "supplier",
-    isDelete: null,
+    isDelete: isNullOrFalse,
   },
   {
     id: "8c681809-f25f-48d2-9729-8af98c8a216c",
@@ -1251,7 +1252,7 @@ export const USER_ARRAY: Partial<UserAttributes>[] = [
     user_password: null,
     user_name: "Nhà cung cấp YLUJ",
     user_type: "supplier",
-    isDelete: null,
+    isDelete: isNullOrFalse,
   },
   {
     id: "fc217194-7c87-4a55-95f8-435150308413",
@@ -1261,7 +1262,7 @@ export const USER_ARRAY: Partial<UserAttributes>[] = [
     user_password: null,
     user_name: "Nhà cung cấp BJGX",
     user_type: "supplier",
-    isDelete: null,
+    isDelete: isNullOrFalse,
   },
   {
     id: "11151aa9-3364-4982-8e1c-e3d3c0813ad1",
@@ -1271,7 +1272,7 @@ export const USER_ARRAY: Partial<UserAttributes>[] = [
     user_password: null,
     user_name: "Nhà cung cấp ZSOW",
     user_type: "supplier",
-    isDelete: null,
+    isDelete: isNullOrFalse,
   },
   {
     id: "4b382307-6761-4771-b117-c12713f8f1fe",
@@ -1281,7 +1282,7 @@ export const USER_ARRAY: Partial<UserAttributes>[] = [
     user_password: null,
     user_name: "Nhà cung cấp GVJC",
     user_type: "supplier",
-    isDelete: null,
+    isDelete: isNullOrFalse,
   },
   {
     id: "3a23dae7-a23b-4d1a-8e83-81527a082e54",
@@ -1291,7 +1292,7 @@ export const USER_ARRAY: Partial<UserAttributes>[] = [
     user_password: null,
     user_name: "Nhà cung cấp QGLY",
     user_type: "supplier",
-    isDelete: null,
+    isDelete: isNullOrFalse,
   },
   {
     id: "baa539bc-8d55-4b89-905a-11a11d7bca65",
@@ -1301,7 +1302,7 @@ export const USER_ARRAY: Partial<UserAttributes>[] = [
     user_password: null,
     user_name: "Nhà cung cấp KSKO",
     user_type: "supplier",
-    isDelete: null,
+    isDelete: isNullOrFalse,
   },
   {
     id: "9c3c15c2-7608-4314-afe8-a2eba870fe36",
@@ -1311,7 +1312,7 @@ export const USER_ARRAY: Partial<UserAttributes>[] = [
     user_password: null,
     user_name: "Nhà cung cấp EWPG",
     user_type: "supplier",
-    isDelete: null,
+    isDelete: isNullOrFalse,
   },
   {
     id: "5b2cfe1c-2d6b-4c40-90ae-37a7cf662b4c",
@@ -1321,7 +1322,7 @@ export const USER_ARRAY: Partial<UserAttributes>[] = [
     user_password: null,
     user_name: "Nhà cung cấp UBHO",
     user_type: "supplier",
-    isDelete: null,
+    isDelete: isNullOrFalse,
   },
   {
     id: "f19ff8cf-d920-4a7d-bd99-d703ab316430",
@@ -1331,7 +1332,7 @@ export const USER_ARRAY: Partial<UserAttributes>[] = [
     user_password: null,
     user_name: "Nhà cung cấp APRO",
     user_type: "supplier",
-    isDelete: null,
+    isDelete: isNullOrFalse,
   },
   {
     id: "576312a9-c668-45d4-85f8-d8bf421fe14e",
@@ -1341,7 +1342,7 @@ export const USER_ARRAY: Partial<UserAttributes>[] = [
     user_password: null,
     user_name: "Nhà cung cấp MGEA",
     user_type: "supplier",
-    isDelete: null,
+    isDelete: isNullOrFalse,
   },
   {
     id: "93bee7fd-ee42-464e-a3f3-8f20cbc5ca0e",
@@ -1351,7 +1352,7 @@ export const USER_ARRAY: Partial<UserAttributes>[] = [
     user_password: null,
     user_name: "Nhà cung cấp BWNR",
     user_type: "supplier",
-    isDelete: null,
+    isDelete: isNullOrFalse,
   },
   {
     id: "fb88cfee-8ebe-4a58-9c07-1d5c64ed6b1f",
@@ -1361,7 +1362,7 @@ export const USER_ARRAY: Partial<UserAttributes>[] = [
     user_password: null,
     user_name: "Nhà cung cấp SPZC",
     user_type: "supplier",
-    isDelete: null,
+    isDelete: isNullOrFalse,
   },
   {
     id: "c3133d15-92fa-47c1-a9c5-74f4c031286a",
@@ -1371,7 +1372,7 @@ export const USER_ARRAY: Partial<UserAttributes>[] = [
     user_password: null,
     user_name: "Nhà cung cấp UJPX",
     user_type: "supplier",
-    isDelete: null,
+    isDelete: isNullOrFalse,
   },
   {
     id: "491c6772-e393-415f-a7c1-599b66471034",
@@ -1381,7 +1382,7 @@ export const USER_ARRAY: Partial<UserAttributes>[] = [
     user_password: null,
     user_name: "Nhà cung cấp SDKF",
     user_type: "supplier",
-    isDelete: null,
+    isDelete: isNullOrFalse,
   },
   {
     id: "c15217cc-22e3-4cd7-a984-b2fcc02c47d9",
@@ -1391,7 +1392,7 @@ export const USER_ARRAY: Partial<UserAttributes>[] = [
     user_password: null,
     user_name: "Nhà cung cấp DEVO",
     user_type: "supplier",
-    isDelete: null,
+    isDelete: isNullOrFalse,
   },
   {
     id: "5554f705-04f1-424a-8218-195877cbacd9",
@@ -1401,7 +1402,7 @@ export const USER_ARRAY: Partial<UserAttributes>[] = [
     user_password: null,
     user_name: "Nhà cung cấp XTVY",
     user_type: "supplier",
-    isDelete: null,
+    isDelete: isNullOrFalse,
   },
   {
     id: "649afe2a-f59d-43b9-a571-3e61d4a037e4",
@@ -1411,7 +1412,7 @@ export const USER_ARRAY: Partial<UserAttributes>[] = [
     user_password: null,
     user_name: "Nhà cung cấp THNY",
     user_type: "supplier",
-    isDelete: null,
+    isDelete: isNullOrFalse,
   },
   {
     id: "f9b62212-259a-45ed-9ec5-6af26958c58e",
@@ -1421,7 +1422,7 @@ export const USER_ARRAY: Partial<UserAttributes>[] = [
     user_password: null,
     user_name: "Nhà cung cấp NLTN",
     user_type: "supplier",
-    isDelete: null,
+    isDelete: isNullOrFalse,
   },
   {
     id: "e2b59ece-4623-4008-aadc-983377d74a9d",
@@ -1431,7 +1432,7 @@ export const USER_ARRAY: Partial<UserAttributes>[] = [
     user_password: null,
     user_name: "Nhà cung cấp JUNV",
     user_type: "supplier",
-    isDelete: null,
+    isDelete: isNullOrFalse,
   },
   {
     id: "4fdefb35-d914-4905-8ef3-9b8029c79cf3",
@@ -1441,7 +1442,7 @@ export const USER_ARRAY: Partial<UserAttributes>[] = [
     user_password: null,
     user_name: "Nhà cung cấp VRMQ",
     user_type: "supplier",
-    isDelete: null,
+    isDelete: isNullOrFalse,
   },
   {
     id: "3ed8f024-239a-418c-899a-3d408951280d",
@@ -1451,7 +1452,7 @@ export const USER_ARRAY: Partial<UserAttributes>[] = [
     user_password: null,
     user_name: "Nhà cung cấp RDNA",
     user_type: "supplier",
-    isDelete: null,
+    isDelete: isNullOrFalse,
   },
   {
     id: "1357d59b-c891-4e1b-8c8d-4bcdffaa1f8e",
@@ -1461,7 +1462,7 @@ export const USER_ARRAY: Partial<UserAttributes>[] = [
     user_password: null,
     user_name: "Nhà cung cấp HSUQ",
     user_type: "supplier",
-    isDelete: null,
+    isDelete: isNullOrFalse,
   },
   {
     id: "bbb3163b-a2e5-498e-82ab-132cbe5f3a6d",
@@ -1471,7 +1472,7 @@ export const USER_ARRAY: Partial<UserAttributes>[] = [
     user_password: null,
     user_name: "Nhà cung cấp WZRT",
     user_type: "supplier",
-    isDelete: null,
+    isDelete: isNullOrFalse,
   },
   {
     id: "e0aab542-1717-4ec3-ba04-ee993f634168",
@@ -1481,7 +1482,7 @@ export const USER_ARRAY: Partial<UserAttributes>[] = [
     user_password: null,
     user_name: "Nhà cung cấp QAFS",
     user_type: "supplier",
-    isDelete: null,
+    isDelete: isNullOrFalse,
   },
   {
     id: "39f701ec-45e4-42e3-8a7a-bb53c628d015",
@@ -1491,7 +1492,7 @@ export const USER_ARRAY: Partial<UserAttributes>[] = [
     user_password: null,
     user_name: "Nhà cung cấp QYAJ",
     user_type: "supplier",
-    isDelete: null,
+    isDelete: isNullOrFalse,
   },
   {
     id: "bd15971a-8ae2-471f-aeca-6e342f5504b2",
@@ -1501,7 +1502,7 @@ export const USER_ARRAY: Partial<UserAttributes>[] = [
     user_password: null,
     user_name: "Nhà cung cấp YRZC",
     user_type: "supplier",
-    isDelete: null,
+    isDelete: isNullOrFalse,
   },
   {
     id: "c517d03b-f0b7-40f2-8ca7-718582cf48ce",
@@ -1511,7 +1512,7 @@ export const USER_ARRAY: Partial<UserAttributes>[] = [
     user_password: null,
     user_name: "Nhà cung cấp WCYK",
     user_type: "supplier",
-    isDelete: null,
+    isDelete: isNullOrFalse,
   },
   {
     id: "e5bf3108-de59-489b-bac4-83cf86957f0a",
@@ -1521,7 +1522,7 @@ export const USER_ARRAY: Partial<UserAttributes>[] = [
     user_password: null,
     user_name: "Nhà cung cấp XZVJ",
     user_type: "supplier",
-    isDelete: null,
+    isDelete: isNullOrFalse,
   },
   {
     id: "6e6ce797-3fa5-4ee4-8af2-87a0bdc9fa8d",
@@ -1531,7 +1532,7 @@ export const USER_ARRAY: Partial<UserAttributes>[] = [
     user_password: null,
     user_name: "Nhà cung cấp EMQC",
     user_type: "supplier",
-    isDelete: null,
+    isDelete: isNullOrFalse,
   },
   {
     id: "b62a8a2b-c9af-4957-80e9-318e23144d36",
@@ -1541,7 +1542,7 @@ export const USER_ARRAY: Partial<UserAttributes>[] = [
     user_password: null,
     user_name: "Nhà cung cấp NLQC",
     user_type: "supplier",
-    isDelete: null,
+    isDelete: isNullOrFalse,
   },
   {
     id: "39e5ee46-c33a-4447-a5eb-61f42c975245",
@@ -1551,7 +1552,7 @@ export const USER_ARRAY: Partial<UserAttributes>[] = [
     user_password: null,
     user_name: "Nhà cung cấp LOMF",
     user_type: "supplier",
-    isDelete: null,
+    isDelete: isNullOrFalse,
   },
   {
     id: "51c01d5a-0db3-441b-ae76-200392dfe052",
@@ -1561,7 +1562,7 @@ export const USER_ARRAY: Partial<UserAttributes>[] = [
     user_password: null,
     user_name: "Nhà cung cấp QTCQ",
     user_type: "supplier",
-    isDelete: null,
+    isDelete: isNullOrFalse,
   },
   {
     id: "f7659b9a-6b1f-4a14-8887-13c26053cdff",
@@ -1571,7 +1572,7 @@ export const USER_ARRAY: Partial<UserAttributes>[] = [
     user_password: null,
     user_name: "Nhà cung cấp OQKB",
     user_type: "supplier",
-    isDelete: null,
+    isDelete: isNullOrFalse,
   },
   {
     id: "eb255a8d-f640-4d8f-9dc8-4601fcb8a2ca",
@@ -1581,7 +1582,7 @@ export const USER_ARRAY: Partial<UserAttributes>[] = [
     user_password: null,
     user_name: "Nhà cung cấp JKWE",
     user_type: "supplier",
-    isDelete: null,
+    isDelete: isNullOrFalse,
   },
   {
     id: "77db3a04-f6c5-44b7-8d6d-ae79b2c153fc",
@@ -1591,7 +1592,7 @@ export const USER_ARRAY: Partial<UserAttributes>[] = [
     user_password: null,
     user_name: "Nhà cung cấp GAWK",
     user_type: "supplier",
-    isDelete: null,
+    isDelete: isNullOrFalse,
   },
   {
     id: "ec1e1ed3-536c-43a9-9dfd-4c66a2815f11",
@@ -1601,7 +1602,7 @@ export const USER_ARRAY: Partial<UserAttributes>[] = [
     user_password: null,
     user_name: "Nhà cung cấp WEHV",
     user_type: "supplier",
-    isDelete: null,
+    isDelete: isNullOrFalse,
   },
   {
     id: "9023e429-c351-46a9-9b7b-aa02450e686f",
@@ -1611,7 +1612,7 @@ export const USER_ARRAY: Partial<UserAttributes>[] = [
     user_password: null,
     user_name: "Nhà cung cấp OBAM",
     user_type: "supplier",
-    isDelete: null,
+    isDelete: isNullOrFalse,
   },
   {
     id: "935620e7-8ec9-4a81-9d9a-cec4735b5fb0",
@@ -1621,7 +1622,7 @@ export const USER_ARRAY: Partial<UserAttributes>[] = [
     user_password: null,
     user_name: "Nhà cung cấp YBXM",
     user_type: "supplier",
-    isDelete: null,
+    isDelete: isNullOrFalse,
   },
   {
     id: "426a140e-9ee7-44f3-848b-9444244ce800",
@@ -1631,7 +1632,7 @@ export const USER_ARRAY: Partial<UserAttributes>[] = [
     user_password: null,
     user_name: "Nhà cung cấp BZTV",
     user_type: "supplier",
-    isDelete: null,
+    isDelete: isNullOrFalse,
   },
   {
     id: "5cc4639b-ea67-4bdf-b2ae-54ce37200e50",
@@ -1641,7 +1642,7 @@ export const USER_ARRAY: Partial<UserAttributes>[] = [
     user_password: null,
     user_name: "Nhà cung cấp PBTG",
     user_type: "supplier",
-    isDelete: null,
+    isDelete: isNullOrFalse,
   },
   {
     id: "5f2df06b-f521-4ed7-b117-78a5bf506585",
@@ -1651,7 +1652,7 @@ export const USER_ARRAY: Partial<UserAttributes>[] = [
     user_password: null,
     user_name: "Nhà cung cấp JKRM",
     user_type: "supplier",
-    isDelete: null,
+    isDelete: isNullOrFalse,
   },
 ];
 export const USER_ADDRESS_LIST_ARRAY: Partial<UserAddressAttributes>[] = [
@@ -5786,738 +5787,7 @@ export const STAFF_ARRAY: Partial<StaffAttributes>[] = [
     isAllowViewShippingPrice: true,
   },
 ];
-export const STAFF_ROLE_ARRAY: Partial<StaffRoleAttributes>[] = [
-  {
-    id: "ac9dfbb6-bbc1-4bf9-802c-f0a0d3a3a450",
-    staff_id: "e35d810a-96ea-4fcd-aa12-71e4d5b196c6",
-    role_id: "e120bf18-2295-4295-bca6-6a437ec8f16b",
-  },
-  {
-    id: "f569530d-b50e-4672-9044-84e6b1c70e22",
-    staff_id: "e35d810a-96ea-4fcd-aa12-71e4d5b196c6",
-    role_id: "0c781708-d825-4618-9b6d-d92e9ccc3036",
-  },
-  {
-    id: "e46364d7-5b9d-43f7-84e8-364b09120eec",
-    staff_id: "105b5c91-2324-4c83-94ec-5e26a7077802",
-    role_id: "b351a4dc-4fa7-4170-840c-201405eba532",
-  },
-  {
-    id: "ef81c55d-0639-4426-b78b-ab6356fa1f66",
-    staff_id: "105b5c91-2324-4c83-94ec-5e26a7077802",
-    role_id: "360abded-96bf-45c6-a12d-ae6ef45bf540",
-  },
-  {
-    id: "c3484b5e-42e8-4e9e-bedc-62a6398ffea2",
-    staff_id: "105b5c91-2324-4c83-94ec-5e26a7077802",
-    role_id: "b351a4dc-4fa7-4170-840c-201405eba532",
-  },
-  {
-    id: "9e96748b-0bf9-4165-9189-111ad789a381",
-    staff_id: "82c9c811-8916-4959-98c7-9d7dd74c0606",
-    role_id: "2a546d25-1e44-4fa3-818d-5ac6cc436aa6",
-  },
-  {
-    id: "77ba0f5e-9d42-4310-b263-117b6bb1863b",
-    staff_id: "82c9c811-8916-4959-98c7-9d7dd74c0606",
-    role_id: "42dec332-be26-4463-9363-b6000fd3715c",
-  },
-  {
-    id: "bdae8d94-aaa2-435a-87fc-4da59df9f259",
-    staff_id: "82c9c811-8916-4959-98c7-9d7dd74c0606",
-    role_id: "2a546d25-1e44-4fa3-818d-5ac6cc436aa6",
-  },
-  {
-    id: "3703c05e-918d-4a2b-b944-20fb64dffba9",
-    staff_id: "5a6ee2c9-3af6-4736-8a51-714f796f94ed",
-    role_id: "1ca075ba-3074-4c15-9e74-f4ca173f5ad0",
-  },
-  {
-    id: "fbb5c88e-5c6b-4130-9b73-99955005cd95",
-    staff_id: "5a6ee2c9-3af6-4736-8a51-714f796f94ed",
-    role_id: "e120bf18-2295-4295-bca6-6a437ec8f16b",
-  },
-  {
-    id: "867e8793-7784-43f6-84f6-f608ba4ab211",
-    staff_id: "6d975a8f-a0dc-4abb-9d42-3b498c8528c2",
-    role_id: "360abded-96bf-45c6-a12d-ae6ef45bf540",
-  },
-  {
-    id: "3332d7eb-d3d5-4eb3-a7ef-a5f72811f80d",
-    staff_id: "6d975a8f-a0dc-4abb-9d42-3b498c8528c2",
-    role_id: "1ca075ba-3074-4c15-9e74-f4ca173f5ad0",
-  },
-  {
-    id: "f9d98d28-0b4a-4adf-8f94-efeeb2078a55",
-    staff_id: "6d975a8f-a0dc-4abb-9d42-3b498c8528c2",
-    role_id: "0c781708-d825-4618-9b6d-d92e9ccc3036",
-  },
-  {
-    id: "4130c508-c092-47b9-a99e-da695d6c9676",
-    staff_id: "6d975a8f-a0dc-4abb-9d42-3b498c8528c2",
-    role_id: "0c781708-d825-4618-9b6d-d92e9ccc3036",
-  },
-  {
-    id: "c172b4b7-9717-495e-8e9f-668b4141c550",
-    staff_id: "22430b27-63c5-4968-81bb-c53aad226dac",
-    role_id: "42dec332-be26-4463-9363-b6000fd3715c",
-  },
-  {
-    id: "85a1875f-2fb5-44ce-957d-28bea93e1240",
-    staff_id: "22430b27-63c5-4968-81bb-c53aad226dac",
-    role_id: "1ca075ba-3074-4c15-9e74-f4ca173f5ad0",
-  },
-  {
-    id: "b97dc00a-cda6-4189-8452-8f2f25c51ccd",
-    staff_id: "22430b27-63c5-4968-81bb-c53aad226dac",
-    role_id: "1ca075ba-3074-4c15-9e74-f4ca173f5ad0",
-  },
-  {
-    id: "224c428f-de43-46a8-897d-f9068082f378",
-    staff_id: "22430b27-63c5-4968-81bb-c53aad226dac",
-    role_id: "e120bf18-2295-4295-bca6-6a437ec8f16b",
-  },
-  {
-    id: "e8fcf33d-fec7-4898-92f0-8e23bb9c771d",
-    staff_id: "664377c1-b59c-4626-b841-ce3883acac9d",
-    role_id: "0c781708-d825-4618-9b6d-d92e9ccc3036",
-  },
-  {
-    id: "0669e7c9-7a44-4cf1-90c4-2c83084bd4d2",
-    staff_id: "664377c1-b59c-4626-b841-ce3883acac9d",
-    role_id: "0c781708-d825-4618-9b6d-d92e9ccc3036",
-  },
-  {
-    id: "cbbbf8cd-3315-42aa-ba12-c4af93dc552c",
-    staff_id: "7739435d-004d-48a6-b572-263843c3cf5d",
-    role_id: "2a546d25-1e44-4fa3-818d-5ac6cc436aa6",
-  },
-  {
-    id: "ba273740-3bf0-4360-9cf8-5629057c0b79",
-    staff_id: "7739435d-004d-48a6-b572-263843c3cf5d",
-    role_id: "0c781708-d825-4618-9b6d-d92e9ccc3036",
-  },
-  {
-    id: "c23b6c31-bc5e-4e4b-ad3c-b2430ab961e1",
-    staff_id: "7739435d-004d-48a6-b572-263843c3cf5d",
-    role_id: "1ca075ba-3074-4c15-9e74-f4ca173f5ad0",
-  },
-  {
-    id: "10b47aac-5602-45cb-b9fd-7308dc12111f",
-    staff_id: "32e07b77-b455-4c13-a557-c2a15be58db7",
-    role_id: "0c781708-d825-4618-9b6d-d92e9ccc3036",
-  },
-  {
-    id: "9659852a-79f8-4982-be16-c6ed3a29ca63",
-    staff_id: "32e07b77-b455-4c13-a557-c2a15be58db7",
-    role_id: "42dec332-be26-4463-9363-b6000fd3715c",
-  },
-  {
-    id: "01b2a95f-5893-4bdb-8e49-4a2dc3227458",
-    staff_id: "32e07b77-b455-4c13-a557-c2a15be58db7",
-    role_id: "1ca075ba-3074-4c15-9e74-f4ca173f5ad0",
-  },
-  {
-    id: "96906b62-edaf-4e34-9873-019d98143d52",
-    staff_id: "8ae0b5da-9ed0-4802-ab64-51f0f41f66dc",
-    role_id: "2a546d25-1e44-4fa3-818d-5ac6cc436aa6",
-  },
-  {
-    id: "76b89e19-f257-4de2-9685-0fba81cc173c",
-    staff_id: "8ae0b5da-9ed0-4802-ab64-51f0f41f66dc",
-    role_id: "b351a4dc-4fa7-4170-840c-201405eba532",
-  },
-  {
-    id: "00044343-ae2c-4f58-9a6c-c41f0551d95c",
-    staff_id: "384978f2-bc7b-4359-814b-6e4beb10d71d",
-    role_id: "42dec332-be26-4463-9363-b6000fd3715c",
-  },
-  {
-    id: "0b98575c-1236-4dce-bfe3-6383425909d2",
-    staff_id: "384978f2-bc7b-4359-814b-6e4beb10d71d",
-    role_id: "1ca075ba-3074-4c15-9e74-f4ca173f5ad0",
-  },
-  {
-    id: "bc92abaa-018e-42bd-b972-1ae198f13498",
-    staff_id: "384978f2-bc7b-4359-814b-6e4beb10d71d",
-    role_id: "b351a4dc-4fa7-4170-840c-201405eba532",
-  },
-  {
-    id: "20c16af9-4a4a-4165-baf6-243d11e66a79",
-    staff_id: "bae42b19-9e17-4c34-a2a1-bf30622abb13",
-    role_id: "2a546d25-1e44-4fa3-818d-5ac6cc436aa6",
-  },
-  {
-    id: "bca5060c-f0c7-490e-a3cd-23fc1ed331ef",
-    staff_id: "bae42b19-9e17-4c34-a2a1-bf30622abb13",
-    role_id: "360abded-96bf-45c6-a12d-ae6ef45bf540",
-  },
-  {
-    id: "7f50c0c2-0bf2-4a25-a1f6-d808d9afc87a",
-    staff_id: "b4c9b623-7f04-4e3c-b070-8a382474fdfa",
-    role_id: "360abded-96bf-45c6-a12d-ae6ef45bf540",
-  },
-  {
-    id: "ab9bd7ef-fb80-486e-84ec-639374c59312",
-    staff_id: "b4c9b623-7f04-4e3c-b070-8a382474fdfa",
-    role_id: "360abded-96bf-45c6-a12d-ae6ef45bf540",
-  },
-  {
-    id: "67434470-03b8-4733-a53f-43b7337940cd",
-    staff_id: "b4c9b623-7f04-4e3c-b070-8a382474fdfa",
-    role_id: "360abded-96bf-45c6-a12d-ae6ef45bf540",
-  },
-  {
-    id: "cb5ba87d-34bb-4e5b-af13-162337716bec",
-    staff_id: "36670eec-c1f8-4c0e-86ed-07ea89df180d",
-    role_id: "0c781708-d825-4618-9b6d-d92e9ccc3036",
-  },
-  {
-    id: "4a933807-cf7a-447d-ae2c-ab33492eff92",
-    staff_id: "36670eec-c1f8-4c0e-86ed-07ea89df180d",
-    role_id: "360abded-96bf-45c6-a12d-ae6ef45bf540",
-  },
-  {
-    id: "ac8b3ae8-ffb5-4075-842d-84cd999ee009",
-    staff_id: "36670eec-c1f8-4c0e-86ed-07ea89df180d",
-    role_id: "0c781708-d825-4618-9b6d-d92e9ccc3036",
-  },
-  {
-    id: "230daffa-2fa0-4044-926d-29f692bda9fd",
-    staff_id: "af046685-438d-4682-a491-af7a1c28e0c1",
-    role_id: "360abded-96bf-45c6-a12d-ae6ef45bf540",
-  },
-  {
-    id: "30d4c7a9-e880-40ea-85bf-9b0a25bd3a3e",
-    staff_id: "af046685-438d-4682-a491-af7a1c28e0c1",
-    role_id: "360abded-96bf-45c6-a12d-ae6ef45bf540",
-  },
-  {
-    id: "c85d77ca-4f57-47b8-9c7b-4012cdc96b64",
-    staff_id: "fae1948a-d2e8-4fea-8f8e-06b8c191716a",
-    role_id: "0c781708-d825-4618-9b6d-d92e9ccc3036",
-  },
-  {
-    id: "56cb6a2c-0b27-4595-b107-3ad7a1787230",
-    staff_id: "fae1948a-d2e8-4fea-8f8e-06b8c191716a",
-    role_id: "e120bf18-2295-4295-bca6-6a437ec8f16b",
-  },
-  {
-    id: "f738d1bb-1a04-4985-8210-0d7032f94f42",
-    staff_id: "8c15ec0f-7616-495c-8018-a11b63719591",
-    role_id: "2a546d25-1e44-4fa3-818d-5ac6cc436aa6",
-  },
-  {
-    id: "791d12ca-baec-48aa-92d3-958ee6ba5a98",
-    staff_id: "8c15ec0f-7616-495c-8018-a11b63719591",
-    role_id: "e120bf18-2295-4295-bca6-6a437ec8f16b",
-  },
-  {
-    id: "39ce480d-0d49-4786-87f8-92d23eccf79b",
-    staff_id: "8c15ec0f-7616-495c-8018-a11b63719591",
-    role_id: "b351a4dc-4fa7-4170-840c-201405eba532",
-  },
-  {
-    id: "52eceaa7-2b25-4bd7-b24a-2e623de6c55c",
-    staff_id: "8c15ec0f-7616-495c-8018-a11b63719591",
-    role_id: "360abded-96bf-45c6-a12d-ae6ef45bf540",
-  },
-  {
-    id: "e8a62758-75b8-4949-af32-5bacab4ec288",
-    staff_id: "9db4c6bd-997f-41c1-8a2f-4d3b41c687bc",
-    role_id: "42dec332-be26-4463-9363-b6000fd3715c",
-  },
-  {
-    id: "9f875ac2-4be5-407f-bfab-a24d77907761",
-    staff_id: "9db4c6bd-997f-41c1-8a2f-4d3b41c687bc",
-    role_id: "0c781708-d825-4618-9b6d-d92e9ccc3036",
-  },
-  {
-    id: "4b8e9198-0e50-43dd-8427-58b35c043771",
-    staff_id: "9db4c6bd-997f-41c1-8a2f-4d3b41c687bc",
-    role_id: "1ca075ba-3074-4c15-9e74-f4ca173f5ad0",
-  },
-  {
-    id: "6afb1605-d680-4d00-bcaa-82365b769481",
-    staff_id: "77d8046a-a584-496e-89e0-09698164d6bc",
-    role_id: "b351a4dc-4fa7-4170-840c-201405eba532",
-  },
-  {
-    id: "55f668bf-756c-49f5-95c7-fb6ebb9c726d",
-    staff_id: "77d8046a-a584-496e-89e0-09698164d6bc",
-    role_id: "1ca075ba-3074-4c15-9e74-f4ca173f5ad0",
-  },
-  {
-    id: "74805b21-1c79-490a-98f8-fa4e162d6480",
-    staff_id: "77d8046a-a584-496e-89e0-09698164d6bc",
-    role_id: "0c781708-d825-4618-9b6d-d92e9ccc3036",
-  },
-  {
-    id: "5e03f6bc-3e08-4411-a355-a9b7ba9f74ac",
-    staff_id: "09d58c04-79ec-44a3-97ca-df5e083fb928",
-    role_id: "360abded-96bf-45c6-a12d-ae6ef45bf540",
-  },
-  {
-    id: "12a378d7-0db0-4cb5-b25d-327de3db5270",
-    staff_id: "09d58c04-79ec-44a3-97ca-df5e083fb928",
-    role_id: "1ca075ba-3074-4c15-9e74-f4ca173f5ad0",
-  },
-  {
-    id: "4d6a5d90-1d0c-468a-980d-71efd9aeb0ef",
-    staff_id: "721b216f-08e9-4af7-bb35-82689e10d35c",
-    role_id: "2a546d25-1e44-4fa3-818d-5ac6cc436aa6",
-  },
-  {
-    id: "c4e405dc-d6a4-4eb4-9819-25e5c9f2c1e8",
-    staff_id: "721b216f-08e9-4af7-bb35-82689e10d35c",
-    role_id: "42dec332-be26-4463-9363-b6000fd3715c",
-  },
-  {
-    id: "a7a62711-25f9-431d-901b-002285917583",
-    staff_id: "721b216f-08e9-4af7-bb35-82689e10d35c",
-    role_id: "42dec332-be26-4463-9363-b6000fd3715c",
-  },
-  {
-    id: "e55fa014-daf0-4b5c-adca-4b2bad352297",
-    staff_id: "3e02a591-3c21-4731-a278-56ec3f031afd",
-    role_id: "1ca075ba-3074-4c15-9e74-f4ca173f5ad0",
-  },
-  {
-    id: "1bc2a824-622b-4c4b-8a00-3863d3322c9a",
-    staff_id: "3e02a591-3c21-4731-a278-56ec3f031afd",
-    role_id: "0c781708-d825-4618-9b6d-d92e9ccc3036",
-  },
-  {
-    id: "15af7820-c7bd-40d2-900d-c2bf37bf1759",
-    staff_id: "3e02a591-3c21-4731-a278-56ec3f031afd",
-    role_id: "e120bf18-2295-4295-bca6-6a437ec8f16b",
-  },
-  {
-    id: "9dfd2f51-5190-4ce8-9062-d90d820ec897",
-    staff_id: "860b6f5b-cc01-4de3-a41b-c10c425fedeb",
-    role_id: "360abded-96bf-45c6-a12d-ae6ef45bf540",
-  },
-  {
-    id: "8f95b3e4-4acb-452d-aadd-2d314524d9cb",
-    staff_id: "860b6f5b-cc01-4de3-a41b-c10c425fedeb",
-    role_id: "42dec332-be26-4463-9363-b6000fd3715c",
-  },
-  {
-    id: "4d790084-fc66-47ae-aa2d-5865320d4ef1",
-    staff_id: "860b6f5b-cc01-4de3-a41b-c10c425fedeb",
-    role_id: "0c781708-d825-4618-9b6d-d92e9ccc3036",
-  },
-  {
-    id: "69a5928c-6264-41dc-a44f-6cdf8bd49f14",
-    staff_id: "860b6f5b-cc01-4de3-a41b-c10c425fedeb",
-    role_id: "1ca075ba-3074-4c15-9e74-f4ca173f5ad0",
-  },
-  {
-    id: "9935eaa7-4f3a-4504-b693-42f33476fc93",
-    staff_id: "2964bbee-2aae-4841-8050-3c20bf8a71c8",
-    role_id: "e120bf18-2295-4295-bca6-6a437ec8f16b",
-  },
-  {
-    id: "964e9537-3f00-47b6-bd9d-7630dc0507b1",
-    staff_id: "2964bbee-2aae-4841-8050-3c20bf8a71c8",
-    role_id: "2a546d25-1e44-4fa3-818d-5ac6cc436aa6",
-  },
-  {
-    id: "8d2f2f6c-ee2b-4b03-95d1-130ba7d6ffdf",
-    staff_id: "9d29c6b1-8457-4e88-a731-e5b8bd85e0af",
-    role_id: "360abded-96bf-45c6-a12d-ae6ef45bf540",
-  },
-  {
-    id: "acf627bb-1cd9-4e80-aeea-fd199fc7d7b9",
-    staff_id: "9d29c6b1-8457-4e88-a731-e5b8bd85e0af",
-    role_id: "2a546d25-1e44-4fa3-818d-5ac6cc436aa6",
-  },
-  {
-    id: "8c85ef02-ee69-4d15-a5f5-99ad8b1594d9",
-    staff_id: "09c168fb-0f79-4dba-87b0-c131e47ae3bb",
-    role_id: "1ca075ba-3074-4c15-9e74-f4ca173f5ad0",
-  },
-  {
-    id: "e5c6c299-b017-4b97-b64e-d58d4f866cc4",
-    staff_id: "09c168fb-0f79-4dba-87b0-c131e47ae3bb",
-    role_id: "42dec332-be26-4463-9363-b6000fd3715c",
-  },
-  {
-    id: "0169cdce-20ac-44eb-ab92-772dfd2d4c3a",
-    staff_id: "7ece2109-de22-41d3-b4bf-2bfcd9e53966",
-    role_id: "360abded-96bf-45c6-a12d-ae6ef45bf540",
-  },
-  {
-    id: "10580096-8b99-4096-8e71-eab11eb2931e",
-    staff_id: "7ece2109-de22-41d3-b4bf-2bfcd9e53966",
-    role_id: "0c781708-d825-4618-9b6d-d92e9ccc3036",
-  },
-  {
-    id: "94a72a5d-493b-4f5b-91d1-c901f116d894",
-    staff_id: "7ece2109-de22-41d3-b4bf-2bfcd9e53966",
-    role_id: "360abded-96bf-45c6-a12d-ae6ef45bf540",
-  },
-  {
-    id: "8b458bbb-0feb-433c-9947-4e655d2cef87",
-    staff_id: "7ece2109-de22-41d3-b4bf-2bfcd9e53966",
-    role_id: "360abded-96bf-45c6-a12d-ae6ef45bf540",
-  },
-  {
-    id: "17ed1edf-378d-48c2-bf63-2b9456eb02a5",
-    staff_id: "9ca97c1c-7f06-4c28-a6be-b6566dfcfd0e",
-    role_id: "360abded-96bf-45c6-a12d-ae6ef45bf540",
-  },
-  {
-    id: "25fd98ab-9bae-4aaf-aa2e-bd29dbd4aeaa",
-    staff_id: "9ca97c1c-7f06-4c28-a6be-b6566dfcfd0e",
-    role_id: "2a546d25-1e44-4fa3-818d-5ac6cc436aa6",
-  },
-  {
-    id: "f27fa74d-402e-4072-98b2-2b8278bb01d0",
-    staff_id: "9ca97c1c-7f06-4c28-a6be-b6566dfcfd0e",
-    role_id: "0c781708-d825-4618-9b6d-d92e9ccc3036",
-  },
-  {
-    id: "528e401b-5c86-413e-9f96-7d9e1265d5f3",
-    staff_id: "14e481d8-f584-49ce-a333-6e8afd7e88dc",
-    role_id: "b351a4dc-4fa7-4170-840c-201405eba532",
-  },
-  {
-    id: "36bf4b5e-d3d3-44ad-b5a5-cc15d23274f2",
-    staff_id: "14e481d8-f584-49ce-a333-6e8afd7e88dc",
-    role_id: "360abded-96bf-45c6-a12d-ae6ef45bf540",
-  },
-  {
-    id: "646df301-4716-43fb-802b-14cf1de03fcf",
-    staff_id: "c37824e8-2c3d-4ad7-a44d-8ad704e38872",
-    role_id: "b351a4dc-4fa7-4170-840c-201405eba532",
-  },
-  {
-    id: "7b6a0bdd-3344-409a-b7b8-245109fdd2ba",
-    staff_id: "c37824e8-2c3d-4ad7-a44d-8ad704e38872",
-    role_id: "2a546d25-1e44-4fa3-818d-5ac6cc436aa6",
-  },
-  {
-    id: "557812cf-4881-4cf6-b47d-c17e48093cc3",
-    staff_id: "c37824e8-2c3d-4ad7-a44d-8ad704e38872",
-    role_id: "0c781708-d825-4618-9b6d-d92e9ccc3036",
-  },
-  {
-    id: "cd30cbf8-c74f-4370-b993-3ab59ce2c32c",
-    staff_id: "fab6ab89-c3af-45b0-a9b8-ae4e7df1197c",
-    role_id: "42dec332-be26-4463-9363-b6000fd3715c",
-  },
-  {
-    id: "3293662f-e2ec-46ce-b5c3-5140311ded34",
-    staff_id: "fab6ab89-c3af-45b0-a9b8-ae4e7df1197c",
-    role_id: "0c781708-d825-4618-9b6d-d92e9ccc3036",
-  },
-  {
-    id: "65431c92-9818-40df-9fda-baf668e4270f",
-    staff_id: "fab6ab89-c3af-45b0-a9b8-ae4e7df1197c",
-    role_id: "e120bf18-2295-4295-bca6-6a437ec8f16b",
-  },
-  {
-    id: "3a4a9610-93d1-4cd8-9b72-30b111de70af",
-    staff_id: "0aaf772b-77dc-4a98-bea4-8215bb1d8e2c",
-    role_id: "42dec332-be26-4463-9363-b6000fd3715c",
-  },
-  {
-    id: "418f55c9-04fc-4fc9-91de-2a864df4f5c1",
-    staff_id: "0aaf772b-77dc-4a98-bea4-8215bb1d8e2c",
-    role_id: "42dec332-be26-4463-9363-b6000fd3715c",
-  },
-  {
-    id: "4e2ea564-4c7e-4221-88d1-e890d534ef15",
-    staff_id: "0aaf772b-77dc-4a98-bea4-8215bb1d8e2c",
-    role_id: "0c781708-d825-4618-9b6d-d92e9ccc3036",
-  },
-  {
-    id: "ba18f388-8700-42c7-a053-7051043d3a06",
-    staff_id: "ce5f58b7-ca76-4095-bb2e-148066ae9e40",
-    role_id: "360abded-96bf-45c6-a12d-ae6ef45bf540",
-  },
-  {
-    id: "a2c5bc3c-91de-4407-9ce4-1ae281b2ee8c",
-    staff_id: "ce5f58b7-ca76-4095-bb2e-148066ae9e40",
-    role_id: "0c781708-d825-4618-9b6d-d92e9ccc3036",
-  },
-  {
-    id: "9de3befc-7646-4312-9b48-de54e2b867b2",
-    staff_id: "ce5f58b7-ca76-4095-bb2e-148066ae9e40",
-    role_id: "b351a4dc-4fa7-4170-840c-201405eba532",
-  },
-  {
-    id: "75c75d4e-0108-4a21-9817-d137304504d4",
-    staff_id: "a5278068-3a26-42a5-acda-d154fa91f671",
-    role_id: "42dec332-be26-4463-9363-b6000fd3715c",
-  },
-  {
-    id: "8dc62f1b-9da8-4b50-a64b-5b76799b5d7c",
-    staff_id: "a5278068-3a26-42a5-acda-d154fa91f671",
-    role_id: "360abded-96bf-45c6-a12d-ae6ef45bf540",
-  },
-  {
-    id: "9c3d7f45-86e3-4732-84c7-d44bbde13536",
-    staff_id: "c2e4a0d9-bb21-49b4-8b13-65f2674be1da",
-    role_id: "0c781708-d825-4618-9b6d-d92e9ccc3036",
-  },
-  {
-    id: "72c21243-48ba-44d1-91db-ae34ac691f6c",
-    staff_id: "c2e4a0d9-bb21-49b4-8b13-65f2674be1da",
-    role_id: "b351a4dc-4fa7-4170-840c-201405eba532",
-  },
-  {
-    id: "1be3f660-2c54-4a4e-9ae4-45611427ff3d",
-    staff_id: "c2e4a0d9-bb21-49b4-8b13-65f2674be1da",
-    role_id: "b351a4dc-4fa7-4170-840c-201405eba532",
-  },
-  {
-    id: "e06c7ab8-4a1c-49aa-bc09-d2e0b40f7e3e",
-    staff_id: "c2e4a0d9-bb21-49b4-8b13-65f2674be1da",
-    role_id: "b351a4dc-4fa7-4170-840c-201405eba532",
-  },
-  {
-    id: "f639a893-447f-4a78-b137-e0d7b7b49e35",
-    staff_id: "daf3858f-9116-444d-b08e-43b3b8bcd26c",
-    role_id: "2a546d25-1e44-4fa3-818d-5ac6cc436aa6",
-  },
-  {
-    id: "7fc616ca-7c1b-4386-b52a-c09f2341ad4d",
-    staff_id: "daf3858f-9116-444d-b08e-43b3b8bcd26c",
-    role_id: "360abded-96bf-45c6-a12d-ae6ef45bf540",
-  },
-  {
-    id: "68e53ffd-b2f9-4484-a5da-68e86fb69903",
-    staff_id: "daf3858f-9116-444d-b08e-43b3b8bcd26c",
-    role_id: "b351a4dc-4fa7-4170-840c-201405eba532",
-  },
-  {
-    id: "6c371ae0-b6c1-4f3f-b92e-19924e19a553",
-    staff_id: "d7055419-d9b1-44d0-9207-95ba25ab9577",
-    role_id: "42dec332-be26-4463-9363-b6000fd3715c",
-  },
-  {
-    id: "a740d4ff-650b-4034-a236-6ccb1732fd77",
-    staff_id: "d7055419-d9b1-44d0-9207-95ba25ab9577",
-    role_id: "0c781708-d825-4618-9b6d-d92e9ccc3036",
-  },
-  {
-    id: "69f76adc-8b37-4a1d-b588-c41554eafccf",
-    staff_id: "d7055419-d9b1-44d0-9207-95ba25ab9577",
-    role_id: "42dec332-be26-4463-9363-b6000fd3715c",
-  },
-  {
-    id: "cfee036e-3649-4cc2-b108-1edfd4a64ad6",
-    staff_id: "043fa631-a8e5-4060-9bdb-f94f65ada428",
-    role_id: "e120bf18-2295-4295-bca6-6a437ec8f16b",
-  },
-  {
-    id: "e0fd57f0-da21-4598-a8e3-08dd45cd77df",
-    staff_id: "043fa631-a8e5-4060-9bdb-f94f65ada428",
-    role_id: "42dec332-be26-4463-9363-b6000fd3715c",
-  },
-  {
-    id: "59df15a3-08e8-4569-b14b-5065b6713a1a",
-    staff_id: "043fa631-a8e5-4060-9bdb-f94f65ada428",
-    role_id: "42dec332-be26-4463-9363-b6000fd3715c",
-  },
-  {
-    id: "e4796481-bbe0-49e6-afbc-0ffbd387f158",
-    staff_id: "29382990-1f6e-45e6-8eec-7f0b80079453",
-    role_id: "e120bf18-2295-4295-bca6-6a437ec8f16b",
-  },
-  {
-    id: "e6924d92-54fc-4352-be64-1604f7779535",
-    staff_id: "29382990-1f6e-45e6-8eec-7f0b80079453",
-    role_id: "e120bf18-2295-4295-bca6-6a437ec8f16b",
-  },
-  {
-    id: "9ff0c85c-2479-4b3f-822a-7730388cc4b5",
-    staff_id: "29382990-1f6e-45e6-8eec-7f0b80079453",
-    role_id: "1ca075ba-3074-4c15-9e74-f4ca173f5ad0",
-  },
-  {
-    id: "efe0b64d-ec99-4eae-8f27-05315b07271d",
-    staff_id: "29382990-1f6e-45e6-8eec-7f0b80079453",
-    role_id: "0c781708-d825-4618-9b6d-d92e9ccc3036",
-  },
-  {
-    id: "5f6888a7-b372-4a2d-b27a-2550f50a0b95",
-    staff_id: "2d025c1c-d37d-4e5c-bd3e-3656c64f558a",
-    role_id: "42dec332-be26-4463-9363-b6000fd3715c",
-  },
-  {
-    id: "50e3570c-1992-4aa1-a379-c96939f1a573",
-    staff_id: "2d025c1c-d37d-4e5c-bd3e-3656c64f558a",
-    role_id: "1ca075ba-3074-4c15-9e74-f4ca173f5ad0",
-  },
-  {
-    id: "2903c690-0711-44f1-8f66-9eebf68eb3b7",
-    staff_id: "76a4f002-cd87-44fd-abb6-938d85822ea8",
-    role_id: "42dec332-be26-4463-9363-b6000fd3715c",
-  },
-  {
-    id: "07c1c63f-2217-4564-85e0-624ee6f8d090",
-    staff_id: "76a4f002-cd87-44fd-abb6-938d85822ea8",
-    role_id: "0c781708-d825-4618-9b6d-d92e9ccc3036",
-  },
-  {
-    id: "3dee4026-2c3c-4b2e-8495-7fafa398202c",
-    staff_id: "9cf529e5-56f2-4cc8-8ee4-d52cb516f29b",
-    role_id: "2a546d25-1e44-4fa3-818d-5ac6cc436aa6",
-  },
-  {
-    id: "81262c0a-2d6a-49c8-917f-f0c9ead874bc",
-    staff_id: "9cf529e5-56f2-4cc8-8ee4-d52cb516f29b",
-    role_id: "360abded-96bf-45c6-a12d-ae6ef45bf540",
-  },
-  {
-    id: "fbd6460a-1d90-4b02-9583-4b3042a69e2a",
-    staff_id: "9cf529e5-56f2-4cc8-8ee4-d52cb516f29b",
-    role_id: "0c781708-d825-4618-9b6d-d92e9ccc3036",
-  },
-  {
-    id: "1b66cb59-e55e-4d02-8c0a-f4ec7ba0efcc",
-    staff_id: "a7aba944-bee0-4575-9572-ee0ab8ed50ad",
-    role_id: "360abded-96bf-45c6-a12d-ae6ef45bf540",
-  },
-  {
-    id: "36482514-6f1f-41e9-9685-43ec534d5d40",
-    staff_id: "a7aba944-bee0-4575-9572-ee0ab8ed50ad",
-    role_id: "0c781708-d825-4618-9b6d-d92e9ccc3036",
-  },
-  {
-    id: "23ffe3b4-08e3-4ad4-9073-194edf992bc4",
-    staff_id: "a7aba944-bee0-4575-9572-ee0ab8ed50ad",
-    role_id: "360abded-96bf-45c6-a12d-ae6ef45bf540",
-  },
-  {
-    id: "f18acc7a-52ba-48b9-bec4-dc16c1188511",
-    staff_id: "a7aba944-bee0-4575-9572-ee0ab8ed50ad",
-    role_id: "2a546d25-1e44-4fa3-818d-5ac6cc436aa6",
-  },
-  {
-    id: "c092b9ba-c204-4d82-9e0d-f08b2990cd73",
-    staff_id: "6cc8e6e7-f052-4d5d-8ce2-000c1ef50ca2",
-    role_id: "0c781708-d825-4618-9b6d-d92e9ccc3036",
-  },
-  {
-    id: "f5f92a2b-43cf-4eba-8fdd-65e91c490856",
-    staff_id: "6cc8e6e7-f052-4d5d-8ce2-000c1ef50ca2",
-    role_id: "e120bf18-2295-4295-bca6-6a437ec8f16b",
-  },
-  {
-    id: "7df14e80-b975-4b61-a170-9e16b071e4cd",
-    staff_id: "6cc8e6e7-f052-4d5d-8ce2-000c1ef50ca2",
-    role_id: "e120bf18-2295-4295-bca6-6a437ec8f16b",
-  },
-  {
-    id: "3145ca9b-f1ff-4209-ab1f-f53460179348",
-    staff_id: "b3d344c0-19dc-4126-a078-10fa981bef12",
-    role_id: "0c781708-d825-4618-9b6d-d92e9ccc3036",
-  },
-  {
-    id: "699a9eea-0b8e-4de6-9925-ca158a927051",
-    staff_id: "b3d344c0-19dc-4126-a078-10fa981bef12",
-    role_id: "1ca075ba-3074-4c15-9e74-f4ca173f5ad0",
-  },
-  {
-    id: "f3cd89a8-def0-43f4-97e1-0d3439097568",
-    staff_id: "b3d344c0-19dc-4126-a078-10fa981bef12",
-    role_id: "2a546d25-1e44-4fa3-818d-5ac6cc436aa6",
-  },
-  {
-    id: "06dddeea-7550-4c55-9f3e-2522371da2f5",
-    staff_id: "b3d344c0-19dc-4126-a078-10fa981bef12",
-    role_id: "1ca075ba-3074-4c15-9e74-f4ca173f5ad0",
-  },
-  {
-    id: "40eba269-1e30-43e8-bd43-d433ab72aa9b",
-    staff_id: "c2703a75-3ff4-4ee6-a00b-25a05c7c76e9",
-    role_id: "b351a4dc-4fa7-4170-840c-201405eba532",
-  },
-  {
-    id: "1aefba1a-5ab5-4d09-bc1a-de7dd7ef90f1",
-    staff_id: "c2703a75-3ff4-4ee6-a00b-25a05c7c76e9",
-    role_id: "42dec332-be26-4463-9363-b6000fd3715c",
-  },
-  {
-    id: "4270127f-5d7c-4135-bab3-fd825df0d46f",
-    staff_id: "c2703a75-3ff4-4ee6-a00b-25a05c7c76e9",
-    role_id: "b351a4dc-4fa7-4170-840c-201405eba532",
-  },
-  {
-    id: "0a6520b4-ba60-4251-bb34-155e93ac282e",
-    staff_id: "c2703a75-3ff4-4ee6-a00b-25a05c7c76e9",
-    role_id: "1ca075ba-3074-4c15-9e74-f4ca173f5ad0",
-  },
-  {
-    id: "c5fe7319-ed44-48ad-91aa-3626baa0b708",
-    staff_id: "52bd0892-86dc-4431-b691-20591ba7fa8e",
-    role_id: "42dec332-be26-4463-9363-b6000fd3715c",
-  },
-  {
-    id: "16e5e214-b741-4648-8a1a-add86bfbd32f",
-    staff_id: "52bd0892-86dc-4431-b691-20591ba7fa8e",
-    role_id: "360abded-96bf-45c6-a12d-ae6ef45bf540",
-  },
-  {
-    id: "21f5fd27-074b-4bc2-9915-36f003161b70",
-    staff_id: "52bd0892-86dc-4431-b691-20591ba7fa8e",
-    role_id: "42dec332-be26-4463-9363-b6000fd3715c",
-  },
-  {
-    id: "b3fd4771-ccfa-406e-a45e-9e31cc837b80",
-    staff_id: "a3117bd3-734c-497d-991f-e9a9e9f6347d",
-    role_id: "1ca075ba-3074-4c15-9e74-f4ca173f5ad0",
-  },
-  {
-    id: "7327dae1-3c08-495c-9408-6defeb06b47f",
-    staff_id: "a3117bd3-734c-497d-991f-e9a9e9f6347d",
-    role_id: "e120bf18-2295-4295-bca6-6a437ec8f16b",
-  },
-  {
-    id: "170408b8-5c35-48d0-ac87-005b18faccf3",
-    staff_id: "a3117bd3-734c-497d-991f-e9a9e9f6347d",
-    role_id: "360abded-96bf-45c6-a12d-ae6ef45bf540",
-  },
-  {
-    id: "f4e51b8e-b917-441d-b7e4-437b98379762",
-    staff_id: "a3117bd3-734c-497d-991f-e9a9e9f6347d",
-    role_id: "42dec332-be26-4463-9363-b6000fd3715c",
-  },
-  {
-    id: "3cc7f053-360a-4730-bc63-c72e0a4759a7",
-    staff_id: "88484240-377e-4b61-bd9e-64684c52dae2",
-    role_id: "b351a4dc-4fa7-4170-840c-201405eba532",
-  },
-  {
-    id: "b1098e72-9721-41c5-9daa-667e68eef32f",
-    staff_id: "88484240-377e-4b61-bd9e-64684c52dae2",
-    role_id: "b351a4dc-4fa7-4170-840c-201405eba532",
-  },
-  {
-    id: "f67e42d7-e264-4609-a3e2-3e8e32989a15",
-    staff_id: "88484240-377e-4b61-bd9e-64684c52dae2",
-    role_id: "360abded-96bf-45c6-a12d-ae6ef45bf540",
-  },
-  {
-    id: "bee1f758-1e36-4b13-9642-a3b8def9aeb7",
-    staff_id: "9afd545e-b1fe-469b-8bb3-af0692364010",
-    role_id: "1ca075ba-3074-4c15-9e74-f4ca173f5ad0",
-  },
-  {
-    id: "f11a90d1-97a8-46ab-93ee-e2658d0bbcd2",
-    staff_id: "9afd545e-b1fe-469b-8bb3-af0692364010",
-    role_id: "42dec332-be26-4463-9363-b6000fd3715c",
-  },
-  {
-    id: "0c1b7b29-ec9f-4304-8136-5744078d25ad",
-    staff_id: "9afd545e-b1fe-469b-8bb3-af0692364010",
-    role_id: "b351a4dc-4fa7-4170-840c-201405eba532",
-  },
-];
+export const USER_ROLE_ARRAY: Partial<UserRoleAttributes>[] = [];
 export const AGENCY_BRANCH_ARRAY: Partial<AgencyBranchAttributes>[] = [
   {
     id: "e7b1d0d2-f2e0-437d-94f4-f3b75cb99e21",
@@ -6553,597 +5823,8 @@ export const AGENCY_BRANCH_ARRAY: Partial<AgencyBranchAttributes>[] = [
     isDefaultCN: false,
   },
 ];
-export const STAFF_AGENCY_INCHARGE_ARRAY: Partial<StaffAgencyBranchInChargeAttributes>[] =
-  [
-    {
-      staff_role_id: "ac9dfbb6-bbc1-4bf9-802c-f0a0d3a3a450",
-      agency_branch_id: "995ea74e-0358-4833-856c-cd45f2e99c21",
-    },
-    {
-      staff_role_id: "ac9dfbb6-bbc1-4bf9-802c-f0a0d3a3a450",
-      agency_branch_id: "e7b1d0d2-f2e0-437d-94f4-f3b75cb99e21",
-    },
-    {
-      staff_role_id: "f569530d-b50e-4672-9044-84e6b1c70e22",
-      agency_branch_id: "e7b1d0d2-f2e0-437d-94f4-f3b75cb99e21",
-    },
-    {
-      staff_role_id: "e46364d7-5b9d-43f7-84e8-364b09120eec",
-      agency_branch_id: "995ea74e-0358-4833-856c-cd45f2e99c21",
-    },
-    {
-      staff_role_id: "ef81c55d-0639-4426-b78b-ab6356fa1f66",
-      agency_branch_id: "6ab4f7c8-353f-47f2-8757-2347f2ab6332",
-    },
-    {
-      staff_role_id: "c3484b5e-42e8-4e9e-bedc-62a6398ffea2",
-      agency_branch_id: "995ea74e-0358-4833-856c-cd45f2e99c21",
-    },
-    {
-      staff_role_id: "9e96748b-0bf9-4165-9189-111ad789a381",
-      agency_branch_id: "995ea74e-0358-4833-856c-cd45f2e99c21",
-    },
-    {
-      staff_role_id: "77ba0f5e-9d42-4310-b263-117b6bb1863b",
-      agency_branch_id: "e7b1d0d2-f2e0-437d-94f4-f3b75cb99e21",
-    },
-    {
-      staff_role_id: "bdae8d94-aaa2-435a-87fc-4da59df9f259",
-      agency_branch_id: "6ab4f7c8-353f-47f2-8757-2347f2ab6332",
-    },
-    {
-      staff_role_id: "3703c05e-918d-4a2b-b944-20fb64dffba9",
-      agency_branch_id: "995ea74e-0358-4833-856c-cd45f2e99c21",
-    },
-    {
-      staff_role_id: "fbb5c88e-5c6b-4130-9b73-99955005cd95",
-      agency_branch_id: "995ea74e-0358-4833-856c-cd45f2e99c21",
-    },
-    {
-      staff_role_id: "867e8793-7784-43f6-84f6-f608ba4ab211",
-      agency_branch_id: "995ea74e-0358-4833-856c-cd45f2e99c21",
-    },
-    {
-      staff_role_id: "3332d7eb-d3d5-4eb3-a7ef-a5f72811f80d",
-      agency_branch_id: "995ea74e-0358-4833-856c-cd45f2e99c21",
-    },
-    {
-      staff_role_id: "f9d98d28-0b4a-4adf-8f94-efeeb2078a55",
-      agency_branch_id: "6ab4f7c8-353f-47f2-8757-2347f2ab6332",
-    },
-    {
-      staff_role_id: "4130c508-c092-47b9-a99e-da695d6c9676",
-      agency_branch_id: "6ab4f7c8-353f-47f2-8757-2347f2ab6332",
-    },
-    {
-      staff_role_id: "c172b4b7-9717-495e-8e9f-668b4141c550",
-      agency_branch_id: "995ea74e-0358-4833-856c-cd45f2e99c21",
-    },
-    {
-      staff_role_id: "85a1875f-2fb5-44ce-957d-28bea93e1240",
-      agency_branch_id: "e7b1d0d2-f2e0-437d-94f4-f3b75cb99e21",
-    },
-    {
-      staff_role_id: "b97dc00a-cda6-4189-8452-8f2f25c51ccd",
-      agency_branch_id: "e7b1d0d2-f2e0-437d-94f4-f3b75cb99e21",
-    },
-    {
-      staff_role_id: "224c428f-de43-46a8-897d-f9068082f378",
-      agency_branch_id: "e7b1d0d2-f2e0-437d-94f4-f3b75cb99e21",
-    },
-    {
-      staff_role_id: "e8fcf33d-fec7-4898-92f0-8e23bb9c771d",
-      agency_branch_id: "995ea74e-0358-4833-856c-cd45f2e99c21",
-    },
-    {
-      staff_role_id: "0669e7c9-7a44-4cf1-90c4-2c83084bd4d2",
-      agency_branch_id: "995ea74e-0358-4833-856c-cd45f2e99c21",
-    },
-    {
-      staff_role_id: "cbbbf8cd-3315-42aa-ba12-c4af93dc552c",
-      agency_branch_id: "6ab4f7c8-353f-47f2-8757-2347f2ab6332",
-    },
-    {
-      staff_role_id: "ba273740-3bf0-4360-9cf8-5629057c0b79",
-      agency_branch_id: "6ab4f7c8-353f-47f2-8757-2347f2ab6332",
-    },
-    {
-      staff_role_id: "c23b6c31-bc5e-4e4b-ad3c-b2430ab961e1",
-      agency_branch_id: "995ea74e-0358-4833-856c-cd45f2e99c21",
-    },
-    {
-      staff_role_id: "10b47aac-5602-45cb-b9fd-7308dc12111f",
-      agency_branch_id: "e7b1d0d2-f2e0-437d-94f4-f3b75cb99e21",
-    },
-    {
-      staff_role_id: "9659852a-79f8-4982-be16-c6ed3a29ca63",
-      agency_branch_id: "995ea74e-0358-4833-856c-cd45f2e99c21",
-    },
-    {
-      staff_role_id: "01b2a95f-5893-4bdb-8e49-4a2dc3227458",
-      agency_branch_id: "e7b1d0d2-f2e0-437d-94f4-f3b75cb99e21",
-    },
-    {
-      staff_role_id: "96906b62-edaf-4e34-9873-019d98143d52",
-      agency_branch_id: "6ab4f7c8-353f-47f2-8757-2347f2ab6332",
-    },
-    {
-      staff_role_id: "76b89e19-f257-4de2-9685-0fba81cc173c",
-      agency_branch_id: "995ea74e-0358-4833-856c-cd45f2e99c21",
-    },
-    {
-      staff_role_id: "00044343-ae2c-4f58-9a6c-c41f0551d95c",
-      agency_branch_id: "e7b1d0d2-f2e0-437d-94f4-f3b75cb99e21",
-    },
-    {
-      staff_role_id: "0b98575c-1236-4dce-bfe3-6383425909d2",
-      agency_branch_id: "6ab4f7c8-353f-47f2-8757-2347f2ab6332",
-    },
-    {
-      staff_role_id: "bc92abaa-018e-42bd-b972-1ae198f13498",
-      agency_branch_id: "e7b1d0d2-f2e0-437d-94f4-f3b75cb99e21",
-    },
-    {
-      staff_role_id: "20c16af9-4a4a-4165-baf6-243d11e66a79",
-      agency_branch_id: "6ab4f7c8-353f-47f2-8757-2347f2ab6332",
-    },
-    {
-      staff_role_id: "bca5060c-f0c7-490e-a3cd-23fc1ed331ef",
-      agency_branch_id: "995ea74e-0358-4833-856c-cd45f2e99c21",
-    },
-    {
-      staff_role_id: "7f50c0c2-0bf2-4a25-a1f6-d808d9afc87a",
-      agency_branch_id: "e7b1d0d2-f2e0-437d-94f4-f3b75cb99e21",
-    },
-    {
-      staff_role_id: "ab9bd7ef-fb80-486e-84ec-639374c59312",
-      agency_branch_id: "995ea74e-0358-4833-856c-cd45f2e99c21",
-    },
-    {
-      staff_role_id: "67434470-03b8-4733-a53f-43b7337940cd",
-      agency_branch_id: "6ab4f7c8-353f-47f2-8757-2347f2ab6332",
-    },
-    {
-      staff_role_id: "cb5ba87d-34bb-4e5b-af13-162337716bec",
-      agency_branch_id: "6ab4f7c8-353f-47f2-8757-2347f2ab6332",
-    },
-    {
-      staff_role_id: "4a933807-cf7a-447d-ae2c-ab33492eff92",
-      agency_branch_id: "995ea74e-0358-4833-856c-cd45f2e99c21",
-    },
-    {
-      staff_role_id: "ac8b3ae8-ffb5-4075-842d-84cd999ee009",
-      agency_branch_id: "e7b1d0d2-f2e0-437d-94f4-f3b75cb99e21",
-    },
-    {
-      staff_role_id: "230daffa-2fa0-4044-926d-29f692bda9fd",
-      agency_branch_id: "6ab4f7c8-353f-47f2-8757-2347f2ab6332",
-    },
-    {
-      staff_role_id: "30d4c7a9-e880-40ea-85bf-9b0a25bd3a3e",
-      agency_branch_id: "e7b1d0d2-f2e0-437d-94f4-f3b75cb99e21",
-    },
-    {
-      staff_role_id: "c85d77ca-4f57-47b8-9c7b-4012cdc96b64",
-      agency_branch_id: "e7b1d0d2-f2e0-437d-94f4-f3b75cb99e21",
-    },
-    {
-      staff_role_id: "56cb6a2c-0b27-4595-b107-3ad7a1787230",
-      agency_branch_id: "6ab4f7c8-353f-47f2-8757-2347f2ab6332",
-    },
-    {
-      staff_role_id: "f738d1bb-1a04-4985-8210-0d7032f94f42",
-      agency_branch_id: "e7b1d0d2-f2e0-437d-94f4-f3b75cb99e21",
-    },
-    {
-      staff_role_id: "791d12ca-baec-48aa-92d3-958ee6ba5a98",
-      agency_branch_id: "995ea74e-0358-4833-856c-cd45f2e99c21",
-    },
-    {
-      staff_role_id: "39ce480d-0d49-4786-87f8-92d23eccf79b",
-      agency_branch_id: "6ab4f7c8-353f-47f2-8757-2347f2ab6332",
-    },
-    {
-      staff_role_id: "52eceaa7-2b25-4bd7-b24a-2e623de6c55c",
-      agency_branch_id: "e7b1d0d2-f2e0-437d-94f4-f3b75cb99e21",
-    },
-    {
-      staff_role_id: "e8a62758-75b8-4949-af32-5bacab4ec288",
-      agency_branch_id: "995ea74e-0358-4833-856c-cd45f2e99c21",
-    },
-    {
-      staff_role_id: "9f875ac2-4be5-407f-bfab-a24d77907761",
-      agency_branch_id: "e7b1d0d2-f2e0-437d-94f4-f3b75cb99e21",
-    },
-    {
-      staff_role_id: "4b8e9198-0e50-43dd-8427-58b35c043771",
-      agency_branch_id: "995ea74e-0358-4833-856c-cd45f2e99c21",
-    },
-    {
-      staff_role_id: "6afb1605-d680-4d00-bcaa-82365b769481",
-      agency_branch_id: "995ea74e-0358-4833-856c-cd45f2e99c21",
-    },
-    {
-      staff_role_id: "55f668bf-756c-49f5-95c7-fb6ebb9c726d",
-      agency_branch_id: "995ea74e-0358-4833-856c-cd45f2e99c21",
-    },
-    {
-      staff_role_id: "74805b21-1c79-490a-98f8-fa4e162d6480",
-      agency_branch_id: "6ab4f7c8-353f-47f2-8757-2347f2ab6332",
-    },
-    {
-      staff_role_id: "5e03f6bc-3e08-4411-a355-a9b7ba9f74ac",
-      agency_branch_id: "995ea74e-0358-4833-856c-cd45f2e99c21",
-    },
-    {
-      staff_role_id: "12a378d7-0db0-4cb5-b25d-327de3db5270",
-      agency_branch_id: "995ea74e-0358-4833-856c-cd45f2e99c21",
-    },
-    {
-      staff_role_id: "4d6a5d90-1d0c-468a-980d-71efd9aeb0ef",
-      agency_branch_id: "6ab4f7c8-353f-47f2-8757-2347f2ab6332",
-    },
-    {
-      staff_role_id: "c4e405dc-d6a4-4eb4-9819-25e5c9f2c1e8",
-      agency_branch_id: "6ab4f7c8-353f-47f2-8757-2347f2ab6332",
-    },
-    {
-      staff_role_id: "a7a62711-25f9-431d-901b-002285917583",
-      agency_branch_id: "6ab4f7c8-353f-47f2-8757-2347f2ab6332",
-    },
-    {
-      staff_role_id: "e55fa014-daf0-4b5c-adca-4b2bad352297",
-      agency_branch_id: "e7b1d0d2-f2e0-437d-94f4-f3b75cb99e21",
-    },
-    {
-      staff_role_id: "1bc2a824-622b-4c4b-8a00-3863d3322c9a",
-      agency_branch_id: "e7b1d0d2-f2e0-437d-94f4-f3b75cb99e21",
-    },
-    {
-      staff_role_id: "15af7820-c7bd-40d2-900d-c2bf37bf1759",
-      agency_branch_id: "e7b1d0d2-f2e0-437d-94f4-f3b75cb99e21",
-    },
-    {
-      staff_role_id: "9dfd2f51-5190-4ce8-9062-d90d820ec897",
-      agency_branch_id: "995ea74e-0358-4833-856c-cd45f2e99c21",
-    },
-    {
-      staff_role_id: "8f95b3e4-4acb-452d-aadd-2d314524d9cb",
-      agency_branch_id: "e7b1d0d2-f2e0-437d-94f4-f3b75cb99e21",
-    },
-    {
-      staff_role_id: "4d790084-fc66-47ae-aa2d-5865320d4ef1",
-      agency_branch_id: "6ab4f7c8-353f-47f2-8757-2347f2ab6332",
-    },
-    {
-      staff_role_id: "69a5928c-6264-41dc-a44f-6cdf8bd49f14",
-      agency_branch_id: "995ea74e-0358-4833-856c-cd45f2e99c21",
-    },
-    {
-      staff_role_id: "9935eaa7-4f3a-4504-b693-42f33476fc93",
-      agency_branch_id: "e7b1d0d2-f2e0-437d-94f4-f3b75cb99e21",
-    },
-    {
-      staff_role_id: "964e9537-3f00-47b6-bd9d-7630dc0507b1",
-      agency_branch_id: "6ab4f7c8-353f-47f2-8757-2347f2ab6332",
-    },
-    {
-      staff_role_id: "8d2f2f6c-ee2b-4b03-95d1-130ba7d6ffdf",
-      agency_branch_id: "6ab4f7c8-353f-47f2-8757-2347f2ab6332",
-    },
-    {
-      staff_role_id: "acf627bb-1cd9-4e80-aeea-fd199fc7d7b9",
-      agency_branch_id: "e7b1d0d2-f2e0-437d-94f4-f3b75cb99e21",
-    },
-    {
-      staff_role_id: "8c85ef02-ee69-4d15-a5f5-99ad8b1594d9",
-      agency_branch_id: "6ab4f7c8-353f-47f2-8757-2347f2ab6332",
-    },
-    {
-      staff_role_id: "e5c6c299-b017-4b97-b64e-d58d4f866cc4",
-      agency_branch_id: "e7b1d0d2-f2e0-437d-94f4-f3b75cb99e21",
-    },
-    {
-      staff_role_id: "0169cdce-20ac-44eb-ab92-772dfd2d4c3a",
-      agency_branch_id: "6ab4f7c8-353f-47f2-8757-2347f2ab6332",
-    },
-    {
-      staff_role_id: "10580096-8b99-4096-8e71-eab11eb2931e",
-      agency_branch_id: "995ea74e-0358-4833-856c-cd45f2e99c21",
-    },
-    {
-      staff_role_id: "94a72a5d-493b-4f5b-91d1-c901f116d894",
-      agency_branch_id: "e7b1d0d2-f2e0-437d-94f4-f3b75cb99e21",
-    },
-    {
-      staff_role_id: "8b458bbb-0feb-433c-9947-4e655d2cef87",
-      agency_branch_id: "995ea74e-0358-4833-856c-cd45f2e99c21",
-    },
-    {
-      staff_role_id: "17ed1edf-378d-48c2-bf63-2b9456eb02a5",
-      agency_branch_id: "995ea74e-0358-4833-856c-cd45f2e99c21",
-    },
-    {
-      staff_role_id: "25fd98ab-9bae-4aaf-aa2e-bd29dbd4aeaa",
-      agency_branch_id: "995ea74e-0358-4833-856c-cd45f2e99c21",
-    },
-    {
-      staff_role_id: "f27fa74d-402e-4072-98b2-2b8278bb01d0",
-      agency_branch_id: "e7b1d0d2-f2e0-437d-94f4-f3b75cb99e21",
-    },
-    {
-      staff_role_id: "528e401b-5c86-413e-9f96-7d9e1265d5f3",
-      agency_branch_id: "6ab4f7c8-353f-47f2-8757-2347f2ab6332",
-    },
-    {
-      staff_role_id: "36bf4b5e-d3d3-44ad-b5a5-cc15d23274f2",
-      agency_branch_id: "995ea74e-0358-4833-856c-cd45f2e99c21",
-    },
-    {
-      staff_role_id: "646df301-4716-43fb-802b-14cf1de03fcf",
-      agency_branch_id: "6ab4f7c8-353f-47f2-8757-2347f2ab6332",
-    },
-    {
-      staff_role_id: "7b6a0bdd-3344-409a-b7b8-245109fdd2ba",
-      agency_branch_id: "e7b1d0d2-f2e0-437d-94f4-f3b75cb99e21",
-    },
-    {
-      staff_role_id: "557812cf-4881-4cf6-b47d-c17e48093cc3",
-      agency_branch_id: "995ea74e-0358-4833-856c-cd45f2e99c21",
-    },
-    {
-      staff_role_id: "cd30cbf8-c74f-4370-b993-3ab59ce2c32c",
-      agency_branch_id: "6ab4f7c8-353f-47f2-8757-2347f2ab6332",
-    },
-    {
-      staff_role_id: "3293662f-e2ec-46ce-b5c3-5140311ded34",
-      agency_branch_id: "995ea74e-0358-4833-856c-cd45f2e99c21",
-    },
-    {
-      staff_role_id: "65431c92-9818-40df-9fda-baf668e4270f",
-      agency_branch_id: "6ab4f7c8-353f-47f2-8757-2347f2ab6332",
-    },
-    {
-      staff_role_id: "3a4a9610-93d1-4cd8-9b72-30b111de70af",
-      agency_branch_id: "e7b1d0d2-f2e0-437d-94f4-f3b75cb99e21",
-    },
-    {
-      staff_role_id: "418f55c9-04fc-4fc9-91de-2a864df4f5c1",
-      agency_branch_id: "995ea74e-0358-4833-856c-cd45f2e99c21",
-    },
-    {
-      staff_role_id: "4e2ea564-4c7e-4221-88d1-e890d534ef15",
-      agency_branch_id: "6ab4f7c8-353f-47f2-8757-2347f2ab6332",
-    },
-    {
-      staff_role_id: "ba18f388-8700-42c7-a053-7051043d3a06",
-      agency_branch_id: "995ea74e-0358-4833-856c-cd45f2e99c21",
-    },
-    {
-      staff_role_id: "a2c5bc3c-91de-4407-9ce4-1ae281b2ee8c",
-      agency_branch_id: "6ab4f7c8-353f-47f2-8757-2347f2ab6332",
-    },
-    {
-      staff_role_id: "9de3befc-7646-4312-9b48-de54e2b867b2",
-      agency_branch_id: "e7b1d0d2-f2e0-437d-94f4-f3b75cb99e21",
-    },
-    {
-      staff_role_id: "75c75d4e-0108-4a21-9817-d137304504d4",
-      agency_branch_id: "e7b1d0d2-f2e0-437d-94f4-f3b75cb99e21",
-    },
-    {
-      staff_role_id: "8dc62f1b-9da8-4b50-a64b-5b76799b5d7c",
-      agency_branch_id: "995ea74e-0358-4833-856c-cd45f2e99c21",
-    },
-    {
-      staff_role_id: "9c3d7f45-86e3-4732-84c7-d44bbde13536",
-      agency_branch_id: "6ab4f7c8-353f-47f2-8757-2347f2ab6332",
-    },
-    {
-      staff_role_id: "72c21243-48ba-44d1-91db-ae34ac691f6c",
-      agency_branch_id: "995ea74e-0358-4833-856c-cd45f2e99c21",
-    },
-    {
-      staff_role_id: "1be3f660-2c54-4a4e-9ae4-45611427ff3d",
-      agency_branch_id: "e7b1d0d2-f2e0-437d-94f4-f3b75cb99e21",
-    },
-    {
-      staff_role_id: "e06c7ab8-4a1c-49aa-bc09-d2e0b40f7e3e",
-      agency_branch_id: "6ab4f7c8-353f-47f2-8757-2347f2ab6332",
-    },
-    {
-      staff_role_id: "f639a893-447f-4a78-b137-e0d7b7b49e35",
-      agency_branch_id: "995ea74e-0358-4833-856c-cd45f2e99c21",
-    },
-    {
-      staff_role_id: "7fc616ca-7c1b-4386-b52a-c09f2341ad4d",
-      agency_branch_id: "6ab4f7c8-353f-47f2-8757-2347f2ab6332",
-    },
-    {
-      staff_role_id: "68e53ffd-b2f9-4484-a5da-68e86fb69903",
-      agency_branch_id: "6ab4f7c8-353f-47f2-8757-2347f2ab6332",
-    },
-    {
-      staff_role_id: "6c371ae0-b6c1-4f3f-b92e-19924e19a553",
-      agency_branch_id: "6ab4f7c8-353f-47f2-8757-2347f2ab6332",
-    },
-    {
-      staff_role_id: "a740d4ff-650b-4034-a236-6ccb1732fd77",
-      agency_branch_id: "e7b1d0d2-f2e0-437d-94f4-f3b75cb99e21",
-    },
-    {
-      staff_role_id: "69f76adc-8b37-4a1d-b588-c41554eafccf",
-      agency_branch_id: "995ea74e-0358-4833-856c-cd45f2e99c21",
-    },
-    {
-      staff_role_id: "cfee036e-3649-4cc2-b108-1edfd4a64ad6",
-      agency_branch_id: "995ea74e-0358-4833-856c-cd45f2e99c21",
-    },
-    {
-      staff_role_id: "e0fd57f0-da21-4598-a8e3-08dd45cd77df",
-      agency_branch_id: "995ea74e-0358-4833-856c-cd45f2e99c21",
-    },
-    {
-      staff_role_id: "59df15a3-08e8-4569-b14b-5065b6713a1a",
-      agency_branch_id: "995ea74e-0358-4833-856c-cd45f2e99c21",
-    },
-    {
-      staff_role_id: "e4796481-bbe0-49e6-afbc-0ffbd387f158",
-      agency_branch_id: "6ab4f7c8-353f-47f2-8757-2347f2ab6332",
-    },
-    {
-      staff_role_id: "e6924d92-54fc-4352-be64-1604f7779535",
-      agency_branch_id: "995ea74e-0358-4833-856c-cd45f2e99c21",
-    },
-    {
-      staff_role_id: "9ff0c85c-2479-4b3f-822a-7730388cc4b5",
-      agency_branch_id: "6ab4f7c8-353f-47f2-8757-2347f2ab6332",
-    },
-    {
-      staff_role_id: "efe0b64d-ec99-4eae-8f27-05315b07271d",
-      agency_branch_id: "6ab4f7c8-353f-47f2-8757-2347f2ab6332",
-    },
-    {
-      staff_role_id: "5f6888a7-b372-4a2d-b27a-2550f50a0b95",
-      agency_branch_id: "e7b1d0d2-f2e0-437d-94f4-f3b75cb99e21",
-    },
-    {
-      staff_role_id: "50e3570c-1992-4aa1-a379-c96939f1a573",
-      agency_branch_id: "995ea74e-0358-4833-856c-cd45f2e99c21",
-    },
-    {
-      staff_role_id: "2903c690-0711-44f1-8f66-9eebf68eb3b7",
-      agency_branch_id: "6ab4f7c8-353f-47f2-8757-2347f2ab6332",
-    },
-    {
-      staff_role_id: "07c1c63f-2217-4564-85e0-624ee6f8d090",
-      agency_branch_id: "e7b1d0d2-f2e0-437d-94f4-f3b75cb99e21",
-    },
-    {
-      staff_role_id: "3dee4026-2c3c-4b2e-8495-7fafa398202c",
-      agency_branch_id: "e7b1d0d2-f2e0-437d-94f4-f3b75cb99e21",
-    },
-    {
-      staff_role_id: "81262c0a-2d6a-49c8-917f-f0c9ead874bc",
-      agency_branch_id: "6ab4f7c8-353f-47f2-8757-2347f2ab6332",
-    },
-    {
-      staff_role_id: "fbd6460a-1d90-4b02-9583-4b3042a69e2a",
-      agency_branch_id: "6ab4f7c8-353f-47f2-8757-2347f2ab6332",
-    },
-    {
-      staff_role_id: "1b66cb59-e55e-4d02-8c0a-f4ec7ba0efcc",
-      agency_branch_id: "e7b1d0d2-f2e0-437d-94f4-f3b75cb99e21",
-    },
-    {
-      staff_role_id: "36482514-6f1f-41e9-9685-43ec534d5d40",
-      agency_branch_id: "6ab4f7c8-353f-47f2-8757-2347f2ab6332",
-    },
-    {
-      staff_role_id: "23ffe3b4-08e3-4ad4-9073-194edf992bc4",
-      agency_branch_id: "e7b1d0d2-f2e0-437d-94f4-f3b75cb99e21",
-    },
-    {
-      staff_role_id: "f18acc7a-52ba-48b9-bec4-dc16c1188511",
-      agency_branch_id: "6ab4f7c8-353f-47f2-8757-2347f2ab6332",
-    },
-    {
-      staff_role_id: "c092b9ba-c204-4d82-9e0d-f08b2990cd73",
-      agency_branch_id: "e7b1d0d2-f2e0-437d-94f4-f3b75cb99e21",
-    },
-    {
-      staff_role_id: "f5f92a2b-43cf-4eba-8fdd-65e91c490856",
-      agency_branch_id: "995ea74e-0358-4833-856c-cd45f2e99c21",
-    },
-    {
-      staff_role_id: "7df14e80-b975-4b61-a170-9e16b071e4cd",
-      agency_branch_id: "6ab4f7c8-353f-47f2-8757-2347f2ab6332",
-    },
-    {
-      staff_role_id: "3145ca9b-f1ff-4209-ab1f-f53460179348",
-      agency_branch_id: "995ea74e-0358-4833-856c-cd45f2e99c21",
-    },
-    {
-      staff_role_id: "699a9eea-0b8e-4de6-9925-ca158a927051",
-      agency_branch_id: "e7b1d0d2-f2e0-437d-94f4-f3b75cb99e21",
-    },
-    {
-      staff_role_id: "f3cd89a8-def0-43f4-97e1-0d3439097568",
-      agency_branch_id: "e7b1d0d2-f2e0-437d-94f4-f3b75cb99e21",
-    },
-    {
-      staff_role_id: "06dddeea-7550-4c55-9f3e-2522371da2f5",
-      agency_branch_id: "995ea74e-0358-4833-856c-cd45f2e99c21",
-    },
-    {
-      staff_role_id: "40eba269-1e30-43e8-bd43-d433ab72aa9b",
-      agency_branch_id: "e7b1d0d2-f2e0-437d-94f4-f3b75cb99e21",
-    },
-    {
-      staff_role_id: "1aefba1a-5ab5-4d09-bc1a-de7dd7ef90f1",
-      agency_branch_id: "995ea74e-0358-4833-856c-cd45f2e99c21",
-    },
-    {
-      staff_role_id: "4270127f-5d7c-4135-bab3-fd825df0d46f",
-      agency_branch_id: "6ab4f7c8-353f-47f2-8757-2347f2ab6332",
-    },
-    {
-      staff_role_id: "0a6520b4-ba60-4251-bb34-155e93ac282e",
-      agency_branch_id: "6ab4f7c8-353f-47f2-8757-2347f2ab6332",
-    },
-    {
-      staff_role_id: "c5fe7319-ed44-48ad-91aa-3626baa0b708",
-      agency_branch_id: "e7b1d0d2-f2e0-437d-94f4-f3b75cb99e21",
-    },
-    {
-      staff_role_id: "16e5e214-b741-4648-8a1a-add86bfbd32f",
-      agency_branch_id: "e7b1d0d2-f2e0-437d-94f4-f3b75cb99e21",
-    },
-    {
-      staff_role_id: "21f5fd27-074b-4bc2-9915-36f003161b70",
-      agency_branch_id: "995ea74e-0358-4833-856c-cd45f2e99c21",
-    },
-    {
-      staff_role_id: "b3fd4771-ccfa-406e-a45e-9e31cc837b80",
-      agency_branch_id: "e7b1d0d2-f2e0-437d-94f4-f3b75cb99e21",
-    },
-    {
-      staff_role_id: "7327dae1-3c08-495c-9408-6defeb06b47f",
-      agency_branch_id: "e7b1d0d2-f2e0-437d-94f4-f3b75cb99e21",
-    },
-    {
-      staff_role_id: "170408b8-5c35-48d0-ac87-005b18faccf3",
-      agency_branch_id: "6ab4f7c8-353f-47f2-8757-2347f2ab6332",
-    },
-    {
-      staff_role_id: "f4e51b8e-b917-441d-b7e4-437b98379762",
-      agency_branch_id: "6ab4f7c8-353f-47f2-8757-2347f2ab6332",
-    },
-    {
-      staff_role_id: "3cc7f053-360a-4730-bc63-c72e0a4759a7",
-      agency_branch_id: "6ab4f7c8-353f-47f2-8757-2347f2ab6332",
-    },
-    {
-      staff_role_id: "b1098e72-9721-41c5-9daa-667e68eef32f",
-      agency_branch_id: "6ab4f7c8-353f-47f2-8757-2347f2ab6332",
-    },
-    {
-      staff_role_id: "f67e42d7-e264-4609-a3e2-3e8e32989a15",
-      agency_branch_id: "995ea74e-0358-4833-856c-cd45f2e99c21",
-    },
-    {
-      staff_role_id: "bee1f758-1e36-4b13-9642-a3b8def9aeb7",
-      agency_branch_id: "e7b1d0d2-f2e0-437d-94f4-f3b75cb99e21",
-    },
-    {
-      staff_role_id: "f11a90d1-97a8-46ab-93ee-e2658d0bbcd2",
-      agency_branch_id: "995ea74e-0358-4833-856c-cd45f2e99c21",
-    },
-    {
-      staff_role_id: "0c1b7b29-ec9f-4304-8136-5744078d25ad",
-      agency_branch_id: "e7b1d0d2-f2e0-437d-94f4-f3b75cb99e21",
-    },
-  ];
+export const USER_AGENCY_INCHARGE_ARRAY: Partial<UserAgencyBranchInChargeAttributes>[] =
+  [];
 export const ROLE_ARRAY: Partial<RoleAttributes>[] = [
   {
     id: "b351a4dc-4fa7-4170-840c-201405eba532",

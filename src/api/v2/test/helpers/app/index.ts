@@ -16,7 +16,7 @@ appTest.use(express.json()); //  * Converted Data into JSON type - !Important
 // ? ============================== HEALTH CHECK =================================
 appTest.get(ROOT_URL, (_: Request, res: Response) => {
   res
-    .status(STATUS_CODE.STATUS_CODE_200)
+    .status(STATUS_CODE.OK)
     .send(RestFullAPI.onSuccess(STATUS_MESSAGE.SUCCESS));
 });
 appTest.use(ROOT_URL, APIGateWay.handleUseGlobalMiddleware, rootRouter); // * Use Router

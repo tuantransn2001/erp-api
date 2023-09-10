@@ -1,7 +1,7 @@
 import db from "../../../models";
 const { User } = db;
 import { USER_ARRAY } from "../../../data/seeders";
-import { each as forEachAwait } from "awaity";
+import { each as forEachAsync } from "awaity";
 export const handleFakeDataTest = async () => {
   const seedData = [
     {
@@ -10,7 +10,7 @@ export const handleFakeDataTest = async () => {
     },
   ];
 
-  await forEachAwait(seedData, async ({ Model, data }) => {
+  await forEachAsync(seedData, async ({ Model, data }) => {
     await Model.destroy({ truncate: { cascade: true } });
     await Model.bulkCreate(data);
   });

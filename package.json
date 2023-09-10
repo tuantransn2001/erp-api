@@ -47,6 +47,7 @@
     "axios": "^1.4.0",
     "bcrypt": "^5.1.0",
     "clean-webpack-plugin": "^4.0.0",
+    "compression": "^1.7.4",
     "cors": "^2.8.5",
     "cross-env": "^7.0.3",
     "dotenv": "^16.0.3",
@@ -56,6 +57,7 @@
     "jsonwebtoken": "^9.0.0",
     "randomstring": "^1.2.3",
     "swagger-jsdoc": "^6.2.8",
-    "swagger-ui-express": "^4.6.3"
+    "swagger-ui-express": "^4.6.3",
+    "zod": "^3.22.2"
   }
 }

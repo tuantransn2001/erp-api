@@ -70,6 +70,7 @@ export interface RoleAttributes {
   id: string;
   role_title: string;
   role_description: string;
+  isDelete?: boolean;
   createdAt?: Date;
   updatedAt?: Date;
 }
@@ -81,24 +82,25 @@ export interface StaffAttributes {
   staff_birthday: Date | string;
   note_about_staff: string;
   staff_gender: boolean;
+  isDelete?: boolean;
   isAllowViewImportNWholesalePrice: boolean;
   isAllowViewShippingPrice: boolean;
   createdAt?: Date;
   updatedAt?: Date;
 }
 
-export interface StaffAgencyBranchInChargeAttributes {
+export interface UserAgencyBranchInChargeAttributes {
   id: string;
-  staff_role_id: string;
+  user_role_id: string;
   agency_branch_id: string;
   createdAt?: Date;
   updatedAt?: Date;
 }
 
-export interface StaffRoleAttributes {
+export interface UserRoleAttributes {
   id: string;
   role_id: string;
-  staff_id: string;
+  user_id: string;
   createdAt?: Date;
   updatedAt?: Date;
 }
@@ -110,7 +112,7 @@ export interface UserAttributes {
   user_password: string | null;
   user_name: string;
   user_type: string;
-  isDelete: boolean | null;
+  isDelete?: boolean | null;
   createdAt?: Date;
   updatedAt?: Date;
 }
@@ -120,6 +122,7 @@ export interface UserAddressAttributes {
   user_province: string;
   user_district: string;
   user_specific_address: string;
+  isDelete?: boolean | null;
   createdAt?: Date;
   updatedAt?: Date;
 }
@@ -135,6 +138,7 @@ export interface TagAttributes {
   id: string;
   tag_title: string;
   tag_description: string;
+  isDelete?: boolean | null;
   createdAt?: Date;
   updatedAt?: Date;
 }
@@ -207,6 +211,7 @@ export interface PriceAttributes {
   price_description: string;
   isImportDefault: boolean;
   isSellDefault: boolean;
+  isDelete?: boolean;
   createdAt?: Date;
   updatedAt?: Date;
 }
@@ -219,6 +224,7 @@ export interface DebtAttributes {
   debt_amount: string;
   debt_note: string;
   action: string;
+  isDelete?: boolean;
   createdAt?: Date;
   updatedAt?: Date;
 }

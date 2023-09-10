@@ -1,92 +1,97 @@
 import { Request, Response, NextFunction } from "express";
-import { TagAttributes } from "@/src/api/v2/ts/interfaces/entities_interfaces";
-import { handleFormatUpdateDataByValidValue } from "../common";
-import { STATUS_CODE, STATUS_MESSAGE } from "../ts/enums/api_enums";
-import RestFullAPI from "../utils/response/apiResponse";
 import db from "../models";
-const { Tag, CustSuppTag } = db;
+import { map as mapSync } from "awaity";
+import { BaseModelHelper } from "../services/helpers/baseModelHelper";
+import {
+  BulkCreateAsyncPayload,
+  GetAllAsyncPayload,
+  SoftDeleteByIDAsyncPayload,
+  UpdateAsyncPayload,
+} from "../services/helpers/shared/baseModelHelper.interface";
+import {
+  BulkCreateTagRowDTO,
+  UpdateTagRowDTO,
+} from "../ts/dto/input/common/common.interface";
+import RestFullAPI from "../utils/response/apiResponse";
+const { Tag } = db;
 class TagController {
-  public static async getAll(_: Request, res: Response, next: NextFunction) {
+  public async getAll(req: Request, res: Response, next: NextFunction) {
     try {
-      const tagList = await Tag.findAll();
-      res
-        .status(STATUS_CODE.STATUS_CODE_200)
-        .send(RestFullAPI.onSuccess(STATUS_MESSAGE.SUCCESS, tagList));
-    } catch (err) {
-      next(err);
-    }
-  }
-  public static async create(req: Request, res: Response, next: NextFunction) {
-    try {
-      const tags: TagAttributes[] = req.body.tags;
+      const getTypeAllData: GetAllAsyncPayload = {
+        ...BaseModelHelper.getPagination(req),
+        Model: Tag,
+      };
 
-      await Tag.bulkCreate(tags);
-
-      res
-        .status(STATUS_CODE.STATUS_CODE_200)
-        .send(RestFullAPI.onSuccess(STATUS_MESSAGE.SUCCESS));
-    } catch (err) {
-      next(err);
-    }
-  }
-  public static async updateByID(
-    req: Request,
-    res: Response,
-    next: NextFunction
-  ) {
-    try {
-      const { id } = req.params;
-      const { tag_title, tag_description } = req.body;
-
-      const foundTag = await Tag.findOne({
-        where: {
-          id,
-        },
-      });
-
-      const tagRowUpdate: TagAttributes = handleFormatUpdateDataByValidValue(
-        {
-          tag_title,
-          tag_description,
-        },
-        foundTag.dataValues
+      const { statusCode, data } = await BaseModelHelper.getAllAsync(
+        getTypeAllData
       );
 
-      await Tag.update(tagRowUpdate, {
-        where: {
-          id,
-        },
-      });
-
-      res
-        .status(STATUS_CODE.STATUS_CODE_200)
-        .send(RestFullAPI.onSuccess(STATUS_MESSAGE.SUCCESS));
+      res.status(statusCode).send(data);
     } catch (err) {
       next(err);
     }
   }
-  public static async deleteByID(
-    req: Request,
-    res: Response,
-    next: NextFunction
-  ) {
+  public async create(req: Request, res: Response, next: NextFunction) {
     try {
-      const { id } = req.params;
+      const { tags } = req.body;
 
-      await CustSuppTag.destroy({
-        where: {
-          tag_id: id,
-        },
-      });
-      await Tag.destroy({
-        where: {
-          id,
-        },
-      });
+      const bulkCreateTagData: BulkCreateAsyncPayload<BulkCreateTagRowDTO> = {
+        Model: Tag,
+        dto: tags,
+      };
 
-      res
-        .status(STATUS_CODE.STATUS_CODE_202)
-        .send(RestFullAPI.onSuccess(STATUS_MESSAGE.SUCCESS));
+      const { statusCode, data } = await BaseModelHelper.bulkCreateAsyncPayload(
+        bulkCreateTagData
+      );
+
+      res.status(statusCode).send(data);
+    } catch (err) {
+      next(err);
+    }
+  }
+  public async update(req: Request, res: Response, next: NextFunction) {
+    try {
+      const { tags } = req.body;
+
+      const bulkUpdateTagPromiseResult = await mapSync(
+        tags,
+        async ({ id, ...rest }) => {
+          const updateSingleTagData: UpdateAsyncPayload<UpdateTagRowDTO> = {
+            Model: Tag,
+            where: {
+              id,
+            },
+            dto: { ...rest },
+          };
+          console.log(updateSingleTagData);
+          const updateSingleTagRes = await BaseModelHelper.updateAsync(
+            updateSingleTagData
+          );
+
+          return updateSingleTagRes;
+        }
+      );
+
+      const { statusCode, data } = await RestFullAPI.onArrayPromiseSuccess(
+        bulkUpdateTagPromiseResult
+      );
+      res.status(statusCode).send(data);
+    } catch (err) {
+      next(err);
+    }
+  }
+  public async deleteByID(req: Request, res: Response, next: NextFunction) {
+    try {
+      const softDeleteTagPayload: SoftDeleteByIDAsyncPayload = {
+        Model: Tag,
+        id: req.params.id,
+      };
+
+      const { statusCode, data } = await BaseModelHelper.softDeleteAsync(
+        softDeleteTagPayload
+      );
+
+      res.status(statusCode).send(data);
     } catch (err) {
       next(err);
     }

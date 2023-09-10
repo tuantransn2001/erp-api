@@ -5,7 +5,7 @@ import { STATUS_CODE, STATUS_MESSAGE } from "../../ts/enums/api_enums";
 import RestFullAPI from "../../utils/response/apiResponse";
 import { isEmpty } from "../../common";
 const { User } = db;
-export const checkUserExist =
+export const CheckUserExistMiddleware =
   () => async (req: Request, res: Response, next: NextFunction) => {
     try {
       const { user_code, user_name, user_phone, user_email }: UserAttributes =
@@ -64,7 +64,7 @@ export const checkUserExist =
 
       if (!isEmpty(errorMessage)) {
         res
-          .status(STATUS_CODE.STATUS_CODE_406)
+          .status(STATUS_CODE.NOT_ACCEPTABLE)
           .send(
             RestFullAPI.onSuccess(STATUS_MESSAGE.NOT_ACCEPTABLE, errorMessage)
           );

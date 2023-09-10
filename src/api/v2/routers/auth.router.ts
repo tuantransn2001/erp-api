@@ -1,10 +1,20 @@
 import { Router } from "express";
 import AuthController from "../controller/auth.controller";
-import { errorHandler } from "../middlewares";
+import { errorCatcher } from "../middlewares";
+import { ZodValidationMiddleware } from "../middlewares";
+import { LoginSchema } from "../ts/dto/input/auth/auth.schema";
+
 const authRouter = Router();
 
+const _AuthController = new AuthController();
+
 authRouter
-  .post("/login", AuthController.login, errorHandler)
-  .get("/me", AuthController.me, errorHandler);
+  .post(
+    "/login",
+    ZodValidationMiddleware(LoginSchema),
+    _AuthController.login,
+    errorCatcher
+  )
+  .get("/me", _AuthController.me, errorCatcher);
 
 export default authRouter;

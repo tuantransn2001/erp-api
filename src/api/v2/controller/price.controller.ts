@@ -1,24 +1,32 @@
 import { NextFunction, Request, Response } from "express";
-const { v4: uuidv4 } = require("uuid");
-import { PriceAttributes } from "@/src/api/v2/ts/interfaces/entities_interfaces";
 import db from "../models";
-import { handleFormatUpdateDataByValidValue } from "../common";
 import { STATUS_CODE, STATUS_MESSAGE } from "../ts/enums/api_enums";
 import RestFullAPI from "../utils/response/apiResponse";
-const { Price, ProductVariantPrice } = db;
+import { map as mapAsync } from "awaity";
+import { BaseModelHelper } from "../services/helpers/baseModelHelper";
+import {
+  CreateAsyncPayload,
+  GetAllAsyncPayload,
+  GetByIdAsyncPayload,
+  SoftDeleteByIDAsyncPayload,
+  UpdateAsyncPayload,
+} from "../services/helpers/shared/baseModelHelper.interface";
+import {
+  CreatePriceItemRowDTO,
+  UpdatePriceItemRowDTO,
+} from "../ts/dto/input/common/common.interface";
+import { ObjectType } from "../ts/types/common";
+import { handleServerResponse } from "../utils/response/handleServerResponse";
+import { isEmpty } from "../common";
+const { Price } = db;
 
-type PriceTypeOnlyIsImportIsSell =
-  | Omit<
-      PriceAttributes,
-      "id" | "price_type" | "price_description" | "isImportDefault"
-    >
-  | Omit<
-      PriceAttributes,
-      "id" | "price_type" | "price_description" | "isSellDefault"
-    >;
+type IsImportOrSellDefaultPrice = {
+  isSellDefault: boolean;
+  isImportDefault: boolean;
+};
 
 class PriceController {
-  static async checkDefaultPrice(
+  public async checkDefaultPriceMiddleware(
     req: Request,
     res: Response,
     next: NextFunction
@@ -26,15 +34,20 @@ class PriceController {
     try {
       const { id } = req.params;
 
-      const foundPrice = await Price.findOne({
+      const getPriceByIdData: GetByIdAsyncPayload = {
+        Model: Price,
         where: {
           id,
         },
-      });
+      };
 
-      const IsPriceDefaultObj: PriceTypeOnlyIsImportIsSell = {
-        isSellDefault: foundPrice.dataValues.isSellDefault,
-        isImportDefault: foundPrice.dataValues.isImportDefault,
+      const { data: foundPrice } = await BaseModelHelper.getByIDAsync(
+        getPriceByIdData
+      );
+
+      const IsPriceDefaultObj: IsImportOrSellDefaultPrice = {
+        isSellDefault: foundPrice.data.dataValues.isSellDefault,
+        isImportDefault: foundPrice.data.dataValues.isImportDefault,
       };
 
       const isPriceDefault = Object.values(IsPriceDefaultObj).some(
@@ -44,146 +57,168 @@ class PriceController {
       if (!isPriceDefault) {
         next();
       } else {
-        const NOTIFICATION: Array<string> = new Array();
+        const errorMess: string[] = [];
         Object.keys(IsPriceDefaultObj).map((key, index) => {
           if (Object.values(IsPriceDefaultObj)[index]) {
-            NOTIFICATION.push(
-              `Cann't modified price with id: ${id} while ${key} is default`
+            errorMess.push(
+              `Can not modified price with id: ${id} while ${key} is default`
             );
           }
         });
 
         res
-          .status(STATUS_CODE.STATUS_CODE_406)
-          .send(
-            RestFullAPI.onSuccess(STATUS_MESSAGE.NOT_ACCEPTABLE, NOTIFICATION)
-          );
+          .status(STATUS_CODE.BAD_GATEWAY)
+          .send(RestFullAPI.onSuccess(STATUS_MESSAGE.BAD_REQUEST, errorMess));
       }
     } catch (err) {
       next(err);
     }
   }
-  static async getAll(_: Request, res: Response, next: NextFunction) {
-    try {
-      const priceList = await Price.findAll();
+  private static async handleDisableDefaultPriceAlreadyExist(
+    payload: IsImportOrSellDefaultPrice
+  ) {
+    const bulkUpdatePayload = Object.keys(payload).reduce(
+      (res, currentDefaultPriceStatusKey) => {
+        const isDefault = payload[currentDefaultPriceStatusKey];
+        if (isDefault) {
+          const dto: ObjectType<boolean> = {
+            [currentDefaultPriceStatusKey]: !isDefault,
+          };
+          const where: ObjectType<boolean> = {
+            [currentDefaultPriceStatusKey]: isDefault,
+          };
+          res.push({
+            dto,
+            where,
+          } as never);
+        }
 
-      res
-        .status(STATUS_CODE.STATUS_CODE_200)
-        .send(RestFullAPI.onSuccess(STATUS_MESSAGE.SUCCESS, priceList));
+        return res;
+      },
+      []
+    );
+
+    if (!isEmpty(bulkUpdatePayload)) {
+      const bulkUpdateRes = await mapAsync(
+        bulkUpdatePayload,
+        async ({ dto, where }) => {
+          const updateData: UpdateAsyncPayload<ObjectType<boolean>> = {
+            Model: Price,
+            dto,
+            where,
+          };
+
+          return await BaseModelHelper.updateAsync(updateData);
+        }
+      );
+
+      const { statusCode, data } = await RestFullAPI.onArrayPromiseSuccess(
+        bulkUpdateRes
+      );
+
+      return handleServerResponse(statusCode, data);
+    }
+
+    return handleServerResponse(
+      STATUS_CODE.OK,
+      RestFullAPI.onSuccess(STATUS_MESSAGE.ACCEPTED)
+    );
+  }
+  public async getAll(req: Request, res: Response, next: NextFunction) {
+    try {
+      const getTypeAllData: GetAllAsyncPayload = {
+        ...BaseModelHelper.getPagination(req),
+        Model: Price,
+        attributes: [
+          "id",
+          "price_type",
+          "price_description",
+          "isImportDefault",
+          "isSellDefault",
+          "createdAt",
+          "updatedAt",
+        ],
+      };
+
+      const { statusCode, data } = await BaseModelHelper.getAllAsync(
+        getTypeAllData
+      );
+
+      res.status(statusCode).send(data);
     } catch (err) {
       next(err);
     }
   }
-  static async create(req: Request, res: Response, next: NextFunction) {
+  public async create(req: Request, res: Response, next: NextFunction) {
     try {
       const { price_type, price_description, isImportDefault, isSellDefault } =
         req.body;
 
-      const foundPrice = await Price.findOne({
-        where: {
-          price_type,
-        },
-      });
+      const shouldSwitchToDefault = isImportDefault ?? isSellDefault;
 
-      if (foundPrice) {
-        res
-          .status(STATUS_CODE.STATUS_CODE_409)
-          .send(
-            RestFullAPI.onSuccess(
-              STATUS_MESSAGE.CONFLICT,
-              "Price has already been exists!"
-            )
-          );
-      } else {
-        if (isImportDefault | isSellDefault) {
-          const whereConditionArray: Array<PriceTypeOnlyIsImportIsSell> = [
-            {
-              isSellDefault,
-            },
-            {
-              isImportDefault,
-            },
-          ];
-
-          whereConditionArray.forEach(async (whereCondition, index) => {
-            if (Object.values(whereCondition)[0]) {
-              const foundDefaultPrice = await Price.findOne({
-                where: whereCondition,
-              });
-
-              await foundDefaultPrice.update({
-                [Object.keys(whereConditionArray[index])[0]]: false,
-              });
-            }
-          });
-        }
-
-        const newPriceRow:
-          | Omit<PriceAttributes, "isImportDefault" | "isSellDefault">
-          | PriceAttributes = {
-          id: uuidv4(),
-          price_type,
-          price_description,
+      if (shouldSwitchToDefault) {
+        const data: IsImportOrSellDefaultPrice = {
           isImportDefault,
           isSellDefault,
         };
-        await Price.create(newPriceRow);
-        res
-          .status(STATUS_CODE.STATUS_CODE_201)
-          .send(RestFullAPI.onSuccess(STATUS_MESSAGE.SUCCESS));
+        await PriceController.handleDisableDefaultPriceAlreadyExist(data);
       }
+
+      const createPriceData: CreateAsyncPayload<CreatePriceItemRowDTO> = {
+        Model: Price,
+        dto: { price_type, price_description, isImportDefault, isSellDefault },
+      };
+
+      const { statusCode, data } = await BaseModelHelper.createAsync(
+        createPriceData
+      );
+
+      res.status(statusCode).send(data);
     } catch (err) {
       next(err);
     }
   }
-  static async deleteByID(req: Request, res: Response, next: NextFunction) {
+  public async softDeleteByID(req: Request, res: Response, next: NextFunction) {
     try {
-      const { id } = req.params;
+      const softDeletePriceData: SoftDeleteByIDAsyncPayload = {
+        Model: Price,
+        id: req.params.id,
+      };
+      const { statusCode, data } = await BaseModelHelper.softDeleteAsync(
+        softDeletePriceData
+      );
 
-      await ProductVariantPrice.destroy({
-        where: {
-          price_id: id,
-        },
-      });
-      await Price.destroy({
-        where: {
-          id,
-        },
-      });
-
-      res
-        .status(STATUS_CODE.STATUS_CODE_200)
-        .send(RestFullAPI.onSuccess(STATUS_MESSAGE.SUCCESS));
+      res.status(statusCode).send(data);
     } catch (err) {
       next(err);
     }
   }
-  static async updateByID(req: Request, res: Response, next: NextFunction) {
+  public async updateByID(req: Request, res: Response, next: NextFunction) {
     try {
-      const { id } = req.params;
-      const { price_type, price_description } = req.body;
+      const { price_type, price_description, isImportDefault, isSellDefault } =
+        req.body;
 
-      const foundPrice = await Price.findOne({
-        where: {
-          id,
-        },
-      });
+      const shouldSwitchToDefault = isImportDefault ?? isSellDefault;
 
-      const updatePriceRow: PriceAttributes =
-        handleFormatUpdateDataByValidValue(
-          { price_type, price_description },
-          foundPrice.dataValues
-        );
+      if (shouldSwitchToDefault) {
+        const data: IsImportOrSellDefaultPrice = {
+          isImportDefault,
+          isSellDefault,
+        };
+        await PriceController.handleDisableDefaultPriceAlreadyExist(data);
+      }
 
-      await Price.update(updatePriceRow, {
-        where: {
-          id,
-        },
-      });
+      const updatePriceData: UpdateAsyncPayload<UpdatePriceItemRowDTO> = {
+        Model: Price,
+        dto: { price_type, price_description, isImportDefault, isSellDefault },
+        where: { id: req.params.id },
+      };
 
-      res
-        .status(STATUS_CODE.STATUS_CODE_200)
-        .send(RestFullAPI.onSuccess(STATUS_MESSAGE.SUCCESS));
+      const { statusCode, data } = await BaseModelHelper.updateAsync(
+        updatePriceData
+      );
+
+      res.status(statusCode).send(data);
     } catch (err) {
       next(err);
     }

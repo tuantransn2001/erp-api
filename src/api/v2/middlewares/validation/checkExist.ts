@@ -1,28 +1,31 @@
 import { STATUS_CODE, STATUS_MESSAGE } from "../../ts/enums/api_enums";
-import RestFullAPI from "../../utils/response/apiResponse";
 import { Request, Response, NextFunction } from "express";
+import { GetByIdAsyncPayload } from "../../services/helpers/shared/baseModelHelper.interface";
+import { BaseModelHelper } from "../../services/helpers/baseModelHelper";
+import RestFullAPI from "../../utils/response/apiResponse";
 
-export const checkExist =
+export const CheckItemExistMiddleware =
   (Model: any) => async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const id = req.params.id || req.query.id;
+      const id = req.params.id ?? req.query.id ?? req.body.id;
 
-      const foundItem = await Model.findOne({
+      const getItemByIdPayload: GetByIdAsyncPayload = {
+        Model,
         where: {
           id,
         },
-      });
-      if (foundItem) {
-        next();
-      } else {
+      };
+
+      const { data } = await BaseModelHelper.getByIDAsync(getItemByIdPayload);
+
+      const shouldStopAction = data?.data.dataValues.isDelete;
+
+      if (shouldStopAction) {
         res
-          .status(STATUS_CODE.STATUS_CODE_404)
-          .send(
-            RestFullAPI.onSuccess(
-              STATUS_MESSAGE.NOT_FOUND,
-              "Check By Middleware"
-            )
-          );
+          .status(STATUS_CODE.NOT_FOUND)
+          .send(RestFullAPI.onSuccess(STATUS_MESSAGE.NOT_FOUND));
+      } else {
+        next();
       }
     } catch (err) {
       next(err);

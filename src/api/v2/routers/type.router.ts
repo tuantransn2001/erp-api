@@ -1,9 +1,10 @@
 import { Router } from "express";
 import TypeController from "../controller/type.controller";
-import { errorHandler } from "../middlewares";
-
+import { errorCatcher } from "../middlewares";
 const typeRouter = Router();
 
-typeRouter.get("/get-all", TypeController.getAll, errorHandler);
+const _TypeController = new TypeController();
+
+typeRouter.get("/get-all", _TypeController.getAll, errorCatcher);
 
 export default typeRouter;

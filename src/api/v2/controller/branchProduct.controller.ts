@@ -35,7 +35,7 @@ class BranchProductController {
       });
 
       res
-        .status(STATUS_CODE.STATUS_CODE_200)
+        .status(STATUS_CODE.OK)
         .send(
           RestFullAPI.onSuccess(STATUS_MESSAGE.SUCCESS, foundBranchProductList)
         );

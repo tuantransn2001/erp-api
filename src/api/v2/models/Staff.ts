@@ -10,6 +10,7 @@ export default (sequelize: any, DataTypes: any) => {
     staff_birthday!: Date;
     note_about_staff!: string;
     staff_gender!: boolean;
+    isDelete!: boolean;
     isAllowViewImportNWholesalePrice!: boolean;
     isAllowViewShippingPrice!: boolean;
     /**
@@ -17,14 +18,11 @@ export default (sequelize: any, DataTypes: any) => {
      * This method is not a part of Sequelize lifecycle.
      * The `models/index` file will call this method automatically.
      */
-    static associate({ User, CustSupp, StaffRole, Order }: any) {
+    static associate({ User, CustSupp, Order }: any) {
       Staff.belongsTo(User, {
         foreignKey: "user_id",
       });
       Staff.hasMany(CustSupp, {
-        foreignKey: "staff_id",
-      });
-      Staff.hasMany(StaffRole, {
         foreignKey: "staff_id",
       });
       Staff.hasMany(Order, {
@@ -47,6 +45,7 @@ export default (sequelize: any, DataTypes: any) => {
       staff_gender: DataTypes.BOOLEAN,
       isAllowViewImportNWholesalePrice: DataTypes.BOOLEAN,
       isAllowViewShippingPrice: DataTypes.BOOLEAN,
+      isDelete: { type: DataTypes.BOOLEAN, defaultValue: false },
     },
     {
       sequelize,

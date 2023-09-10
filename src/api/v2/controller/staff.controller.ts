@@ -1,142 +1,252 @@
-require("dotenv").config();
+import { v4 as uuidv4 } from "uuid";
+import { map as mapAsync } from "awaity";
 import { NextFunction, Request, Response } from "express";
-
-import { handleValidateClientRequestBeforeModify } from "../common";
-import { STATUS_CODE, STATUS_MESSAGE } from "../ts/enums/api_enums";
+import { isNullOrFalse } from "../common";
+import db from "../models";
+import { BaseModelHelper } from "../services/helpers/baseModelHelper";
+import {
+  BulkCreateAsyncPayload,
+  CreateAsyncPayload,
+  GetAllAsyncPayload,
+  GetByIdAsyncPayload,
+  SoftDeleteByIDAsyncPayload,
+} from "../services/helpers/shared/baseModelHelper.interface";
+import {
+  CreateAddressItemRowDTO,
+  CreateAgencyBranchInChargeRowDTO,
+  CreateStaffDTO,
+  CreateStaffRowDTO,
+  CreateUserRoleRowDTO,
+  CreateUserRowDTO,
+} from "../ts/dto/input/common/common.interface";
+import { STAFF_STATUS, USER_TYPE } from "../ts/enums/app_enums";
 import RestFullAPI from "../utils/response/apiResponse";
-import UserServices from "../services/user.services";
-import { MODIFY_STATUS, USER_TYPE } from "../ts/enums/app_enums";
-import HttpException from "../utils/exceptions/http.exception";
-import StaffServices from "../services/staff.services";
-
-class StaffController {
-  public static async getAll(_: Request, res: Response, next: NextFunction) {
+const {
+  User,
+  Staff,
+  UserAddress,
+  UserRole,
+  UserAgencyBranchInCharge,
+  Role,
+  AgencyBranch,
+} = db;
+export class StaffController {
+  public async getAll(req: Request, res: Response, next: NextFunction) {
     try {
-      const { statusCode, data } = await StaffServices.getAll({});
+      const getStaffData: GetAllAsyncPayload = {
+        ...BaseModelHelper.getPagination(req),
+        Model: User,
+        where: {
+          isDelete: isNullOrFalse,
+          user_type: USER_TYPE.STAFF,
+        },
+        attributes: ["id", "user_name", "user_phone", "createdAt"],
+        include: [
+          {
+            model: Staff,
+            where: {
+              isDelete: isNullOrFalse,
+            },
+            attributes: ["id", "staff_status"],
+          },
+        ],
+      };
+
+      const { statusCode, data } = await BaseModelHelper.getAllAsync(
+        getStaffData
+      );
+
       res.status(statusCode).send(data);
     } catch (err) {
       next(err);
     }
   }
-  public static async getByID(req: Request, res: Response, next: NextFunction) {
+  public async getByID(req: Request, res: Response, next: NextFunction) {
     try {
-      const { id } = req.params;
+      const getStaffByIdData: GetByIdAsyncPayload = {
+        Model: Staff,
+        where: { id: req.params.id },
+        attributes: [
+          "id",
+          "staff_status",
+          "staff_birthday",
+          "note_about_staff",
+          "staff_gender",
+          "isAllowViewImportNWholesalePrice",
+          "isAllowViewShippingPrice",
+        ],
+        include: [
+          {
+            model: User,
+            attributes: [
+              "id",
+              "user_phone",
+              "user_name",
+              "user_email",
+              "createdAt",
+            ],
+            where: {
+              isDelete: isNullOrFalse,
+              user_type: USER_TYPE.STAFF,
+            },
+            include: [
+              {
+                model: UserRole,
+                separate: true,
+                attributes: ["id"],
+                include: [
+                  { model: Role, attributes: ["id", "role_title"] },
+                  {
+                    model: UserAgencyBranchInCharge,
+                    separate: true,
+                    as: "User_Agency_Branch_InCharge",
+                    attributes: ["id"],
+                    include: [
+                      {
+                        model: AgencyBranch,
+                        attributes: ["id", "agency_branch_name"],
+                      },
+                    ],
+                  },
+                ],
+              },
+              {
+                model: UserAddress,
+                attributes: [
+                  "id",
+                  "user_province",
+                  "user_district",
+                  "user_specific_address",
+                ],
+              },
+            ],
+          },
+        ],
+      };
 
-      const { statusCode, data } = await StaffServices.getByID({ id });
+      const { statusCode, data } = await BaseModelHelper.getByIDAsync(
+        getStaffByIdData
+      );
 
       res.status(statusCode).send(data);
     } catch (err) {
       next(err);
     }
   }
-  public static async create(req: Request, res: Response, next: NextFunction) {
+  public async create(req: Request, res: Response, next: NextFunction) {
     try {
       const {
         user_phone,
         user_email,
         user_password,
         user_name,
+        staff_birthday,
         staff_gender,
+        isAllowViewImportNWholesalePrice,
+        isAllowViewShippingPrice,
         roles,
-      } = req.body;
+        address_list,
+      }: CreateStaffDTO = req.body;
 
-      const { status, message } = handleValidateClientRequestBeforeModify(
-        {
+      const user_id = uuidv4();
+
+      const createUserRowData: CreateAsyncPayload<CreateUserRowDTO> = {
+        Model: User,
+        dto: {
+          id: user_id,
           user_phone,
           user_email,
           user_password,
           user_name,
-          staff_gender,
-          roles,
+          user_type: USER_TYPE.STAFF,
         },
-        [undefined]
+      };
+
+      const createUserRes = await BaseModelHelper.createAsync(
+        createUserRowData
       );
 
-      switch (status) {
-        case MODIFY_STATUS.ACCEPT: {
-          const {
-            isAllowViewImportNWholesalePrice,
-            isAllowViewShippingPrice,
-            staff_birthday,
-            address_list,
-            user_code,
-          } = req.body;
-          const { statusCode, data } = await StaffServices.create({
-            user_phone,
-            user_email,
-            user_code,
-            user_password,
-            user_name,
-            staff_gender,
-            roles,
-            isAllowViewImportNWholesalePrice,
-            isAllowViewShippingPrice,
-            staff_birthday,
-            address_list,
-          });
-          res.status(statusCode).send(data);
-          break;
-        }
-        case MODIFY_STATUS.DENY: {
-          res.status(STATUS_CODE.STATUS_CODE_406).send(
-            RestFullAPI.onFail(STATUS_MESSAGE.NOT_ACCEPTABLE, {
-              message,
-            } as HttpException)
-          );
-          break;
-        }
-      }
-    } catch (err) {
-      next(err);
-    }
-  }
-  public static async updateByID(
-    req: Request,
-    res: Response,
-    next: NextFunction
-  ) {
-    try {
-      const { id } = req.params;
-      const {
-        user_code,
-        user_name,
-        user_phone,
-        user_email,
-        staff_birthday,
-        staff_gender,
-        staff_address_list,
-        roles,
-      } = req.body;
+      const createStaffRowData: CreateAsyncPayload<CreateStaffRowDTO> = {
+        Model: Staff,
+        dto: {
+          user_id,
+          staff_status: STAFF_STATUS.WORKING,
+          staff_birthday,
+          staff_gender,
+          isAllowViewImportNWholesalePrice,
+          isAllowViewShippingPrice,
+        },
+      };
 
-      const { statusCode, data } = await StaffServices.updateDetail({
-        staff_id: id,
-        user_code,
-        user_name,
-        user_phone,
-        user_email,
-        staff_birthday,
-        staff_gender,
-        staff_address_list,
-        roles,
-      });
+      const createStaffRowRes = await BaseModelHelper.createAsync(
+        createStaffRowData
+      );
+
+      const bulkCreateUserAddressData: BulkCreateAsyncPayload<CreateAddressItemRowDTO> =
+        {
+          Model: UserAddress,
+          dto: address_list.map((address) => ({ ...address, user_id })),
+        };
+
+      const bulkCreateUserAddressRes =
+        await BaseModelHelper.bulkCreateAsyncPayload(bulkCreateUserAddressData);
+
+      const bulkCreateUserRoleWithAgencyBranchInChargeRes =
+        await RestFullAPI.onArrayPromiseSuccess(
+          await mapAsync(roles, async (role) => {
+            const user_role_id = uuidv4();
+            const createUserRoleData: CreateAsyncPayload<CreateUserRoleRowDTO> =
+              {
+                Model: UserRole,
+                dto: { id: user_role_id, user_id, role_id: role.role_id },
+              };
+
+            const createUserRoleRes = await BaseModelHelper.createAsync(
+              createUserRoleData
+            );
+
+            const bulkCreateUserRoleAgencyBranchInChargeData: BulkCreateAsyncPayload<CreateAgencyBranchInChargeRowDTO> =
+              {
+                Model: UserAgencyBranchInCharge,
+                dto: role.agencyBranches_inCharge.map((agency_branch_id) => ({
+                  agency_branch_id,
+                  user_role_id,
+                })),
+              };
+
+            const bulkCreateUserRoleAgencyBranchInChargeRes =
+              await BaseModelHelper.bulkCreateAsyncPayload(
+                bulkCreateUserRoleAgencyBranchInChargeData
+              );
+            return await RestFullAPI.onArrayPromiseSuccess([
+              createUserRoleRes,
+              bulkCreateUserRoleAgencyBranchInChargeRes,
+            ]);
+          })
+        );
+
+      const { statusCode, data } = await RestFullAPI.onArrayPromiseSuccess([
+        createUserRes,
+        createStaffRowRes,
+        bulkCreateUserAddressRes,
+        bulkCreateUserRoleWithAgencyBranchInChargeRes,
+      ]);
 
       res.status(statusCode).send(data);
     } catch (err) {
       next(err);
     }
   }
-  public static async deleteByID(
-    req: Request,
-    res: Response,
-    next: NextFunction
-  ) {
+  public async softDeleteByID(req: Request, res: Response, next: NextFunction) {
     try {
-      const { id } = req.params;
+      const softDeleteStaffData: SoftDeleteByIDAsyncPayload = {
+        Model: Staff,
+        id: req.params.id,
+      };
 
-      const { statusCode, data } = await UserServices.delete({
-        id,
-        user_type: USER_TYPE.STAFF,
-      });
+      const { statusCode, data } = await BaseModelHelper.softDeleteAsync(
+        softDeleteStaffData
+      );
 
       res.status(statusCode).send(data);
     } catch (err) {
@@ -144,4 +254,3 @@ class StaffController {
     }
   }
 }
-export default StaffController;

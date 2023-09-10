@@ -1,26 +1,38 @@
 import { Router } from "express";
-const staffRouter = Router();
-import StaffController from "../controller/staff.controller";
+import { StaffController } from "../controller/staff.controller";
+import {
+  CheckItemExistMiddleware,
+  errorCatcher,
+  ZodValidationMiddleware,
+} from "../middlewares";
+import { CreateStaffSchema } from "../ts/dto/input/common/common.schema";
 import db from "../models";
 const { Staff } = db;
-import { checkExist, checkUserExist, errorHandler } from "../middlewares";
+
+const staffRouter = Router();
+
+const _StaffController = new StaffController();
 
 staffRouter
-  .get("/get-all", StaffController.getAll, errorHandler)
-  .post("/create", checkUserExist(), StaffController.create, errorHandler)
-  .get("/get-by-id/:id", StaffController.getByID, errorHandler)
-  .patch(
-    "/update-personal-by-id/:id",
-    checkUserExist(),
-    checkExist(Staff),
-    StaffController.updateByID,
-    errorHandler
+  .get("/get-all", _StaffController.getAll, errorCatcher)
+  .get(
+    "/get-by-id/:id",
+    CheckItemExistMiddleware(Staff),
+    _StaffController.getByID,
+    errorCatcher
+  )
+  .post(
+    "/create",
+    ZodValidationMiddleware(CreateStaffSchema),
+    _StaffController.create,
+    errorCatcher
   )
   .delete(
     "/delete-by-id/:id",
-    checkExist(Staff),
-    StaffController.deleteByID,
-    errorHandler
-  );
+    CheckItemExistMiddleware(Staff),
+    _StaffController.softDeleteByID,
+    errorCatcher
+  )
+  .patch("/update/:id", CheckItemExistMiddleware(Staff), errorCatcher); // TODO: coding...
 
 export default staffRouter;

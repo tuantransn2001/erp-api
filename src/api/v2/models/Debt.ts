@@ -9,6 +9,7 @@ export default (sequelize: any, DataTypes: any) => {
     source_id!: string;
     debt_note!: string;
     change_debt!: string;
+    isDelete!: boolean;
     debt_amount!: string;
     action!: string;
     /**
@@ -48,6 +49,10 @@ export default (sequelize: any, DataTypes: any) => {
       },
       action: {
         type: DataTypes.STRING,
+      },
+      isDelete: {
+        type: DataTypes.BOOLEAN,
+        defaultValue: false,
       },
     },
     {

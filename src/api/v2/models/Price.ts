@@ -6,6 +6,7 @@ export default (sequelize: any, DataTypes: any) => {
   class Price extends Model<PriceAttributes> implements PriceAttributes {
     id!: string;
     price_type!: string;
+    isDelete!: boolean;
     price_description!: string;
     isImportDefault!: boolean;
     isSellDefault!: boolean;
@@ -35,6 +36,10 @@ export default (sequelize: any, DataTypes: any) => {
         defaultValue: false,
       },
       isSellDefault: {
+        type: DataTypes.BOOLEAN,
+        defaultValue: false,
+      },
+      isDelete: {
         type: DataTypes.BOOLEAN,
         defaultValue: false,
       },

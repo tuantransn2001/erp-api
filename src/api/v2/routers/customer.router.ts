@@ -1,41 +1,50 @@
 import { Router } from "express";
 import CustSuppController from "../controller/custSupp.controller";
-import { checkExist, checkUserExist, errorHandler } from "../middlewares";
+import {
+  CheckItemExistMiddleware,
+  CheckUserExistMiddleware,
+  errorCatcher,
+  ZodValidationMiddleware,
+} from "../middlewares";
 import db from "../models";
 import { USER_TYPE } from "../ts/enums/app_enums";
+import {
+  CreateCustSuppSchema,
+  UpdateCustSuppSchema,
+} from "../ts/dto/input/custSupp/custSupp.schema";
 const { CustSupp, User } = db;
 const custSuppRouter = Router();
 
+const CustomerController = new CustSuppController(USER_TYPE.CUSTOMER);
+
 custSuppRouter
-  .get(
-    "/get-all",
-    CustSuppController.getAll({ user_type: USER_TYPE.CUSTOMER }),
-    errorHandler
-  )
+  .get("/get-all", CustomerController.getAll, errorCatcher)
   .post(
     "/create",
-    checkUserExist(),
-    CustSuppController.create({ user_type: USER_TYPE.CUSTOMER }),
-    errorHandler
+    ZodValidationMiddleware(CreateCustSuppSchema),
+    CheckUserExistMiddleware(),
+    CustomerController.create,
+    errorCatcher
   )
   .get(
     "/get-by-id/:id",
-    checkExist(User),
-    CustSuppController.getByID,
-    errorHandler
+    CheckItemExistMiddleware(User),
+    CustomerController.getByID,
+    errorCatcher
   )
   .delete(
     "/delete-by-id/:id",
-    checkExist(CustSupp),
-    CustSuppController.deleteByID,
-    errorHandler
+    CheckItemExistMiddleware(CustSupp),
+    CustomerController.softDeleteByID,
+    errorCatcher
   )
   .patch(
     "/update-personalInfo-by-id/:id",
-    checkExist(CustSupp),
-    checkUserExist(),
-    CustSuppController.updatePersonalInfoByID,
-    errorHandler
+    ZodValidationMiddleware(UpdateCustSuppSchema),
+    CheckItemExistMiddleware(User),
+    CheckUserExistMiddleware(),
+    CustomerController.updatePersonalInfoByID,
+    errorCatcher
   );
 
 export default custSuppRouter;

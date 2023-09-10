@@ -1,6 +1,8 @@
 "use strict";
+import { v4 as uuidv4 } from "uuid";
 import { Model } from "sequelize";
 import { UserAttributes } from "@/src/api/v2/ts/interfaces/entities_interfaces";
+import { handleGenerateRandomCode } from "../utils/generateCode/generateCode";
 export default (sequelize: any, DataTypes: any) => {
   class User extends Model<UserAttributes> implements UserAttributes {
     id!: string;
@@ -11,7 +13,14 @@ export default (sequelize: any, DataTypes: any) => {
     user_name!: string;
     user_type!: string;
     isDelete!: boolean;
-    static associate({ CustSupp, Staff, UserAddress, Debt }: any) {
+    static associate({
+      CustSupp,
+      Staff,
+      UserAddress,
+      Debt,
+      Role,
+      UserRole,
+    }: any) {
       User.hasOne(CustSupp, {
         foreignKey: "user_id",
       });
@@ -24,6 +33,12 @@ export default (sequelize: any, DataTypes: any) => {
       User.hasMany(UserAddress, {
         foreignKey: "user_id",
       });
+      User.hasMany(Role, {
+        foreignKey: "user_id",
+      });
+      User.hasMany(UserRole, {
+        foreignKey: "user_id",
+      });
     }
   }
   User.init(
@@ -32,10 +47,11 @@ export default (sequelize: any, DataTypes: any) => {
         allowNull: false,
         primaryKey: true,
         type: DataTypes.UUID,
-        defaultValue: DataTypes.UUIDV4,
+        defaultValue: uuidv4(),
       },
       user_code: {
         type: DataTypes.STRING,
+        defaultValue: handleGenerateRandomCode(),
       },
       user_phone: {
         type: DataTypes.STRING,
@@ -55,6 +71,8 @@ export default (sequelize: any, DataTypes: any) => {
       },
       isDelete: {
         type: DataTypes.BOOLEAN,
+        allowNull: true,
+        defaultValue: false,
       },
     },
     {

@@ -1,28 +1,38 @@
 import { Router } from "express";
 const priceRouter = Router();
 import PriceController from "../controller/price.controller";
-import { errorHandler, checkExist, authorize } from "../middlewares";
+import {
+  errorCatcher,
+  CheckItemExistMiddleware,
+  ZodValidationMiddleware,
+} from "../middlewares";
 import db from "../models";
+import { CreatePriceItemRowSchema } from "../ts/dto/input/common/common.schema";
 const { Price } = db;
 
+const _PriceController = new PriceController();
+
 priceRouter
-  .get("/get-all", authorize, PriceController.getAll, errorHandler)
-  .post("/create", authorize, PriceController.create, errorHandler)
+  .get("/get-all", _PriceController.getAll, errorCatcher)
+  .post(
+    "/create",
+    ZodValidationMiddleware(CreatePriceItemRowSchema),
+    _PriceController.create,
+    errorCatcher
+  )
   .patch(
     "/update-by-id/:id",
-    authorize,
-    checkExist(Price),
-    PriceController.checkDefaultPrice,
-    PriceController.updateByID,
-    errorHandler
+    CheckItemExistMiddleware(Price),
+    _PriceController.checkDefaultPriceMiddleware,
+    _PriceController.updateByID,
+    errorCatcher
   )
   .delete(
     "/delete-by-id/:id",
-    authorize,
-    checkExist(Price),
-    PriceController.checkDefaultPrice,
-    PriceController.deleteByID,
-    errorHandler
+    CheckItemExistMiddleware(Price),
+    _PriceController.checkDefaultPriceMiddleware,
+    _PriceController.softDeleteByID,
+    errorCatcher
   );
 
 export default priceRouter;

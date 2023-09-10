@@ -11,6 +11,7 @@ export default (sequelize: any, DataTypes: any) => {
     user_id!: string;
     user_province!: string;
     user_district!: string;
+    isDelete!: boolean;
     user_specific_address!: string;
     /**
      * Helper method for defining associations.
@@ -37,6 +38,7 @@ export default (sequelize: any, DataTypes: any) => {
       user_province: { type: DataTypes.STRING },
       user_district: { type: DataTypes.STRING },
       user_specific_address: { type: DataTypes.STRING },
+      isDelete: { type: DataTypes.BOOLEAN, defaultValue: false },
     },
     {
       sequelize,

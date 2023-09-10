@@ -1,22 +1,21 @@
 import { Request, Response, NextFunction } from "express";
-import { isEmpty } from "../common";
 import db from "../models";
-import { STATUS_CODE, STATUS_MESSAGE } from "../ts/enums/api_enums";
-import RestFullAPI from "../utils/response/apiResponse";
 import DebtService from "../services/debt.services";
+import { BaseModelHelper } from "../services/helpers/baseModelHelper";
+import { GetAllAsyncPayload } from "../services/helpers/shared/baseModelHelper.interface";
 const { Debt } = db;
 class DebtController {
-  public static async getAllChangeByUserID(
+  public async getAllChangeByUserID(
     req: Request,
     res: Response,
     next: NextFunction
   ) {
     try {
-      const { id: user_id } = req.params;
-
-      const debtsChangeLogs = await Debt.findAll({
+      const getAllUserDebtChangesData: GetAllAsyncPayload = {
+        ...BaseModelHelper.getPagination(req),
+        Model: Debt,
         where: {
-          user_id,
+          user_id: req.params.id,
         },
         order: [["createdAt", "DESC"]],
         attributes: [
@@ -28,28 +27,18 @@ class DebtController {
           "createdAt",
           "updatedAt",
         ],
-      });
+      };
 
-      if (isEmpty(debtsChangeLogs)) {
-        res.status(STATUS_CODE.STATUS_CODE_404).send(
-          RestFullAPI.onSuccess(STATUS_MESSAGE.NOT_FOUND, {
-            message: `This user with id: ${user_id} has no debt until now`,
-          })
-        );
-      } else {
-        res
-          .status(STATUS_CODE.STATUS_CODE_200)
-          .send(RestFullAPI.onSuccess(STATUS_MESSAGE.SUCCESS, debtsChangeLogs));
-      }
+      const { statusCode, data } = await BaseModelHelper.getAllAsync(
+        getAllUserDebtChangesData
+      );
+
+      res.status(statusCode).send(data);
     } catch (err) {
       next(err);
     }
   }
-  public static async getDebtAmount(
-    req: Request,
-    res: Response,
-    next: NextFunction
-  ) {
+  public async getDebtAmount(req: Request, res: Response, next: NextFunction) {
     try {
       const { id: user_id } = req.params;
 

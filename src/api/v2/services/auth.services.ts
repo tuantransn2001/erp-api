@@ -1,11 +1,15 @@
 import db from "../models";
 import * as jwt from "jsonwebtoken";
 import HashStringHandler from "../utils/hashString/string.hash";
-import { LoginDTO, MeDTO, TokenDTO } from "../ts/dto/auth.dto";
 import env from "../constants/env";
 import { STATUS_CODE, STATUS_MESSAGE } from "../ts/enums/api_enums";
 import RestFullAPI from "../utils/response/apiResponse";
 import { handleError } from "../utils/handleError/handleError";
+import { LoginDTO } from "../ts/dto/input/auth/auth.interface";
+import { GetMePayload } from "../ts/dto/input/auth/auth.payload";
+import { GetMeSchema } from "../ts/dto/input/auth/auth.schema";
+import { ServerError } from "../ts/types/common";
+import { isNullOrFalse } from "../common";
 const { User, Staff } = db;
 
 class AuthServices {
@@ -17,7 +21,7 @@ class AuthServices {
         attributes: ["id", "user_password"],
         where: {
           user_phone,
-          isDelete: null,
+          isDelete: isNullOrFalse,
         },
       });
 
@@ -28,10 +32,11 @@ class AuthServices {
         const isMatchPassword = HashStringHandler.verify(password, userDB_PW);
         switch (isMatchPassword) {
           case true: {
-            const { id, user_name } = foundUser.dataValues;
-            const tokenPayload: TokenDTO = {
+            const { id, user_name, user_type } = foundUser.dataValues;
+            const tokenPayload = {
               id,
               user_name,
+              user_type,
             };
 
             const tokenData = jwt.sign(
@@ -43,13 +48,13 @@ class AuthServices {
             );
 
             return {
-              statusCode: STATUS_CODE.STATUS_CODE_200,
+              statusCode: STATUS_CODE.OK,
               data: RestFullAPI.onSuccess(STATUS_MESSAGE.SUCCESS, tokenData),
             };
           }
           case false: {
             return {
-              statusCode: STATUS_CODE.STATUS_CODE_401,
+              statusCode: STATUS_CODE.UNAUTHORIZED,
               data: RestFullAPI.onFail(STATUS_MESSAGE.UN_AUTHORIZE),
             };
           }
@@ -57,25 +62,25 @@ class AuthServices {
       } else {
         // * Case does not exist
         return {
-          statusCode: STATUS_CODE.STATUS_CODE_404,
+          statusCode: STATUS_CODE.NOT_FOUND,
           data: RestFullAPI.onFail(STATUS_MESSAGE.NOT_FOUND),
         };
       }
     } catch (err) {
       return {
-        statusCode: STATUS_CODE.STATUS_CODE_500,
-        data: handleError(err as Error),
+        statusCode: STATUS_CODE.INTERNAL_SERVER_ERROR,
+        data: handleError(err as ServerError),
       };
     }
   }
-  public static async me(payload: MeDTO) {
+  public static async me(payload: GetMePayload) {
     try {
-      const { currentUserID } = payload;
+      const data = GetMeSchema.parse(payload);
       const foundUser = await User.findOne({
-        attributes: ["id", "user_code", "user_name"],
+        attributes: ["id", "user_code", "user_name", "user_type"],
         where: {
-          id: currentUserID,
-          isDelete: null,
+          id: data.currentUserID,
+          isDelete: isNullOrFalse,
         },
         include: [
           {
@@ -85,13 +90,19 @@ class AuthServices {
         ],
       });
 
-      const { id: user_id, user_code, user_name } = foundUser.dataValues;
+      const {
+        id: user_id,
+        user_code,
+        user_name,
+        user_type,
+      } = foundUser.dataValues;
       const { id: staff_id } = foundUser.dataValues.Staff.dataValues;
 
       return {
-        statusCode: STATUS_CODE.STATUS_CODE_200,
+        statusCode: STATUS_CODE.OK,
         data: RestFullAPI.onSuccess(STATUS_MESSAGE.SUCCESS, {
           user_id,
+          user_type,
           staff_id,
           user_code,
           user_name,
@@ -99,8 +110,8 @@ class AuthServices {
       };
     } catch (err) {
       return {
-        statusCode: STATUS_CODE.STATUS_CODE_500,
-        data: handleError(err as Error),
+        statusCode: STATUS_CODE.INTERNAL_SERVER_ERROR,
+        data: handleError(err as ServerError),
       };
     }
   }
