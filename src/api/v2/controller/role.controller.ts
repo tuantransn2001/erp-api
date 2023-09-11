@@ -11,7 +11,7 @@ import { BaseModelHelper } from "../services/helpers/baseModelHelper";
 import {
   CreateRoleRowDTO,
   UpdateRoleRowDTO,
-} from "../ts/dto/input/common/common.interface";
+} from "../dto/input/role/role.interface";
 class RoleController {
   public async getAll(req: Request, res: Response, next: NextFunction) {
     try {

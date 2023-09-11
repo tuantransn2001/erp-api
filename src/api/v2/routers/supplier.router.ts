@@ -10,7 +10,7 @@ import db from "../models";
 import {
   CreateCustSuppSchema,
   UpdateCustSuppSchema,
-} from "../ts/dto/input/custSupp/custSupp.schema";
+} from "../dto/input/custSupp/custSupp.schema";
 import { USER_TYPE } from "../ts/enums/app_enums";
 const { CustSupp, User } = db;
 

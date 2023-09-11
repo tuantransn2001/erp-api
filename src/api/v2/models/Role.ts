@@ -1,9 +1,9 @@
 ("use strict");
 import { Model } from "sequelize";
-import { RoleAttributes } from "@/src/api/v2/ts/interfaces/entities_interfaces";
+import { IRole } from "../dto/input/role/role.interface";
 
 export default (sequelize: any, DataTypes: any) => {
-  class Role extends Model<RoleAttributes> implements RoleAttributes {
+  class Role extends Model<IRole> implements IRole {
     id!: string;
     role_title!: string;
     role_description!: string;
@@ -35,12 +35,14 @@ export default (sequelize: any, DataTypes: any) => {
       },
       isDelete: {
         type: DataTypes.BOOLEAN,
+        allowNull: true,
         defaultValue: false,
       },
     },
     {
       sequelize,
       modelName: "Role",
+      timestamps: true,
     }
   );
   return Role;

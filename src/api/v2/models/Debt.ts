@@ -1,9 +1,9 @@
 "use strict";
 import { Model } from "sequelize";
-import { DebtAttributes } from "@/src/api/v2/ts/interfaces/entities_interfaces";
+import { IDebt } from "../dto/input/debt/debt.interface";
 
 export default (sequelize: any, DataTypes: any) => {
-  class Debt extends Model<DebtAttributes> implements DebtAttributes {
+  class Debt extends Model<IDebt> implements IDebt {
     id!: string;
     user_id!: string;
     source_id!: string;
@@ -52,12 +52,14 @@ export default (sequelize: any, DataTypes: any) => {
       },
       isDelete: {
         type: DataTypes.BOOLEAN,
+        allowNull: true,
         defaultValue: false,
       },
     },
     {
       sequelize,
       modelName: "Debt",
+      timestamps: true,
     }
   );
   return Debt;

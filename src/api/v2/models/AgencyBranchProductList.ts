@@ -1,11 +1,11 @@
 "use strict";
 import { Model } from "sequelize";
-import { AgencyBranchProductListAttributes } from "@/src/api/v2/ts/interfaces/entities_interfaces";
+import { IAgencyBranchProductList } from "../dto/input/agencyBranchProductList/agencyBranchProductList.interface";
 
 export default (sequelize: any, DataTypes: any) => {
   class AgencyBranchProductList
-    extends Model<AgencyBranchProductListAttributes>
-    implements AgencyBranchProductListAttributes
+    extends Model<IAgencyBranchProductList>
+    implements IAgencyBranchProductList
   {
     id!: string;
     agency_branch_id!: string;
@@ -15,6 +15,7 @@ export default (sequelize: any, DataTypes: any) => {
     available_to_sell_quantity!: number;
     product_price!: number;
     product_discount!: number;
+    isDelete!: boolean;
     /**
      * Helper method for defining associations.
      * This method is not a part of Sequelize lifecycle.
@@ -58,10 +59,15 @@ export default (sequelize: any, DataTypes: any) => {
       product_discount: {
         type: DataTypes.INTEGER,
       },
+      isDelete: {
+        type: DataTypes.BOOLEAN,
+        defaultValue: false,
+      },
     },
     {
       sequelize,
       modelName: "AgencyBranchProductList",
+      timestamps: true,
     }
   );
   return AgencyBranchProductList;

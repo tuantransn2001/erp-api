@@ -1,9 +1,9 @@
 "use strict";
 import { Model } from "sequelize";
-import { PriceAttributes } from "@/src/api/v2/ts/interfaces/entities_interfaces";
+import { IPrice } from "../dto/input/price/price.interface";
 
 export default (sequelize: any, DataTypes: any) => {
-  class Price extends Model<PriceAttributes> implements PriceAttributes {
+  class Price extends Model<IPrice> implements IPrice {
     id!: string;
     price_type!: string;
     isDelete!: boolean;
@@ -41,12 +41,14 @@ export default (sequelize: any, DataTypes: any) => {
       },
       isDelete: {
         type: DataTypes.BOOLEAN,
+        allowNull: true,
         defaultValue: false,
       },
     },
     {
       sequelize,
       modelName: "Price",
+      timestamps: true,
     }
   );
   return Price;

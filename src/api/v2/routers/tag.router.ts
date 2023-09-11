@@ -9,7 +9,7 @@ import db from "../models";
 import {
   BulkCreateTagItemRowSchema,
   BulkUpdateTagItemRowSchema,
-} from "../ts/dto/input/common/common.schema";
+} from "../dto/input/tag/tag.schema";
 const { Tag } = db;
 
 const tagRouter = Router();

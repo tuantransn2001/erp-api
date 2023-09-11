@@ -1,12 +1,9 @@
 "use strict";
 import { Model } from "sequelize";
-import { OrderTagAttributes } from "@/src/api/v2/ts/interfaces/entities_interfaces";
+import { IOrderTag } from "../dto/input/orderTag/orderTag.interface";
 
 export default (sequelize: any, DataTypes: any) => {
-  class OrderTag
-    extends Model<OrderTagAttributes>
-    implements OrderTagAttributes
-  {
+  class OrderTag extends Model<IOrderTag> implements IOrderTag {
     id!: string;
     order_id!: string;
     tag_id!: string;
@@ -34,10 +31,16 @@ export default (sequelize: any, DataTypes: any) => {
       },
       order_id: { type: DataTypes.UUID },
       tag_id: { type: DataTypes.UUID },
+      isDelete: {
+        type: DataTypes.BOOLEAN,
+        allowNull: true,
+        defaultValue: false,
+      },
     },
     {
       sequelize,
       modelName: "OrderTag",
+      timestamps: true,
     }
   );
   return OrderTag;

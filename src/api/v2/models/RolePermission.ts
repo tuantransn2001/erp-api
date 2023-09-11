@@ -1,15 +1,16 @@
 "use strict";
 import { Model } from "sequelize";
-import { RolePermissionAttributes } from "@/src/api/v2/ts/interfaces/entities_interfaces";
+import { IRolePermission } from "../dto/input/rolePermission/rolePermission.interface";
 
 export default (sequelize: any, DataTypes: any) => {
   class RolePermission
-    extends Model<RolePermissionAttributes>
-    implements RolePermissionAttributes
+    extends Model<IRolePermission>
+    implements IRolePermission
   {
     id!: string;
     role_id!: string;
     role_permission_description!: string;
+    isDelete!: boolean;
     /**
      * Helper method for defining associations.
      * This method is not a part of Sequelize lifecycle.
@@ -31,10 +32,16 @@ export default (sequelize: any, DataTypes: any) => {
       role_permission_description: {
         type: DataTypes.STRING,
       },
+      isDelete: {
+        type: DataTypes.BOOLEAN,
+        allowNull: true,
+        defaultValue: false,
+      },
     },
     {
       sequelize,
       modelName: "RolePermission",
+      timestamps: true,
     }
   );
   return RolePermission;

@@ -1,5 +1,5 @@
 import db from "../models";
-import { CreateAgencyBranchDTO } from "../ts/dto/input/agencyBranch/agencyBranch.interface";
+import { CreateAgencyBranchDTO } from "../dto/input/agencyBranch/agencyBranch.interface";
 
 import { BaseModelHelper } from "./helpers/baseModelHelper";
 import {

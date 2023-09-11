@@ -11,7 +11,7 @@ import { USER_TYPE } from "../ts/enums/app_enums";
 import {
   CreateCustSuppSchema,
   UpdateCustSuppSchema,
-} from "../ts/dto/input/custSupp/custSupp.schema";
+} from "../dto/input/custSupp/custSupp.schema";
 const { CustSupp, User } = db;
 const custSuppRouter = Router();
 

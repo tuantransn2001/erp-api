@@ -1,8 +1,9 @@
 "use strict";
 import { Model } from "sequelize";
-import { TagAttributes } from "@/src/api/v2/ts/interfaces/entities_interfaces";
+import { ITag } from "../dto/input/tag/tag.interface";
+
 export default (sequelize: any, DataTypes: any) => {
-  class Tag extends Model<TagAttributes> implements TagAttributes {
+  class Tag extends Model<ITag> implements ITag {
     id!: string;
     tag_title!: string;
     isDelete!: boolean;
@@ -34,11 +35,16 @@ export default (sequelize: any, DataTypes: any) => {
       },
       tag_title: { type: DataTypes.STRING },
       tag_description: { type: DataTypes.STRING },
-      isDelete: { type: DataTypes.BOOLEAN, defaultValue: false },
+      isDelete: {
+        type: DataTypes.BOOLEAN,
+        allowNull: true,
+        defaultValue: false,
+      },
     },
     {
       sequelize,
       modelName: "Tag",
+      timestamps: true,
     }
   );
   return Tag;

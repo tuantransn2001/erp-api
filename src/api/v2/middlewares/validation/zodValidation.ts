@@ -10,7 +10,6 @@ export const ZodValidationMiddleware =
       schema.parse(input);
       return next();
     } catch (err) {
-      console.log({ err });
       res.status(STATUS_CODE.BAD_REQUEST).send(handleError(err as ZodError));
     }
   };

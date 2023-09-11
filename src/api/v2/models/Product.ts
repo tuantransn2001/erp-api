@@ -1,14 +1,15 @@
 "use strict";
 import { Model } from "sequelize";
-import { ProductAttributes } from "@/src/api/v2/ts/interfaces/entities_interfaces";
+import { IProduct } from "../dto/input/product/product.interface";
 export default (sequelize: any, DataTypes: any) => {
-  class Products extends Model<ProductAttributes> implements ProductAttributes {
+  class Products extends Model<IProduct> implements IProduct {
     id!: string;
     order_product_item_id!: string;
     agency_branch_product_item_id!: string;
     product_name!: string;
     product_classify!: string;
     product_SKU!: string;
+    isDelete!: boolean;
     /**
      * Helper method for defining associations.
      * This method is not a part of Sequelize lifecycle.
@@ -52,10 +53,16 @@ export default (sequelize: any, DataTypes: any) => {
       product_SKU: {
         type: DataTypes.STRING,
       },
+      isDelete: {
+        type: DataTypes.BOOLEAN,
+        allowNull: true,
+        defaultValue: false,
+      },
     },
     {
       sequelize,
       modelName: "Products",
+      timestamps: true,
     }
   );
   return Products;

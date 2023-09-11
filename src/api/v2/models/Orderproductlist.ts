@@ -1,11 +1,11 @@
 "use strict";
 import { Model } from "sequelize";
-import { OrderProductListAttributes } from "@/src/api/v2/ts/interfaces/entities_interfaces";
+import { IOrderProductList } from "../dto/input/orderProductList/orderProductList.interface";
 
 export default (sequelize: any, DataTypes: any) => {
   class OrderProductList
-    extends Model<OrderProductListAttributes>
-    implements OrderProductListAttributes
+    extends Model<IOrderProductList>
+    implements IOrderProductList
   {
     id!: string;
     order_id!: string;
@@ -14,6 +14,7 @@ export default (sequelize: any, DataTypes: any) => {
     product_discount!: number;
     product_price!: number;
     product_unit!: string;
+    isDelete!: boolean;
     /**
      * Helper method for defining associations.
      * This method is not a part of Sequelize lifecycle.
@@ -54,10 +55,16 @@ export default (sequelize: any, DataTypes: any) => {
       product_price: {
         type: DataTypes.INTEGER,
       },
+      isDelete: {
+        type: DataTypes.BOOLEAN,
+        allowNull: true,
+        defaultValue: false,
+      },
     },
     {
       sequelize,
       modelName: "OrderProductList",
+      timestamps: true,
     }
   );
   return OrderProductList;

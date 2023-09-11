@@ -1,15 +1,18 @@
 "use strict";
 import { Model } from "sequelize";
-import { AdditionProductInformationAttributes } from "@/src/api/v2/ts/interfaces/entities_interfaces";
+import { IAdditionProductInformation } from "@/src/api/v2/dto/input/additionProductInformation/additionProductInformation.interface";
 export default (sequelize: any, DataTypes: any) => {
   class AdditionProductInformation
-    extends Model<AdditionProductInformationAttributes>
-    implements AdditionProductInformationAttributes
+    extends Model<IAdditionProductInformation>
+    implements IAdditionProductInformation
   {
     id!: string;
     product_id!: string;
     type_id!: string;
     brand_id!: string;
+    isDeleted!: boolean;
+    createdAt!: Date;
+    updateAt!: Date;
 
     static associate({ Type, Brand, Products, ProductTagList }: any) {
       AdditionProductInformation.belongsTo(Type, {
@@ -44,10 +47,15 @@ export default (sequelize: any, DataTypes: any) => {
       brand_id: {
         type: DataTypes.UUID,
       },
+      isDelete: {
+        type: DataTypes.BOOLEAN,
+        defaultValue: false,
+      },
     },
     {
       sequelize,
       modelName: "AdditionProductInformation",
+      timestamps: true,
     }
   );
   return AdditionProductInformation;

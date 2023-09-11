@@ -1,12 +1,9 @@
 "use strict";
 import { Model } from "sequelize";
-import { AgencyBranchAttributes } from "@/src/api/v2/ts/interfaces/entities_interfaces";
+import { IAgencyBranch } from "@/src/api/v2/dto/input/agencyBranch/agencyBranch.interface";
 
 export default (sequelize: any, DataTypes: any) => {
-  class AgencyBranch
-    extends Model<AgencyBranchAttributes>
-    implements AgencyBranchAttributes
-  {
+  class AgencyBranch extends Model<IAgencyBranch> implements IAgencyBranch {
     id!: string;
     agency_branch_name!: string;
     agency_branch_phone!: string;
@@ -15,6 +12,7 @@ export default (sequelize: any, DataTypes: any) => {
     agency_branch_area!: string;
     agency_branch_expiration_date!: string;
     agency_branch_status!: string;
+    isDelete!: boolean;
     isDefaultCN!: boolean;
     /**
      * Helper method for defining associations.
@@ -69,10 +67,16 @@ export default (sequelize: any, DataTypes: any) => {
       isDefaultCN: {
         type: DataTypes.BOOLEAN,
       },
+      isDelete: {
+        type: DataTypes.BOOLEAN,
+        allowNull: true,
+        defaultValue: false,
+      },
     },
     {
       sequelize,
       modelName: "AgencyBranch",
+      timestamps: true,
     }
   );
   return AgencyBranch;

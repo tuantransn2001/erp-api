@@ -1,10 +1,9 @@
 "use strict";
-import { v4 as uuidv4 } from "uuid";
 import { Model } from "sequelize";
-import { UserAttributes } from "@/src/api/v2/ts/interfaces/entities_interfaces";
 import { handleGenerateRandomCode } from "../utils/generateCode/generateCode";
+import { IUser } from "../dto/input/user/user.interface";
 export default (sequelize: any, DataTypes: any) => {
-  class User extends Model<UserAttributes> implements UserAttributes {
+  class User extends Model<IUser> implements IUser {
     id!: string;
     user_code!: string;
     user_phone!: string;
@@ -47,7 +46,7 @@ export default (sequelize: any, DataTypes: any) => {
         allowNull: false,
         primaryKey: true,
         type: DataTypes.UUID,
-        defaultValue: uuidv4(),
+        defaultValue: DataTypes.UUIDV4,
       },
       user_code: {
         type: DataTypes.STRING,
@@ -78,6 +77,7 @@ export default (sequelize: any, DataTypes: any) => {
     {
       sequelize,
       modelName: "User",
+      timestamps: true,
     }
   );
   return User;

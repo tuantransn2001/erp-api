@@ -1,15 +1,13 @@
 "use strict";
 import { Model } from "sequelize";
-import { ProductTagItemAttributes } from "@/src/api/v2/ts/interfaces/entities_interfaces";
+import { IProductTag } from "../dto/input/productTag/productTag.interface";
 
 export default (sequelize: any, DataTypes: any) => {
-  class ProductTagList
-    extends Model<ProductTagItemAttributes>
-    implements ProductTagItemAttributes
-  {
+  class ProductTagList extends Model<IProductTag> implements IProductTag {
     id!: string;
     tag_id!: string;
     addition_product_information_id!: string;
+    isDelete!: boolean;
 
     static associate({ Tag, AdditionProductInformation }: any) {
       ProductTagList.belongsTo(Tag, {
@@ -35,10 +33,16 @@ export default (sequelize: any, DataTypes: any) => {
       addition_product_information_id: {
         type: DataTypes.UUID,
       },
+      isDelete: {
+        type: DataTypes.BOOLEAN,
+        allowNull: true,
+        defaultValue: false,
+      },
     },
     {
       sequelize,
       modelName: "ProductTagList",
+      timestamps: true,
     }
   );
   return ProductTagList;

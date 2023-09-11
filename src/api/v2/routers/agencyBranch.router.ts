@@ -8,7 +8,7 @@ import {
   errorCatcher,
   ZodValidationMiddleware,
 } from "../middlewares";
-import { CreateAgencyBranchSchema } from "../ts/dto/input/agencyBranch/agencyBranch.schema";
+import { CreateAgencyBranchSchema } from "../dto/input/agencyBranch/agencyBranch.schema";
 import AgencyBranchController from "../controller/agencyBranch.controller";
 
 const _AgencyBranchController = new AgencyBranchController();

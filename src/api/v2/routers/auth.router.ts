@@ -2,7 +2,7 @@ import { Router } from "express";
 import AuthController from "../controller/auth.controller";
 import { errorCatcher } from "../middlewares";
 import { ZodValidationMiddleware } from "../middlewares";
-import { LoginSchema } from "../ts/dto/input/auth/auth.schema";
+import { LoginSchema } from "../dto/input/auth/auth.schema";
 
 const authRouter = Router();
 

@@ -1,9 +1,9 @@
 "use strict";
 import { Model } from "sequelize";
-import { OrderAttributes } from "@/src/api/v2/ts/interfaces/entities_interfaces";
+import { IOrder } from "../dto/input/order/order.interface";
 
 export default (sequelize: any, DataTypes: any) => {
-  class Order extends Model<OrderAttributes> implements OrderAttributes {
+  class Order extends Model<IOrder> implements IOrder {
     id!: string;
     agency_branch_id!: string;
     shipper_id!: string;
@@ -12,7 +12,7 @@ export default (sequelize: any, DataTypes: any) => {
     custSupp_id!: string;
     order_type!: string;
     order_code!: string;
-    order_delivery_date!: Date;
+    order_delivery_date!: string;
     order_status!: string;
     order_note!: string;
     order_total!: number;
@@ -71,11 +71,17 @@ export default (sequelize: any, DataTypes: any) => {
       order_status: { type: DataTypes.STRING },
       order_note: { type: DataTypes.STRING },
       order_total: { type: DataTypes.DOUBLE },
-      order_delivery_date: { type: DataTypes.DATE },
+      order_delivery_date: { type: DataTypes.STRING },
+      isDelete: {
+        type: DataTypes.BOOLEAN,
+        allowNull: true,
+        defaultValue: false,
+      },
     },
     {
       sequelize,
       modelName: "Order",
+      timestamps: true,
     }
   );
   return Order;

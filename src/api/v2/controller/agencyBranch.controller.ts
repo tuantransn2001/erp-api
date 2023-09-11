@@ -10,7 +10,7 @@ import {
   UpdateAsyncPayload,
 } from "../services/helpers/shared/baseModelHelper.interface";
 import HttpException from "../utils/exceptions/http.exception";
-import { CreateAgencyBranchDTO } from "../ts/dto/input/agencyBranch/agencyBranch.interface";
+import { CreateAgencyBranchDTO } from "../dto/input/agencyBranch/agencyBranch.interface";
 import { BaseModelHelper } from "../services/helpers/baseModelHelper";
 
 const _AgencyBranchService = new AgencyBranchService();
@@ -32,9 +32,29 @@ class AgencyBranchController {
   }
   public async create(req: Request, res: Response, next: NextFunction) {
     try {
+      const {
+        agency_branch_name,
+        agency_branch_phone,
+        agency_branch_code,
+        agency_branch_address,
+        agency_branch_area,
+        agency_branch_expiration_date,
+        agency_branch_status,
+        isDefaultCN,
+      }: CreateAgencyBranchDTO = req.body;
+
       const createAsyncData: CreateAsyncPayload<CreateAgencyBranchDTO> = {
         Model: AgencyBranch,
-        dto: req.body,
+        dto: {
+          agency_branch_name,
+          agency_branch_phone,
+          agency_branch_code,
+          agency_branch_address,
+          agency_branch_area,
+          agency_branch_expiration_date,
+          agency_branch_status,
+          isDefaultCN,
+        },
       };
       const { statusCode, data } = await _AgencyBranchService.create(
         createAsyncData

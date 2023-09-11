@@ -16,7 +16,7 @@ class APIGateWay {
     // * ==============================
     const isLoginRequest = APIGateWay.getFullURL(req)
       .split("/")
-      .some((r) => ["login"].indexOf(r) >= 0);
+      .some((r) => [""].indexOf(r) >= 0);
 
     if (!isLoginRequest) {
       return authenticate(req, res, next);

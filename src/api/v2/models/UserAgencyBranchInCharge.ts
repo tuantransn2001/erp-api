@@ -1,14 +1,15 @@
 "use strict";
 import { Model } from "sequelize";
-import { UserAgencyBranchInChargeAttributes } from "@/src/api/v2/ts/interfaces/entities_interfaces";
+import { IUserAgencyBranchInCharge } from "../dto/input/userAgencyBranchInCharge/userAgencyBranchInCharge.interface";
 export default (sequelize: any, DataTypes: any) => {
   class UserAgencyBranchInCharge
-    extends Model<UserAgencyBranchInChargeAttributes>
-    implements UserAgencyBranchInChargeAttributes
+    extends Model<IUserAgencyBranchInCharge>
+    implements IUserAgencyBranchInCharge
   {
     id!: string;
     user_role_id!: string;
     agency_branch_id!: string;
+    isDelete!: boolean;
     static associate({ UserRole, AgencyBranch }: any) {
       UserAgencyBranchInCharge.belongsTo(UserRole, {
         foreignKey: "user_role_id",
@@ -29,10 +30,16 @@ export default (sequelize: any, DataTypes: any) => {
       },
       user_role_id: { type: DataTypes.UUID },
       agency_branch_id: { type: DataTypes.UUID },
+      isDelete: {
+        type: DataTypes.BOOLEAN,
+        allowNull: true,
+        defaultValue: false,
+      },
     },
     {
       sequelize,
       modelName: "UserAgencyBranchInCharge",
+      timestamps: true,
     }
   );
   return UserAgencyBranchInCharge;

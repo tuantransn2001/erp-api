@@ -1,15 +1,14 @@
 import { Request, Response, NextFunction } from "express";
 import db from "../../models";
-import { UserAttributes } from "../../ts/interfaces/entities_interfaces";
 import { STATUS_CODE, STATUS_MESSAGE } from "../../ts/enums/api_enums";
 import RestFullAPI from "../../utils/response/apiResponse";
 import { isEmpty } from "../../common";
+import { IUser } from "../../dto/input/user/user.interface";
 const { User } = db;
 export const CheckUserExistMiddleware =
   () => async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const { user_code, user_name, user_phone, user_email }: UserAttributes =
-        req.body;
+      const { user_code, user_name, user_phone, user_email }: IUser = req.body;
 
       const errorMessage: Array<string> = new Array();
       // * ================= Name =============
@@ -21,7 +20,7 @@ export const CheckUserExistMiddleware =
         }).then((res: any) => {
           if (res)
             errorMessage.push(
-              `CustSupp with name is ${res.dataValues.user_name} has been already exist`
+              `User with name is ${res.dataValues.user_name} has been already exist`
             );
         });
       // * ================= Code =============
@@ -33,7 +32,7 @@ export const CheckUserExistMiddleware =
         }).then((res: any) => {
           if (res)
             errorMessage.push(
-              `CustSupp with code is ${res.dataValues.user_code} has been already exist`
+              `User with code is ${res.dataValues.user_code} has been already exist`
             );
         });
       // * ================= Phone =============
@@ -45,7 +44,7 @@ export const CheckUserExistMiddleware =
         }).then((res: any) => {
           if (res)
             errorMessage.push(
-              `CustSupp with phone is ${res.dataValues.user_phone} has been already exist`
+              `User with phone is ${res.dataValues.user_phone} has been already exist`
             );
         });
       // * ================= Email =============
@@ -58,18 +57,18 @@ export const CheckUserExistMiddleware =
         }).then((res: any) => {
           if (res)
             errorMessage.push(
-              `CustSupp with email is ${res.dataValues.user_email} has been already exist`
+              `User with email is ${res.dataValues.user_email} has been already exist`
             );
         });
 
       if (!isEmpty(errorMessage)) {
         res
-          .status(STATUS_CODE.NOT_ACCEPTABLE)
+          .status(STATUS_CODE.BAD_REQUEST)
           .send(
-            RestFullAPI.onSuccess(STATUS_MESSAGE.NOT_ACCEPTABLE, errorMessage)
+            RestFullAPI.onSuccess(STATUS_MESSAGE.BAD_REQUEST, errorMessage)
           );
       } else {
-        return next();
+        next();
       }
     } catch (err) {
       next(err);

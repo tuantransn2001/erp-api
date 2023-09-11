@@ -1,11 +1,11 @@
 "use strict";
 import { Model } from "sequelize";
-import { ProductVariantPriceAttributes } from "@/src/api/v2/ts/interfaces/entities_interfaces";
+import { IProductVariantPrice } from "../dto/input/productVariantPrice/productVariantPrice.interface";
 
 export default (sequelize: any, DataTypes: any) => {
   class ProductVariantPrice
-    extends Model<ProductVariantPriceAttributes>
-    implements ProductVariantPriceAttributes
+    extends Model<IProductVariantPrice>
+    implements IProductVariantPrice
   {
     id!: string;
     product_variant_id!: string;
@@ -43,10 +43,16 @@ export default (sequelize: any, DataTypes: any) => {
       price_value: {
         type: DataTypes.STRING,
       },
+      isDelete: {
+        type: DataTypes.BOOLEAN,
+        allowNull: true,
+        defaultValue: false,
+      },
     },
     {
       sequelize,
       modelName: "ProductVariantPrice",
+      timestamps: true,
     }
   );
   return ProductVariantPrice;

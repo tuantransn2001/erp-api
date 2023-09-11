@@ -1,12 +1,13 @@
 "use strict";
 import { Model } from "sequelize";
-import { BrandAttributes } from "@/src/api/v2/ts/interfaces/entities_interfaces";
+import { IBrand } from "../dto/input/brand/brand.interface";
 
 export default (sequelize: any, DataTypes: any) => {
-  class Brand extends Model<BrandAttributes> implements BrandAttributes {
+  class Brand extends Model<IBrand> implements IBrand {
     id!: string;
     brand_title!: string;
     brand_description!: string;
+    isDelete!: boolean;
     /**
      * Helper method for defining associations.
      * This method is not a part of Sequelize lifecycle.
@@ -36,6 +37,7 @@ export default (sequelize: any, DataTypes: any) => {
     {
       sequelize,
       modelName: "Brand",
+      timestamps: true,
     }
   );
   return Brand;

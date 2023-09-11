@@ -1,15 +1,13 @@
 "use strict";
 import { Model } from "sequelize";
-import { CustSuppTagAttributes } from "@/src/api/v2/ts/interfaces/entities_interfaces";
+import { ICustSuppTag } from "../dto/input/custSuppTag/custSuppTag.interface";
 
 export default (sequelize: any, DataTypes: any) => {
-  class CustSuppTag
-    extends Model<CustSuppTagAttributes>
-    implements CustSuppTagAttributes
-  {
+  class CustSuppTag extends Model<ICustSuppTag> implements ICustSuppTag {
     id!: string;
     custSupp_id!: string;
     tag_id!: string;
+    isDelete!: boolean;
     /**
      * Helper method for defining associations.
      * This method is not a part of Sequelize lifecycle.
@@ -34,10 +32,16 @@ export default (sequelize: any, DataTypes: any) => {
       },
       custSupp_id: { type: DataTypes.UUID },
       tag_id: { type: DataTypes.UUID },
+      isDelete: {
+        type: DataTypes.BOOLEAN,
+        allowNull: true,
+        defaultValue: false,
+      },
     },
     {
       sequelize,
       modelName: "CustSuppTag",
+      timestamps: true,
     }
   );
   return CustSuppTag;

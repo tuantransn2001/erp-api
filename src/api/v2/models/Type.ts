@@ -1,12 +1,12 @@
 "use strict";
 import { Model } from "sequelize";
-import { TypeAttributes } from "@/src/api/v2/ts/interfaces/entities_interfaces";
-
+import { IType } from "../dto/input/type/type.interface";
 export default (sequelize: any, DataTypes: any) => {
-  class Type extends Model<TypeAttributes> implements TypeAttributes {
+  class Type extends Model<IType> implements IType {
     id!: string;
     type_title!: string;
     type_description!: string;
+    isDelete!: boolean;
     /**
      * Helper method for defining associations.
      * This method is not a part of Sequelize lifecycle.
@@ -32,10 +32,16 @@ export default (sequelize: any, DataTypes: any) => {
       type_description: {
         type: DataTypes.STRING,
       },
+      isDelete: {
+        type: DataTypes.BOOLEAN,
+        allowNull: true,
+        defaultValue: false,
+      },
     },
     {
       sequelize,
       modelName: "Type",
+      timestamps: true,
     }
   );
   return Type;

@@ -1,18 +1,20 @@
 "use strict";
 import { Model } from "sequelize";
-import { ProductVariantDetailAttributes } from "@/src/api/v2/ts/interfaces/entities_interfaces";
+import { IProductVariant } from "../dto/input/productVariantDetail/productVariantDetail.interface";
+
 export default (sequelize: any, DataTypes: any) => {
   class ProductVariantDetail
-    extends Model<ProductVariantDetailAttributes>
-    implements ProductVariantDetailAttributes
+    extends Model<IProductVariant>
+    implements IProductVariant
   {
     id!: string;
     product_id!: string;
     product_variant_name!: string;
     product_variant_SKU!: string;
     product_variant_barcode!: string;
-    product_weight!: string;
+    product_weight!: number;
     product_weight_calculator_unit!: string;
+    isDelete!: boolean;
     /**
      * Helper method for defining associations.
      * This method is not a part of Sequelize lifecycle.
@@ -66,15 +68,21 @@ export default (sequelize: any, DataTypes: any) => {
         type: DataTypes.STRING,
       },
       product_weight: {
-        type: DataTypes.STRING,
+        type: DataTypes.INTEGER,
       },
       product_weight_calculator_unit: {
         type: DataTypes.STRING,
+      },
+      isDelete: {
+        type: DataTypes.BOOLEAN,
+        allowNull: true,
+        defaultValue: false,
       },
     },
     {
       sequelize,
       modelName: "ProductVariantDetail",
+      timestamps: true,
     }
   );
   return ProductVariantDetail;

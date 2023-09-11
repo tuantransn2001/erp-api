@@ -1,16 +1,12 @@
 ("use strict");
 import { Model } from "sequelize";
-import { UserRoleAttributes } from "@/src/api/v2/ts/interfaces/entities_interfaces";
-
+import { IUserRole } from "../dto/input/userRole/userRole.interface";
 export default (sequelize: any, DataTypes: any) => {
-  class UserRole
-    extends Model<UserRoleAttributes>
-    implements UserRoleAttributes
-  {
+  class UserRole extends Model<IUserRole> implements IUserRole {
     id!: string;
     role_id!: string;
     user_id!: string;
-
+    isDelete!: boolean;
     static associate({ User, UserAgencyBranchInCharge, Role }: any) {
       UserRole.belongsTo(User, {
         foreignKey: "user_id",
@@ -38,10 +34,16 @@ export default (sequelize: any, DataTypes: any) => {
       user_id: {
         type: DataTypes.UUID,
       },
+      isDelete: {
+        type: DataTypes.BOOLEAN,
+        allowNull: true,
+        defaultValue: false,
+      },
     },
     {
       sequelize,
       modelName: "UserRole",
+      timestamps: true,
     }
   );
   return UserRole;

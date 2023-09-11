@@ -1,12 +1,13 @@
 "use strict";
 import { Model } from "sequelize";
-import { ShipperAttributes } from "@/src/api/v2/ts/interfaces/entities_interfaces";
+import { IShipper } from "../dto/input/shipper/shipper.interface";
 
 export default (sequelize: any, DataTypes: any) => {
-  class Shipper extends Model<ShipperAttributes> implements ShipperAttributes {
+  class Shipper extends Model<IShipper> implements IShipper {
     id!: string;
     shipper_unit!: string;
     shipper_phone!: string;
+    isDelete!: boolean;
     /**
      * Helper method for defining associations.
      * This method is not a part of Sequelize lifecycle.
@@ -35,10 +36,16 @@ export default (sequelize: any, DataTypes: any) => {
       shipper_phone: {
         type: DataTypes.STRING,
       },
+      isDelete: {
+        type: DataTypes.BOOLEAN,
+        allowNull: true,
+        defaultValue: false,
+      },
     },
     {
       sequelize,
       modelName: "Shipper",
+      timestamps: true,
     }
   );
   return Shipper;

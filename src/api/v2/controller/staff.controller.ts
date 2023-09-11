@@ -11,16 +11,16 @@ import {
   GetByIdAsyncPayload,
   SoftDeleteByIDAsyncPayload,
 } from "../services/helpers/shared/baseModelHelper.interface";
-import {
-  CreateAddressItemRowDTO,
-  CreateAgencyBranchInChargeRowDTO,
-  CreateStaffDTO,
-  CreateStaffRowDTO,
-  CreateUserRoleRowDTO,
-  CreateUserRowDTO,
-} from "../ts/dto/input/common/common.interface";
 import { STAFF_STATUS, USER_TYPE } from "../ts/enums/app_enums";
 import RestFullAPI from "../utils/response/apiResponse";
+import { CreateUserRowDTO } from "../dto/input/user/user.interface";
+import { CreateUserAddressItemRowDTO } from "../dto/input/userAddress/userAddress.interface";
+import {
+  CreateStaffDTO,
+  CreateStaffRowDTO,
+} from "../dto/input/staff/staff.interface";
+import { CreateUserRoleRowDTO } from "../dto/input/userRole/userRole.interface";
+import { CreateUserAgencyBranchInChargeRowDTO } from "../dto/input/userAgencyBranchInCharge/userAgencyBranchInCharge.interface";
 const {
   User,
   Staff,
@@ -146,6 +146,7 @@ export class StaffController {
         isAllowViewShippingPrice,
         roles,
         address_list,
+        note_about_staff,
       }: CreateStaffDTO = req.body;
 
       const user_id = uuidv4();
@@ -169,6 +170,7 @@ export class StaffController {
       const createStaffRowData: CreateAsyncPayload<CreateStaffRowDTO> = {
         Model: Staff,
         dto: {
+          note_about_staff,
           user_id,
           staff_status: STAFF_STATUS.WORKING,
           staff_birthday,
@@ -182,7 +184,7 @@ export class StaffController {
         createStaffRowData
       );
 
-      const bulkCreateUserAddressData: BulkCreateAsyncPayload<CreateAddressItemRowDTO> =
+      const bulkCreateUserAddressData: BulkCreateAsyncPayload<CreateUserAddressItemRowDTO> =
         {
           Model: UserAddress,
           dto: address_list.map((address) => ({ ...address, user_id })),
@@ -205,7 +207,7 @@ export class StaffController {
               createUserRoleData
             );
 
-            const bulkCreateUserRoleAgencyBranchInChargeData: BulkCreateAsyncPayload<CreateAgencyBranchInChargeRowDTO> =
+            const bulkCreateUserRoleAgencyBranchInChargeData: BulkCreateAsyncPayload<CreateUserAgencyBranchInChargeRowDTO> =
               {
                 Model: UserAgencyBranchInCharge,
                 dto: role.agencyBranches_inCharge.map((agency_branch_id) => ({

@@ -14,13 +14,15 @@ import {
   UpdateAsyncPayload,
 } from "../services/helpers/shared/baseModelHelper.interface";
 import {
-  CreateAddressItemRowDTO,
   CreateCustSuppRowDTO,
-  CreateUserRowDTO,
   UpdateCustSuppRowDTO,
+} from "../dto/input/custSupp/custSupp.interface";
+import { CreateCustSuppDTO } from "../dto/input/custSupp/custSupp.interface";
+import {
+  CreateUserRowDTO,
   UpdateUserRowDTO,
-} from "../ts/dto/input/common/common.interface";
-import { CreateCustSuppDTO } from "../ts/dto/input/custSupp/custSupp.interface";
+} from "../dto/input/user/user.interface";
+import { CreateUserAddressItemRowDTO } from "../dto/input/userAddress/userAddress.interface";
 
 import { CUSTSUPP_STATUS, USER_TYPE } from "../ts/enums/app_enums";
 import RestFullAPI from "../utils/response/apiResponse";
@@ -138,8 +140,6 @@ class CustSuppController {
   }
   public async create(req: Request, res: Response, next: NextFunction) {
     try {
-      const dto: CreateCustSuppDTO = req.body;
-
       const {
         user_name,
         user_phone,
@@ -149,7 +149,7 @@ class CustSuppController {
         staff_id,
         staff_in_charge_note,
         address_list,
-      } = dto;
+      }: CreateCustSuppDTO = req.body;
 
       const user_id = uuidv4();
 
@@ -173,7 +173,7 @@ class CustSuppController {
           status: status ? status : CUSTSUPP_STATUS.TRADING,
         },
       };
-      const createUserAddressPayload: BulkCreateAsyncPayload<CreateAddressItemRowDTO> =
+      const createUserAddressPayload: BulkCreateAsyncPayload<CreateUserAddressItemRowDTO> =
         {
           Model: UserAddress,
           dto: address_list.map((address) => ({ ...address, user_id })),

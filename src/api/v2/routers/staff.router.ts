@@ -5,7 +5,7 @@ import {
   errorCatcher,
   ZodValidationMiddleware,
 } from "../middlewares";
-import { CreateStaffSchema } from "../ts/dto/input/common/common.schema";
+import { CreateStaffSchema } from "../dto/input/staff/staff.schema";
 import db from "../models";
 const { Staff } = db;
 

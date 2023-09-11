@@ -2,9 +2,9 @@ import { NextFunction, Request, Response } from "express";
 import db from "../models";
 const { UserAddress } = db;
 import {
-  CreateAddressItemRowDTO,
-  UpdateAddressItemRowDTO,
-} from "../ts/dto/input/common/common.interface";
+  CreateUserAddressItemRowDTO,
+  UpdateUserAddressItemRowDTO,
+} from "../dto/input/userAddress/userAddress.interface";
 import {
   CreateAsyncPayload,
   SoftDeleteByIDAsyncPayload,
@@ -19,9 +19,9 @@ class UserAddressController {
         user_province,
         user_district,
         user_specific_address,
-      }: CreateAddressItemRowDTO = req.body;
+      }: CreateUserAddressItemRowDTO = req.body;
 
-      const createNewUserAddressData: CreateAsyncPayload<CreateAddressItemRowDTO> =
+      const createNewUserAddressData: CreateAsyncPayload<CreateUserAddressItemRowDTO> =
         {
           Model: UserAddress,
           dto: {
@@ -46,9 +46,9 @@ class UserAddressController {
         user_province,
         user_district,
         user_specific_address,
-      }: UpdateAddressItemRowDTO = req.body;
+      }: UpdateUserAddressItemRowDTO = req.body;
 
-      const updateNewUserAddressData: UpdateAsyncPayload<UpdateAddressItemRowDTO> =
+      const updateNewUserAddressData: UpdateAsyncPayload<UpdateUserAddressItemRowDTO> =
         {
           Model: UserAddress,
           where: {

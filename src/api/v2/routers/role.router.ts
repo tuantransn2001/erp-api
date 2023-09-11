@@ -9,7 +9,7 @@ import db from "../models";
 import {
   CreateRoleRowSchema,
   UpdateRoleRowSchema,
-} from "../ts/dto/input/common/common.schema";
+} from "../dto/input/role/role.schema";
 const { Role } = db;
 
 const roleRouter = Router();

@@ -1,5 +1,6 @@
 import db from "../models";
-import { CreateDebtRowDTO } from "../ts/dto/input/common/common.interface";
+import { CreateDebtRowDTO } from "../dto/input/debt/debt.interface";
+
 import { STATUS_CODE, STATUS_MESSAGE } from "../ts/enums/api_enums";
 import { CUSTSUPP_ACTION } from "../ts/enums/app_enums";
 import { ObjectType, ServerError } from "../ts/types/common";
@@ -89,7 +90,7 @@ class DebtService {
               user_id,
               source_id,
               change_debt: debt_payment_amount,
-              debt_amount: remaining_debt_amount_result,
+              debt_amount: `${remaining_debt_amount_result}`,
               debt_note: "Thanh toán đơn hàng",
               action: CUSTSUPP_ACTION.IMPORT,
             },

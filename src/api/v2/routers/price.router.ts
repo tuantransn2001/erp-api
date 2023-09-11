@@ -7,7 +7,7 @@ import {
   ZodValidationMiddleware,
 } from "../middlewares";
 import db from "../models";
-import { CreatePriceItemRowSchema } from "../ts/dto/input/common/common.schema";
+import { CreatePriceItemRowSchema } from "../dto/input/price/price.schema";
 const { Price } = db;
 
 const _PriceController = new PriceController();

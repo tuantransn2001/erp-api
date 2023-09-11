@@ -1,9 +1,9 @@
 "use strict";
 import { Model } from "sequelize";
-import { PaymentAttributes } from "@/src/api/v2/ts/interfaces/entities_interfaces";
+import { IPayment } from "../dto/input/payment/payment.interface";
 
 export default (sequelize: any, DataTypes: any) => {
-  class Payment extends Model<PaymentAttributes> implements PaymentAttributes {
+  class Payment extends Model<IPayment> implements IPayment {
     id!: string;
     payment_type!: string;
     payment_description!: string;
@@ -32,10 +32,16 @@ export default (sequelize: any, DataTypes: any) => {
       payment_description: {
         type: DataTypes.STRING,
       },
+      isDelete: {
+        type: DataTypes.BOOLEAN,
+        allowNull: true,
+        defaultValue: false,
+      },
     },
     {
       sequelize,
       modelName: "Payment",
+      timestamps: true,
     }
   );
   return Payment;

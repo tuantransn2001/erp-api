@@ -23,10 +23,3 @@ export enum MODIFY_STATUS {
   ACCEPT = "accept",
   DENY = "deny",
 }
-
-export enum ENTITIES_FORMAT_TYPE {
-  P_LIST = "p_array",
-  P_ITEM = "p_object",
-  P_V_LIST = "p_v_object",
-  B_P_V_LIST = "b_p_v_array",
-}

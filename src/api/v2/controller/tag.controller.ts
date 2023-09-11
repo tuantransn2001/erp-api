@@ -11,7 +11,7 @@ import {
 import {
   BulkCreateTagRowDTO,
   UpdateTagRowDTO,
-} from "../ts/dto/input/common/common.interface";
+} from "../dto/input/tag/tag.interface";
 import RestFullAPI from "../utils/response/apiResponse";
 const { Tag } = db;
 class TagController {
@@ -63,7 +63,6 @@ class TagController {
             },
             dto: { ...rest },
           };
-          console.log(updateSingleTagData);
           const updateSingleTagRes = await BaseModelHelper.updateAsync(
             updateSingleTagData
           );

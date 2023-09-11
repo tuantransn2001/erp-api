@@ -1,11 +1,11 @@
 "use strict";
 import { Model } from "sequelize";
-import { ProductVariantPropertyAttributes } from "@/src/api/v2/ts/interfaces/entities_interfaces";
+import { IProductVariantProperty } from "../dto/input/productVariantProperty/productVariantProperty.interface";
 
 export default (sequelize: any, DataTypes: any) => {
   class ProductVariantProperty
-    extends Model<ProductVariantPropertyAttributes>
-    implements ProductVariantPropertyAttributes
+    extends Model<IProductVariantProperty>
+    implements IProductVariantProperty
   {
     id!: string;
     product_variant_id!: string;
@@ -40,10 +40,16 @@ export default (sequelize: any, DataTypes: any) => {
       product_variant_property_value: {
         type: DataTypes.STRING,
       },
+      isDelete: {
+        type: DataTypes.BOOLEAN,
+        allowNull: true,
+        defaultValue: false,
+      },
     },
     {
       sequelize,
       modelName: "ProductVariantProperty",
+      timestamps: true,
     }
   );
   return ProductVariantProperty;

@@ -14,7 +14,7 @@ import {
 import {
   CreatePriceItemRowDTO,
   UpdatePriceItemRowDTO,
-} from "../ts/dto/input/common/common.interface";
+} from "../dto/input/price/price.interface";
 import { ObjectType } from "../ts/types/common";
 import { handleServerResponse } from "../utils/response/handleServerResponse";
 import { isEmpty } from "../common";

@@ -1,12 +1,8 @@
 "use strict";
 import { Model } from "sequelize";
-import { UserAddressAttributes } from "@/src/api/v2/ts/interfaces/entities_interfaces";
-
+import { IUserAddress } from "../dto/input/userAddress/userAddress.interface";
 export default (sequelize: any, DataTypes: any) => {
-  class UserAddress
-    extends Model<UserAddressAttributes>
-    implements UserAddressAttributes
-  {
+  class UserAddress extends Model<IUserAddress> implements IUserAddress {
     id!: string;
     user_id!: string;
     user_province!: string;
@@ -38,11 +34,16 @@ export default (sequelize: any, DataTypes: any) => {
       user_province: { type: DataTypes.STRING },
       user_district: { type: DataTypes.STRING },
       user_specific_address: { type: DataTypes.STRING },
-      isDelete: { type: DataTypes.BOOLEAN, defaultValue: false },
+      isDelete: {
+        type: DataTypes.BOOLEAN,
+        allowNull: true,
+        defaultValue: false,
+      },
     },
     {
       sequelize,
       modelName: "UserAddress",
+      timestamps: true,
     }
   );
   return UserAddress;

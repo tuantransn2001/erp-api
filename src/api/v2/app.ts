@@ -37,7 +37,6 @@ app.listen(PORT, async () => {
   await db.sequelize.sync({ force: true }).then(() => {
     console.log("Connected - Synchronous Database Success");
     console.log(`🚀 Server is running  🚀 - http://${HOST}:${PORT}`);
-
     setupOnConnectDB();
   });
 });

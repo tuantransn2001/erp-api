@@ -1,8 +1,8 @@
 import { NextFunction, Request, Response } from "express";
 import { MyRequest } from "../ts/interfaces/common";
 import AuthServices from "../services/auth.services";
-import { LoginDTO } from "../ts/dto/input/auth/auth.interface";
-import { GetMePayload } from "../ts/dto/input/auth/auth.payload";
+import { LoginDTO } from "../dto/input/auth/auth.interface";
+import { GetMePayload } from "../dto/input/auth/auth.payload";
 
 class AuthController {
   public async login(req: Request, res: Response, next: NextFunction) {

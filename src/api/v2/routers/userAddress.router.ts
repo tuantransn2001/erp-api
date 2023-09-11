@@ -9,7 +9,7 @@ import db from "../models";
 import {
   CreateAddressItemRowRowSchema,
   UpdateAddressItemRowSchema,
-} from "../ts/dto/input/common/common.schema";
+} from "../dto/input/userAddress/userAddress.schema";
 const { User, UserAddress } = db;
 const userAddressRouter = Router();
 
