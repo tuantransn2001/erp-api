@@ -1,4 +1,4 @@
-import { ObjectType } from "../../../ts/types/common";
+import { ObjectType } from "../../../../ts/types/common";
 
 export interface CreateAsyncPayload<T> {
   Model: any;
@@ -38,6 +38,12 @@ export interface SoftDeleteByIDAsyncPayload {
   Model: any;
   id: string;
 }
+
+export interface HardDeleteByIDAsyncPayload
+  extends Omit<SoftDeleteByIDAsyncPayload, "id"> {
+  where: ObjectType<any> | string[];
+}
+
 export interface ModifyJunctionPayload {
   JunctionModel: any;
   attrs: ObjectType<string>[];

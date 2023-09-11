@@ -1,12 +1,12 @@
 import db from "../models";
 import { CreateAgencyBranchDTO } from "../dto/input/agencyBranch/agencyBranch.interface";
 
-import { BaseModelHelper } from "./helpers/baseModelHelper";
+import { BaseModelHelper } from "./helpers/baseModelHelper/baseModelHelper";
 import {
   CreateAsyncPayload,
   GetAllAsyncPayload,
   UpdateAsyncPayload,
-} from "./helpers/shared/baseModelHelper.interface";
+} from "./helpers/baseModelHelper/shared/baseModelHelper.interface";
 const { AgencyBranch } = db;
 
 export class AgencyBranchService {

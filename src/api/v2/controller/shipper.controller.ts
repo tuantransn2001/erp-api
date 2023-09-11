@@ -1,7 +1,7 @@
 import { NextFunction, Request, Response } from "express";
 import db from "../models";
-import { BaseModelHelper } from "../services/helpers/baseModelHelper";
-import { GetAllAsyncPayload } from "../services/helpers/shared/baseModelHelper.interface";
+import { BaseModelHelper } from "../services/helpers/baseModelHelper/baseModelHelper";
+import { GetAllAsyncPayload } from "../services/helpers/baseModelHelper/shared/baseModelHelper.interface";
 const { Shipper } = db;
 
 class ShipperController {

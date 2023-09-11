@@ -6,8 +6,8 @@ import {
   GetAllAsyncPayload,
   SoftDeleteByIDAsyncPayload,
   UpdateAsyncPayload,
-} from "../services/helpers/shared/baseModelHelper.interface";
-import { BaseModelHelper } from "../services/helpers/baseModelHelper";
+} from "../services/helpers/baseModelHelper/shared/baseModelHelper.interface";
+import { BaseModelHelper } from "../services/helpers/baseModelHelper/baseModelHelper";
 import {
   CreateRoleRowDTO,
   UpdateRoleRowDTO,

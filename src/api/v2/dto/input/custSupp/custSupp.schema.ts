@@ -8,10 +8,10 @@ import { CreateUserRowSchema } from "../user/user.schema";
 import { CreateAddressItemRowRowSchema } from "../userAddress/userAddress.schema";
 
 export const CustSuppSchema = BaseSchema.extend({
-  user_id: StringType.nonempty(),
+  user_id: StringType.optional(),
   staff_id: StringType.nonempty(),
-  staff_in_charge_note: StringType,
-  status: StringType,
+  staff_in_charge_note: StringType.optional(),
+  status: StringType.optional(),
 });
 
 export const CreateCustSuppRowSchema = CustSuppSchema.partial();

@@ -7,8 +7,8 @@ import {
 } from "../middlewares";
 import db from "../models";
 import {
-  CreateAddressItemRowRowSchema,
-  UpdateAddressItemRowSchema,
+  CreateUserAddressSchema,
+  UpdateUserAddressSchema,
 } from "../dto/input/userAddress/userAddress.schema";
 const { User, UserAddress } = db;
 const userAddressRouter = Router();
@@ -18,14 +18,14 @@ const _UserAddressController = new UserAddressController();
 userAddressRouter
   .post(
     "/add/:id",
-    ZodValidationMiddleware(CreateAddressItemRowRowSchema),
+    ZodValidationMiddleware(CreateUserAddressSchema),
     CheckItemExistMiddleware(User),
     _UserAddressController.create,
     errorCatcher
   )
   .patch(
     "/update/:id",
-    ZodValidationMiddleware(UpdateAddressItemRowSchema),
+    ZodValidationMiddleware(UpdateUserAddressSchema),
     CheckItemExistMiddleware(UserAddress),
     _UserAddressController.update,
     errorCatcher

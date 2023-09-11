@@ -33,6 +33,11 @@ staffRouter
     _StaffController.softDeleteByID,
     errorCatcher
   )
-  .patch("/update/:id", CheckItemExistMiddleware(Staff), errorCatcher); // TODO: coding...
+  .patch(
+    "/update-personal-by-id/:id",
+    CheckItemExistMiddleware(Staff),
+    _StaffController.updateDetail,
+    errorCatcher
+  ); // TODO: coding...
 
 export default staffRouter;

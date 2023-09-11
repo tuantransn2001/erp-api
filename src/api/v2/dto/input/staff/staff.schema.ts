@@ -1,12 +1,7 @@
-import { z } from "zod";
-import {
-  BaseSchema,
-  BooleanType,
-  StringArrayType,
-  StringType,
-} from "../common/common.schema";
+import { BaseSchema, BooleanType, StringType } from "../common/common.schema";
 import { CreateUserRowSchema } from "../user/user.schema";
-import { BulkCreateAddressItemRowSchema } from "../userAddress/userAddress.schema";
+
+import { CreateUserRoleSchema } from "../userRole/userRole.shema";
 
 export const StaffSchema = BaseSchema.extend({
   user_id: StringType.optional(),
@@ -19,14 +14,8 @@ export const StaffSchema = BaseSchema.extend({
 });
 
 export const CreateStaffRowSchema = StaffSchema;
-export const CreateStaffSchema = CreateUserRowSchema.merge(
-  CreateStaffRowSchema
-).extend({
-  address_list: BulkCreateAddressItemRowSchema,
-  roles: z
-    .object({
-      role_id: StringType,
-      agencyBranches_inCharge: StringArrayType,
-    })
-    .array(),
-});
+export const UpdateStaffRowSchema = CreateStaffRowSchema;
+export const CreateStaffSchema =
+  CreateUserRowSchema.merge(CreateStaffRowSchema).merge(CreateUserRoleSchema);
+
+export const UpdateStaffSchema = CreateStaffSchema;

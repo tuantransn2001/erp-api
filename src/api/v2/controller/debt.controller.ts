@@ -1,8 +1,8 @@
 import { Request, Response, NextFunction } from "express";
 import db from "../models";
 import DebtService from "../services/debt.services";
-import { BaseModelHelper } from "../services/helpers/baseModelHelper";
-import { GetAllAsyncPayload } from "../services/helpers/shared/baseModelHelper.interface";
+import { BaseModelHelper } from "../services/helpers/baseModelHelper/baseModelHelper";
+import { GetAllAsyncPayload } from "../services/helpers/baseModelHelper/shared/baseModelHelper.interface";
 const { Debt } = db;
 class DebtController {
   public async getAllChangeByUserID(

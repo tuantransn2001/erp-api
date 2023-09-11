@@ -3,16 +3,12 @@ import { v4 as uuidv4 } from "uuid";
 import { handleFormatUpdateDataByValidValue, isNullOrFalse } from "../common";
 
 import db from "../models";
-const { UserAddress, CustSupp, Staff, User, CustSuppTag, Tag } = db;
-import { BaseModelHelper } from "../services/helpers/baseModelHelper";
+const { UserAddress, Staff, User, CustSuppTag, Tag } = db;
+import { BaseModelHelper } from "../services/helpers/baseModelHelper/baseModelHelper";
 import {
   GetAllAsyncPayload,
   GetByIdAsyncPayload,
-  CreateAsyncPayload,
-  BulkCreateAsyncPayload,
-  SoftDeleteByIDAsyncPayload,
-  UpdateAsyncPayload,
-} from "../services/helpers/shared/baseModelHelper.interface";
+} from "../services/helpers/baseModelHelper/shared/baseModelHelper.interface";
 import {
   CreateCustSuppRowDTO,
   UpdateCustSuppRowDTO,
@@ -22,10 +18,14 @@ import {
   CreateUserRowDTO,
   UpdateUserRowDTO,
 } from "../dto/input/user/user.interface";
-import { CreateUserAddressItemRowDTO } from "../dto/input/userAddress/userAddress.interface";
+import { BulkCreateUserAddressItemRowDTO } from "../dto/input/userAddress/userAddress.interface";
 
 import { CUSTSUPP_STATUS, USER_TYPE } from "../ts/enums/app_enums";
 import RestFullAPI from "../utils/response/apiResponse";
+import { UserModelHelper } from "../services/helpers/userModelHelper/userModelHelper";
+import { CustSuppModelHelper } from "../services/helpers/custSuppModelHelper/custSuppModelHelper";
+import { UserAddressModelHelper } from "../services/helpers/userAddressModelHelper/userAddressModelHelper";
+
 class CustSuppController {
   public static _user_type: USER_TYPE | string = "";
   constructor(public user_type: USER_TYPE) {
@@ -49,7 +49,7 @@ class CustSuppController {
         ],
         include: [
           {
-            model: CustSupp,
+            model: db.CustSupp,
             attributes: ["id", "status", "createdAt"],
           },
         ],
@@ -100,7 +100,7 @@ class CustSuppController {
             ],
           },
           {
-            model: CustSupp,
+            model: db.CustSupp,
             attributes: ["id", "staff_in_charge_note", "status"],
             include: [
               {
@@ -144,7 +144,6 @@ class CustSuppController {
         user_name,
         user_phone,
         user_email,
-        user_password,
         status,
         staff_id,
         staff_in_charge_note,
@@ -153,41 +152,30 @@ class CustSuppController {
 
       const user_id = uuidv4();
 
-      const createUserPayload: CreateAsyncPayload<CreateUserRowDTO> = {
-        Model: User,
-        dto: {
-          id: user_id,
-          user_type: CustSuppController._user_type,
-          user_name,
-          user_phone,
-          user_email,
-          user_password,
-        },
+      const createUserPayload: CreateUserRowDTO = {
+        id: user_id,
+        user_type: CustSuppController._user_type,
+        user_name,
+        user_phone,
+        user_email,
       };
-      const createCustomerPayload: CreateAsyncPayload<CreateCustSuppRowDTO> = {
-        Model: CustSupp,
-        dto: {
-          user_id,
-          staff_id,
-          staff_in_charge_note,
-          status: status ? status : CUSTSUPP_STATUS.TRADING,
-        },
+      const createUserRes = UserModelHelper.createAsync(createUserPayload);
+
+      const createCustomerPayload: CreateCustSuppRowDTO = {
+        user_id,
+        staff_id,
+        staff_in_charge_note,
+        status: status ? status : CUSTSUPP_STATUS.TRADING,
       };
-      const createUserAddressPayload: BulkCreateAsyncPayload<CreateUserAddressItemRowDTO> =
-        {
-          Model: UserAddress,
-          dto: address_list.map((address) => ({ ...address, user_id })),
-        };
 
-      const createUserRes = await BaseModelHelper.createAsync(
-        createUserPayload
-      );
-
-      const createCustomerRes = await BaseModelHelper.createAsync(
+      const createCustomerRes = CustSuppModelHelper.createAsync(
         createCustomerPayload
       );
 
-      const createUserAddressRes = await BaseModelHelper.bulkCreateAsyncPayload(
+      const createUserAddressPayload: BulkCreateUserAddressItemRowDTO =
+        address_list.map((address) => ({ ...address, user_id }));
+
+      const createUserAddressRes = UserAddressModelHelper.bulkCreateAsync(
         createUserAddressPayload
       );
 
@@ -206,10 +194,8 @@ class CustSuppController {
     try {
       const { id } = req.params;
 
-      const softDeleteData: SoftDeleteByIDAsyncPayload = { Model: User, id };
-
-      const { statusCode, data } = await BaseModelHelper.softDeleteAsync(
-        softDeleteData
+      const { statusCode, data } = await UserModelHelper.softDeleteByIdAsync(
+        id
       );
 
       res.status(statusCode).send(data);
@@ -230,74 +216,61 @@ class CustSuppController {
         where: {
           isDelete: isNullOrFalse,
           id,
-          user_type: CustSuppController._user_type,
         },
+        include: [
+          {
+            model: db.CustSupp,
+            where: {
+              isDelete: isNullOrFalse,
+            },
+          },
+        ],
       };
 
-      const { data: userData } = await BaseModelHelper.getByIDAsync(
-        getUserData
-      );
+      const { data: userIncludeCustomerData } =
+        await BaseModelHelper.getByIDAsync(getUserData);
 
-      const getCustomerData: GetByIdAsyncPayload = {
-        Model: CustSupp,
-        where: {
-          user_id: userData.data.dataValues.id,
-        },
-      };
-
-      const { data: customerData } = await BaseModelHelper.getByIDAsync(
-        getCustomerData
-      );
+      const { CustSupp, ...rest } = userIncludeCustomerData.data.dataValues;
 
       const { user_name, user_phone, user_email } = req.body;
       const updateUserData: UpdateUserRowDTO =
         handleFormatUpdateDataByValidValue(
           { user_name, user_phone, user_email },
-          userData.data.dataValues
+          { ...rest }
         );
 
-      const updateUserRecordData = {
-        Model: User,
-        dto: updateUserData,
-        where: {
-          id: `${updateUserData.id}`,
-        },
-      };
+      const updateUserRowRes = await UserModelHelper.updateByIdAsync(
+        updateUserData
+      );
 
       const { status, staff_id, staff_in_charge_note } = req.body;
       const updateCustSuppData: UpdateCustSuppRowDTO =
         handleFormatUpdateDataByValidValue(
-          { status, staff_id, staff_in_charge_note },
-          customerData.data.dataValues
-        );
-      const updateCustSuppRecordData: UpdateAsyncPayload<UpdateCustSuppRowDTO> =
-        {
-          Model: CustSupp,
-          dto: updateCustSuppData,
-          where: {
-            id: `${updateCustSuppData.id}`,
+          {
+            status,
+            staff_id,
+            staff_in_charge_note,
           },
-        };
+          CustSupp.dataValues
+        );
+
+      const updateCustomerRowRes = await CustSuppModelHelper.updateByIdAsync(
+        updateCustSuppData
+      );
 
       const { tags } = req.body;
 
-      const updateUserRes = await BaseModelHelper.updateAsync(
-        updateUserRecordData
-      );
-      const updateCustomerRes = await BaseModelHelper.updateAsync(
-        updateCustSuppRecordData
-      );
       const updateTagRes = await BaseModelHelper.updateJunctionRecord({
         JunctionModel: CustSuppTag,
         ownerQuery: {
-          custSupp_id: customerData.data.dataValues.id,
+          custSupp_id: userIncludeCustomerData.data.CustSupp.dataValues.id,
         },
         attrs: tags,
       });
 
       const { statusCode, data } = await RestFullAPI.onArrayPromiseSuccess([
-        updateUserRes,
-        updateCustomerRes,
+        updateUserRowRes,
+        updateCustomerRowRes,
         updateTagRes,
       ]);
       res.status(statusCode).send(data);

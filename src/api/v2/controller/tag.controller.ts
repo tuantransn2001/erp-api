@@ -1,13 +1,13 @@
 import { Request, Response, NextFunction } from "express";
 import db from "../models";
 import { map as mapSync } from "awaity";
-import { BaseModelHelper } from "../services/helpers/baseModelHelper";
+import { BaseModelHelper } from "../services/helpers/baseModelHelper/baseModelHelper";
 import {
   BulkCreateAsyncPayload,
   GetAllAsyncPayload,
   SoftDeleteByIDAsyncPayload,
   UpdateAsyncPayload,
-} from "../services/helpers/shared/baseModelHelper.interface";
+} from "../services/helpers/baseModelHelper/shared/baseModelHelper.interface";
 import {
   BulkCreateTagRowDTO,
   UpdateTagRowDTO,

@@ -8,10 +8,10 @@ import {
   CreateAsyncPayload,
   GetAllAsyncPayload,
   UpdateAsyncPayload,
-} from "../services/helpers/shared/baseModelHelper.interface";
+} from "../services/helpers/baseModelHelper/shared/baseModelHelper.interface";
 import HttpException from "../utils/exceptions/http.exception";
 import { CreateAgencyBranchDTO } from "../dto/input/agencyBranch/agencyBranch.interface";
-import { BaseModelHelper } from "../services/helpers/baseModelHelper";
+import { BaseModelHelper } from "../services/helpers/baseModelHelper/baseModelHelper";
 
 const _AgencyBranchService = new AgencyBranchService();
 

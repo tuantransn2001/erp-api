@@ -3,14 +3,14 @@ import db from "../models";
 import { STATUS_CODE, STATUS_MESSAGE } from "../ts/enums/api_enums";
 import RestFullAPI from "../utils/response/apiResponse";
 import { map as mapAsync } from "awaity";
-import { BaseModelHelper } from "../services/helpers/baseModelHelper";
+import { BaseModelHelper } from "../services/helpers/baseModelHelper/baseModelHelper";
 import {
   CreateAsyncPayload,
   GetAllAsyncPayload,
   GetByIdAsyncPayload,
   SoftDeleteByIDAsyncPayload,
   UpdateAsyncPayload,
-} from "../services/helpers/shared/baseModelHelper.interface";
+} from "../services/helpers/baseModelHelper/shared/baseModelHelper.interface";
 import {
   CreatePriceItemRowDTO,
   UpdatePriceItemRowDTO,

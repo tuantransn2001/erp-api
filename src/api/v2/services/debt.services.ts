@@ -8,12 +8,12 @@ import HttpException from "../utils/exceptions/http.exception";
 import { handleError } from "../utils/handleError/handleError";
 import RestFullAPI from "../utils/response/apiResponse";
 import { handleServerResponse } from "../utils/response/handleServerResponse";
-import { BaseModelHelper } from "./helpers/baseModelHelper";
+import { BaseModelHelper } from "./helpers/baseModelHelper/baseModelHelper";
 import {
   CreateAsyncPayload,
   GetByIdAsyncPayload,
   UpdateAsyncPayload,
-} from "./helpers/shared/baseModelHelper.interface";
+} from "./helpers/baseModelHelper/shared/baseModelHelper.interface";
 const { Debt, Order } = db;
 
 type DebtPayPayload = {

@@ -1,7 +1,7 @@
 import { STATUS_CODE, STATUS_MESSAGE } from "../../ts/enums/api_enums";
 import { Request, Response, NextFunction } from "express";
-import { GetByIdAsyncPayload } from "../../services/helpers/shared/baseModelHelper.interface";
-import { BaseModelHelper } from "../../services/helpers/baseModelHelper";
+import { GetByIdAsyncPayload } from "../../services/helpers/baseModelHelper/shared/baseModelHelper.interface";
+import { BaseModelHelper } from "../../services/helpers/baseModelHelper/baseModelHelper";
 import RestFullAPI from "../../utils/response/apiResponse";
 
 export const CheckItemExistMiddleware =

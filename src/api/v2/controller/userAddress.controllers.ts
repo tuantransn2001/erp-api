@@ -2,38 +2,26 @@ import { NextFunction, Request, Response } from "express";
 import db from "../models";
 const { UserAddress } = db;
 import {
-  CreateUserAddressItemRowDTO,
-  UpdateUserAddressItemRowDTO,
+  BulkCreateUserAddressItemRowDTO,
+  BulkUpdateAddressItemRowDTO,
 } from "../dto/input/userAddress/userAddress.interface";
-import {
-  CreateAsyncPayload,
-  SoftDeleteByIDAsyncPayload,
-  UpdateAsyncPayload,
-} from "../services/helpers/shared/baseModelHelper.interface";
-import { BaseModelHelper } from "../services/helpers/baseModelHelper";
+import { SoftDeleteByIDAsyncPayload } from "../services/helpers/baseModelHelper/shared/baseModelHelper.interface";
+import { BaseModelHelper } from "../services/helpers/baseModelHelper/baseModelHelper";
+import { UserAddressModelHelper } from "../services/helpers/userAddressModelHelper/userAddressModelHelper";
 
 class UserAddressController {
   public async create(req: Request, res: Response, next: NextFunction) {
     try {
-      const {
-        user_province,
-        user_district,
-        user_specific_address,
-      }: CreateUserAddressItemRowDTO = req.body;
+      const { address_list } = req.body;
 
-      const createNewUserAddressData: CreateAsyncPayload<CreateUserAddressItemRowDTO> =
-        {
-          Model: UserAddress,
-          dto: {
-            user_id: req.params.id,
-            user_province,
-            user_district,
-            user_specific_address,
-          },
-        };
+      const bulkCreateUserAddressData: BulkCreateUserAddressItemRowDTO =
+        address_list.map((address) => ({
+          ...address,
+          user_id: req.params.user_id,
+        }));
 
-      const { statusCode, data } = await BaseModelHelper.createAsync(
-        createNewUserAddressData
+      const { statusCode, data } = await UserAddressModelHelper.bulkCreateAsync(
+        bulkCreateUserAddressData
       );
       res.status(statusCode).send(data);
     } catch (err) {
@@ -42,27 +30,16 @@ class UserAddressController {
   }
   public async update(req: Request, res: Response, next: NextFunction) {
     try {
-      const {
-        user_province,
-        user_district,
-        user_specific_address,
-      }: UpdateUserAddressItemRowDTO = req.body;
+      const { address_list } = req.body;
 
-      const updateNewUserAddressData: UpdateAsyncPayload<UpdateUserAddressItemRowDTO> =
-        {
-          Model: UserAddress,
-          where: {
-            id: req.params.id,
-          },
-          dto: {
-            user_province,
-            user_district,
-            user_specific_address,
-          },
-        };
+      const bulkUpdateUserAddressData: BulkUpdateAddressItemRowDTO =
+        address_list.map((address) => ({
+          ...address,
+          user_id: req.params.user_id,
+        }));
 
-      const { statusCode, data } = await BaseModelHelper.updateAsync(
-        updateNewUserAddressData
+      const { statusCode, data } = await UserAddressModelHelper.bulkUpdateAsync(
+        bulkUpdateUserAddressData
       );
 
       res.status(statusCode).send(data);

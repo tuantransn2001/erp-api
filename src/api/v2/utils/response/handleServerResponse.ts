@@ -1,4 +1,4 @@
-export const handleServerResponse = (statusCode: number, data: any) => ({
+export const handleServerResponse = (statusCode: number, data?: any) => ({
   statusCode,
   data,
 });

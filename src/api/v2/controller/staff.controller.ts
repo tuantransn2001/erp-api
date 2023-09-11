@@ -1,28 +1,37 @@
 import { v4 as uuidv4 } from "uuid";
-import { map as mapAsync } from "awaity";
+
 import { NextFunction, Request, Response } from "express";
-import { isNullOrFalse } from "../common";
+import { handleFormatUpdateDataByValidValue, isNullOrFalse } from "../common";
 import db from "../models";
-import { BaseModelHelper } from "../services/helpers/baseModelHelper";
+import { BaseModelHelper } from "../services/helpers/baseModelHelper/baseModelHelper";
 import {
   BulkCreateAsyncPayload,
   CreateAsyncPayload,
   GetAllAsyncPayload,
   GetByIdAsyncPayload,
   SoftDeleteByIDAsyncPayload,
-} from "../services/helpers/shared/baseModelHelper.interface";
+} from "../services/helpers/baseModelHelper/shared/baseModelHelper.interface";
 import { STAFF_STATUS, USER_TYPE } from "../ts/enums/app_enums";
 import RestFullAPI from "../utils/response/apiResponse";
-import { CreateUserRowDTO } from "../dto/input/user/user.interface";
-import { CreateUserAddressItemRowDTO } from "../dto/input/userAddress/userAddress.interface";
 import {
-  CreateStaffDTO,
+  CreateUserRowDTO,
+  UpdateUserRowDTO,
+} from "../dto/input/user/user.interface";
+import {
+  BulkUpdateAddressItemRowDTO,
+  CreateUserAddressItemRowDTO,
+} from "../dto/input/userAddress/userAddress.interface";
+import {
   CreateStaffRowDTO,
+  UpdateStaffRowDTO,
 } from "../dto/input/staff/staff.interface";
-import { CreateUserRoleRowDTO } from "../dto/input/userRole/userRole.interface";
-import { CreateUserAgencyBranchInChargeRowDTO } from "../dto/input/userAgencyBranchInCharge/userAgencyBranchInCharge.interface";
+import { CreateUserRoleDTO } from "../dto/input/userRole/userRole.interface";
+
+import { UserRoleModelHelper } from "../services/helpers/userRole/userRoleModelHelper";
+import { UserModelHelper } from "../services/helpers/userModelHelper/userModelHelper";
+import { StaffModelHelper } from "../services/helpers/staffModelHelper/staffModelHelper";
+import { UserAddressModelHelper } from "../services/helpers/userAddressModelHelper/userAddressModelHelper";
 const {
-  User,
   Staff,
   UserAddress,
   UserRole,
@@ -35,7 +44,7 @@ export class StaffController {
     try {
       const getStaffData: GetAllAsyncPayload = {
         ...BaseModelHelper.getPagination(req),
-        Model: User,
+        Model: db.User,
         where: {
           isDelete: isNullOrFalse,
           user_type: USER_TYPE.STAFF,
@@ -77,7 +86,7 @@ export class StaffController {
         ],
         include: [
           {
-            model: User,
+            model: db.User,
             attributes: [
               "id",
               "user_phone",
@@ -147,12 +156,12 @@ export class StaffController {
         roles,
         address_list,
         note_about_staff,
-      }: CreateStaffDTO = req.body;
+      } = req.body;
 
       const user_id = uuidv4();
 
       const createUserRowData: CreateAsyncPayload<CreateUserRowDTO> = {
-        Model: User,
+        Model: db.User,
         dto: {
           id: user_id,
           user_phone,
@@ -193,38 +202,15 @@ export class StaffController {
       const bulkCreateUserAddressRes =
         await BaseModelHelper.bulkCreateAsyncPayload(bulkCreateUserAddressData);
 
+      const bulkCreateUserRoleWithAgencyBranchInChargeData: CreateUserRoleDTO =
+        {
+          roles,
+        };
+
       const bulkCreateUserRoleWithAgencyBranchInChargeRes =
-        await RestFullAPI.onArrayPromiseSuccess(
-          await mapAsync(roles, async (role) => {
-            const user_role_id = uuidv4();
-            const createUserRoleData: CreateAsyncPayload<CreateUserRoleRowDTO> =
-              {
-                Model: UserRole,
-                dto: { id: user_role_id, user_id, role_id: role.role_id },
-              };
-
-            const createUserRoleRes = await BaseModelHelper.createAsync(
-              createUserRoleData
-            );
-
-            const bulkCreateUserRoleAgencyBranchInChargeData: BulkCreateAsyncPayload<CreateUserAgencyBranchInChargeRowDTO> =
-              {
-                Model: UserAgencyBranchInCharge,
-                dto: role.agencyBranches_inCharge.map((agency_branch_id) => ({
-                  agency_branch_id,
-                  user_role_id,
-                })),
-              };
-
-            const bulkCreateUserRoleAgencyBranchInChargeRes =
-              await BaseModelHelper.bulkCreateAsyncPayload(
-                bulkCreateUserRoleAgencyBranchInChargeData
-              );
-            return await RestFullAPI.onArrayPromiseSuccess([
-              createUserRoleRes,
-              bulkCreateUserRoleAgencyBranchInChargeRes,
-            ]);
-          })
+        await UserRoleModelHelper.createAsync(
+          bulkCreateUserRoleWithAgencyBranchInChargeData,
+          user_id
         );
 
       const { statusCode, data } = await RestFullAPI.onArrayPromiseSuccess([
@@ -250,6 +236,100 @@ export class StaffController {
         softDeleteStaffData
       );
 
+      res.status(statusCode).send(data);
+    } catch (err) {
+      next(err);
+    }
+  }
+  public async updateDetail(req: Request, res: Response, next: NextFunction) {
+    try {
+      const staff_id = req.params.id;
+
+      const getStaffByIdData: GetByIdAsyncPayload = {
+        Model: Staff,
+        where: { id: staff_id, isDelete: isNullOrFalse },
+        include: [
+          {
+            model: db.User,
+          },
+        ],
+      };
+
+      const { data: staffIncludeUser } = await BaseModelHelper.getByIDAsync(
+        getStaffByIdData
+      );
+      const { User, ...rest } = staffIncludeUser.data.dataValues;
+
+      const user_id = User.dataValues.id;
+
+      const {
+        user_code,
+        user_name,
+        user_phone,
+        user_email,
+        staff_gender,
+        staff_status,
+        staff_birthday,
+        note_about_staff,
+        isAllowViewImportNWholesalePrice,
+        isAllowViewShippingPrice,
+        address_list,
+        roles,
+      } = req.body;
+
+      const updateUserRowData: UpdateUserRowDTO =
+        handleFormatUpdateDataByValidValue(
+          {
+            user_code,
+            user_name,
+            user_phone,
+            user_email,
+          },
+          User.dataValues
+        );
+
+      const updateStaffRowData: UpdateStaffRowDTO =
+        handleFormatUpdateDataByValidValue(
+          {
+            staff_gender,
+            staff_status,
+            staff_birthday,
+            note_about_staff,
+            isAllowViewImportNWholesalePrice,
+            isAllowViewShippingPrice,
+          },
+          { ...rest }
+        );
+
+      const bulkUpdateUserAddressData: BulkUpdateAddressItemRowDTO =
+        address_list.map(
+          ({ user_district, user_province, user_specific_address }) => ({
+            user_id: user_id,
+            user_district,
+            user_province,
+            user_specific_address,
+          })
+        );
+      const bulkUpdateUserAddressRes =
+        await UserAddressModelHelper.bulkUpdateAsync(bulkUpdateUserAddressData);
+
+      const updateUserRes = await UserModelHelper.updateByIdAsync(
+        updateUserRowData
+      );
+      const updateStaffRes = await StaffModelHelper.updateByIdAsync(
+        updateStaffRowData
+      );
+      const updateUserRoleRes = await UserRoleModelHelper.updateAsync(
+        { roles },
+        user_id
+      );
+
+      const { statusCode, data } = await RestFullAPI.onArrayPromiseSuccess([
+        bulkUpdateUserAddressRes,
+        updateUserRes,
+        updateStaffRes,
+        updateUserRoleRes,
+      ]);
       res.status(statusCode).send(data);
     } catch (err) {
       next(err);

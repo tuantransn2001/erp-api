@@ -23,7 +23,7 @@ app.use(express.json()); //  * Converted Data into JSON type - !Important
 app.get("/health", (_: Request, res: Response) => {
   const data = {
     uptime: process.uptime(),
-    message: "Ok",
+    message: STATUS_MESSAGE.SUCCESS,
     date: new Date(),
   };
   res

@@ -1,4 +1,10 @@
-import { BaseSchema, UUIDType } from "../common/common.schema";
+import { z } from "zod";
+import {
+  BaseSchema,
+  StringArrayType,
+  StringType,
+  UUIDType,
+} from "../common/common.schema";
 
 export const UserRoleSchema = BaseSchema.extend({
   role_id: UUIDType,
@@ -6,3 +12,11 @@ export const UserRoleSchema = BaseSchema.extend({
 });
 
 export const CreateUserRoleRowSchema = UserRoleSchema;
+export const CreateUserRoleSchema = z.object({
+  roles: z
+    .object({
+      role_id: StringType,
+      agencyBranches_inCharge: StringArrayType,
+    })
+    .array(),
+});

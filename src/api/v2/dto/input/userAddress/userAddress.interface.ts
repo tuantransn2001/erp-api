@@ -1,7 +1,9 @@
 import { z } from "zod";
 import {
   BulkCreateAddressItemRowSchema,
+  BulkUpdateAddressItemRowSchema,
   CreateAddressItemRowRowSchema,
+  UpdateAddressItemRowRowSchema,
   UpdateAddressItemRowSchema,
   UserAddressSchema,
 } from "./userAddress.schema";
@@ -16,4 +18,10 @@ export type UpdateUserAddressItemRowDTO = z.infer<
 >;
 export type BulkCreateUserAddressItemRowDTO = z.infer<
   typeof BulkCreateAddressItemRowSchema
+>;
+export type UpdateAddressItemRowRowDTO = z.infer<
+  typeof UpdateAddressItemRowRowSchema
+>;
+export type BulkUpdateAddressItemRowDTO = z.infer<
+  typeof BulkUpdateAddressItemRowSchema
 >;

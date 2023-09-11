@@ -1,17 +1,18 @@
 import { Request } from "express";
-import { isEmpty, isNullOrFalse } from "../../common";
-import { STATUS_CODE, STATUS_MESSAGE } from "../../ts/enums/api_enums";
-import { ServerError } from "../../ts/types/common";
-import HttpException from "../../utils/exceptions/http.exception";
-import { handleError } from "../../utils/handleError/handleError";
-import RestFullAPI from "../../utils/response/apiResponse";
-import { handleServerResponse } from "../../utils/response/handleServerResponse";
-import { URLSearchParam } from "../../utils/searchParam/urlSearchParam";
+import { isEmpty, isNullOrFalse } from "../../../common";
+import { STATUS_CODE, STATUS_MESSAGE } from "../../../ts/enums/api_enums";
+import { ServerError } from "../../../ts/types/common";
+import HttpException from "../../../utils/exceptions/http.exception";
+import { handleError } from "../../../utils/handleError/handleError";
+import RestFullAPI from "../../../utils/response/apiResponse";
+import { handleServerResponse } from "../../../utils/response/handleServerResponse";
+import { URLSearchParam } from "../../../utils/searchParam/urlSearchParam";
 import {
   BulkCreateAsyncPayload,
   CreateAsyncPayload,
   GetAllAsyncPayload,
   GetByIdAsyncPayload,
+  HardDeleteByIDAsyncPayload,
   ModifyJunctionPayload,
   SoftDeleteByIDAsyncPayload,
   UpdateAsyncPayload,
@@ -149,11 +150,28 @@ export class BaseModelHelper {
         );
       });
   }
+
   public static async softDeleteAsync(payload: SoftDeleteByIDAsyncPayload) {
     return await payload.Model.update(
       { isDelete: true },
       { where: { id: payload.id } }
     )
+      .then((response) => {
+        return handleServerResponse(
+          STATUS_CODE.OK,
+          RestFullAPI.onSuccess(STATUS_MESSAGE.ACCEPTED, response)
+        );
+      })
+      .catch((err) => {
+        return handleServerResponse(
+          STATUS_CODE.INTERNAL_SERVER_ERROR,
+          handleError(err as ServerError)
+        );
+      });
+  }
+  public static async hardDeleteAsync(payload: HardDeleteByIDAsyncPayload) {
+    const { Model, where } = payload;
+    return await Model.destroy(where)
       .then((response) => {
         return handleServerResponse(
           STATUS_CODE.OK,

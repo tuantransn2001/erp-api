@@ -15,7 +15,7 @@ class RestFullAPI {
       error: error || {},
     };
   }
-  public static async onArrayPromiseSuccess(promisesResult: Promise<any>[]) {
+  public static async onArrayPromiseSuccess(promisesResult: any[]) {
     return await Promise.all(promisesResult)
       .then((response) =>
         handleServerResponse(
