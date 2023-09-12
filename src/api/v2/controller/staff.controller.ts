@@ -27,7 +27,7 @@ import {
 } from "../dto/input/staff/staff.interface";
 import { CreateUserRoleDTO } from "../dto/input/userRole/userRole.interface";
 
-import { UserRoleModelHelper } from "../services/helpers/userRole/userRoleModelHelper";
+import { UserRoleModelHelper } from "../services/helpers/userRoleModelHelper/userRoleModelHelper";
 import { UserModelHelper } from "../services/helpers/userModelHelper/userModelHelper";
 import { StaffModelHelper } from "../services/helpers/staffModelHelper/staffModelHelper";
 import { UserAddressModelHelper } from "../services/helpers/userAddressModelHelper/userAddressModelHelper";
@@ -133,7 +133,7 @@ export class StaffController {
         ],
       };
 
-      const { statusCode, data } = await BaseModelHelper.getByIDAsync(
+      const { statusCode, data } = await BaseModelHelper.getOneAsync(
         getStaffByIdData
       );
 
@@ -255,7 +255,7 @@ export class StaffController {
         ],
       };
 
-      const { data: staffIncludeUser } = await BaseModelHelper.getByIDAsync(
+      const { data: staffIncludeUser } = await BaseModelHelper.getOneAsync(
         getStaffByIdData
       );
       const { User, ...rest } = staffIncludeUser.data.dataValues;
@@ -310,16 +310,14 @@ export class StaffController {
             user_specific_address,
           })
         );
-      const bulkUpdateUserAddressRes =
-        await UserAddressModelHelper.bulkUpdateAsync(bulkUpdateUserAddressData);
+      const bulkUpdateUserAddressRes = UserAddressModelHelper.bulkUpdateAsync(
+        bulkUpdateUserAddressData
+      );
 
-      const updateUserRes = await UserModelHelper.updateByIdAsync(
-        updateUserRowData
-      );
-      const updateStaffRes = await StaffModelHelper.updateByIdAsync(
-        updateStaffRowData
-      );
-      const updateUserRoleRes = await UserRoleModelHelper.updateAsync(
+      const updateUserRes = UserModelHelper.updateByIdAsync(updateUserRowData);
+      const updateStaffRes =
+        StaffModelHelper.updateByIdAsync(updateStaffRowData);
+      const updateUserRoleRes = UserRoleModelHelper.updateAsync(
         { roles },
         user_id
       );

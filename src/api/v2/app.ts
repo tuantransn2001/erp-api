@@ -39,4 +39,5 @@ app.listen(PORT, async () => {
     console.log(`🚀 Server is running  🚀 - http://${HOST}:${PORT}`);
     setupOnConnectDB();
   });
+  // ? Backup server here
 });

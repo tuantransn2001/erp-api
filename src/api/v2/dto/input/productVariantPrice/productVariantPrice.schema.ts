@@ -5,3 +5,7 @@ export const ProductVariantPriceSchema = BaseSchema.extend({
   price_id: UUIDType,
   price_value: StringType,
 });
+
+export const CreateProductVariantPriceRowSchema = ProductVariantPriceSchema;
+export const BulkCreateProductVariantPriceRowSchema =
+  CreateProductVariantPriceRowSchema.array();

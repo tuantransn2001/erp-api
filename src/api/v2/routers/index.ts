@@ -13,6 +13,7 @@ import shipperRouter from "./shipper.router";
 import custSuppRouter from "./customer.router";
 import supplierRouter from "./supplier.router";
 import staffRouter from "./staff.router";
+import productRouter from "./product.router";
 const rootRouter = Router();
 
 rootRouter
@@ -29,5 +30,6 @@ rootRouter
   .use("/debt", debtRouter) // ? Done
   .use("/payment", paymentRouter) // ? Done
   .use("/shipper", shipperRouter) // ? Done
-  .use("/staff", staffRouter); // TODO: controller updateDetailById
+  .use("/staff", staffRouter) // ? Done
+  .use("/product", productRouter); // TODO: doing...
 export default rootRouter;

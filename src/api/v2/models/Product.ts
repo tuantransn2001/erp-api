@@ -47,6 +47,7 @@ export default (sequelize: any, DataTypes: any) => {
       product_name: {
         type: DataTypes.STRING,
       },
+
       product_classify: {
         type: DataTypes.STRING,
       },

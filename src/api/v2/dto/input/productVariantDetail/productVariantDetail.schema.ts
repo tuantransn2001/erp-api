@@ -8,3 +8,7 @@ export const ProductVariantSchema = BaseSchema.extend({
   product_weight: NumberType,
   product_weight_calculator_unit: StringType,
 });
+
+export const CreateProductVariantRowSchema = ProductVariantSchema;
+export const BulkCreateProductVariantRowSchema =
+  CreateProductVariantRowSchema.array();

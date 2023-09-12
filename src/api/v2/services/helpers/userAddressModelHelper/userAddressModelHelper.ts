@@ -44,6 +44,17 @@ export class UserAddressModelHelper {
 
   public static async bulkUpdateAsync(payload: BulkUpdateAddressItemRowDTO) {
     try {
+      const hardDeleteUserAddressData: HardDeleteByIDAsyncPayload = {
+        Model: UserAddress,
+        where: {
+          user_id: payload[0].user_id,
+        },
+      };
+
+      const hardDeleteUserAddressRes = await BaseModelHelper.hardDeleteAsync(
+        hardDeleteUserAddressData
+      );
+
       const bulkUpdateRes = await mapAsync(
         payload,
         async ({
@@ -52,16 +63,6 @@ export class UserAddressModelHelper {
           user_district,
           user_specific_address,
         }) => {
-          const hardDeleteUserAddressData: HardDeleteByIDAsyncPayload = {
-            Model: UserAddress,
-            where: {
-              user_id,
-            },
-          };
-
-          const hardDeleteUserAddressRes =
-            await BaseModelHelper.hardDeleteAsync(hardDeleteUserAddressData);
-
           const updateUserAddressData: UpdateAsyncPayload<UpdateUserAddressItemRowDTO> =
             {
               Model: UserAddress,
@@ -79,12 +80,13 @@ export class UserAddressModelHelper {
             updateUserAddressData
           );
 
-          return [hardDeleteUserAddressRes, updateUserAddressRes];
+          return updateUserAddressRes;
         }
       );
-      const { statusCode, data } = await RestFullAPI.onArrayPromiseSuccess(
-        bulkUpdateRes
-      );
+      const { statusCode, data } = await RestFullAPI.onArrayPromiseSuccess([
+        hardDeleteUserAddressRes,
+        bulkUpdateRes,
+      ]);
 
       return handleServerResponse(statusCode, data);
     } catch (err) {

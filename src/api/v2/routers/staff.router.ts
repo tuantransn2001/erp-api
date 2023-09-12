@@ -5,7 +5,10 @@ import {
   errorCatcher,
   ZodValidationMiddleware,
 } from "../middlewares";
-import { CreateStaffSchema } from "../dto/input/staff/staff.schema";
+import {
+  CreateStaffSchema,
+  UpdateStaffSchema,
+} from "../dto/input/staff/staff.schema";
 import db from "../models";
 const { Staff } = db;
 
@@ -36,8 +39,9 @@ staffRouter
   .patch(
     "/update-personal-by-id/:id",
     CheckItemExistMiddleware(Staff),
+    ZodValidationMiddleware(UpdateStaffSchema),
     _StaffController.updateDetail,
     errorCatcher
-  ); // TODO: coding...
+  );
 
 export default staffRouter;

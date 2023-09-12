@@ -1,6 +1,6 @@
 import RestFullAPI from "../../../utils/response/apiResponse";
-import { map as mapAsync } from "awaity";
 import { v4 as uuidv4 } from "uuid";
+import { reduce as reduceAsync } from "awaity";
 import {
   BulkCreateAsyncPayload,
   CreateAsyncPayload,
@@ -13,12 +13,12 @@ import {
 } from "../../../dto/input/userRole/userRole.interface";
 import db from "../../../models";
 import { BaseModelHelper } from "../baseModelHelper/baseModelHelper";
-import { CreateUserAgencyBranchInChargeRowDTO } from "../../../dto/input/userAgencyBranchInCharge/userAgencyBranchInCharge.interface";
 import { handleServerResponse } from "../../../utils/response/handleServerResponse";
 import { STATUS_CODE } from "../../../ts/enums/api_enums";
 import { handleError } from "../../../utils/handleError/handleError";
 import { ServerError } from "../../../ts/types/common";
 import { isNullOrFalse } from "../../../common";
+import { CreateUserAgencyBranchInChargeRowDTO } from "../../../dto/input/userAgencyBranchInCharge/userAgencyBranchInCharge.interface";
 const { UserRole, UserAgencyBranchInCharge, User } = db;
 export class UserRoleModelHelper {
   public static async hardDeleteAsync(user_id: string) {
@@ -35,7 +35,7 @@ export class UserRoleModelHelper {
     };
 
     const { statusCode, data: userIncludeRoleData } =
-      await BaseModelHelper.getByIDAsync(getUserIncludeRoleData);
+      await BaseModelHelper.getOneAsync(getUserIncludeRoleData);
 
     const shouldDelete = statusCode === STATUS_CODE.OK;
 
@@ -103,9 +103,9 @@ export class UserRoleModelHelper {
     user_id: string
   ) {
     try {
-      const bulkCreateUserRoleWithAgencyBranchInChargeRes = await mapAsync(
+      const bulkCreateUserRoleWithAgencyBranchInChargeRes = await reduceAsync(
         roles,
-        async (role) => {
+        async (res, role) => {
           const user_role_id = uuidv4();
           const createUserRoleData: CreateAsyncPayload<CreateUserRoleRowDTO> = {
             Model: UserRole,
@@ -119,7 +119,7 @@ export class UserRoleModelHelper {
           const bulkCreateUserRoleAgencyBranchInChargeData: BulkCreateAsyncPayload<CreateUserAgencyBranchInChargeRowDTO> =
             {
               Model: UserAgencyBranchInCharge,
-              dto: role.agencyBranches_inCharge.map((agency_branch_id) => ({
+              dto: role.agencyBranches_inCharge_ids.map((agency_branch_id) => ({
                 agency_branch_id,
                 user_role_id,
               })),
@@ -129,11 +129,18 @@ export class UserRoleModelHelper {
             await BaseModelHelper.bulkCreateAsyncPayload(
               bulkCreateUserRoleAgencyBranchInChargeData
             );
-          return [createUserRoleRes, bulkCreateUserRoleAgencyBranchInChargeRes];
-        }
+
+          res.push([
+            createUserRoleRes,
+            bulkCreateUserRoleAgencyBranchInChargeRes,
+          ]);
+
+          return res.flat(1);
+        },
+        []
       );
 
-      const { statusCode, data } = await RestFullAPI.onArrayPromiseSuccess(
+      const { statusCode, data } = RestFullAPI.onChainSuccess(
         bulkCreateUserRoleWithAgencyBranchInChargeRes
       );
 
@@ -151,17 +158,16 @@ export class UserRoleModelHelper {
     user_id: string
   ) {
     try {
-      const hardDeleteOldUserRole = await UserRoleModelHelper.hardDeleteAsync(
-        user_id
-      );
-      const createNewUserRole = await UserRoleModelHelper.createAsync(
+      const hardDeleteOldUserRoleRes =
+        UserRoleModelHelper.hardDeleteAsync(user_id);
+      const createNewUserRoleRes = UserRoleModelHelper.createAsync(
         { roles },
         user_id
       );
-
+      console.log("create new user role:::", await createNewUserRoleRes);
       const { statusCode, data } = await RestFullAPI.onArrayPromiseSuccess([
-        hardDeleteOldUserRole,
-        createNewUserRole,
+        hardDeleteOldUserRoleRes,
+        createNewUserRoleRes,
       ]);
 
       return handleServerResponse(statusCode, data);

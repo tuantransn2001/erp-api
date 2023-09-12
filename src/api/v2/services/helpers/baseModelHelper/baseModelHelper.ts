@@ -72,7 +72,7 @@ export class BaseModelHelper {
         );
       });
   }
-  public static async getByIDAsync(payload: GetByIdAsyncPayload): Promise<any> {
+  public static async getOneAsync(payload: GetByIdAsyncPayload): Promise<any> {
     const { Model, ...rest } = payload;
 
     return await Model.findOne({ ...rest })
@@ -171,7 +171,7 @@ export class BaseModelHelper {
   }
   public static async hardDeleteAsync(payload: HardDeleteByIDAsyncPayload) {
     const { Model, where } = payload;
-    return await Model.destroy(where)
+    return await Model.destroy({ where })
       .then((response) => {
         return handleServerResponse(
           STATUS_CODE.OK,

@@ -16,7 +16,7 @@ export const CheckItemExistMiddleware =
         },
       };
 
-      const { data } = await BaseModelHelper.getByIDAsync(getItemByIdPayload);
+      const { data } = await BaseModelHelper.getOneAsync(getItemByIdPayload);
 
       const shouldStopAction = data?.data.dataValues.isDelete;
 

@@ -15,7 +15,27 @@ class RestFullAPI {
       error: error || {},
     };
   }
-  public static async onArrayPromiseSuccess(promisesResult: any[]) {
+
+  public static onChainSuccess(responseArr: any[]) {
+    const shouldSendResponse = responseArr.every(
+      ({ statusCode }) =>
+        statusCode === STATUS_CODE.OK ||
+        STATUS_CODE.ACCEPTED ||
+        STATUS_CODE.CREATED
+    );
+
+    return shouldSendResponse
+      ? handleServerResponse(
+          STATUS_CODE.OK,
+          RestFullAPI.onSuccess(STATUS_MESSAGE.SUCCESS)
+        )
+      : handleServerResponse(
+          STATUS_CODE.INTERNAL_SERVER_ERROR,
+          RestFullAPI.onFail(STATUS_MESSAGE.SERVER_ERROR)
+        );
+  }
+
+  public static async onArrayPromiseSuccess(promisesResult: Promise<any>[]) {
     return await Promise.all(promisesResult)
       .then((response) =>
         handleServerResponse(

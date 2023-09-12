@@ -41,7 +41,7 @@ class PriceController {
         },
       };
 
-      const { data: foundPrice } = await BaseModelHelper.getByIDAsync(
+      const { data: foundPrice } = await BaseModelHelper.getOneAsync(
         getPriceByIdData
       );
 

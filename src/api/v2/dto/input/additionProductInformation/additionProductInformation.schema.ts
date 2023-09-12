@@ -5,3 +5,6 @@ export const AdditionProductInformationSchema = BaseSchema.extend({
   type_id: UUIDType,
   brand_id: UUIDType,
 });
+
+export const CreateAdditionProductInformationRowSchema =
+  AdditionProductInformationSchema;

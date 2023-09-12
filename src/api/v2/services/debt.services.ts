@@ -41,7 +41,7 @@ class DebtService {
           order: [["createdAt", "DESC"]],
         };
 
-        const { data: foundUserDebt } = await BaseModelHelper.getByIDAsync(
+        const { data: foundUserDebt } = await BaseModelHelper.getOneAsync(
           getUserDebtData
         );
 
@@ -76,7 +76,7 @@ class DebtService {
             attributes: ["debt_amount"],
           };
 
-          const { data: userLastDebt } = await BaseModelHelper.getByIDAsync(
+          const { data: userLastDebt } = await BaseModelHelper.getOneAsync(
             getUserLastDebt
           );
 
@@ -106,7 +106,7 @@ class DebtService {
             attributes: ["order_total"],
           };
 
-          const { data: foundOrder } = await BaseModelHelper.getByIDAsync(
+          const { data: foundOrder } = await BaseModelHelper.getOneAsync(
             getOrderByIdData
           );
 
@@ -147,7 +147,7 @@ class DebtService {
       order: [["createdAt", "DESC"]],
     };
 
-    const { statusCode, data } = await BaseModelHelper.getByIDAsync(
+    const { statusCode, data } = await BaseModelHelper.getOneAsync(
       getDebtAmountData
     );
 

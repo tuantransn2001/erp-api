@@ -44,7 +44,7 @@ export class CustSuppModelHelper {
         },
       };
 
-      const { data: customerData } = await BaseModelHelper.getByIDAsync(
+      const { data: customerData } = await BaseModelHelper.getOneAsync(
         getCustomerData
       );
 

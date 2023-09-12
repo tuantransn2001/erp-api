@@ -18,4 +18,4 @@ export const UpdateStaffRowSchema = CreateStaffRowSchema;
 export const CreateStaffSchema =
   CreateUserRowSchema.merge(CreateStaffRowSchema).merge(CreateUserRoleSchema);
 
-export const UpdateStaffSchema = CreateStaffSchema;
+export const UpdateStaffSchema = CreateStaffSchema.partial();

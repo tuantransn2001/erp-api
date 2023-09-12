@@ -1,4 +1,4 @@
-import { authenticate } from "./auth/authenticate";
+import { AuthenticateMiddleware } from "./auth/authenticate";
 import { errorCatcher } from "./errorCatcher/errorCatcher";
 import { CheckItemExistMiddleware } from "./validation/checkExist";
 import { CheckUserExistMiddleware } from "./validation/checkUserExist";
@@ -9,6 +9,6 @@ export {
   CheckItemExistMiddleware,
   CheckUserExistMiddleware,
   authorize,
-  authenticate,
+  AuthenticateMiddleware,
   ZodValidationMiddleware,
 };

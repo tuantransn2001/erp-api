@@ -60,7 +60,7 @@ export class StaffModelHelper {
         },
       };
 
-      const { data: staffData } = await BaseModelHelper.getByIDAsync(
+      const { data: staffData } = await BaseModelHelper.getOneAsync(
         getStaffData
       );
 

@@ -129,7 +129,7 @@ class CustSuppController {
         ],
       };
 
-      const { statusCode, data } = await BaseModelHelper.getByIDAsync(
+      const { statusCode, data } = await BaseModelHelper.getOneAsync(
         getByIDAsyncData
       );
 
@@ -228,7 +228,7 @@ class CustSuppController {
       };
 
       const { data: userIncludeCustomerData } =
-        await BaseModelHelper.getByIDAsync(getUserData);
+        await BaseModelHelper.getOneAsync(getUserData);
 
       const { CustSupp, ...rest } = userIncludeCustomerData.data.dataValues;
 

@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from "express";
-import { authenticate } from "../middlewares";
+import { AuthenticateMiddleware } from "../middlewares";
 
 class APIGateWay {
   private static getFullURL(req: Request) {
@@ -19,7 +19,7 @@ class APIGateWay {
       .some((r) => [""].indexOf(r) >= 0);
 
     if (!isLoginRequest) {
-      return authenticate(req, res, next);
+      return AuthenticateMiddleware(req, res, next);
     }
     return next();
   }
