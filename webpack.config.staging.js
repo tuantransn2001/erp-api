@@ -8,7 +8,7 @@ const _v = process.env.APP_VERSION;
 
 module.exports = {
   target: "node",
-  mode: "development",
+  mode: "staging",
   watch: true,
   entry: [`./src/api/v${_v}/app.ts`, `./src/api/v${_v}/models/index.ts`],
   devServer: {
@@ -20,7 +20,7 @@ module.exports = {
   },
   output: {
     filename: "app.js",
-    path: path.resolve(__dirname, `build/development/`),
+    path: path.resolve(__dirname, `build/staging/`),
   },
   module: {
     rules: [
@@ -43,7 +43,7 @@ module.exports = {
           copy: [
             {
               source: `./src/api/v${_v}/models/*.ts*`,
-              destination: `./build/development/models/`,
+              destination: `./build/staging/models/`,
               globOptions: {
                 ignore: `./src/api/v${_v}/models/index.ts`,
               },

@@ -8,8 +8,8 @@ const configDB = require("../config/configDB");
 const db: any = {};
 let sequelize: any;
 
-const NODE_ENVIRONMENT: string = process.env.NODE_ENVIRONMENT as string;
-const RUNNING_ON: string = process.env.SERVER_RUNNING_ON as string;
+const NODE_ENVIRONMENT: string = process.env.NODE_ENVIRONMENT ?? "";
+const RUNNING_ON: string = process.env.SERVER_RUNNING_ON ?? "";
 
 switch (RUNNING_ON) {
   case "cloud": {

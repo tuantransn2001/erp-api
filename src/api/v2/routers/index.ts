@@ -14,6 +14,7 @@ import custSuppRouter from "./customer.router";
 import supplierRouter from "./supplier.router";
 import staffRouter from "./staff.router";
 import productRouter from "./product.router";
+import healthCheckerRouter from "./healthChecker.router";
 const rootRouter = Router();
 
 rootRouter
@@ -31,5 +32,6 @@ rootRouter
   .use("/payment", paymentRouter) // ? Done
   .use("/shipper", shipperRouter) // ? Done
   .use("/staff", staffRouter) // ? Done
+  .use("/health", healthCheckerRouter) // ? Done
   .use("/product", productRouter); // TODO: doing...
 export default rootRouter;

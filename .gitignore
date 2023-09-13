@@ -4,4 +4,6 @@ node_modules
 # dotenv environment variables file
 .env
 
+src/api/v2/test/*
+
 package-lock.json
