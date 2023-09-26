@@ -1,7 +1,6 @@
 import { NextFunction, Request, Response } from "express";
 import { v4 as uuidv4 } from "uuid";
 import { handleFormatUpdateDataByValidValue, isNullOrFalse } from "../common";
-
 import db from "../models";
 const { UserAddress, Staff, User, CustSuppTag, Tag } = db;
 import { BaseModelHelper } from "../services/helpers/baseModelHelper/baseModelHelper";
@@ -37,7 +36,8 @@ class CustSuppController {
         ...BaseModelHelper.getPagination(req),
         Model: User,
         where: {
-          user_type: "supplier",
+          isDelete: isNullOrFalse,
+          user_type: CustSuppController._user_type,
         },
         attributes: [
           "id",
@@ -273,6 +273,22 @@ class CustSuppController {
         updateCustomerRowRes,
         updateTagRes,
       ]);
+      res.status(statusCode).send(data);
+    } catch (err) {
+      next(err);
+    }
+  }
+  public async multipleSoftDeleteCustomer(
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ) {
+    try {
+      const { ids } = req.body;
+
+      const { statusCode, data } =
+        await UserModelHelper.multipleSoftDeleteByIdsAsync(ids);
+
       res.status(statusCode).send(data);
     } catch (err) {
       next(err);

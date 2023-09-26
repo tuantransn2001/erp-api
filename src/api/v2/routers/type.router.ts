@@ -1,5 +1,5 @@
 import { Router } from "express";
-import TypeController from "../controller/type.controller";
+import TypeController from "../controllers/type.controller";
 import { errorCatcher } from "../middlewares";
 const typeRouter = Router();
 

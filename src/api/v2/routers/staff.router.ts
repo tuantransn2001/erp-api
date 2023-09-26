@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { StaffController } from "../controller/staff.controller";
+import { StaffController } from "../controllers/staff.controller";
 import {
   CheckItemExistMiddleware,
   errorCatcher,

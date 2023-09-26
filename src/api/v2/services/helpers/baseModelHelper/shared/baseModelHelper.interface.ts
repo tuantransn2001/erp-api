@@ -39,6 +39,11 @@ export interface SoftDeleteByIDAsyncPayload {
   id: string;
 }
 
+export interface MultipleSoftDeleteByIDAsyncPayload {
+  Model: any;
+  ids: string[];
+}
+
 export interface HardDeleteByIDAsyncPayload
   extends Omit<SoftDeleteByIDAsyncPayload, "id"> {
   where: ObjectType<any> | string[];

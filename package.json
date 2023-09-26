@@ -8,7 +8,7 @@
     "build:dev": "cross-env SERVER_RUNNING_ON=local NODE_ENVIRONMENT=development webpack --config webpack.config.dev.js",
     "build:dev:start": "nodemon build/development/app.js",
     "build:prod": "cross-env SERVER_RUNNING_ON=cloud NODE_ENVIRONMENT=production webpack --config webpack.config.prod.js",
-    "build:prod:start": "node build/production/app.js",
+    "build:prod:start": "nodemon build/production/app.js",
     "build:staging": "cross-env SERVER_RUNNING_ON=cloud NODE_ENVIRONMENT=staging webpack --config webpack.config.staging.js",
     "build:staging:start": "node build/staging/app.js"
   },

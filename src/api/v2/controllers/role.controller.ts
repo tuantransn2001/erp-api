@@ -77,7 +77,7 @@ class RoleController {
         id: req.params.id,
       };
 
-      const { statusCode, data } = await BaseModelHelper.softDeleteAsync(
+      const { statusCode, data } = await BaseModelHelper.softDeleteByIdAsync(
         deleteRoleData
       );
       res.status(statusCode).send(data);

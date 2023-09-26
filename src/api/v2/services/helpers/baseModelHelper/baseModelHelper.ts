@@ -7,6 +7,7 @@ import { handleError } from "../../../utils/handleError/handleError";
 import RestFullAPI from "../../../utils/response/apiResponse";
 import { handleServerResponse } from "../../../utils/response/handleServerResponse";
 import { URLSearchParam } from "../../../utils/searchParam/urlSearchParam";
+import { map as asyncMap } from "awaity";
 import {
   BulkCreateAsyncPayload,
   CreateAsyncPayload,
@@ -14,6 +15,7 @@ import {
   GetByIdAsyncPayload,
   HardDeleteByIDAsyncPayload,
   ModifyJunctionPayload,
+  MultipleSoftDeleteByIDAsyncPayload,
   SoftDeleteByIDAsyncPayload,
   UpdateAsyncPayload,
 } from "./shared/baseModelHelper.interface";
@@ -66,6 +68,7 @@ export class BaseModelHelper {
         );
       })
       .catch((err) => {
+        console.log({ err });
         return handleServerResponse(
           STATUS_CODE.INTERNAL_SERVER_ERROR,
           handleError(err as ServerError)
@@ -150,8 +153,7 @@ export class BaseModelHelper {
         );
       });
   }
-
-  public static async softDeleteAsync(payload: SoftDeleteByIDAsyncPayload) {
+  public static async softDeleteByIdAsync(payload: SoftDeleteByIDAsyncPayload) {
     return await payload.Model.update(
       { isDelete: true },
       { where: { id: payload.id } }
@@ -168,6 +170,41 @@ export class BaseModelHelper {
           handleError(err as ServerError)
         );
       });
+  }
+  public static async multipleSoftDeleteAsync({
+    Model,
+    ids,
+  }: MultipleSoftDeleteByIDAsyncPayload) {
+    const multipleSoftDeleteResult = await asyncMap(ids, async (id: string) => {
+      const softDeleteByIdAsyncData: SoftDeleteByIDAsyncPayload = {
+        Model: Model,
+        id,
+      };
+
+      const { statusCode, data } = await BaseModelHelper.softDeleteByIdAsync(
+        softDeleteByIdAsyncData
+      );
+
+      return { statusCode, data };
+    });
+
+    const isDeleteSuccess = multipleSoftDeleteResult.every(
+      ({ statusCode }) => statusCode === STATUS_CODE.OK
+    );
+
+    if (!isDeleteSuccess) {
+      return handleServerResponse(
+        STATUS_CODE.INTERNAL_SERVER_ERROR,
+        handleError({
+          message: STATUS_MESSAGE.SERVER_ERROR,
+        } as HttpException)
+      );
+    }
+
+    return handleServerResponse(
+      STATUS_CODE.OK,
+      RestFullAPI.onSuccess(STATUS_MESSAGE.SUCCESS)
+    );
   }
   public static async hardDeleteAsync(payload: HardDeleteByIDAsyncPayload) {
     const { Model, where } = payload;

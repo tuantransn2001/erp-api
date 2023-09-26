@@ -1,3 +1,4 @@
+import { ERROR_MESSAGE } from "../../../ts/enums/app_enums";
 import {
   BaseSchema,
   DateType,
@@ -6,9 +7,9 @@ import {
 } from "../common/common.schema";
 
 export const UserSchema = BaseSchema.extend({
-  user_phone: StringType,
-  user_email: StringType,
-  user_name: StringType,
+  user_phone: StringType.min(9, ERROR_MESSAGE.inValid),
+  user_email: StringType.min(11, ERROR_MESSAGE.inValid),
+  user_name: StringType.min(5, ERROR_MESSAGE.inValid),
   user_code: StringType.optional(),
   updatedAt: DateType.optional(),
   createdAt: DateType.optional(),

@@ -4,6 +4,7 @@ import { STATUS_CODE, STATUS_MESSAGE } from "../../ts/enums/api_enums";
 import RestFullAPI from "../../utils/response/apiResponse";
 import { isEmpty } from "../../common";
 import { IUser } from "../../dto/input/user/user.interface";
+import HttpException from "../../utils/exceptions/http.exception";
 const { User } = db;
 export const CheckUserExistMiddleware =
   () => async (req: Request, res: Response, next: NextFunction) => {
@@ -62,11 +63,11 @@ export const CheckUserExistMiddleware =
         });
 
       if (!isEmpty(errorMessage)) {
-        res
-          .status(STATUS_CODE.BAD_REQUEST)
-          .send(
-            RestFullAPI.onSuccess(STATUS_MESSAGE.BAD_REQUEST, errorMessage)
-          );
+        res.status(STATUS_CODE.CONFLICT).send(
+          RestFullAPI.onFail(STATUS_MESSAGE.CONFLICT, {
+            message: errorMessage.join(","),
+          } as HttpException)
+        );
       } else {
         next();
       }

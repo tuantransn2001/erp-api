@@ -10,7 +10,7 @@ import typeRouter from "./type.router";
 import debtRouter from "./debt.router";
 import paymentRouter from "./payment.router";
 import shipperRouter from "./shipper.router";
-import custSuppRouter from "./customer.router";
+import customerRouter from "./customer.router";
 import supplierRouter from "./supplier.router";
 import staffRouter from "./staff.router";
 import productRouter from "./product.router";
@@ -19,7 +19,7 @@ const rootRouter = Router();
 
 rootRouter
   .use("/auth", authRouter) // ? Done
-  .use("/customer", custSuppRouter) // ? Done
+  .use("/customer", customerRouter) // ? Done
   .use("/supplier", supplierRouter) // ? Done
   .use("/address", userAddressRouter) // ? Done
   .use("/agency-branch", agencyBranchRouter) // ? Done

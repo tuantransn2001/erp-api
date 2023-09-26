@@ -38,7 +38,7 @@ export class StaffModelHelper {
     try {
       const softDeleteData: SoftDeleteByIDAsyncPayload = { Model: Staff, id };
 
-      const { statusCode, data } = await BaseModelHelper.softDeleteAsync(
+      const { statusCode, data } = await BaseModelHelper.softDeleteByIdAsync(
         softDeleteData
       );
 

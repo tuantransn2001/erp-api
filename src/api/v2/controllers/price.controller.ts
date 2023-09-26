@@ -184,7 +184,7 @@ class PriceController {
         Model: Price,
         id: req.params.id,
       };
-      const { statusCode, data } = await BaseModelHelper.softDeleteAsync(
+      const { statusCode, data } = await BaseModelHelper.softDeleteByIdAsync(
         softDeletePriceData
       );
 

@@ -17,9 +17,14 @@ export enum CUSTSUPP_STATUS {
 
 export enum STAFF_STATUS {
   WORKING = "Đang làm việc",
+  OFF = "Đã nghỉ việc",
 }
 
 export enum MODIFY_STATUS {
   ACCEPT = "accept",
   DENY = "deny",
+}
+
+export enum ERROR_MESSAGE {
+  inValid = "Please enter valid value",
 }

@@ -1,5 +1,5 @@
 import { Router } from "express";
-import BrandController from "../controller/brand.controller";
+import BrandController from "../controllers/brand.controller";
 import { errorCatcher } from "../middlewares";
 
 const brandRouter = Router();

@@ -1,5 +1,5 @@
 import { Router } from "express";
-import RoleController from "../controller/role.controller";
+import RoleController from "../controllers/role.controller";
 import {
   errorCatcher,
   CheckItemExistMiddleware,

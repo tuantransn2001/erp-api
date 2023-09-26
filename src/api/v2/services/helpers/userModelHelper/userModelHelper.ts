@@ -6,6 +6,7 @@ import { ServerError } from "../../../ts/types/common";
 import { handleError } from "../../../utils/handleError/handleError";
 import {
   CreateAsyncPayload,
+  MultipleSoftDeleteByIDAsyncPayload,
   SoftDeleteByIDAsyncPayload,
 } from "../baseModelHelper/shared/baseModelHelper.interface";
 import db from "../../../models";
@@ -35,10 +36,26 @@ export class UserModelHelper {
     try {
       const softDeleteData: SoftDeleteByIDAsyncPayload = { Model: User, id };
 
-      const { statusCode, data } = await BaseModelHelper.softDeleteAsync(
+      const { statusCode, data } = await BaseModelHelper.softDeleteByIdAsync(
         softDeleteData
       );
 
+      return handleServerResponse(statusCode, data);
+    } catch (err) {
+      return handleServerResponse(
+        STATUS_CODE.INTERNAL_SERVER_ERROR,
+        handleError(err as ServerError)
+      );
+    }
+  }
+  public static async multipleSoftDeleteByIdsAsync(ids: string[]) {
+    try {
+      const multipleSoftDeleteData: MultipleSoftDeleteByIDAsyncPayload = {
+        Model: User,
+        ids,
+      };
+      const { statusCode, data } =
+        await BaseModelHelper.multipleSoftDeleteAsync(multipleSoftDeleteData);
       return handleServerResponse(statusCode, data);
     } catch (err) {
       return handleServerResponse(

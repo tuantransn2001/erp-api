@@ -1,5 +1,5 @@
 import { Router } from "express";
-import CustSuppController from "../controller/custSupp.controller";
+import CustSuppController from "../controllers/custSupp.controller";
 import {
   CheckItemExistMiddleware,
   CheckUserExistMiddleware,

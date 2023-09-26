@@ -6,7 +6,8 @@ import { handleError } from "../../utils/handleError/handleError";
 export const ZodValidationMiddleware =
   (schema: Schema) => (req: Request, res: Response, next: NextFunction) => {
     try {
-      const input = req.body;
+      const input = req.body || req.query || req.params;
+      console.log(input);
       schema.parse(input);
       return next();
     } catch (err) {

@@ -1,5 +1,5 @@
 import { Router } from "express";
-import TagController from "../controller/tag.controller";
+import TagController from "../controllers/tag.controller";
 import {
   errorCatcher,
   CheckItemExistMiddleware,

@@ -1,5 +1,5 @@
 import { Router } from "express";
-import ShipperController from "../controller/shipper.controller";
+import ShipperController from "../controllers/shipper.controller";
 import { errorCatcher } from "../middlewares";
 
 const shipperRouter = Router();

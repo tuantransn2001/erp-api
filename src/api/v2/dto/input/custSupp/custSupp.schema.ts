@@ -1,5 +1,6 @@
 import {
   BaseSchema,
+  StringArrayType,
   StringType,
   UUIDArrayType,
   UUIDType,
@@ -27,3 +28,5 @@ export const UpdateCustSuppSchema = CreateCustSuppSchema.partial();
 export const UpdateCustSuppRowSchema = CreateCustSuppSchema.partial().extend({
   id: UUIDType.optional(),
 });
+
+export const MultipleSoftDeleteCustSuppSchema = StringArrayType;

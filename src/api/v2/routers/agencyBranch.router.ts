@@ -9,7 +9,7 @@ import {
   ZodValidationMiddleware,
 } from "../middlewares";
 import { CreateAgencyBranchSchema } from "../dto/input/agencyBranch/agencyBranch.schema";
-import AgencyBranchController from "../controller/agencyBranch.controller";
+import AgencyBranchController from "../controllers/agencyBranch.controller";
 
 const _AgencyBranchController = new AgencyBranchController();
 

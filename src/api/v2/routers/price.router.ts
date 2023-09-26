@@ -1,6 +1,6 @@
 import { Router } from "express";
 const priceRouter = Router();
-import PriceController from "../controller/price.controller";
+import PriceController from "../controllers/price.controller";
 import {
   errorCatcher,
   CheckItemExistMiddleware,

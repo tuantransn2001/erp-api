@@ -74,14 +74,14 @@ export class CustSuppModelHelper {
       );
     }
   }
-  public static async softDeleteAsync(id: string) {
+  public static async softDeleteByIdAsync(id: string) {
     try {
       const softDeleteData: SoftDeleteByIDAsyncPayload = {
         Model: CustSupp,
         id,
       };
 
-      const { statusCode, data } = await BaseModelHelper.softDeleteAsync(
+      const { statusCode, data } = await BaseModelHelper.softDeleteByIdAsync(
         softDeleteData
       );
 

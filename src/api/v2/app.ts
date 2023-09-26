@@ -16,6 +16,9 @@ const ROOT_URL = env.root_url as string;
 const PORT = env.port as string;
 const HOST = env.host as string;
 // ? ============================== SETTING SERVER ===============================
+app.use(cors()); // * Allow cors
+app.use(express.json()); //  * Converted Data into JSON type - !Important
+app.use(compression()); // * The middleware will attempt to compress response bodies for all request that traverse through the middleware
 app.use(
   morgan(function (tokens, req, res) {
     return [
@@ -33,9 +36,6 @@ app.use(
     ].join(" ");
   })
 ); // * Logger middleware
-app.use(compression()); // * The middleware will attempt to compress response bodies for all request that traverse through the middleware
-app.use(cors()); // * Allow cors
-app.use(express.json()); //  * Converted Data into JSON type - !Important
 // ? ============================== USE ROUTER =================================
 app.use(ROOT_URL, APIGateWay.handleUseGlobalMiddleware, rootRouter); // * Use Router
 // ? ========================== CONNECT DATABASE - RUN SERVER ====================

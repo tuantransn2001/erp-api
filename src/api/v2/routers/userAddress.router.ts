@@ -1,5 +1,5 @@
 import { Router } from "express";
-import UserAddressController from "../controller/userAddress.controllers";
+import UserAddressController from "../controllers/userAddress.controllers";
 import {
   CheckItemExistMiddleware,
   errorCatcher,

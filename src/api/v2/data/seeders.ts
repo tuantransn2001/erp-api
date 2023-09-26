@@ -5801,6 +5801,7 @@ export const AGENCY_BRANCH_ARRAY: Partial<IAgencyBranch>[] = [
     agency_branch_address: "362 Gianni Cove Suite 493",
     agency_branch_area: "Vandervortstad",
     agency_branch_status: "active",
+    isDelete: false,
     isDefaultCN: true,
   },
   {
@@ -5812,6 +5813,7 @@ export const AGENCY_BRANCH_ARRAY: Partial<IAgencyBranch>[] = [
     agency_branch_address: "362 Gianni Cove Suite 493",
     agency_branch_area: "Vandervortstad",
     agency_branch_status: "active",
+    isDelete: false,
     isDefaultCN: false,
   },
   {
@@ -5823,6 +5825,7 @@ export const AGENCY_BRANCH_ARRAY: Partial<IAgencyBranch>[] = [
     agency_branch_address: "362 Gianni Cove Suite 493",
     agency_branch_area: "Vandervortstad",
     agency_branch_status: "active",
+    isDelete: false,
     isDefaultCN: false,
   },
 ];

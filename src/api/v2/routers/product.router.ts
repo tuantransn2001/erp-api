@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { ProductController } from "../controller/product.controller";
+import { ProductController } from "../controllers/product.controller";
 import { CreateProductSchema } from "../dto/input/product/product.schema";
 import {
   CheckItemExistMiddleware,

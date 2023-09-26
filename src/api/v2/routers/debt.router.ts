@@ -1,5 +1,5 @@
 import { Router } from "express";
-import DebtController from "../controller/debt.controller";
+import DebtController from "../controllers/debt.controller";
 import { CheckItemExistMiddleware, errorCatcher } from "../middlewares";
 import db from "../models";
 const { User } = db;
