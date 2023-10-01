@@ -2,7 +2,7 @@ import { Request, Response } from "express";
 import HttpException from "@/src/api/v2/utils/exceptions/http.exception";
 import { STATUS_CODE, STATUS_MESSAGE } from "../../ts/enums/api_enums";
 
-export const errorCatcher = (
+export const ErrorCatcher = (
   error: HttpException,
   _: Request,
   res: Response

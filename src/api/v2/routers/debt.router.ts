@@ -1,6 +1,6 @@
 import { Router } from "express";
 import DebtController from "../controllers/debt.controller";
-import { CheckItemExistMiddleware, errorCatcher } from "../middlewares";
+import { CheckItemExistMiddleware } from "../middlewares";
 import db from "../models";
 const { User } = db;
 
@@ -12,14 +12,8 @@ debtRouter
   .get(
     "/get-change-logs/:id",
     CheckItemExistMiddleware(User),
-    _DebtController.getAllChangeByUserID,
-    errorCatcher
+    _DebtController.getAllChangeByUserID
   )
-  .get(
-    "/:id",
-    CheckItemExistMiddleware(User),
-    _DebtController.getDebtAmount,
-    errorCatcher
-  );
+  .get("/:id", CheckItemExistMiddleware(User), _DebtController.getDebtAmount);
 
 export default debtRouter;

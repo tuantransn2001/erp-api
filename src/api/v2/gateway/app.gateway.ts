@@ -1,6 +1,7 @@
 import { Request, Response, NextFunction } from "express";
 import { isEmpty } from "../common";
-import { AuthenticateMiddleware } from "../middlewares";
+import { AuthenticateMiddleware, ErrorCatcher } from "../middlewares";
+import HttpException from "../utils/exceptions/http.exception";
 
 class APIGateWay {
   private static excludeRoute: string[] = ["login", "health"];
@@ -9,6 +10,7 @@ class APIGateWay {
     return req.protocol + "://" + req.get("host") + req.originalUrl;
   }
   public static handleUseGlobalMiddleware(
+    error: HttpException,
     req: Request,
     res: Response,
     next: NextFunction
@@ -16,9 +18,13 @@ class APIGateWay {
     try {
       const middlewares: any[] = [];
       // ? Handle Use Global Middleware
+      // * ==============================
+      // * error catcher
+      // * ==============================
+      middlewares.push(ErrorCatcher(error, req, res));
 
       // * ==============================
-      // * Case exclude auth
+      // * Case authenticate exclude auth
       // * ==============================
       const isLoginRequest = APIGateWay.getFullURL(req)
         .split("/")

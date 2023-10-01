@@ -2,7 +2,6 @@ import { Router } from "express";
 const priceRouter = Router();
 import PriceController from "../controllers/price.controller";
 import {
-  errorCatcher,
   CheckItemExistMiddleware,
   ZodValidationMiddleware,
 } from "../middlewares";
@@ -13,26 +12,23 @@ const { Price } = db;
 const _PriceController = new PriceController();
 
 priceRouter
-  .get("/get-all", _PriceController.getAll, errorCatcher)
+  .get("/get-all", _PriceController.getAll)
   .post(
     "/create",
     ZodValidationMiddleware(CreatePriceItemRowSchema),
-    _PriceController.create,
-    errorCatcher
+    _PriceController.create
   )
   .patch(
     "/update-by-id/:id",
     CheckItemExistMiddleware(Price),
     _PriceController.checkDefaultPriceMiddleware,
-    _PriceController.updateByID,
-    errorCatcher
+    _PriceController.updateByID
   )
   .delete(
     "/delete-by-id/:id",
     CheckItemExistMiddleware(Price),
     _PriceController.checkDefaultPriceMiddleware,
-    _PriceController.softDeleteByID,
-    errorCatcher
+    _PriceController.softDeleteByID
   );
 
 export default priceRouter;

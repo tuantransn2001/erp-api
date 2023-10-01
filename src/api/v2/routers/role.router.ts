@@ -1,7 +1,6 @@
 import { Router } from "express";
 import RoleController from "../controllers/role.controller";
 import {
-  errorCatcher,
   CheckItemExistMiddleware,
   ZodValidationMiddleware,
 } from "../middlewares";
@@ -17,25 +16,22 @@ const roleRouter = Router();
 const _RoleController = new RoleController();
 
 roleRouter
-  .get("/get-all", _RoleController.getAll, errorCatcher)
+  .get("/get-all", _RoleController.getAll)
   .post(
     "/create",
     ZodValidationMiddleware(CreateRoleRowSchema),
-    _RoleController.create,
-    errorCatcher
+    _RoleController.create
   )
   .patch(
     "/update-by-id/:id",
     ZodValidationMiddleware(UpdateRoleRowSchema),
     CheckItemExistMiddleware(Role),
-    _RoleController.updateByID,
-    errorCatcher
+    _RoleController.updateByID
   )
   .delete(
     "/delete-by-id/:id",
     CheckItemExistMiddleware(Role),
-    _RoleController.softDeleteByID,
-    errorCatcher
+    _RoleController.softDeleteByID
   );
 
 export default roleRouter;

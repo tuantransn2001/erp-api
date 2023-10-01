@@ -3,7 +3,6 @@ import CustSuppController from "../controllers/custSupp.controller";
 import {
   CheckItemExistMiddleware,
   CheckUserExistMiddleware,
-  errorCatcher,
   ZodValidationMiddleware,
 } from "../middlewares";
 import db from "../models";
@@ -19,33 +18,29 @@ const supplierRouter = Router();
 const SupplierController = new CustSuppController(USER_TYPE.SUPPLIER);
 
 supplierRouter
-  .get("/get-all", SupplierController.getAll, errorCatcher)
+  .get("/get-all", SupplierController.getAll)
   .post(
     "/create",
     ZodValidationMiddleware(CreateCustSuppSchema),
     CheckUserExistMiddleware(),
-    SupplierController.create,
-    errorCatcher
+    SupplierController.create
   )
   .get(
     "/get-by-id/:id",
     CheckItemExistMiddleware(User),
-    SupplierController.getByID,
-    errorCatcher
+    SupplierController.getByID
   )
   .delete(
     "/delete-by-id/:id",
     CheckItemExistMiddleware(CustSupp),
-    SupplierController.softDeleteByID,
-    errorCatcher
+    SupplierController.softDeleteByID
   )
   .patch(
     "/update-personalInfo-by-id/:id",
     ZodValidationMiddleware(UpdateCustSuppSchema),
     CheckItemExistMiddleware(User),
     CheckUserExistMiddleware(),
-    SupplierController.updatePersonalInfoByID,
-    errorCatcher
+    SupplierController.updatePersonalInfoByID
   );
 
 export default supplierRouter;

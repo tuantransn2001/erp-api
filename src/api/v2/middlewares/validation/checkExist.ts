@@ -70,6 +70,13 @@ export const CheckItemExistMiddleware =
         }
       }
 
+      if (isEmpty(ids))
+        res.status(STATUS_CODE.BAD_REQUEST).send(
+          RestFullAPI.onFail(STATUS_MESSAGE.BAD_REQUEST, {
+            message: `ids cannot be empty`,
+          } as HttpException)
+        );
+
       next();
     } catch (err) {
       next(err);

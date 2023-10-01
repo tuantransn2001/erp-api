@@ -2,7 +2,6 @@ import { Router } from "express";
 import { StaffController } from "../controllers/staff.controller";
 import {
   CheckItemExistMiddleware,
-  errorCatcher,
   ZodValidationMiddleware,
 } from "../middlewares";
 import {
@@ -17,31 +16,27 @@ const staffRouter = Router();
 const _StaffController = new StaffController();
 
 staffRouter
-  .get("/get-all", _StaffController.getAll, errorCatcher)
+  .get("/get-all", _StaffController.getAll)
   .get(
     "/get-by-id/:id",
     CheckItemExistMiddleware(Staff),
-    _StaffController.getByID,
-    errorCatcher
+    _StaffController.getByID
   )
   .post(
     "/create",
     ZodValidationMiddleware(CreateStaffSchema),
-    _StaffController.create,
-    errorCatcher
+    _StaffController.create
   )
   .delete(
     "/delete-by-id/:id",
     CheckItemExistMiddleware(Staff),
-    _StaffController.softDeleteByID,
-    errorCatcher
+    _StaffController.softDeleteByID
   )
   .patch(
     "/update-personal-by-id/:id",
     CheckItemExistMiddleware(Staff),
     ZodValidationMiddleware(UpdateStaffSchema),
-    _StaffController.updateDetail,
-    errorCatcher
+    _StaffController.updateDetail
   );
 
 export default staffRouter;

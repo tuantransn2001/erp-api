@@ -1,7 +1,6 @@
 import { Router } from "express";
 import TagController from "../controllers/tag.controller";
 import {
-  errorCatcher,
   CheckItemExistMiddleware,
   ZodValidationMiddleware,
 } from "../middlewares";
@@ -17,24 +16,21 @@ const tagRouter = Router();
 const _TagController = new TagController();
 
 tagRouter
-  .get("/get-all", _TagController.getAll, errorCatcher)
+  .get("/get-all", _TagController.getAll)
   .post(
     "/create",
     ZodValidationMiddleware(BulkCreateTagItemRowSchema),
-    _TagController.create,
-    errorCatcher
+    _TagController.create
   )
   .patch(
     "/update",
     ZodValidationMiddleware(BulkUpdateTagItemRowSchema),
-    _TagController.update,
-    errorCatcher
+    _TagController.update
   )
   .delete(
     "/delete-by-id/:id",
     CheckItemExistMiddleware(Tag),
-    _TagController.deleteByID,
-    errorCatcher
+    _TagController.deleteByID
   );
 
 export default tagRouter;

@@ -2,7 +2,6 @@ import { Router } from "express";
 import UserAddressController from "../controllers/userAddress.controllers";
 import {
   CheckItemExistMiddleware,
-  errorCatcher,
   ZodValidationMiddleware,
 } from "../middlewares";
 import db from "../models";
@@ -20,21 +19,18 @@ userAddressRouter
     "/add/:id",
     ZodValidationMiddleware(CreateUserAddressSchema),
     CheckItemExistMiddleware(User),
-    _UserAddressController.create,
-    errorCatcher
+    _UserAddressController.create
   )
   .patch(
     "/update/:id",
     ZodValidationMiddleware(UpdateUserAddressSchema),
     CheckItemExistMiddleware(UserAddress),
-    _UserAddressController.update,
-    errorCatcher
+    _UserAddressController.update
   )
   .delete(
     "/delete/:id",
     CheckItemExistMiddleware(UserAddress),
-    _UserAddressController.softDeleteByID,
-    errorCatcher
+    _UserAddressController.softDeleteByID
   );
 
 export default userAddressRouter;
