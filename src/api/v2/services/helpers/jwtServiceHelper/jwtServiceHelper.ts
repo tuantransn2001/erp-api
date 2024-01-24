@@ -1,6 +1,6 @@
 import * as jwt from "jsonwebtoken";
 import env from "../../../constants/env";
-import { Falsy, JwtPayload, ObjectType } from "../../../ts/types/common";
+import { Falsy, JwtPayload, ObjectType } from "../../../common/types/common";
 export class JwtServiceHelper {
   private static secretKey: string = `${env.jwtSecretKey}`;
 

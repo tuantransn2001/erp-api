@@ -5,7 +5,7 @@ import {
   UpdateUserAddressItemRowDTO,
 } from "../../../dto/input/userAddress/userAddress.interface";
 import { map as mapAsync } from "awaity";
-import { ServerError } from "../../../ts/types/common";
+import { ServerError } from "../../../common/types/common";
 import { handleError } from "../../../utils/handleError/handleError";
 import {
   BulkCreateAsyncPayload,
@@ -15,7 +15,7 @@ import {
 import db from "../../../models";
 import { BaseModelHelper } from "../baseModelHelper/baseModelHelper";
 import { handleServerResponse } from "../../../utils/response/handleServerResponse";
-import { STATUS_CODE } from "../../../ts/enums/api_enums";
+import { STATUS_CODE } from "../../../common/enums/api_enums";
 import RestFullAPI from "../../../utils/response/apiResponse";
 const { UserAddress } = db;
 export class UserAddressModelHelper {

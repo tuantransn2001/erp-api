@@ -1,11 +1,11 @@
-import { handleFormatUpdateDataByValidValue } from "../../../common";
+import { handleFormatUpdateDataByValidValue } from "../../../common/helper";
 import {
   CreateCustSuppRowDTO,
   UpdateCustSuppRowDTO,
 } from "../../../dto/input/custSupp/custSupp.interface";
 import db from "../../../models";
-import { STATUS_CODE } from "../../../ts/enums/api_enums";
-import { ServerError } from "../../../ts/types/common";
+import { STATUS_CODE } from "../../../common/enums/api_enums";
+import { ServerError } from "../../../common/types/common";
 import { handleError } from "../../../utils/handleError/handleError";
 import { handleServerResponse } from "../../../utils/response/handleServerResponse";
 import { BaseModelHelper } from "../baseModelHelper/baseModelHelper";

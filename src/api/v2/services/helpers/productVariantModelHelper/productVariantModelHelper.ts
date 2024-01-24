@@ -9,9 +9,9 @@ import {
 import db from "../../../models";
 import { BaseModelHelper } from "../baseModelHelper/baseModelHelper";
 import { handleServerResponse } from "../../../utils/response/handleServerResponse";
-import { STATUS_CODE } from "../../../ts/enums/api_enums";
+import { STATUS_CODE } from "../../../common/enums/api_enums";
 import { handleError } from "../../../utils/handleError/handleError";
-import { ServerError } from "../../../ts/types/common";
+import { ServerError } from "../../../common/types/common";
 const { ProductVariantDetail } = db;
 export class ProductVariantModelHelper {
   public static async createAsync(payload: CreateProductVariantRowDTO) {

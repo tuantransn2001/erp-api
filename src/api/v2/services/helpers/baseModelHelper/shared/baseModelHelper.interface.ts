@@ -1,4 +1,4 @@
-import { ObjectType } from "../../../../ts/types/common";
+import { ObjectType } from "../../../../common/types/common";
 
 export interface CreateAsyncPayload<T> {
   Model: any;

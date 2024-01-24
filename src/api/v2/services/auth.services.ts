@@ -1,13 +1,13 @@
 import db from "../models";
 import HashStringHandler from "../utils/hashString/string.hash";
-import { STATUS_CODE, STATUS_MESSAGE } from "../ts/enums/api_enums";
+import { STATUS_CODE, STATUS_MESSAGE } from "../common/enums/api_enums";
 import RestFullAPI from "../utils/response/apiResponse";
 import { handleError } from "../utils/handleError/handleError";
 import { LoginDTO } from "../dto/input/auth/auth.interface";
 import { GetMePayload } from "../dto/input/auth/auth.payload";
 import { GetMeSchema } from "../dto/input/auth/auth.schema";
-import { ServerError } from "../ts/types/common";
-import { isNullOrFalse } from "../common";
+import { ServerError } from "../common/types/common";
+import { isNullOrFalse } from "../common/helper";
 import { JwtServiceHelper } from "./helpers/jwtServiceHelper/jwtServiceHelper";
 import { handleServerResponse } from "../utils/response/handleServerResponse";
 import { GetByIdAsyncPayload } from "./helpers/baseModelHelper/shared/baseModelHelper.interface";

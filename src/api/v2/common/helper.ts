@@ -1,6 +1,6 @@
 import randomstring from "randomstring";
-import { MODIFY_STATUS } from "../ts/enums/app_enums";
-import { Falsy, ObjectType } from "../ts/types/common";
+import { MODIFY_STATUS } from "./enums/app_enums";
+import { Falsy, ObjectType } from "./types/common";
 
 export const healthCheckData = {
   uptime: process.uptime(),

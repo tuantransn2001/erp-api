@@ -1,5 +1,5 @@
 import { NextFunction, Request, Response } from "express";
-import { MyRequest } from "../ts/interfaces/common";
+import { MyRequest } from "../common/interfaces/common";
 import AuthServices from "../services/auth.services";
 import { LoginDTO } from "../dto/input/auth/auth.interface";
 import { GetMePayload } from "../dto/input/auth/auth.payload";

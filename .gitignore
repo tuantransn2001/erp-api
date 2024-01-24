@@ -1,9 +1,15 @@
 # Dependency directories
 node_modules
+build
 
 # dotenv environment variables file
 .env
 
+# Test files
 src/api/v2/test/*
 
+# npm package manager files
 package-lock.json
+
+# IDE files
+.vscode

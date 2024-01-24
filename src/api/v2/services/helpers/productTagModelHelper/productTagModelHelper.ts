@@ -6,9 +6,9 @@ import { BulkCreateAsyncPayload } from "../baseModelHelper/shared/baseModelHelpe
 import db from "../../../models";
 import { BaseModelHelper } from "../baseModelHelper/baseModelHelper";
 import { handleServerResponse } from "../../../utils/response/handleServerResponse";
-import { STATUS_CODE } from "../../../ts/enums/api_enums";
+import { STATUS_CODE } from "../../../common/enums/api_enums";
 import { handleError } from "../../../utils/handleError/handleError";
-import { ServerError } from "../../../ts/types/common";
+import { ServerError } from "../../../common/types/common";
 const { ProductTag } = db;
 export class ProductTagModelHelper {
   public static async bulkCreateAsync(payload: BulkCreateProductTagRowDTO) {

@@ -1,7 +1,7 @@
 import { Request } from "express";
-import { isEmpty, isNullOrFalse } from "../../../common";
-import { STATUS_CODE, STATUS_MESSAGE } from "../../../ts/enums/api_enums";
-import { ServerError } from "../../../ts/types/common";
+import { isEmpty, isNullOrFalse } from "../../../common/helper";
+import { STATUS_CODE, STATUS_MESSAGE } from "../../../common/enums/api_enums";
+import { ServerError } from "../../../common/types/common";
 import HttpException from "../../../utils/exceptions/http.exception";
 import { handleError } from "../../../utils/handleError/handleError";
 import RestFullAPI from "../../../utils/response/apiResponse";

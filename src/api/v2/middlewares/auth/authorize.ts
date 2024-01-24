@@ -1,7 +1,7 @@
 import { Response, NextFunction } from "express";
-import { MyRequest } from "@/src/api/v2/ts/interfaces/common";
+import { MyRequest } from "@/src/api/v2/common/interfaces/common";
 import db from "../../models";
-import { STATUS_CODE, STATUS_MESSAGE } from "../../ts/enums/api_enums";
+import { STATUS_CODE, STATUS_MESSAGE } from "../../common/enums/api_enums";
 import RestFullAPI from "../../utils/response/apiResponse";
 
 export const authorize = async (

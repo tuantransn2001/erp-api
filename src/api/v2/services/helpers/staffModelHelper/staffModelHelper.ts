@@ -2,8 +2,8 @@ import {
   CreateStaffRowDTO,
   UpdateStaffRowDTO,
 } from "../../../dto/input/staff/staff.interface";
-import { STATUS_CODE } from "../../../ts/enums/api_enums";
-import { ServerError } from "../../../ts/types/common";
+import { STATUS_CODE } from "../../../common/enums/api_enums";
+import { ServerError } from "../../../common/types/common";
 import { handleError } from "../../../utils/handleError/handleError";
 import { handleServerResponse } from "../../../utils/response/handleServerResponse";
 import {
@@ -16,7 +16,7 @@ import { BaseModelHelper } from "../baseModelHelper/baseModelHelper";
 import {
   handleFormatUpdateDataByValidValue,
   isNullOrFalse,
-} from "../../../common";
+} from "../../../common/helper";
 const { Staff } = db;
 export class StaffModelHelper {
   public static async createAsync(payload: CreateStaffRowDTO) {

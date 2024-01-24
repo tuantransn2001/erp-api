@@ -10,7 +10,7 @@ import {
   CreateCustSuppSchema,
   UpdateCustSuppSchema,
 } from "../dto/input/custSupp/custSupp.schema";
-import { USER_TYPE } from "../ts/enums/app_enums";
+import { USER_TYPE } from "../common/enums/app_enums";
 const { CustSupp, User } = db;
 
 const supplierRouter = Router();

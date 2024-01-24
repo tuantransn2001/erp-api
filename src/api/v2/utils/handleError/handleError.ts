@@ -1,5 +1,5 @@
 import { ZodError } from "zod";
-import { STATUS_MESSAGE } from "../../ts/enums/api_enums";
+import { STATUS_MESSAGE } from "../../common/enums/api_enums";
 import HttpException from "../exceptions/http.exception";
 import RestFullAPI from "../response/apiResponse";
 

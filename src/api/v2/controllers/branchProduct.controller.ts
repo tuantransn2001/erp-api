@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from "express";
 import db from "../models";
-import { STATUS_CODE, STATUS_MESSAGE } from "../ts/enums/api_enums";
+import { STATUS_CODE, STATUS_MESSAGE } from "../common/enums/api_enums";
 
 import RestFullAPI from "../utils/response/apiResponse";
 const { AgencyBranchProductList, ProductVariantDetail, ProductVariantPrice } =

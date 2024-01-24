@@ -1,9 +1,9 @@
 import db from "../models";
 import { CreateDebtRowDTO } from "../dto/input/debt/debt.interface";
 
-import { STATUS_CODE, STATUS_MESSAGE } from "../ts/enums/api_enums";
-import { CUSTSUPP_ACTION } from "../ts/enums/app_enums";
-import { ObjectType, ServerError } from "../ts/types/common";
+import { STATUS_CODE, STATUS_MESSAGE } from "../common/enums/api_enums";
+import { CUSTSUPP_ACTION } from "../common/enums/app_enums";
+import { ObjectType, ServerError } from "../common/types/common";
 import HttpException from "../utils/exceptions/http.exception";
 import { handleError } from "../utils/handleError/handleError";
 import RestFullAPI from "../utils/response/apiResponse";
