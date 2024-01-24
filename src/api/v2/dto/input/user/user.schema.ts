@@ -1,4 +1,4 @@
-import { ERROR_MESSAGE } from "../../../ts/enums/app_enums";
+import { ERROR_MESSAGE } from "../../../common/enums/app_enums";
 import {
   BaseSchema,
   DateType,

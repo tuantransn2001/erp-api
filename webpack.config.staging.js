@@ -4,13 +4,16 @@ const CleanPlugin = require("clean-webpack-plugin");
 const nodeExternals = require("webpack-node-externals");
 const FileManagerPlugin = require("filemanager-webpack-plugin");
 
-const _v = process.env.APP_VERSION;
+const app_version = process.env.APP_VERSION;
 
 module.exports = {
   target: "node",
   mode: "staging",
   watch: true,
-  entry: [`./src/api/v${_v}/app.ts`, `./src/api/v${_v}/models/index.ts`],
+  entry: [
+    `./src/api/v${app_version}/app.ts`,
+    `./src/api/v${app_version}/models/index.ts`,
+  ],
   devServer: {
     static: [
       {
@@ -42,10 +45,10 @@ module.exports = {
         onEnd: {
           copy: [
             {
-              source: `./src/api/v${_v}/models/*.ts*`,
+              source: `./src/api/v${app_version}/models/*.ts*`,
               destination: `./build/staging/models/`,
               globOptions: {
-                ignore: `./src/api/v${_v}/models/index.ts`,
+                ignore: `./src/api/v${app_version}/models/index.ts`,
               },
             },
           ],

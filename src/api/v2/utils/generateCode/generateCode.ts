@@ -1,4 +1,4 @@
-import { randomStringByCharsetAndLength } from "../../common";
+import { randomStringByCharsetAndLength } from "../../common/helper";
 
 export const handleGenerateRandomCode = () =>
   randomStringByCharsetAndLength("alphabetic", 5, true) +

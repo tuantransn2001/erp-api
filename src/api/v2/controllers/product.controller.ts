@@ -22,7 +22,7 @@ import {
 import { handleGenerateRandomCode } from "../utils/generateCode/generateCode";
 import { CreateAdditionProductInformationRowDTO } from "../dto/input/additionProductInformation/additionProductInformation.interface";
 import { BulkCreateProductTagRowDTO } from "../dto/input/productTag/productTag.interface";
-import { isEmpty, isNullOrFalse } from "../common";
+import { isEmpty, isNullOrFalse } from "../common/helper";
 import { handleCartesianBaseOnSource } from "../utils/cartesian/cartesian";
 import {
   BulkCreateProductVariantRowDTO,
@@ -31,7 +31,7 @@ import {
 import { BulkCreateProductVariantPriceRowDTO } from "../dto/input/productVariantPrice/productVariantPrice.interface";
 import { BulkCreateProductVariantPropertyRowDTO } from "../dto/input/productVariantProperty/productVariantProperty.interface";
 import { handleServerResponse } from "../utils/response/handleServerResponse";
-import { STATUS_CODE } from "../ts/enums/api_enums";
+import { STATUS_CODE } from "../common/enums/api_enums";
 import { ProductVariantModelHelper } from "../services/helpers/productVariantModelHelper/productVariantModelHelper";
 import { ProductVariantPriceModelHelper } from "../services/helpers/productVariantPriceModelHelper/productVariantPriceModelHelper";
 import { ProductVariantPropertyModelHelper } from "../services/helpers/productVariantPropertyHelper/productVariantPropertyHelper";

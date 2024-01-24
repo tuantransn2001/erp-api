@@ -6,7 +6,7 @@ import {
   ZodValidationMiddleware,
 } from "../middlewares";
 import db from "../models";
-import { USER_TYPE } from "../ts/enums/app_enums";
+import { USER_TYPE } from "../common/enums/app_enums";
 import {
   CreateCustSuppSchema,
   UpdateCustSuppSchema,

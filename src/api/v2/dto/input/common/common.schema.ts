@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { ObjectType } from "../../../ts/types/common";
+import { ObjectType } from "../../../common/types/common";
 export const UUIDType = z.string().uuid({ message: "Invalid UUID" });
 export const UUIDArrayType = UUIDType.array();
 export const StringType = z.string();

@@ -3,9 +3,9 @@ import { handleServerResponse } from "../../../utils/response/handleServerRespon
 import { CreateAsyncPayload } from "../baseModelHelper/shared/baseModelHelper.interface";
 import db from "../../../models";
 import { BaseModelHelper } from "../baseModelHelper/baseModelHelper";
-import { STATUS_CODE } from "../../../ts/enums/api_enums";
+import { STATUS_CODE } from "../../../common/enums/api_enums";
 import { handleError } from "../../../utils/handleError/handleError";
-import { ServerError } from "../../../ts/types/common";
+import { ServerError } from "../../../common/types/common";
 const { Products } = db;
 export class ProductModelHelper {
   public static async createAsync(payload: CreateProductRowDTO) {

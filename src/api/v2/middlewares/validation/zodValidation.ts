@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response } from "express";
 import { Schema, ZodError } from "zod";
-import { STATUS_CODE } from "../../ts/enums/api_enums";
+import { STATUS_CODE } from "../../common/enums/api_enums";
 import { handleError } from "../../utils/handleError/handleError";
 
 export const ZodValidationMiddleware =

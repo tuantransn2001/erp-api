@@ -1,7 +1,10 @@
 import { v4 as uuidv4 } from "uuid";
 
 import { NextFunction, Request, Response } from "express";
-import { handleFormatUpdateDataByValidValue, isNullOrFalse } from "../common";
+import {
+  handleFormatUpdateDataByValidValue,
+  isNullOrFalse,
+} from "../common/helper";
 import db from "../models";
 import { BaseModelHelper } from "../services/helpers/baseModelHelper/baseModelHelper";
 import {
@@ -11,7 +14,7 @@ import {
   GetByIdAsyncPayload,
   SoftDeleteByIDAsyncPayload,
 } from "../services/helpers/baseModelHelper/shared/baseModelHelper.interface";
-import { STAFF_STATUS, USER_TYPE } from "../ts/enums/app_enums";
+import { STAFF_STATUS, USER_TYPE } from "../common/enums/app_enums";
 import RestFullAPI from "../utils/response/apiResponse";
 import {
   CreateUserRowDTO,

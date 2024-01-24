@@ -2,7 +2,7 @@ import {
   CreateUserRowDTO,
   UpdateUserRowDTO,
 } from "../../../dto/input/user/user.interface";
-import { ServerError } from "../../../ts/types/common";
+import { ServerError } from "../../../common/types/common";
 import { handleError } from "../../../utils/handleError/handleError";
 import {
   CreateAsyncPayload,
@@ -12,7 +12,7 @@ import {
 import db from "../../../models";
 import { BaseModelHelper } from "../baseModelHelper/baseModelHelper";
 import { handleServerResponse } from "../../../utils/response/handleServerResponse";
-import { STATUS_CODE } from "../../../ts/enums/api_enums";
+import { STATUS_CODE } from "../../../common/enums/api_enums";
 
 const { User } = db;
 

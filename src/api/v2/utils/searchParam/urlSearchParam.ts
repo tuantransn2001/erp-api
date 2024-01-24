@@ -1,4 +1,4 @@
-import { Falsy, ObjectType } from "../../ts/types/common";
+import { Falsy, ObjectType } from "../../common/types/common";
 
 export class URLSearchParam {
   // convert obj to url params

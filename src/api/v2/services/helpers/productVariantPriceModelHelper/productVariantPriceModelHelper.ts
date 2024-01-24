@@ -2,8 +2,8 @@ import {
   BulkCreateProductVariantPriceRowDTO,
   CreateProductVariantPriceRowDTO,
 } from "../../../dto/input/productVariantPrice/productVariantPrice.interface";
-import { STATUS_CODE } from "../../../ts/enums/api_enums";
-import { ServerError } from "../../../ts/types/common";
+import { STATUS_CODE } from "../../../common/enums/api_enums";
+import { ServerError } from "../../../common/types/common";
 import { handleError } from "../../../utils/handleError/handleError";
 import { handleServerResponse } from "../../../utils/response/handleServerResponse";
 import {

@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from "express";
-import { isEmpty } from "../common";
+import { isEmpty } from "../common/helper";
 import { AuthenticateMiddleware, ErrorCatcher } from "../middlewares";
 import HttpException from "../utils/exceptions/http.exception";
 

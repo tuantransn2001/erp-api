@@ -1,4 +1,4 @@
-import { ObjectType } from "../../ts/types/common";
+import { ObjectType } from "../../common/types/common";
 
 type ElementType<A> = A extends ReadonlyArray<infer T> ? T : never;
 type ElementsOfAll<

@@ -1,4 +1,4 @@
-import { STATUS_CODE, STATUS_MESSAGE } from "../../ts/enums/api_enums";
+import { STATUS_CODE, STATUS_MESSAGE } from "../../common/enums/api_enums";
 import HttpException from "../exceptions/http.exception";
 import { handleServerResponse } from "./handleServerResponse";
 

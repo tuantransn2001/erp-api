@@ -4,8 +4,8 @@ import {
   isNullOrFalse,
   randomIntFromInterval,
   randomStringByCharsetAndLength,
-} from "../common";
-import { ORDER_SALE_STATUS, ORDER_TYPE } from "../ts/enums/order_enum";
+} from "../common/helper";
+import { ORDER_SALE_STATUS, ORDER_TYPE } from "../common/enums/order_enum";
 import HashStringHandler from "../utils/hashString/string.hash";
 import { IUser } from "../dto/input/user/user.interface";
 import { IUserAddress } from "../dto/input/userAddress/userAddress.interface";

@@ -14,10 +14,10 @@ import {
 import db from "../../../models";
 import { BaseModelHelper } from "../baseModelHelper/baseModelHelper";
 import { handleServerResponse } from "../../../utils/response/handleServerResponse";
-import { STATUS_CODE } from "../../../ts/enums/api_enums";
+import { STATUS_CODE } from "../../../common/enums/api_enums";
 import { handleError } from "../../../utils/handleError/handleError";
-import { ServerError } from "../../../ts/types/common";
-import { isNullOrFalse } from "../../../common";
+import { ServerError } from "../../../common/types/common";
+import { isNullOrFalse } from "../../../common/helper";
 import { CreateUserAgencyBranchInChargeRowDTO } from "../../../dto/input/userAgencyBranchInCharge/userAgencyBranchInCharge.interface";
 const { UserRole, UserAgencyBranchInCharge, User } = db;
 export class UserRoleModelHelper {

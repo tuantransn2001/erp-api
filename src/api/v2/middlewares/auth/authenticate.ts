@@ -1,7 +1,7 @@
 require("dotenv").config();
 import { Request, Response, NextFunction } from "express";
-import { MyRequest } from "@/src/api/v2/ts/interfaces/common";
-import { STATUS_CODE, STATUS_MESSAGE } from "../../ts/enums/api_enums";
+import { MyRequest } from "@/src/api/v2/common/interfaces/common";
+import { STATUS_CODE, STATUS_MESSAGE } from "../../common/enums/api_enums";
 import RestFullAPI from "../../utils/response/apiResponse";
 import { JwtServiceHelper } from "../../services/helpers/jwtServiceHelper/jwtServiceHelper";
 
